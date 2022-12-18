@@ -7,6 +7,15 @@ type Pos = {
 	y: number;
 };
 
+/**
+ * calculateNextPosition gets the grid, a block ID and a direction as the input,
+ * and calculates the ending position for that block when moved in the direction.
+ * It takes into account all the encountered block types, like walls and sticky blocks.
+ * @param grid
+ * @param blockId
+ * @param direction
+ * @returns
+ */
 export const calculateNextPosition = (
 	grid: Grid,
 	blockId: string,
@@ -22,15 +31,28 @@ export const calculateNextPosition = (
 
 	let n = Math.max(grid.width, grid.height);
 	while (n-- >= 0) {
-		const found = blocks.find((b) => b.x === x && b.y === y);
-		if (!found || found.type === 'goal') {
-			// clamp x and y to the grid's size
-			x = clamp(x + offset.x, 0, grid.width - 1);
-			y = clamp(y + offset.y, 0, grid.height - 1);
-			continue;
-		}
+		// increment the x and y by their offsets, and
+		// also clamp them to the grid's size
+		x = clamp(x + offset.x, 0, grid.width - 1);
+		y = clamp(y + offset.y, 0, grid.height - 1);
 
-		return { x: found.x - offset.x, y: found.y - offset.y };
+		const found = blocks.find((b) => b.x === x && b.y === y);
+		if (!found) continue; // empty tile, continue
+
+		switch (found.type) {
+			case 'goal': {
+				continue;
+			}
+
+			case 'sticky': {
+				return { x: found.x, y: found.y };
+			}
+
+			case 'wall':
+			default: {
+				return { x: found.x - offset.x, y: found.y - offset.y };
+			}
+		}
 	}
 
 	return { x, y };

@@ -7,8 +7,8 @@
 
 	const store = getContext('grid') as GridStore;
 
-	$: xPos = (block.x / 5) * 100;
-	$: yPos = (block.y / 5) * 100;
+	$: xPos = (block.x / $store.width) * 100;
+	$: yPos = (block.y / $store.height) * 100;
 
 	$: inGoal = store.getAt(block.x, block.y).find((b) => b.type === 'goal');
 </script>
@@ -19,6 +19,8 @@
 	class:goal={inGoal}
 	style:left="{xPos}%"
 	style:top="{yPos}%"
+	style:width="{(1 / $store.width) * 100}%"
+	style:height="{(1 / $store.height) * 100}%"
 >
 	{block.letter}
 </div>

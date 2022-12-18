@@ -1,28 +1,23 @@
 <script lang="ts">
 	import type { GridStore } from '$lib/stores/grid';
-	import type { GoalBlock } from '$lib/types/grid';
+	import type { StickyBlock } from '$lib/types/grid';
 	import { getContext } from 'svelte';
 
-	export let block: GoalBlock;
+	export let block: StickyBlock;
 
 	const store = getContext('grid') as GridStore;
 
 	$: xPos = (block.x / $store.width) * 100;
 	$: yPos = (block.y / $store.height) * 100;
-
-	$: isFilled = store.getAt(block.x, block.y).find((b) => b.type === 'letter');
 </script>
 
 <div
-	class="block goal"
-	class:filled={isFilled}
+	class="block sticky"
 	style:left="{xPos}%"
 	style:top="{yPos}%"
 	style:width="{(1 / $store.width) * 100}%"
 	style:height="{(1 / $store.height) * 100}%"
->
-	<p>{block.index ?? ''}</p>
-</div>
+/>
 
 <style lang="scss">
 	.block {
@@ -31,24 +26,15 @@
 		place-content: center;
 		width: 20%;
 		height: 20%;
-		border-radius: 15px;
-		transition: left 200ms, top 200ms, color 200ms;
+		border-radius: 100%;
+		transition: left 200ms, top 200ms;
 		user-select: none;
 	}
 
-	.goal {
+	.sticky {
 		border: 3px dashed limegreen;
-		color: limegreen;
-		font-size: 2rem;
 		pointer-events: none;
-	}
-
-	.filled {
-		color: transparent;
-	}
-
-	p {
-		margin: 0;
-		padding: 0;
+		z-index: -1;
+		background-color: limegreen;
 	}
 </style>

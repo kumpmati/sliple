@@ -1,28 +1,23 @@
 <script lang="ts">
 	import type { GridStore } from '$lib/stores/grid';
-	import type { GoalBlock } from '$lib/types/grid';
+	import type { WallBlock } from '$lib/types/grid';
 	import { getContext } from 'svelte';
 
-	export let block: GoalBlock;
+	export let block: WallBlock;
 
 	const store = getContext('grid') as GridStore;
 
 	$: xPos = (block.x / $store.width) * 100;
 	$: yPos = (block.y / $store.height) * 100;
-
-	$: isFilled = store.getAt(block.x, block.y).find((b) => b.type === 'letter');
 </script>
 
 <div
-	class="block goal"
-	class:filled={isFilled}
+	class="block wall"
 	style:left="{xPos}%"
 	style:top="{yPos}%"
 	style:width="{(1 / $store.width) * 100}%"
 	style:height="{(1 / $store.height) * 100}%"
->
-	<p>{block.index ?? ''}</p>
-</div>
+/>
 
 <style lang="scss">
 	.block {
@@ -32,23 +27,14 @@
 		width: 20%;
 		height: 20%;
 		border-radius: 15px;
-		transition: left 200ms, top 200ms, color 200ms;
+		transition: left 200ms, top 200ms;
 		user-select: none;
 	}
 
-	.goal {
-		border: 3px dashed limegreen;
-		color: limegreen;
-		font-size: 2rem;
+	.wall {
+		border: 3px solid rgba(0, 0, 0, 0.25);
 		pointer-events: none;
-	}
-
-	.filled {
-		color: transparent;
-	}
-
-	p {
-		margin: 0;
-		padding: 0;
+		z-index: 0;
+		background-color: gray;
 	}
 </style>

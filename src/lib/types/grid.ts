@@ -23,6 +23,7 @@ export interface WallBlock extends Block {
 export interface GoalBlock extends Block {
 	type: 'goal';
 	required: boolean;
+	index: number;
 }
 
 export interface StickyBlock extends Block {

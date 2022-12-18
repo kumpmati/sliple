@@ -13,11 +13,11 @@ export type GridStore = Readable<Grid> & {
  * createGridStore initializes the grid store.
  */
 export const createGridStore = (initialState: Grid): GridStore => {
-	let _state = initialState;
+	let _state = initialState; // copy
 
 	const state = writable<Grid>(initialState);
 
-	const moveTile = (id: string, dir: Direction) => {
+	const moveBlock = (id: string, dir: Direction) => {
 		state.update((prev) => {
 			const block = prev.blocks.find((b) => b.id === id);
 			if (!block || !canMove(block)) return prev;
@@ -41,7 +41,7 @@ export const createGridStore = (initialState: Grid): GridStore => {
 
 	return {
 		subscribe: state.subscribe,
-		moveBlock: moveTile,
+		moveBlock,
 		getAt
 	};
 };
