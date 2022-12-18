@@ -1,6 +1,6 @@
-import type { GoalBlock, LetterBlock, StickyBlock, Tile, WallBlock } from '$lib/types/grid';
+import type { GoalTile, LetterTile, StickyTile, Tile, WallTile } from '$lib/types/grid';
 
-export const isLetterTile = (t: Tile): t is LetterBlock => t.type === 'letter';
-export const isWallTile = (t: Tile): t is WallBlock => t.type === 'wall';
-export const isGoalTile = (t: Tile): t is GoalBlock => t.type === 'goal';
-export const isStickyTile = (t: Tile): t is StickyBlock => t.type === 'sticky';
+export const isLetterTile = (t: Tile): t is LetterTile => t.type === 'letter';
+export const isWallTile = (t: Tile): t is WallTile => t.type === 'wall';
+export const isGoalTile = (t: Tile): t is GoalTile => t.type === 'goal';
+export const isStickyTile = (t: Tile): t is StickyTile => t.type === 'sticky';

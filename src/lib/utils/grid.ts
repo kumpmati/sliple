@@ -1,66 +1,75 @@
 import type { Direction } from '$lib/stores/grid';
-import type { Block, Grid } from '$lib/types/grid';
+import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
 import { clamp } from './math';
 
-type Pos = {
-	x: number;
-	y: number;
-};
-
 /**
- * calculateNextPosition gets the grid, a block ID and a direction as the input,
- * and calculates the ending position for that block when moved in the direction.
- * It takes into account all the encountered block types, like walls and sticky blocks.
+ * calculateNextPosition gets the grid, a tile ID and a direction as the input,
+ * and calculates the ending position for that tile when moved in the direction.
+ * It takes into account all the encountered tile types, like walls and sticky tiles.
  * @param grid
- * @param blockId
+ * @param tileId
  * @param direction
  * @returns
  */
 export const calculateNextPosition = (
 	grid: Grid,
-	blockId: string,
+	tileId: string,
 	direction: Direction
-): Pos | null => {
-	const curr = grid.blocks.find((b) => b.id === blockId);
-	const blocks = grid.blocks.filter((b) => b.id !== blockId);
-	if (!curr) return null;
+): Coordinates => {
+	const tile = grid.tiles.find((b) => b.id === tileId);
+	if (!tile) throw new Error('tile not found');
 
-	let x = curr.x;
-	let y = curr.y;
-	const offset = getOffsets(direction);
+	const otherTiles = grid.tiles.filter((b) => b.id !== tileId);
+
+	// keep track of current coordinates and velocity
+	let x = tile.x;
+	let y = tile.y;
+	const vel = getVelocity(direction);
 
 	let n = Math.max(grid.width, grid.height);
 	while (n-- >= 0) {
-		// increment the x and y by their offsets, and
-		// also clamp them to the grid's size
-		x = clamp(x + offset.x, 0, grid.width - 1);
-		y = clamp(y + offset.y, 0, grid.height - 1);
+		// increment the x and y pos by their velocities, and
+		// also clamp them to the grid's size to prevent
+		// the tile from going outside the grid
+		x = clamp(x + vel.x, 0, grid.width - 1);
+		y = clamp(y + vel.y, 0, grid.height - 1);
 
-		const found = blocks.find((b) => b.x === x && b.y === y);
-		if (!found) continue; // empty tile, continue
+		// get all tiles at the current position
+		const tilesAtPosition = otherTiles.filter((b) => b.x === x && b.y === y);
 
-		switch (found.type) {
-			case 'goal': {
-				continue;
-			}
-
-			case 'sticky': {
-				return { x: found.x, y: found.y };
-			}
-
-			case 'wall':
-			default: {
-				return { x: found.x - offset.x, y: found.y - offset.y };
-			}
+		for (const t of tilesAtPosition) {
+			const collisionType = getCollisionType(t);
+			if (collisionType === 'none') continue;
+			else if (collisionType === 'solid') return { x: x - vel.x, y: y - vel.y };
+			else if (collisionType === 'sticky') return { x: x, y: y };
 		}
 	}
 
-	return { x, y };
+	return { x: x, y: y };
 };
 
-export const canMove = (block: Block) => block.type === 'letter';
+export const canMove = (t: Tile) => t.type === 'letter';
 
-const getOffsets = (dir: Direction): Pos => {
+/**
+ * Returns the tile's collision type.
+ */
+const getCollisionType = (t: Tile): CollisionType => {
+	const types: Record<string, CollisionType> = {
+		goal: 'none',
+		sticky: 'sticky',
+		wall: 'solid',
+		letter: 'solid'
+	};
+
+	return types?.[t.type] ?? 'none';
+};
+
+/**
+ * Returns the x and y axis velocities based on the direction
+ * @param dir
+ * @returns
+ */
+const getVelocity = (dir: Direction): Coordinates => {
 	switch (dir) {
 		case 'bottom':
 			return { x: 0, y: 1 };

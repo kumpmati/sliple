@@ -1,31 +1,39 @@
 export type Grid = {
 	width: number;
 	height: number;
-	blocks: Block[];
+	numMovesTaken: number;
+	tiles: Tile[];
 };
 
-export interface Block {
+export interface Tile {
 	type: string;
 	id: string;
 	x: number;
 	y: number;
 }
 
-export interface LetterBlock extends Block {
+export interface LetterTile extends Tile {
 	type: 'letter';
 	letter: string; // Letter
 }
 
-export interface WallBlock extends Block {
+export interface WallTile extends Tile {
 	type: 'wall';
 }
 
-export interface GoalBlock extends Block {
+export interface GoalTile extends Tile {
 	type: 'goal';
 	required: boolean;
 	index: number;
 }
 
-export interface StickyBlock extends Block {
+export interface StickyTile extends Tile {
 	type: 'sticky';
 }
+
+export type Coordinates = {
+	x: number;
+	y: number;
+};
+
+export type CollisionType = 'none' | 'sticky' | 'solid';
