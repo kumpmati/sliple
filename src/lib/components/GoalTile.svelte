@@ -14,7 +14,12 @@
 </script>
 
 <Tile {tile} zIndex={1}>
-	<p class="goal" class:valid={status === 'valid'} class:filled={status !== 'none'}>
+	<p
+		class="goal"
+		class:required={!!tile.letter}
+		class:valid={status === 'valid'}
+		class:filled={status !== 'none'}
+	>
 		{tile.letter ?? ''}
 	</p>
 </Tile>
@@ -43,7 +48,13 @@
 	}
 
 	.goal:not(.valid) {
-		--color: red;
+		&.required {
+			--color: red;
+		}
+
+		&:not(.required) {
+			--color: orange;
+		}
 	}
 
 	.filled {
