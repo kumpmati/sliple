@@ -7,6 +7,7 @@ export type Direction = 'top' | 'right' | 'left' | 'bottom';
 export type GridStore = Readable<Grid> & {
 	moveTile: (id: string, dir: Direction) => void;
 	getAt: (x: number, y: number) => Tile[];
+	setState: (grid: Grid) => void;
 };
 
 /**
@@ -44,10 +45,15 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		return found;
 	};
 
+	const setState = (s: Grid) => {
+		state.set(s);
+	};
+
 	return {
 		subscribe: state.subscribe,
 		moveTile: moveTile,
-		getAt
+		getAt,
+		setState
 	};
 };
 
@@ -58,8 +64,21 @@ export const currentWord = (store: GridStore) =>
 		const word = new Array(goalTiles.length).fill('_');
 
 		for (const g of goalTiles) {
-			const letter = $grid.tiles.find((b) => b.type === 'letter' && b.x === g.x && b.y === g.y);
-			word[g.index] = letter ? (letter as LetterTile).letter : '_';
+			const letter = $grid.tiles.find(
+				(b) => b.type === 'letter' && b.x === g.x && b.y === g.y
+			) as LetterTile;
+
+			if (!letter) {
+				word[g.index] = '_';
+				continue;
+			}
+
+			if (g.letter && letter.letter !== g.letter) {
+				word[g.index] = '-';
+				continue;
+			}
+
+			word[g.index] = letter.letter;
 		}
 
 		return word.join('');

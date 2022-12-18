@@ -32,6 +32,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"nanoid": "^4.0.0",
 		"svelte-gestures": "^1.4.1"
 	}
 }

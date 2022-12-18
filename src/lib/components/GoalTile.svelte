@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { GridStore } from '$lib/stores/grid';
-	import type { GoalTile } from '$lib/types/grid';
+	import type { GoalTile, LetterTile } from '$lib/types/grid';
+	import { getGoalStatus } from '$lib/utils/goal';
 	import { getContext } from 'svelte';
 	import Tile from './Tile.svelte';
 
@@ -8,11 +9,14 @@
 
 	const store = getContext('grid') as GridStore;
 
-	$: isFilled = store.getAt(tile.x, tile.y).find((t) => t.type === 'letter');
+	$: letterTile = store.getAt(tile.x, tile.y).find((t) => t.type === 'letter') as LetterTile;
+	$: status = getGoalStatus(tile, letterTile);
 </script>
 
 <Tile {tile} zIndex={1}>
-	<p class="goal" class:required={tile.required} class:filled={isFilled} />
+	<p class="goal" class:valid={status === 'valid'} class:filled={status !== 'none'}>
+		{tile.letter ?? ''}
+	</p>
 </Tile>
 
 <style lang="scss">
@@ -27,18 +31,23 @@
 		pointer-events: none;
 		border-radius: 15px;
 		margin: 0.125rem;
+
+		border: 3px dashed var(--color);
+		color: var(--color);
+
+		--color: limegreen;
 	}
 
-	.required {
-		border: 3px dashed limegreen;
+	.valid {
+		--color: limegreen;
 	}
 
-	.goal:not(.required) {
-		border: 3px dashed yellow;
-		color: yellow;
+	.goal:not(.valid) {
+		--color: red;
 	}
 
 	.filled {
+		border-style: solid;
 		color: transparent;
 	}
 

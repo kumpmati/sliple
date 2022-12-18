@@ -1,5 +1,5 @@
 import type { Direction } from '$lib/stores/grid';
-import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
+import type { Tile, Grid, Coordinates, CollisionType, GoalTile, LetterTile } from '$lib/types/grid';
 import { clamp } from './math';
 
 /**

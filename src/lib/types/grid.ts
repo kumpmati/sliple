@@ -2,6 +2,7 @@ export type Grid = {
 	width: number;
 	height: number;
 	numMovesTaken: number;
+	maxMoves: number;
 	tiles: Tile[];
 };
 
@@ -23,7 +24,7 @@ export interface WallTile extends Tile {
 
 export interface GoalTile extends Tile {
 	type: 'goal';
-	required: boolean;
+	letter: string | null;
 	index: number;
 }
 

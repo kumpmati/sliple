@@ -31,3 +31,9 @@ When moving a linked letter, the other letters linked to that letter will also m
 
 When a letter tile is moving through a sticky tile, it stops at the sticky tile.
 It does not stay permanently at the sticky tile, and can be moved.
+
+## Loading and saving
+
+The game state can be saved onto a string for sharing.
+
+The format of the string is described in the [FORMAT.md](./FORMAT.md) file.

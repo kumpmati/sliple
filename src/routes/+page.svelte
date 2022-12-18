@@ -1,36 +1,70 @@
 <script lang="ts">
 	import Grid from '$lib/components/Grid.svelte';
 	import { createGridStore, currentWord } from '$lib/stores/grid';
-	import type { GoalTile, LetterTile, StickyTile, WallTile } from '$lib/types/grid';
+	import { parseGridFromString } from '$lib/utils/parse';
+	import { swipe } from 'svelte-gestures';
 
-	let t: LetterTile = { id: 'a', type: 'letter', letter: 'A', x: 0, y: 4 };
-	let t2: LetterTile = { id: 'b', type: 'letter', letter: 'B', x: 1, y: 1 };
-	let t3: GoalTile = { id: 'c', type: 'goal', required: true, x: 0, y: 4, index: 0 };
-	let t31: GoalTile = { id: 'c1', type: 'goal', required: false, x: 1, y: 4, index: 1 };
-	let t4: StickyTile = { id: 'd', type: 'sticky', x: 3, y: 4 };
-	let t41: StickyTile = { id: 'd1', type: 'sticky', x: 1, y: 4 };
-	let t5: WallTile = { id: 'e', type: 'wall', x: 1, y: 2 };
+	let inputString = 'v1:4,4,10;D:1,2;O:0,0;G:3,2;#W:2,1;#G:3,0,D,0;#G:1,3,O,1;#G:3,3,G,2';
 
-	const store = createGridStore({
-		width: 5,
-		height: 5,
-		numMovesTaken: 0,
-		tiles: [t, t2, t3, t31, t4, t41, t5]
-	});
-
+	const initialState = parseGridFromString(inputString);
+	const store = createGridStore(initialState);
 	const word = currentWord(store);
+
+	const handleSubmitString = () => {
+		const state = parseGridFromString(inputString);
+		store.setState(state);
+	};
+
+	const handleSwipe = (e: CustomEvent) => {
+		const dir = e.detail.direction;
+		const id = e.detail.target.dataset?.['id'];
+		if (id) store.moveTile(id, dir);
+	};
 </script>
 
-<h1>WordGrid</h1>
+<main
+	use:swipe={{ minSwipeDistance: 40, timeframe: 300, touchAction: 'none' }}
+	on:swipe={handleSwipe}
+>
+	<div class="content">
+		<h1>WordGrid</h1>
 
-<Grid {store} />
+		<form on:submit|preventDefault={handleSubmitString}>
+			<input type="text" bind:value={inputString} on:submit={() => alert('')} />
+			<input type="submit" value="Load" />
+		</form>
 
-<p>Number of moves: {$store.numMovesTaken}</p>
+		<Grid grid={store} />
 
-<p>Word: {$word}</p>
+		<p>Moves left: <b>{$store.maxMoves - $store.numMovesTaken}</b></p>
+
+		<h2>{$word}</h2>
+	</div>
+</main>
 
 <style lang="scss">
 	:global(*) {
 		box-sizing: border-box;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin: 1rem 0;
+	}
+
+	.content {
+		margin: 0 auto;
+		max-width: 30rem;
+		padding: 1rem;
+		text-align: center;
+		width: 100%;
 	}
 </style>
