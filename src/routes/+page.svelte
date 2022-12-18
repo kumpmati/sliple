@@ -27,7 +27,7 @@
 	on:swipe={handleSwipe}
 >
 	<div class="content">
-		<h1>WordGrid</h1>
+		<h1>Skidle</h1>
 
 		<form on:submit|preventDefault={handleSubmitString}>
 			<input type="text" bind:value={inputString} on:submit={() => alert('')} />
