@@ -25,7 +25,9 @@ The letter tiles can move through this tile.
 
 ### Linked letters
 
-When moving a linked letter, the other letters linked to that letter will also move
+When moving a linked letter, the other letters linked to that letter will also move.
+
+**NOT IMPLEMENTED**
 
 ### Sticky tiles
 
