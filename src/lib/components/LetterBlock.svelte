@@ -1,13 +1,25 @@
 <script lang="ts">
+	import type { GridStore } from '$lib/stores/grid';
 	import type { LetterBlock } from '$lib/types/grid';
+	import { getContext } from 'svelte';
 
 	export let block: LetterBlock;
 
+	const store = getContext('grid') as GridStore;
+
 	$: xPos = (block.x / 5) * 100;
 	$: yPos = (block.y / 5) * 100;
+
+	$: inGoal = store.getAt(block.x, block.y).find((b) => b.type === 'goal');
 </script>
 
-<div data-id={block.id} class="block letter" style:left="{xPos}%" style:top="{yPos}%">
+<div
+	data-id={block.id}
+	class="block letter"
+	class:goal={inGoal}
+	style:left="{xPos}%"
+	style:top="{yPos}%"
+>
 	{block.letter}
 </div>
 
@@ -19,7 +31,7 @@
 		width: 20%;
 		height: 20%;
 		border-radius: 15px;
-		transition: left 200ms, top 200ms;
+		transition: left 200ms, top 200ms, background-color 200ms;
 		user-select: none;
 	}
 
@@ -29,7 +41,9 @@
 		border: 3px solid rgba(0, 0, 0, 0.25);
 		// box-shadow: 0 0.15rem 0.25rem rgba(0, 0, 0, 0.15);
 		font-size: 3rem;
-		margin: 0;
-		padding: 0;
+	}
+
+	.goal {
+		background-color: limegreen;
 	}
 </style>

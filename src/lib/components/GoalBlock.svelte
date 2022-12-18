@@ -11,16 +11,18 @@
 
 <style lang="scss">
 	.block {
-		position: relative;
+		position: absolute;
 		display: grid;
 		place-content: center;
 		width: 20%;
 		height: 20%;
 		border-radius: 15px;
 		transition: left 200ms, top 200ms;
+		user-select: none;
 	}
 
 	.goal {
 		border: 3px dashed limegreen;
+		pointer-events: none;
 	}
 </style>
