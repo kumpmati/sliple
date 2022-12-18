@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>WordGrid</title>
+	<title>Skidle</title>
 </svelte:head>
 
 <slot />
