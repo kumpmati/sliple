@@ -33,13 +33,17 @@ const parseGridSettings = (part: string) => {
 	if (!part.startsWith('v1')) throw new Error('version must be v1');
 
 	const [, settings] = part.split(':');
-	const [w, h, maxMoves] = settings.split(',');
+	const [w, h, maxMoves, solutions] = settings.split(',');
+
+	const parsedSolutions = solutions === '-' ? [] : solutions?.split('|') ?? [];
 
 	const state: Grid = {
 		width: parseInt(w),
 		height: parseInt(h),
 		numMovesTaken: 0,
 		maxMoves: parseInt(maxMoves),
+		mode: parsedSolutions.length === 0 ? 'freestyle' : 'predefined',
+		solutions: parsedSolutions,
 		tiles: []
 	};
 

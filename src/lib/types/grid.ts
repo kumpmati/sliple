@@ -3,6 +3,8 @@ export type Grid = {
 	height: number;
 	numMovesTaken: number;
 	maxMoves: number;
+	mode: 'freestyle' | 'predefined';
+	solutions: string[];
 	tiles: Tile[];
 };
 

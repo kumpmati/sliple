@@ -20,7 +20,7 @@
 		class:valid={status === 'valid'}
 		class:filled={status !== 'none'}
 	>
-		{tile.letter ?? ''}
+		{tile.letter ?? `#${tile.index + 1}`}
 	</p>
 </Tile>
 
