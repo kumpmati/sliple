@@ -4,7 +4,7 @@
 	import { parseGridFromString } from '$lib/utils/parse';
 	import { swipe } from 'svelte-gestures';
 
-	let inputString = 'v1:4,4,10;D:1,2;O:0,0;G:3,2;#W:2,1;#G:3,0,D,0;#G:1,3,O,1;#G:3,3,G,2';
+	let inputString = 'v1:4,4,7;D:1,2;O:0,0;G:3,2;#W:2,1;#G:3,0,D,0;#G:1,3,O,1;#G:3,3,G,2';
 
 	const initialState = parseGridFromString(inputString);
 	const store = createGridStore(initialState);
