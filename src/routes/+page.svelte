@@ -1,3 +1,3 @@
-<h1>Skidle</h1>
+<h1>Sliple</h1>
 
-<a href="/freestyle">Freestyle mode</a>
+<a href="/free">Free mode</a>

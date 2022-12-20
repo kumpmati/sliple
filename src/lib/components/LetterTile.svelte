@@ -31,8 +31,11 @@
 		background-color: #fff;
 		border: 3px solid rgba(0, 0, 0, 0.25);
 		border-radius: 14px;
-		font-size: 3rem;
+		font-size: 2rem;
+		font-family: var(--font-heading);
+		font-weight: bold;
 		pointer-events: none;
+		// box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 
 		transition: background-color 200ms, color 200ms;
 

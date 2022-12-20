@@ -2,12 +2,15 @@
 	import Grid from '$lib/components/Grid.svelte';
 	import { createGridStore, currentWord } from '$lib/stores/grid';
 	import { parseGridFromString } from '$lib/utils/parse';
+	import { normalizeWord } from '$lib/utils/word';
 	import { onMount } from 'svelte';
 	import { swipe } from 'svelte-gestures';
 
+	let usedWords = new Set<string>();
 	let words: string[] = [];
 	let wordsLoaded = false;
-	let inputString = 'v1:4,4,7,-;D:1,2;O:0,0;G:3,2;#W:2,1;#G:3,0,-,0;#G:1,3,-,1;#G:3,3,-,2';
+	let inputString =
+		'v1:6,4,100,-;A:0,0;E:1,0;C:2,0;L:3,0;K:4,0;S:5,0;#G:0,3,-,0;#G:1,3,-,1;#G:2,3,-,2;#G:3,3,-,3;#G:4,3,-,4;#G:5,3,-,5;';
 
 	const initialState = parseGridFromString(inputString);
 	const store = createGridStore(initialState);
@@ -26,8 +29,13 @@
 		store.moveTile(id, dir);
 	};
 
-	$: if (words.includes($word.toLowerCase())) {
-		alert($word);
+	$: if (normalizeWord($word).length > 2) {
+		let w = normalizeWord($word);
+
+		if (words.includes(normalizeWord($word)) && !usedWords.has(w)) {
+			usedWords.add(w);
+			usedWords = usedWords;
+		}
 	}
 
 	onMount(async () => {
@@ -43,7 +51,7 @@
 	on:swipe={handleSwipe}
 >
 	<div class="content">
-		<h1>Skidle</h1>
+		<h1>Sliple</h1>
 
 		{#if !wordsLoaded}
 			<p>Loading words...</p>
@@ -59,6 +67,12 @@
 		<p>Moves left: <b>{$store.maxMoves - $store.numMovesTaken}</b></p>
 
 		<h2>{$word}</h2>
+
+		<ul>
+			{#each Array.from(usedWords.values()) as w}
+				<li>{w}</li>
+			{/each}
+		</ul>
 	</div>
 </main>
 
@@ -71,6 +85,10 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+	}
+
+	h1 {
+		font-family: var(--font-heading);
 	}
 
 	form {

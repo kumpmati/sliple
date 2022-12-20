@@ -20,7 +20,7 @@
 		class:valid={status === 'valid'}
 		class:filled={status !== 'none'}
 	>
-		{tile.letter ?? `#${tile.index + 1}`}
+		{tile.letter ?? '?'}
 	</p>
 </Tile>
 
@@ -33,12 +33,16 @@
 		height: calc(100% - 0.25rem);
 		color: limegreen;
 		font-size: 2rem;
+		font-weight: bold;
+		font-family: var(--font-heading);
 		pointer-events: none;
 		border-radius: 15px;
 		margin: 0.125rem;
 
 		border: 3px dashed var(--color);
 		color: var(--color);
+
+		transition: color 200ms, border-color 200ms, background-color 200ms;
 
 		--color: limegreen;
 	}
@@ -60,6 +64,7 @@
 	.filled {
 		border-style: solid;
 		color: transparent;
+		background-color: var(--color);
 	}
 
 	p {
