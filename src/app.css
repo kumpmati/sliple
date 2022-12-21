@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&family=Nunito:wght@500;700&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--font-heading: 'Nunito', sans-serif;
+	--font-body: 'Atkinson Hyperlegible', sans-serif;
+
+	--border-radius: 7px;
+	--border-radius-small: 3px;
+	--border-radius-big: 14px;
+
+	--black: #000;
+	--white: #fff;
+	--orange: #ffa654;
+	--orange-light: #ffefe0;
+	--purple: #bb78bd;
+	--purple-light: #fee0ff;
+	--green: #5eec3b;
+	--green-dark: #4ab130;
+	--gray: #808080;
+	--gray-light: #dcdcdc;
+}
+
+body,
+html {
+	font-family: var(--font-body);
+	margin: 0;
+	padding: 0;
+}

@@ -5,6 +5,9 @@
 	import { normalizeWord } from '$lib/utils/word';
 	import { onMount } from 'svelte';
 	import { swipe } from 'svelte-gestures';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 
 	let usedWords = new Set<string>();
 	let words: string[] = [];
