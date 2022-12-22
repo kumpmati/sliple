@@ -4,54 +4,44 @@
 	import { ArchiveIcon } from 'svelte-feather-icons';
 </script>
 
-<main>
-	<div class="logo">
-		<Logo />
+<div class="logo">
+	<Logo />
+</div>
+
+<div class="links">
+	<a class="link highlight" href="/puzzle/latest">
+		<span class="text">
+			<h2>Featured puzzle</h2>
+			<p>Spell the word within the given moves</p>
+		</span>
+
+		<span class="puzzle-icon">
+			<FeaturedPuzzle />
+		</span>
+	</a>
+
+	<a class="link" href="/archive">
+		<h2>Puzzle archive</h2>
+		<ArchiveIcon size="30" strokeWidth={2} />
+	</a>
+</div>
+
+<h3>Community (coming soon)</h3>
+<div class="links community">
+	<div class="link">
+		<div />
+		<div class="small" />
 	</div>
-
-	<div class="links">
-		<a class="highlight" href="/puzzle/featured">
-			<span class="text">
-				<h2>Featured puzzle</h2>
-				<p>Spell the word within the given moves</p>
-			</span>
-
-			<span class="puzzle-icon">
-				<FeaturedPuzzle />
-			</span>
-		</a>
-
-		<a href="/archive">
-			<h2>Puzzle archive</h2>
-			<ArchiveIcon size="30" strokeWidth={3} />
-		</a>
+	<div class="link">
+		<div />
+		<div class="small" />
 	</div>
-
-	<h3>Community (coming soon)</h3>
-	<div class="links community">
-		<a>
-			<div />
-			<div class="small" />
-		</a>
-		<a>
-			<div />
-			<div class="small" />
-		</a>
-	</div>
-</main>
+</div>
 
 <style lang="scss">
-	main {
-		margin: 0 auto;
-		max-width: 35rem;
-		padding: 16px;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		border: 1px solid red;
-	}
-
 	.logo {
+		display: flex;
+		justify-content: center;
 		margin-top: 32px;
 		margin-bottom: 50px;
 	}
@@ -69,7 +59,7 @@
 		margin-bottom: 50px;
 	}
 
-	a {
+	.link {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -115,8 +105,8 @@
 		flex-direction: column;
 		gap: 16px;
 
-		a {
-			opacity: 0.5;
+		.link {
+			opacity: 0.25;
 			cursor: default;
 
 			div {

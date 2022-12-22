@@ -6,4 +6,16 @@
 	<title>Sliple</title>
 </svelte:head>
 
-<slot />
+<main>
+	<slot />
+</main>
+
+<style lang="scss">
+	main {
+		margin: 0 auto;
+		max-width: 35rem;
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+	}
+</style>

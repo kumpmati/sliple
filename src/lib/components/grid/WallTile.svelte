@@ -1,7 +1,5 @@
 <script lang="ts">
-	import type { GridStore } from '$lib/stores/grid';
 	import type { WallTile } from '$lib/types/grid';
-	import { getContext } from 'svelte';
 	import Tile from './Tile.svelte';
 
 	export let tile: WallTile;

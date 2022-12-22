@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { StickyTile } from '$lib/types/grid';
-	import Sticky from './graphics/Sticky.svelte';
+	import Sticky from '../graphics/Sticky.svelte';
 	import Tile from './Tile.svelte';
 
 	export let tile: StickyTile;

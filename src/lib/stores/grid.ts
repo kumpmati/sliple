@@ -8,15 +8,15 @@ export type GridStore = Readable<Grid> & {
 	moveTile: (id: string, dir: Direction) => void;
 	getAt: (x: number, y: number) => Tile[];
 	setState: (grid: Grid) => void;
+	reset: () => void;
 };
 
 /**
  * createGridStore initializes the grid store.
  */
 export const createGridStore = (initialState: Grid): GridStore => {
-	let _state = initialState; // copy
-
-	const state = writable<Grid>(initialState);
+	let _state = JSON.parse(JSON.stringify(initialState)) as Grid;
+	const state = writable<Grid>(_state);
 
 	const moveTile = (id: string, dir: Direction) => {
 		state.update((prev) => {
@@ -49,11 +49,17 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		state.set(s);
 	};
 
+	const reset = () => {
+		_state = JSON.parse(JSON.stringify(initialState));
+		state.set(_state);
+	};
+
 	return {
 		subscribe: state.subscribe,
 		moveTile: moveTile,
 		getAt,
-		setState
+		setState,
+		reset
 	};
 };
 
