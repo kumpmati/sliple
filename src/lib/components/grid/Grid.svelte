@@ -14,7 +14,7 @@
 
 	// letters should be the last items to be drawn,
 	// so that they are drawn on top of every other tile.
-	const sortTiles = (a: Tile) => (a.type === 'letter' ? 1 : 0);
+	const sortTiles = (a: Tile) => (a.type === 'letter' ? 1 : -1);
 </script>
 
 <svg
