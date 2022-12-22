@@ -1,8 +1,16 @@
 <script>
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
-	import { ArchiveIcon } from 'svelte-feather-icons';
+	import { ArchiveIcon, HelpCircleIcon } from 'svelte-feather-icons';
 </script>
+
+<svelte:head>
+	<title>Sliple</title>
+</svelte:head>
+
+<a href="/about" class="about">
+	<HelpCircleIcon />
+</a>
 
 <div class="logo">
 	<Logo />
@@ -38,6 +46,10 @@
 		justify-content: center;
 		margin-top: 32px;
 		margin-bottom: 50px;
+	}
+
+	.about {
+		color: var(--black);
 	}
 
 	h3 {
