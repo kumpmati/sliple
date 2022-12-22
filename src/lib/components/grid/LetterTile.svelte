@@ -29,7 +29,7 @@
 		justify-content: center;
 		text-transform: uppercase;
 		background-color: #fff;
-		border: 3px solid rgba(0, 0, 0, 0.25);
+		border: 2px solid rgba(0, 0, 0, 0.25);
 		border-radius: 14px;
 		font-size: 2rem;
 		font-family: var(--font-heading);

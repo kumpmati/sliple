@@ -15,7 +15,7 @@
 		width: 100%;
 		height: 100%;
 		border-radius: 5px;
-		border: 3px solid rgba(0, 0, 0, 0.25);
+		border: 2px solid rgba(0, 0, 0, 0.25);
 		pointer-events: none;
 		z-index: 0;
 		background-color: gray;

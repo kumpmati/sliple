@@ -4,6 +4,8 @@
 	import { ArrowLeftIcon } from 'svelte-feather-icons';
 	import PuzzleIcon from '$lib/components/graphics/PuzzleIcon.svelte';
 	import { ChevronRightIcon } from 'svelte-feather-icons';
+	import { userStore } from '$lib/stores/user';
+	import CompletedPuzzleIcon from '$lib/components/graphics/CompletedPuzzleIcon.svelte';
 
 	export let data: PageData;
 </script>
@@ -23,7 +25,11 @@
 		<li>
 			<a class="link" href="/puzzle/{puzzle.id}">
 				<span class="icon">
-					<PuzzleIcon />
+					{#if $userStore.puzzles?.[puzzle.id]?.status === 'completed'}
+						<CompletedPuzzleIcon />
+					{:else}
+						<PuzzleIcon />
+					{/if}
 				</span>
 
 				<span>

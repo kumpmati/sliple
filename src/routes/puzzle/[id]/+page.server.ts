@@ -2,13 +2,17 @@ import { connectDB, getLatestPuzzle, getPuzzleById } from '$lib/services/databas
 import { error, type ServerLoad } from '@sveltejs/kit';
 
 export const load: ServerLoad<{ id: string }> = async ({ params }) => {
-	await connectDB();
+	try {
+		await connectDB();
 
-	const id = params?.['id'];
-	if (!id) throw error(404, 'not found');
+		const id = params?.['id'];
+		if (!id) throw error(404, 'not found');
 
-	const puzzle = id === 'latest' ? await getLatestPuzzle() : await getPuzzleById(id);
-	if (!puzzle) throw error(404, 'not found');
+		const puzzle = id === 'latest' ? await getLatestPuzzle() : await getPuzzleById(id);
+		if (!puzzle) throw error(404, 'not found');
 
-	return { puzzle };
+		return { puzzle };
+	} catch (err) {
+		throw error(500, JSON.stringify(err));
+	}
 };

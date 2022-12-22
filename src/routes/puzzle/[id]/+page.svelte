@@ -5,11 +5,17 @@
 	import { swipe } from 'svelte-gestures';
 	import type { PageData } from './$types';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { userStore } from '$lib/stores/user';
 
 	export let data: PageData;
 
 	const grid = createGridStore(data.puzzle.data);
 	const word = currentWord(grid);
+
+	$: if (grid.isAnswer($word)) {
+		userStore.setPuzzleStatus(data.puzzle.id, 'completed');
+		alert('You won!');
+	}
 
 	const handleSwipe = (e: CustomEvent) => {
 		const dir = e.detail.direction;

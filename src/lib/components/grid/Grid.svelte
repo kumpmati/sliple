@@ -30,7 +30,7 @@
 	.grid {
 		position: relative;
 		width: 100%;
-		border: 3px solid rgba(0, 0, 0, 0.125);
+		border: 2px solid rgba(0, 0, 0, 0.125);
 		border-radius: 18px;
 		display: flex;
 		overflow: hidden;

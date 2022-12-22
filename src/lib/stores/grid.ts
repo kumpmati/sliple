@@ -1,5 +1,6 @@
 import type { Tile, GoalTile, Grid, LetterTile } from '$lib/types/grid';
 import { calculateNextPosition, canMove } from '$lib/utils/grid';
+import { normalizeWord } from '$lib/utils/word';
 import { derived, writable, type Readable } from 'svelte/store';
 
 export type Direction = 'top' | 'right' | 'left' | 'bottom';
@@ -9,6 +10,7 @@ export type GridStore = Readable<Grid> & {
 	getAt: (x: number, y: number) => Tile[];
 	setState: (grid: Grid) => void;
 	reset: () => void;
+	isAnswer: (value: string) => boolean;
 };
 
 /**
@@ -54,12 +56,17 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		state.set(_state);
 	};
 
+	const isAnswer = (value: string) => {
+		return !!_state.solutions.find((s) => normalizeWord(s) === normalizeWord(value));
+	};
+
 	return {
 		subscribe: state.subscribe,
 		moveTile: moveTile,
 		getAt,
 		setState,
-		reset
+		reset,
+		isAnswer
 	};
 };
 

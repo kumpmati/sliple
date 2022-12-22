@@ -1,10 +1,12 @@
 import { getAllPuzzles } from '$lib/services/database';
-import type { ServerLoad } from '@sveltejs/kit';
+import { error, type ServerLoad } from '@sveltejs/kit';
 
 export const load: ServerLoad = async () => {
-	const puzzles = await getAllPuzzles();
-
-	return {
-		puzzles
-	};
+	try {
+		return {
+			puzzles: await getAllPuzzles()
+		};
+	} catch (err) {
+		throw error(500, JSON.stringify(err));
+	}
 };

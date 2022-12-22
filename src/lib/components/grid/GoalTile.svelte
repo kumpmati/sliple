@@ -39,7 +39,7 @@
 		border-radius: 15px;
 		margin: 0.125rem;
 
-		border: 3px dashed var(--color);
+		border: 2px dashed var(--color);
 		color: var(--color);
 
 		transition: color 200ms, border-color 200ms, background-color 200ms;

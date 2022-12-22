@@ -73,7 +73,7 @@
 
 		&.highlight {
 			background-color: var(--orange-light);
-			border: 3px solid var(--orange);
+			border: 2px solid var(--orange);
 		}
 
 		.text {
