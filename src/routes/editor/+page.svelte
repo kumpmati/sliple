@@ -72,6 +72,7 @@
 <main>
 	<div>
 		<h1>Level editor (work in progress)</h1>
+		<p>You shouldn't be able see this yet, but I'm lazy...</p>
 		<form
 			on:submit|preventDefault={() => {
 				const state = JSON.parse(inputString);
@@ -148,7 +149,6 @@
 		left: -200px;
 		display: grid;
 		grid-template-columns: 1fr 2fr;
-		border: 1px solid red;
 		gap: 2rem;
 	}
 
