@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { Tile } from '$lib/types/grid';
-	import { spring } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
+	import { tweened } from 'svelte/motion';
 
 	export let tile: Tile;
 	export let movable = false;
 	export let zIndex = 0;
 
-	const x = spring(tile.x, { stiffness: 0.25 });
-	const y = spring(tile.y, { stiffness: 0.25 });
+	const x = tweened(tile.x, { duration: 200, easing: cubicOut });
+	const y = tweened(tile.y, { duration: 200, easing: cubicOut });
 
 	// make sure values change when tile is updated
 	$: $x = tile.x;
