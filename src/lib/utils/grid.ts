@@ -1,5 +1,5 @@
 import type { Direction } from '$lib/stores/grid';
-import type { Tile, Grid, Coordinates, CollisionType, GoalTile, LetterTile } from '$lib/types/grid';
+import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
 import { clamp } from './math';
 
 /**
@@ -37,11 +37,12 @@ export const calculateNextPosition = (
 		// get all tiles at the current position
 		const tilesAtPosition = otherTiles.filter((b) => b.x === x && b.y === y);
 
-		for (const t of tilesAtPosition) {
-			const collisionType = getCollisionType(t);
-			if (collisionType === 'none') continue;
-			else if (collisionType === 'solid') return { x: x - vel.x, y: y - vel.y };
-			else if (collisionType === 'sticky') return { x: x, y: y };
+		if (tilesAtPosition.find((t) => getCollisionType(t) === 'solid')) {
+			return { x: x - vel.x, y: y - vel.y };
+		}
+
+		if (tilesAtPosition.find((t) => getCollisionType(t) === 'sticky')) {
+			return { x: x, y: y };
 		}
 	}
 
