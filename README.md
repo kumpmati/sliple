@@ -1,38 +1,43 @@
-# create-svelte
+# Sliple
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+[Getting started](./docs/GETTINGSTARTED.md)
 
-## Creating a project
+## Gameplay loop
 
-If you're seeing this, you've probably already done this step. Congrats!
+Each day there's a set of letter tiles, and the player has to try move the letter tiles into the goal tiles to form words. They get a point for each word they can come up with.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+The words can be shorter than the number of goal tiles, so that users can vary the length of word. The length affects the amount of points gotten from the word.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+The game could also have a max number of moves to come up with each word.
 
-## Developing
+## Tiles
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Letter tiles
 
-```bash
-npm run dev
+Letter tiles contain a single letter. They cannot move through walls or through each other.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Wall tiles
 
-## Building
+These can't be moved, and letter tiles can't move through them.
 
-To create a production version of your app:
+### Goal tile
 
-```bash
-npm run build
-```
+This is an outlined tile where the letter tiles must be placed.
+The letter tiles can move through this tile.
 
-You can preview the production build with `npm run preview`.
+### Linked letters
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+When moving a linked letter, the other letters linked to that letter will also move.
+
+**NOT IMPLEMENTED**
+
+### Sticky tiles
+
+When a letter tile is moving through a sticky tile, it stops at the sticky tile.
+It does not stay permanently at the sticky tile, and can be moved.
+
+## Loading and saving
+
+The game state can be saved onto a string for sharing.
+
+The format of the string is described in the [FORMAT.md](./FORMAT.md) file.
