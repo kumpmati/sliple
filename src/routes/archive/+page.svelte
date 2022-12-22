@@ -88,6 +88,11 @@
 			text-decoration: none;
 			padding: 4px;
 
+			transition: transform 200ms;
+			&:active {
+				transform: scale(0.97);
+			}
+
 			&:hover {
 				background-color: var(--gray-light);
 			}

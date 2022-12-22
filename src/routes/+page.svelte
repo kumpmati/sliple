@@ -71,6 +71,11 @@
 		background-color: var(--gray-light);
 		border-radius: var(--border-radius);
 
+		transition: transform 200ms;
+		&:active {
+			transform: scale(0.97);
+		}
+
 		&.highlight {
 			background-color: var(--orange-light);
 			border: 2px solid var(--orange);

@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { userStore } from '$lib/stores/user';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -31,7 +32,7 @@
 		<ArrowLeftIcon />
 	</a>
 
-	<button on:click={() => grid.reset()}>
+	<button class="reset" on:click={() => grid.reset()}>
 		<RotateCcwIcon />
 	</button>
 </nav>
@@ -42,10 +43,14 @@
 	on:swipe={handleSwipe}
 >
 	<div class="heading">
-		<UnderlinedHeading color="var(--orange-light)">Featured puzzle</UnderlinedHeading>
+		{#if $page.params['id'] === 'latest'}
+			<UnderlinedHeading color="var(--orange-light)">Featured puzzle</UnderlinedHeading>
+		{:else}
+			<UnderlinedHeading color="var(--orange-light)">Puzzle</UnderlinedHeading>
+		{/if}
 
 		<p>
-			Spell "<span class="highlight">{data.puzzle.data.solutions[0]?.toLowerCase()}</span>" within
+			Spell “<span class="highlight">{data.puzzle.data.solutions[0]?.toLowerCase()}</span>” within
 			<span class="highlight">{data.puzzle.data.maxMoves}</span> moves
 		</p>
 	</div>
@@ -67,12 +72,8 @@
 		justify-content: space-between;
 	}
 
-	.container {
-		display: contents;
-	}
-
 	.back,
-	button {
+	.reset {
 		color: var(--black);
 		display: grid;
 		place-content: center;
@@ -80,6 +81,11 @@
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
+
+		transition: transform 200ms;
+		&:active {
+			transform: scale(0.95);
+		}
 	}
 
 	.heading {
