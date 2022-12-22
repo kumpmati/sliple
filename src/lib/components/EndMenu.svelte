@@ -55,6 +55,7 @@
 		position: absolute;
 		left: 50%;
 		top: 40%;
+		width: 100%;
 		transform: translate(-50%, -50%);
 		z-index: 10;
 		display: flex;
