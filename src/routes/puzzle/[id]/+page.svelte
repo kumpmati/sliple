@@ -20,7 +20,7 @@
 
 	const handleSwipe = (e: CustomEvent) => {
 		const dir = e.detail.direction;
-		const id = e.detail.target.dataset?.['id'];
+		const id = e.detail.target.dataset?.['tileId'];
 		if (!id) return;
 
 		grid.moveTile(id, dir);
@@ -43,11 +43,13 @@
 	on:swipe={handleSwipe}
 >
 	<div class="heading">
-		{#if $page.params['id'] === 'latest'}
-			<UnderlinedHeading color="var(--orange-light)">Featured puzzle</UnderlinedHeading>
-		{:else}
-			<UnderlinedHeading color="var(--orange-light)">Puzzle</UnderlinedHeading>
-		{/if}
+		<UnderlinedHeading color="var(--orange-light)">
+			{#if $page.params['id'] === 'latest'}
+				Featured puzzle
+			{:else}
+				{new Date(data.puzzle.publishedAt).toLocaleDateString()}
+			{/if}
+		</UnderlinedHeading>
 
 		<p>
 			Spell “<span class="highlight">{data.puzzle.data.solutions[0]?.toLowerCase()}</span>” within
