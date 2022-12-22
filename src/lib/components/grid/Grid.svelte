@@ -12,7 +12,7 @@
 	setContext('grid', grid);
 </script>
 
-<div class="grid" style:aspect-ratio={$grid.width / $grid.height}>
+<div class="grid" style:padding-top="{($grid.height / $grid.width) * 100}%">
 	{#each $grid.tiles as tile (tile.id)}
 		{#if isLetterTile(tile)}
 			<LetterTile {tile} />
@@ -30,7 +30,6 @@
 	.grid {
 		position: relative;
 		width: 100%;
-		height: 100%;
 		border: 3px solid rgba(0, 0, 0, 0.125);
 		border-radius: 18px;
 		display: flex;

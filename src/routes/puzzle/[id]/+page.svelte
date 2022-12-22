@@ -21,7 +21,7 @@
 </script>
 
 <nav>
-	<a href="/">
+	<a class="back" href="/">
 		<ArrowLeftIcon />
 	</a>
 
@@ -39,16 +39,19 @@
 		<UnderlinedHeading color="var(--orange-light)">Featured puzzle</UnderlinedHeading>
 
 		<p>
-			Spell "<span class="highlight">{data.puzzle.data.solutions[0].toLowerCase()}</span>" within
+			Spell "<span class="highlight">{data.puzzle.data.solutions[0]?.toLowerCase()}</span>" within
 			<span class="highlight">{data.puzzle.data.maxMoves}</span> moves
 		</p>
 	</div>
 
 	<div class="content">
 		<p>Moves left: <b>{$grid.maxMoves - $grid.numMovesTaken}</b></p>
-		<Grid {grid} />
 
-		<h2>{$word}</h2>
+		<span class="grid">
+			<Grid {grid} />
+		</span>
+
+		<h2 class="word">{$word.replaceAll('', ' ')}</h2>
 	</div>
 </span>
 
@@ -62,13 +65,15 @@
 		display: contents;
 	}
 
-	a,
+	.back,
 	button {
 		color: var(--black);
 		display: grid;
 		place-content: center;
 		width: fit-content;
-		padding: 8px;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
 	}
 
 	.heading {
@@ -88,7 +93,21 @@
 	}
 
 	.content {
-		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		width: 100%;
+
+		.grid {
+			width: 100%;
+			max-width: 450px;
+			display: flex;
+		}
+
+		.word {
+			font-size: 32px;
+			font-weight: 900;
+			font-family: var(--font-heading);
+		}
 	}
 </style>
