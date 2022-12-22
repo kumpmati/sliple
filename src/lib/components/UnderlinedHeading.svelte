@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let color: string;
+	export let style = '';
 </script>
 
-<h1>
+<h1 {style}>
 	<slot />
 	<div class="underline" style:background-color={color} />
 </h1>

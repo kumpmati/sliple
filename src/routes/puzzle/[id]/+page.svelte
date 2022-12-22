@@ -7,15 +7,25 @@
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { userStore } from '$lib/stores/user';
 	import { page } from '$app/stores';
+	import EndMenu from '$lib/components/EndMenu.svelte';
 
 	export let data: PageData;
+
+	let showEndMenu = false;
 
 	const grid = createGridStore(data.puzzle.data);
 	const word = currentWord(grid);
 
-	$: if (grid.isAnswer($word)) {
+	$: movesExhausted = $grid.maxMoves === 0 ? false : $grid.numMovesTaken >= $grid.maxMoves;
+	$: isAnswer = grid.isAnswer($word);
+
+	$: if (isAnswer) {
 		userStore.setPuzzleStatus(data.puzzle.id, 'completed');
-		alert('You won!');
+		showEndMenu = true;
+	}
+
+	$: if (movesExhausted && !isAnswer) {
+		showEndMenu = true;
 	}
 
 	const handleSwipe = (e: CustomEvent) => {
@@ -36,6 +46,18 @@
 		<RotateCcwIcon />
 	</button>
 </nav>
+
+{#if showEndMenu}
+	<EndMenu
+		type={isAnswer ? 'win' : 'lose'}
+		heading={isAnswer ? 'Completed!' : 'Out of moves!'}
+		on:close={() => (showEndMenu = false)}
+		on:reset={() => {
+			grid.reset();
+			showEndMenu = false;
+		}}
+	/>
+{/if}
 
 <span
 	class="container"
