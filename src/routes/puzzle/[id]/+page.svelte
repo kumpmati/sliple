@@ -124,7 +124,7 @@
 
 		.grid {
 			width: 100%;
-			max-width: 450px;
+			max-width: 400px;
 			display: flex;
 		}
 

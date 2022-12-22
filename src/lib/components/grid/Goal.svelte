@@ -25,6 +25,10 @@
 			stroke-width="3"
 			stroke-dasharray="10 10"
 		/>
+
+		<text transform="translate(32, 34)" text-anchor="middle" dominant-baseline="middle">
+			{tile.letter ?? '?'}
+		</text>
 	{:else}
 		<rect
 			x="0"
@@ -36,10 +40,6 @@
 			stroke-width="8"
 		/>
 	{/if}
-
-	<text transform="translate(32, 34)" text-anchor="middle" dominant-baseline="middle">
-		{tile.letter ?? '?'}
-	</text>
 </TileWrapper>
 
 <style>
