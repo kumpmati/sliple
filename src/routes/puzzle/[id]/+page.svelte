@@ -39,9 +39,9 @@
 </script>
 
 <nav>
-	<a class="back" href="/">
+	<button class="back" on:click={() => history.back()}>
 		<ArrowLeftIcon />
-	</a>
+	</button>
 
 	<button class="reset" on:click={() => grid.reset()}>
 		<RotateCcwIcon />
@@ -68,7 +68,7 @@
 	<div class="heading">
 		<UnderlinedHeading color="var(--orange-light)">
 			{#if $page.params['id'] === 'latest'}
-				Featured puzzle
+				Latest puzzle
 			{:else}
 				{data.puzzle.publishedAt.toLocaleDateString()}
 			{/if}
@@ -108,6 +108,7 @@
 		background-color: transparent;
 		border: none;
 		cursor: pointer;
+		padding: 0;
 
 		transition: transform 200ms;
 		&:active {

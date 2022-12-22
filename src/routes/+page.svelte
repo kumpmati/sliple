@@ -17,9 +17,9 @@
 </div>
 
 <div class="links">
-	<a class="link highlight" href="/puzzle/latest">
+	<a class="link latest" href="/puzzle/latest">
 		<span class="text">
-			<h2>Featured puzzle</h2>
+			<h2>Latest puzzle</h2>
 			<p>Spell the word within the given moves</p>
 		</span>
 
@@ -86,7 +86,7 @@
 			transform: scale(0.97);
 		}
 
-		&.highlight {
+		&.latest {
 			background-color: var(--orange-light);
 			border: 2px solid var(--orange);
 		}
