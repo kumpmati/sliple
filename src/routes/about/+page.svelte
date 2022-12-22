@@ -54,7 +54,7 @@
 
 <div class="section">
 	<p>
-		v0.1 - made with <span title="bugs">🐛</span> by
+		Made with <span title="bugs">🐛</span> by Matias Kumpulainen /
 		<a href="https://github.com/kumpmati" target="_blank" rel="noreferrer">@kumpmati</a>
 	</p>
 </div>
