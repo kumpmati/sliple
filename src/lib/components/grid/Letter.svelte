@@ -16,8 +16,8 @@
 <TileWrapper {tile} movable zIndex={5}>
 	<rect
 		data-tile-id={tile.id}
-		x="2.5"
-		y="2.5"
+		x="4.5"
+		y="4.5"
 		width="59"
 		height="59"
 		rx="8.5"
@@ -34,7 +34,7 @@
 		stroke-width="3"
 	/>
 	<text
-		transform="translate(32, 34)"
+		transform="translate(34, 36)"
 		fill={status === 'none' ? 'var(--black)' : 'var(--white)'}
 		text-anchor="middle"
 		dominant-baseline="middle"

@@ -3,6 +3,7 @@
 	import type { GoalTile, LetterTile } from '$lib/types/grid';
 	import { getGoalStatus } from '$lib/utils/goal';
 	import { getContext } from 'svelte';
+	import { fade, scale } from 'svelte/transition';
 	import TileWrapper from './TileWrapper.svelte';
 
 	export let tile: GoalTile;
@@ -16,8 +17,9 @@
 <TileWrapper {tile} zIndex={0}>
 	{#if status === 'none'}
 		<rect
-			x="2.5"
-			y="2.5"
+			transition:fade|local={{ duration: 100 }}
+			x="4.5"
+			y="4.5"
 			width="59"
 			height="59"
 			rx="8.5"
@@ -26,15 +28,22 @@
 			stroke-dasharray="10 10"
 		/>
 
-		<text transform="translate(32, 34)" text-anchor="middle" dominant-baseline="middle">
+		<text
+			transition:fade|local={{ duration: 100 }}
+			transform="translate(32, 34)"
+			text-anchor="middle"
+			dominant-baseline="middle"
+		>
 			{tile.letter ?? '?'}
 		</text>
 	{:else}
 		<rect
+			in:scale|local={{ duration: 200, delay: 100 }}
+			out:fade={{ duration: 200 }}
 			x="0"
 			y="0"
-			width="64"
-			height="64"
+			width="68"
+			height="68"
 			rx="11"
 			stroke={status === 'valid' ? 'var(--green)' : 'var(--red)'}
 			stroke-width="8"
@@ -48,5 +57,9 @@
 		font-size: 24px;
 		font-family: var(--font-heading);
 		fill: var(--red);
+	}
+
+	rect {
+		transform-origin: 34px 34px;
 	}
 </style>

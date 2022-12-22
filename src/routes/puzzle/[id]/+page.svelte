@@ -69,7 +69,7 @@
 			{#if $page.params['id'] === 'latest'}
 				Featured puzzle
 			{:else}
-				{new Date(data.puzzle.publishedAt).toLocaleDateString()}
+				{data.puzzle.publishedAt.toLocaleDateString()}
 			{/if}
 		</UnderlinedHeading>
 

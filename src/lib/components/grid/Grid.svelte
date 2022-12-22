@@ -18,7 +18,7 @@
 </script>
 
 <svg
-	viewBox="0 0 {$grid.width * 64} {$grid.height * 64}"
+	viewBox="0 0 {$grid.width * 68} {$grid.height * 68}"
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"
 >
@@ -37,8 +37,8 @@
 	<rect
 		x={-5.5}
 		y={-5.5}
-		width={$grid.width * 64 + 11}
-		height={$grid.height * 64 + 11}
+		width={$grid.width * 68 + 11}
+		height={$grid.height * 68 + 11}
 		rx="16.5"
 		stroke="var(--black)"
 		stroke-opacity="0.25"

@@ -1,8 +1,10 @@
-import { getAllPuzzles } from '$lib/services/database';
+import { connectDB, getAllPuzzles } from '$lib/services/database';
 import { error, type ServerLoad } from '@sveltejs/kit';
 
 export const load: ServerLoad = async () => {
 	try {
+		await connectDB();
+
 		return {
 			puzzles: await getAllPuzzles()
 		};

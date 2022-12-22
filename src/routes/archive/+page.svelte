@@ -19,7 +19,7 @@
 </span>
 
 <ul class="links">
-	{#each data.puzzles as puzzle (puzzle.id)}
+	{#each data.puzzles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()) as puzzle (puzzle.id)}
 		{@const solutions = puzzle.data.solutions.map((s) => s.toUpperCase()) ?? 'Puzzle'}
 
 		<li>
@@ -38,7 +38,7 @@
 						-
 						{puzzle.data.maxMoves} moves
 					</p>
-					<p class="date">{new Date(puzzle.publishedAt).toLocaleDateString()}</p>
+					<p class="date">{puzzle.publishedAt.toLocaleDateString()}</p>
 				</span>
 
 				<span class="icon right">

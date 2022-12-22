@@ -11,5 +11,5 @@ export type Puzzle = {
 	/**
 	 * Unix timestamp when the puzzle was published.
 	 */
-	publishedAt: number;
+	publishedAt: Date;
 };

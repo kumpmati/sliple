@@ -61,7 +61,7 @@
 	const handleCopy = async () => {
 		const puzzle: Puzzle = {
 			id: nanoid(),
-			publishedAt: Date.now(),
+			publishedAt: new Date(),
 			data: $grid
 		};
 

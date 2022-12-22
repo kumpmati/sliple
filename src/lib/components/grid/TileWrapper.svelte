@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { GRID_CELL_SIZE } from '$lib/constants/grid';
 	import type { Tile } from '$lib/types/grid';
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
@@ -17,9 +18,9 @@
 
 <g
 	class="tile"
-	transform="translate({$x * 64}, {$y * 64})"
-	width={64}
-	height={64}
+	transform="translate({$x * GRID_CELL_SIZE}, {$y * GRID_CELL_SIZE})"
+	width={GRID_CELL_SIZE}
+	height={GRID_CELL_SIZE}
 	data-tile-id={tile.id}
 	class:movable
 	style:z-index={zIndex}
