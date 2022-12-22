@@ -2,14 +2,14 @@
 	import { GRID_CELL_SIZE } from '$lib/constants/grid';
 	import type { Tile } from '$lib/types/grid';
 	import { expoOut } from 'svelte/easing';
-	import { tweened } from 'svelte/motion';
+	import { spring, tweened } from 'svelte/motion';
 
 	export let tile: Tile;
 	export let movable = false;
 	export let zIndex = 0;
 
-	const x = tweened(tile.x, { duration: 200, easing: expoOut });
-	const y = tweened(tile.y, { duration: 200, easing: expoOut });
+	const x = spring(tile.x, { stiffness: 0.15, damping: 0.6 });
+	const y = spring(tile.y, { stiffness: 0.15, damping: 0.6 });
 
 	// make sure values change when tile is updated
 	$: $x = tile.x;
