@@ -2,6 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import UnderlinedHeading from './UnderlinedHeading.svelte';
 	import { RotateCcwIcon, ChevronRightIcon } from 'svelte-feather-icons';
+	import { fade, fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 
 	export let heading: string;
 	export let type: 'win' | 'lose';
@@ -9,16 +11,19 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<div class="content" class:win={type === 'win'}>
-	<UnderlinedHeading
-		style="font-size: 36px"
-		color={type === 'win' ? 'var(--green-light)' : 'var(--red-light)'}
-	>
-		{heading}
-	</UnderlinedHeading>
+<div in:fade|local={{ duration: 200 }} class="content" class:win={type === 'win'}>
+	<span transition:fly|local={{ y: -10, duration: 500, easing: quintOut }}>
+		<UnderlinedHeading
+			style="font-size: 36px"
+			color={type === 'win' ? 'var(--green-light)' : 'var(--red-light)'}
+		>
+			{heading}
+		</UnderlinedHeading>
+	</span>
 
 	<div class="buttons">
 		<button
+			transition:fly|local={{ y: -5, duration: 200, delay: 100, easing: quintOut }}
 			class="button reset"
 			class:highlight={type === 'lose'}
 			on:click={() => dispatch('reset')}
@@ -27,13 +32,16 @@
 			<RotateCcwIcon />
 		</button>
 
-		<a href="/archive" class="button more" class:highlight={type === 'win'}>
+		<a
+			href="/archive"
+			class="button more"
+			class:highlight={type === 'win'}
+			transition:fly|local={{ y: -5, duration: 200, delay: 150, easing: quintOut }}
+		>
 			More puzzles
 
 			<ChevronRightIcon />
 		</a>
-
-		<button class="button close" on:click={() => dispatch('close')}> Close </button>
 	</div>
 </div>
 <div class="underlay" />
@@ -64,21 +72,25 @@
 
 		&.win {
 			.reset {
-				background-color: var(--gray-light);
+				border: 2px solid var(--gray-light);
+				background-color: var(--white);
 			}
 
 			.more {
+				border: 2px solid var(--green-dark);
 				background-color: var(--green-light);
 			}
 		}
 
 		&:not(.win) {
 			.reset {
+				border: 2px solid var(--red);
 				background-color: var(--red-light);
 			}
 
 			.more {
-				background-color: var(--gray-light);
+				border: 2px solid var(--gray-light);
+				background-color: var(--white);
 			}
 		}
 
@@ -92,7 +104,6 @@
 		}
 
 		.button {
-			border: none;
 			text-decoration: none;
 			color: var(--black);
 			cursor: pointer;
@@ -108,12 +119,6 @@
 			&:active {
 				transform: scale(0.9);
 			}
-		}
-
-		.close {
-			margin-top: 30px;
-			background-color: var(--white);
-			justify-content: center;
 		}
 	}
 </style>

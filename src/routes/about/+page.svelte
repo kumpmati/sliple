@@ -34,6 +34,7 @@
 
 	a {
 		color: var(--black);
+		width: fit-content;
 	}
 
 	h3 {

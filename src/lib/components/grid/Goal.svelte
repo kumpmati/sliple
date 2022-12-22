@@ -39,7 +39,7 @@
 	{:else}
 		<rect
 			in:scale|local={{ duration: 200, delay: 100 }}
-			out:fade|local={{ duration: 200 }}
+			out:fade|local={{ duration: 100 }}
 			x="0"
 			y="0"
 			width="68"

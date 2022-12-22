@@ -8,6 +8,7 @@
 	import { userStore } from '$lib/stores/user';
 	import { page } from '$app/stores';
 	import EndMenu from '$lib/components/EndMenu.svelte';
+	import { fade, fly } from 'svelte/transition';
 
 	export let data: PageData;
 
@@ -80,7 +81,9 @@
 	</div>
 
 	<div class="content">
-		<p>Moves left: <b>{$grid.maxMoves - $grid.numMovesTaken}</b></p>
+		<p>
+			Moves left: <b>{$grid.maxMoves - $grid.numMovesTaken}</b>
+		</p>
 
 		<span class="grid">
 			<Grid {grid} />
@@ -145,9 +148,12 @@
 		}
 
 		.grid {
-			width: 100%;
+			padding: 4px;
 			max-width: 400px;
 			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: var(--border-radius-big);
 		}
 
 		.word {

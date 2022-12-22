@@ -7,8 +7,8 @@
 
 <TileWrapper {tile}>
 	<rect
-		x="1.5"
-		y="1.5"
+		x="4.5"
+		y="4.5"
 		width="59"
 		height="59"
 		rx="4.5"

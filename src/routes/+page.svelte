@@ -49,6 +49,7 @@
 	}
 
 	.about {
+		width: fit-content;
 		color: var(--black);
 	}
 
