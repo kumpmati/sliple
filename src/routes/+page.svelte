@@ -26,16 +26,10 @@
 	</a>
 </div>
 
-<h3>Community (coming soon)</h3>
+<h3>Community (coming soon 🚧)</h3>
 <div class="links community">
-	<div class="link">
-		<div />
-		<div class="small" />
-	</div>
-	<div class="link">
-		<div />
-		<div class="small" />
-	</div>
+	<div class="link" />
+	<div class="link" />
 </div>
 
 <style lang="scss">
@@ -50,7 +44,8 @@
 		font-family: var(--font-body);
 		font-weight: 400;
 		font-size: 14px;
-		color: rgba(0, 0, 0, 0.5);
+		color: var(--gray);
+		text-align: center;
 	}
 
 	.links {
@@ -123,10 +118,6 @@
 				width: 100%;
 				border-radius: var(--border-radius);
 				max-width: 70%;
-
-				&.small {
-					width: 20px;
-				}
 			}
 		}
 	}

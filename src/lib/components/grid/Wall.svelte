@@ -14,6 +14,6 @@
 		rx="4.5"
 		fill="#B5B5B5"
 		stroke="#808080"
-		stroke-width="3"
+		stroke-width="2"
 	/>
 </TileWrapper>

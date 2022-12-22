@@ -108,10 +108,10 @@
 
 			.upper {
 				font-family: var(--font-heading);
-				font-weight: 900;
 			}
 
 			.dark {
+				font-weight: 900;
 				color: var(--black);
 			}
 		}

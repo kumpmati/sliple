@@ -31,7 +31,7 @@
 			: status === 'invalid'
 			? 'var(--red-dark)'
 			: 'var(--gray)'}
-		stroke-width="3"
+		stroke-width="2"
 	/>
 	<text
 		transform="translate(34, 36)"

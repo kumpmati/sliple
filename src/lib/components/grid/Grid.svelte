@@ -42,7 +42,7 @@
 		rx="16.5"
 		stroke="var(--black)"
 		stroke-opacity="0.25"
-		stroke-width="3"
+		stroke-width="2"
 	/>
 </svg>
 

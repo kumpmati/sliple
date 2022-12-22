@@ -19,7 +19,7 @@ export const getAllPuzzles = async (): Promise<Puzzle[]> => {
 };
 
 export const getLatestPuzzle = async (): Promise<Puzzle | null> => {
-	const p = await PuzzleModel.findOne({}).sort({ publishedAt: -1 }).exec();
+	const p = await PuzzleModel.findOne({}).sort({ publishedAt: 1 }).exec();
 	if (!p) return null;
 
 	return p.toObject();

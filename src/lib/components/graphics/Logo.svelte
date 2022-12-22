@@ -10,7 +10,7 @@
 	<path
 		d="M49 41.5V42C49 45.866 45.866 49 42 49H9C5.13401 49 2 45.866 2 42V9C2 5.13401 5.13401 2 9 2H42C45.866 2 49 5.13401 49 9V10"
 		stroke="#BFBFBF"
-		stroke-width="3"
+		stroke-width="2"
 		stroke-linecap="round"
 	/>
 </svg>

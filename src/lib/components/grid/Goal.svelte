@@ -24,7 +24,7 @@
 			height="59"
 			rx="8.5"
 			stroke="var(--red)"
-			stroke-width="3"
+			stroke-width="2"
 			stroke-dasharray="10 10"
 		/>
 
@@ -39,7 +39,7 @@
 	{:else}
 		<rect
 			in:scale|local={{ duration: 200, delay: 100 }}
-			out:fade={{ duration: 200 }}
+			out:fade|local={{ duration: 200 }}
 			x="0"
 			y="0"
 			width="68"
