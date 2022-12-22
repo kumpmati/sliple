@@ -35,3 +35,11 @@ html {
 	margin: 0;
 	padding: 0;
 }
+
+/* NProgress customization */
+#nprogress .bar {
+	background: var(--red);
+}
+#nprogress .peg {
+	box-shadow: 0 0 10px var(--red), 0 0 5px var(--red);
+}
