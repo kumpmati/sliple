@@ -21,11 +21,11 @@
 
 	$: if (isAnswer) {
 		userStore.setPuzzleStatus(data.puzzle.id, 'completed');
-		showEndMenu = true;
+		setTimeout(() => (showEndMenu = true), 300);
 	}
 
 	$: if (movesExhausted && !isAnswer) {
-		showEndMenu = true;
+		setTimeout(() => (showEndMenu = true), 300);
 	}
 
 	const handleSwipe = (e: CustomEvent) => {
