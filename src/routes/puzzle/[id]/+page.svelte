@@ -77,7 +77,8 @@
 	}
 
 	.heading {
-		margin-top: 32px;
+		margin-top: 16px;
+		margin-bottom: 32px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -97,6 +98,15 @@
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
+
+		p {
+			color: var(--gray);
+			margin: 8px 0;
+
+			b {
+				color: var(--black);
+			}
+		}
 
 		.grid {
 			width: 100%;
