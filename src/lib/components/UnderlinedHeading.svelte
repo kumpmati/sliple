@@ -1,11 +1,17 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
+
 	export let color: string;
 	export let style = '';
 </script>
 
 <h1 {style}>
 	<slot />
-	<div class="underline" style:background-color={color} />
+	<div
+		in:fly|local={{ y: -5, duration: 300, delay: 200 }}
+		class="underline"
+		style:background-color={color}
+	/>
 </h1>
 
 <style lang="scss">
