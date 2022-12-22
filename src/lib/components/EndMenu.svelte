@@ -36,9 +36,7 @@
 		<button class="button close" on:click={() => dispatch('close')}> Close </button>
 	</div>
 </div>
-
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="underlay" on:click={() => dispatch('close')} />
+<div class="underlay" />
 
 <style lang="scss">
 	.underlay {
