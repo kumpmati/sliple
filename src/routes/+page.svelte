@@ -47,6 +47,8 @@
 	}
 
 	h3 {
+		font-family: var(--font-body);
+		font-weight: 400;
 		font-size: 14px;
 		color: rgba(0, 0, 0, 0.5);
 	}
