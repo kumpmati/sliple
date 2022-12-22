@@ -3,10 +3,10 @@
 	import type { Tile } from '$lib/types/grid';
 	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
 	import { setContext } from 'svelte';
-	import Goal from './Goal.svelte';
-	import Letter from './Letter.svelte';
-	import Wall from './Wall.svelte';
-	import Sticky from './Sticky.svelte';
+	import Goal from './tiles/Goal.svelte';
+	import Letter from './tiles/Letter.svelte';
+	import Wall from './tiles/Wall.svelte';
+	import Sticky from './tiles/Sticky.svelte';
 
 	export let grid: GridStore;
 

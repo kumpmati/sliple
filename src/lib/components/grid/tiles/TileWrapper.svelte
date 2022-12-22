@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { GRID_CELL_SIZE } from '$lib/constants/grid';
 	import type { Tile } from '$lib/types/grid';
-	import { cubicOut } from 'svelte/easing';
+	import { expoOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 
 	export let tile: Tile;
 	export let movable = false;
 	export let zIndex = 0;
 
-	const x = tweened(tile.x, { duration: 100, easing: cubicOut });
-	const y = tweened(tile.y, { duration: 100, easing: cubicOut });
+	const x = tweened(tile.x, { duration: 200, easing: expoOut });
+	const y = tweened(tile.y, { duration: 200, easing: expoOut });
 
 	// make sure values change when tile is updated
 	$: $x = tile.x;
