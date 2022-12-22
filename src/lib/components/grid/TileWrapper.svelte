@@ -7,8 +7,8 @@
 	export let movable = false;
 	export let zIndex = 0;
 
-	const x = tweened(tile.x, { duration: 200, easing: cubicOut });
-	const y = tweened(tile.y, { duration: 200, easing: cubicOut });
+	const x = tweened(tile.x, { duration: 100, easing: cubicOut });
+	const y = tweened(tile.y, { duration: 100, easing: cubicOut });
 
 	// make sure values change when tile is updated
 	$: $x = tile.x;
