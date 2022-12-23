@@ -1,7 +1,7 @@
 import { connectDB, getLatestPuzzle, getPuzzleById } from '$lib/services/database';
 import { error, type ServerLoad } from '@sveltejs/kit';
 
-export const load: ServerLoad<{ id: string }> = async ({ params }) => {
+export const load: ServerLoad<{ id: string }> = async ({ params, setHeaders }) => {
 	await connectDB();
 
 	const id = params?.['id'];
@@ -9,6 +9,10 @@ export const load: ServerLoad<{ id: string }> = async ({ params }) => {
 
 	const puzzle = id === 'latest' ? await getLatestPuzzle() : await getPuzzleById(id);
 	if (!puzzle) throw error(404, 'not found');
+
+	setHeaders({
+		'Cache-Control': 'public, max-age=60' // cache for 1 min
+	});
 
 	return { puzzle };
 };
