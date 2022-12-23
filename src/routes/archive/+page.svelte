@@ -15,7 +15,7 @@
 </a>
 
 <span class="title">
-	<UnderlinedHeading color="var(--gray-light)">Puzzle archive</UnderlinedHeading>
+	<UnderlinedHeading color="var(--purple-light)">Puzzle archive</UnderlinedHeading>
 </span>
 
 <ul class="links">
@@ -34,12 +34,10 @@
 				</span>
 
 				<span>
-					<p class="upper">
-						<span class="dark">{solutions.join(' | ')}</span>
-						-
-						{puzzle.data.maxMoves} moves
+					<p class="upper">{puzzle.publishedAt.toLocaleDateString()}</p>
+					<p class="lower">
+						{solutions.join(' | ')} - {puzzle.data.maxMoves} moves
 					</p>
-					<p class="date">{puzzle.publishedAt.toISOString()}</p>
 				</span>
 
 				<span class="icon right">
@@ -113,12 +111,9 @@
 			}
 
 			.upper {
-				font-family: var(--font-heading);
-			}
-
-			.dark {
-				font-weight: 900;
 				color: var(--black);
+				font-family: var(--font-heading);
+				font-weight: 900;
 			}
 		}
 	}
