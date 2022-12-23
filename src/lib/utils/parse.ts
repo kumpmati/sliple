@@ -67,7 +67,7 @@ const parsePart = (part: string) => {
 				return createSticky(numX, numY);
 
 			case '#G':
-				return createGoal(numX, numY, rest);
+				return createGoal(numX, numY, rest as [string, string]);
 
 			default:
 				return createLetter(numX, numY, name);
@@ -77,21 +77,21 @@ const parsePart = (part: string) => {
 	}
 };
 
-const createWall = (x: number, y: number): WallTile => ({
+export const createWall = (x: number, y: number): WallTile => ({
 	id: nanoid(),
 	type: 'wall',
 	x,
 	y
 });
 
-const createSticky = (x: number, y: number): StickyTile => ({
+export const createSticky = (x: number, y: number): StickyTile => ({
 	id: nanoid(),
 	type: 'sticky',
 	x,
 	y
 });
 
-const createLetter = (x: number, y: number, letter: string): LetterTile => ({
+export const createLetter = (x: number, y: number, letter: string): LetterTile => ({
 	id: nanoid(),
 	type: 'letter',
 	letter,
@@ -99,7 +99,7 @@ const createLetter = (x: number, y: number, letter: string): LetterTile => ({
 	y
 });
 
-const createGoal = (x: number, y: number, args: string[]): GoalTile => ({
+export const createGoal = (x: number, y: number, args: [string, string]): GoalTile => ({
 	id: nanoid(),
 	type: 'goal',
 	letter: args[0] !== '-' ? args[0] : null,

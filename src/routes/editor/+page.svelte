@@ -3,6 +3,7 @@
 	import { createGridStore } from '$lib/stores/grid';
 	import type { GoalTile, LetterTile, StickyTile, WallTile } from '$lib/types/grid';
 	import type { Puzzle } from '$lib/types/puzzle';
+	import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
 	import { nanoid } from 'nanoid';
 
 	const grid = createGridStore({
@@ -31,26 +32,24 @@
 		const state = $grid;
 		const id = nanoid();
 
-		const tile = { id, x, y, type };
-
 		switch (type) {
 			case 'letter': {
-				state.tiles.push({ ...tile, letter } as LetterTile);
+				state.tiles.push(createLetter(x, y, letter));
 				break;
 			}
 
 			case 'wall': {
-				state.tiles.push(tile as WallTile);
+				state.tiles.push(createWall(x, y));
 				break;
 			}
 
 			case 'sticky': {
-				state.tiles.push(tile as StickyTile);
+				state.tiles.push(createSticky(x, y));
 				break;
 			}
 
 			case 'goal': {
-				state.tiles.push({ ...tile, letter, index: index++ } as GoalTile);
+				state.tiles.push(createGoal(x, y, [letter, index.toString()]));
 				break;
 			}
 		}
@@ -60,7 +59,7 @@
 
 	const handleCopy = async () => {
 		const puzzle: Puzzle = {
-			id: nanoid(),
+			id: nanoid(8),
 			publishedAt: new Date(),
 			data: $grid
 		};
