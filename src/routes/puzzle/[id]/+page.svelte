@@ -8,7 +8,6 @@
 	import { userStore } from '$lib/stores/user';
 	import { page } from '$app/stores';
 	import EndMenu from '$lib/components/EndMenu.svelte';
-	import { fade, fly } from 'svelte/transition';
 
 	export let data: PageData;
 
@@ -28,6 +27,8 @@
 	$: if (movesExhausted && !isAnswer) {
 		setTimeout(() => (showEndMenu = true), 300);
 	}
+
+	userStore.setPuzzleStatus(data.puzzle.id, 'inprogress');
 
 	const handleSwipe = (e: CustomEvent) => {
 		const dir = e.detail.direction;

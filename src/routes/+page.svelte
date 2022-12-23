@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
+	import { userStore } from '$lib/stores/user';
 	import { ArchiveIcon, HelpCircleIcon } from 'svelte-feather-icons';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <svelte:head>
@@ -19,6 +23,10 @@
 <div class="links">
 	<a class="link latest" href="/puzzle/latest">
 		<span class="text">
+			{#if data.latest && !$userStore.puzzles[data.latest.id]}
+				<p class="new">New!</p>
+			{/if}
+
 			<h2>Latest puzzle</h2>
 			<p>Spell the word within the given moves</p>
 		</span>
@@ -89,6 +97,10 @@
 		&.latest {
 			background-color: var(--orange-light);
 			border: 2px solid var(--orange);
+
+			.new {
+				color: var(--red);
+			}
 		}
 
 		.text {
