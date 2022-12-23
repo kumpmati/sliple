@@ -6,6 +6,8 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	$: latestIsNew = data.latest && !$userStore.puzzles[data.latest.id];
 </script>
 
 <svelte:head>
@@ -21,9 +23,9 @@
 </div>
 
 <div class="links">
-	<a class="link latest" href="/puzzle/latest">
+	<a class="link latest" class:new={latestIsNew} href="/puzzle/latest">
 		<span class="text">
-			{#if data.latest && !$userStore.puzzles[data.latest.id]}
+			{#if latestIsNew}
 				<p class="new">New!</p>
 			{/if}
 
@@ -97,7 +99,10 @@
 		&.latest {
 			position: relative;
 			background-color: var(--orange-light);
-			border: 2px solid var(--orange);
+
+			&.new {
+				border: 2px solid var(--orange);
+			}
 
 			.new {
 				border-radius: 20px;
