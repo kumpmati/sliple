@@ -71,7 +71,7 @@
 <main>
 	<div>
 		<h1>Level editor (work in progress)</h1>
-		<p>You shouldn't be able see this yet, but I'm lazy...</p>
+		<p>You shouldn't be able to see this yet, but I'm lazy...</p>
 		<form
 			on:submit|preventDefault={() => {
 				const state = JSON.parse(inputString);

@@ -10,6 +10,10 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title>Sliple - Puzzle archive</title>
+</svelte:head>
+
 <a href="/" class="back">
 	<ArrowLeftIcon />
 </a>

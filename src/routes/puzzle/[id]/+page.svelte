@@ -8,6 +8,8 @@
 	import { userStore } from '$lib/stores/user';
 	import { page } from '$app/stores';
 	import EndMenu from '$lib/components/EndMenu.svelte';
+	import { puzzleSchema } from '$lib/schemas/puzzle';
+	import { browser } from '$app/environment';
 
 	export let data: PageData;
 
@@ -16,6 +18,7 @@
 	const grid = createGridStore(data.puzzle.data);
 	const word = currentWord(grid);
 
+	$: isLatest = $page.params['id'] === 'latest';
 	$: movesExhausted = $grid.maxMoves === 0 ? false : $grid.numMovesTaken >= $grid.maxMoves;
 	$: isAnswer = grid.isAnswer($word);
 
@@ -40,6 +43,10 @@
 		grid.moveTile(id, dir);
 	};
 </script>
+
+<svelte:head>
+	<title>Sliple - {data.puzzle.publishedAt.toLocaleDateString()}</title>
+</svelte:head>
 
 <nav>
 	<button class="back" on:click={() => history.back()}>
@@ -70,11 +77,7 @@
 >
 	<div class="heading">
 		<UnderlinedHeading color="var(--orange-light)">
-			{#if $page.params['id'] === 'latest'}
-				Latest puzzle
-			{:else}
-				{data.puzzle.publishedAt.toLocaleDateString()}
-			{/if}
+			{data.puzzle.publishedAt.toLocaleDateString()}
 		</UnderlinedHeading>
 
 		<p>

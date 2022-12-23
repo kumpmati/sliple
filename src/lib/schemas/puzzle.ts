@@ -22,4 +22,4 @@ export const puzzleSchema = new Schema<Puzzle>(
 	}
 );
 
-export const PuzzleModel = mongoose.models.puzzle ?? mongoose.model('puzzle', puzzleSchema);
+export const PuzzleModel = mongoose?.models?.puzzle ?? mongoose.model('puzzle', puzzleSchema);
