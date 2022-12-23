@@ -28,7 +28,9 @@
 		setTimeout(() => (showEndMenu = true), 300);
 	}
 
-	userStore.setPuzzleStatus(data.puzzle.id, 'inprogress');
+	if (!$userStore.puzzles[data.puzzle.id]) {
+		userStore.setPuzzleStatus(data.puzzle.id, 'inprogress');
+	}
 
 	const handleSwipe = (e: CustomEvent) => {
 		const dir = e.detail.direction;
