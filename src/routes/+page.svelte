@@ -95,11 +95,30 @@
 		}
 
 		&.latest {
+			position: relative;
 			background-color: var(--orange-light);
 			border: 2px solid var(--orange);
 
 			.new {
-				color: var(--red);
+				border-radius: 20px;
+				background-color: var(--red);
+				padding: 0px 10px;
+				color: var(--white);
+				position: absolute;
+				top: -10px;
+				animation: wiggle 2s both infinite;
+			}
+
+			@keyframes wiggle {
+				0% {
+					transform: translateY(-2px);
+				}
+				50% {
+					transform: translateY(0);
+				}
+				100% {
+					transform: translateY(-2px);
+				}
 			}
 		}
 

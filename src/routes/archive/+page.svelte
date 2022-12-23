@@ -20,10 +20,11 @@
 
 <ul class="links">
 	{#each data.puzzles as puzzle (puzzle.id)}
+		{@const visited = !!$userStore.puzzles[puzzle.id]}
 		{@const solutions = puzzle.data.solutions.map((s) => s.toUpperCase()) ?? 'Puzzle'}
 
 		<li>
-			<a class="link" href="/puzzle/{puzzle.id}">
+			<a class="link" class:visited href="/puzzle/{puzzle.id}">
 				<span class="icon">
 					{#if $userStore.puzzles?.[puzzle.id]?.status === 'completed'}
 						<CompletedPuzzleIcon />
@@ -89,6 +90,11 @@
 			padding: 4px;
 
 			transition: transform 200ms;
+
+			&:not(.visited) {
+				background-color: var(--orange-light);
+			}
+
 			&:active {
 				transform: scale(0.97);
 			}
