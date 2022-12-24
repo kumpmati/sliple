@@ -2,7 +2,6 @@
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { userStore } from '$lib/stores/user';
-	import { wiggly } from '$lib/utils/wiggly';
 	import { ArchiveIcon, HelpCircleIcon } from 'svelte-feather-icons';
 	import type { PageData } from './$types';
 
@@ -30,11 +29,11 @@
 				<p class="new">New!</p>
 			{/if}
 
-			<h2 class="wiggly" use:wiggly={{ scale: 0.025 }}>Latest puzzle</h2>
-			<p class="wiggly" use:wiggly={{ scale: 0.01 }}>Spell the word within the given moves</p>
+			<h2>Latest puzzle</h2>
+			<p>Spell the word within the given moves</p>
 		</span>
 
-		<span class="puzzle-icon wiggly" use:wiggly={{ scale: 0.05 }}>
+		<span class="puzzle-icon">
 			<FeaturedPuzzle />
 		</span>
 	</a>
@@ -52,11 +51,6 @@
 </div>
 
 <style lang="scss">
-	.wiggly {
-		transform: translateX(var(--xOffsetInverse)) translateY(var(--yOffsetInverse))
-			scale(calc(1 + var(--totalOffset) * 0.002));
-	}
-
 	.logo {
 		display: flex;
 		justify-content: center;
