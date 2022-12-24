@@ -26,10 +26,10 @@
 	style:max-height="{$grid.height * 68}px"
 >
 	<rect
-		x={-5.5}
-		y={-5.5}
-		width={$grid.width * 68 + 11}
-		height={$grid.height * 68 + 11}
+		x={-5}
+		y={-5}
+		width={$grid.width * 68 + 10}
+		height={$grid.height * 68 + 10}
 		rx="17.5"
 		fill="var(--white)"
 		stroke="var(--black)"
