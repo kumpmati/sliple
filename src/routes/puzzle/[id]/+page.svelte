@@ -6,7 +6,6 @@
 	import type { PageData } from './$types';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { userStore } from '$lib/stores/user';
-	import { page } from '$app/stores';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
 
@@ -17,17 +16,16 @@
 	const grid = createGridStore(data.puzzle.data);
 	const word = currentWord(grid);
 
-	$: isLatest = $page.params['id'] === 'latest';
 	$: movesExhausted = $grid.maxMoves === 0 ? false : $grid.numMovesTaken >= $grid.maxMoves;
 	$: isAnswer = grid.isAnswer($word);
 
 	$: if (isAnswer) {
 		userStore.setPuzzleStatus(data.puzzle.id, 'completed');
-		setTimeout(() => (showEndMenu = true), 300);
+		setTimeout(() => (showEndMenu = true), 500);
 	}
 
 	$: if (movesExhausted && !isAnswer) {
-		setTimeout(() => (showEndMenu = true), 300);
+		setTimeout(() => (showEndMenu = true), 500);
 	}
 
 	if (!$userStore.puzzles[data.puzzle.id]) {
