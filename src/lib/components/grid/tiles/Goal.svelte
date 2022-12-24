@@ -14,7 +14,7 @@
 	$: status = getGoalStatus(tile, letterTile);
 </script>
 
-<TileWrapper {tile} zIndex={0}>
+<TileWrapper {tile}>
 	{#if status === 'none'}
 		<rect
 			transition:fade|local={{ duration: 100 }}

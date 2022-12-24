@@ -13,7 +13,7 @@
 	$: status = getGoalStatus(goalTile, tile);
 </script>
 
-<TileWrapper {tile} movable zIndex={5}>
+<TileWrapper {tile}>
 	<rect
 		data-tile-id={tile.id}
 		x="4.5"

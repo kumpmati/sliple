@@ -4,8 +4,6 @@
 	import { spring } from 'svelte/motion';
 
 	export let tile: Tile;
-	export let movable = false;
-	export let zIndex = 0;
 
 	const x = spring(tile.x, { stiffness: 0.25, damping: 0.6 });
 	const y = spring(tile.y, { stiffness: 0.25, damping: 0.6 });
@@ -15,24 +13,15 @@
 	$: $y = tile.y;
 </script>
 
-<g
-	transform="translate({$x * GRID_CELL_SIZE}, {$y * GRID_CELL_SIZE})"
-	width={GRID_CELL_SIZE}
-	height={GRID_CELL_SIZE}
-	data-tile-id={tile.id}
-	class:movable
-	style:z-index={zIndex}
->
+<g transform="translate({$x * GRID_CELL_SIZE}, {$y * GRID_CELL_SIZE})" data-tile-id={tile.id}>
 	<slot />
 </g>
 
 <style lang="scss">
 	g {
-		will-change: transform;
-		pointer-events: none;
+		pointer-events: all;
 
-		&.movable {
-			pointer-events: all;
-		}
+		// this is needed to keep animations smooth (especially on high refresh rate screens)
+		will-change: transform;
 	}
 </style>
