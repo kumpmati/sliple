@@ -30,7 +30,7 @@
 		y={-5.5}
 		width={$grid.width * 68 + 11}
 		height={$grid.height * 68 + 11}
-		rx="16.5"
+		rx="17.5"
 		fill="var(--white)"
 		stroke="var(--black)"
 		stroke-opacity="0.25"

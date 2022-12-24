@@ -44,7 +44,7 @@
 			y="0"
 			width="68"
 			height="68"
-			rx="11"
+			rx="12"
 			stroke={status === 'valid' ? 'var(--green)' : 'var(--red)'}
 			stroke-width="8"
 		/>
