@@ -8,8 +8,7 @@
 	import { userStore } from '$lib/stores/user';
 	import { page } from '$app/stores';
 	import EndMenu from '$lib/components/EndMenu.svelte';
-	import { puzzleSchema } from '$lib/schemas/puzzle';
-	import { browser } from '$app/environment';
+	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
 
 	export let data: PageData;
 
@@ -95,7 +94,9 @@
 			<Grid {grid} />
 		</span>
 
-		<h2 class="word">{$word.replaceAll('', ' ')}</h2>
+		<span class="word">
+			<WordVisualizer {grid} {word} />
+		</span>
 	</div>
 </span>
 
@@ -164,9 +165,7 @@
 		}
 
 		.word {
-			font-size: 32px;
-			font-weight: 900;
-			font-family: var(--font-heading);
+			margin-top: 32px;
 		}
 	}
 </style>
