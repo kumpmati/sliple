@@ -31,7 +31,7 @@
 
 		<text
 			transition:fade|local={{ duration: 100 }}
-			transform="translate(33, 37)"
+			transform="translate(34, 37)"
 			text-anchor="middle"
 			dominant-baseline="middle"
 		>
