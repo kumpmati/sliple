@@ -8,7 +8,6 @@
 	import { userStore } from '$lib/stores/user';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
-	import { formatDuration } from '$lib/utils/time';
 	import { createTimer } from '$lib/stores/timer';
 	import { onMount } from 'svelte';
 
