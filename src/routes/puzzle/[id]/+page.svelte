@@ -8,6 +8,9 @@
 	import { userStore } from '$lib/stores/user';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
+	import { formatDuration } from '$lib/utils/time';
+	import { createTimer } from '$lib/stores/timer';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -15,16 +18,19 @@
 
 	const grid = createGridStore(data.puzzle.data);
 	const word = currentWord(grid);
+	const timer = createTimer();
 
 	$: movesExhausted = $grid.maxMoves === 0 ? false : $grid.numMovesTaken >= $grid.maxMoves;
 	$: isAnswer = grid.isAnswer($word);
 
 	$: if (isAnswer) {
 		userStore.setPuzzleStatus(data.puzzle.id, 'completed');
+		timer.stop();
 		setTimeout(() => (showEndMenu = true), 500);
 	}
 
 	$: if (movesExhausted && !isAnswer) {
+		timer.stop();
 		setTimeout(() => (showEndMenu = true), 500);
 	}
 
@@ -39,6 +45,8 @@
 
 		grid.moveTile(id, dir);
 	};
+
+	onMount(() => timer.start());
 </script>
 
 <svelte:head>
@@ -50,7 +58,13 @@
 		<ArrowLeftIcon />
 	</button>
 
-	<button class="reset" on:click={() => grid.reset()}>
+	<button
+		class="reset"
+		on:click={() => {
+			grid.reset();
+			timer.start();
+		}}
+	>
 		<RotateCcwIcon />
 	</button>
 </nav>
@@ -59,10 +73,15 @@
 	<EndMenu
 		type={isAnswer ? 'win' : 'lose'}
 		heading={isAnswer ? 'Completed!' : 'Out of moves!'}
+		stats={{
+			duration: $timer,
+			moves: `${$grid.numMovesTaken} / ${$grid.maxMoves}`
+		}}
 		on:close={() => (showEndMenu = false)}
 		on:reset={() => {
 			grid.reset();
 			showEndMenu = false;
+			timer.start();
 		}}
 	/>
 {/if}
@@ -84,9 +103,13 @@
 	</div>
 
 	<div class="content">
-		<p>
-			Moves left: <b>{$grid.maxMoves - $grid.numMovesTaken}</b>
-		</p>
+		<div class="stats">
+			<p>
+				{$grid.numMovesTaken} / {$grid.maxMoves} moves
+			</p>
+
+			<p>{$timer}</p>
+		</div>
 
 		<span class="grid">
 			<Grid {grid} />
@@ -160,6 +183,13 @@
 			align-items: center;
 			justify-content: center;
 			border-radius: var(--border-radius-big);
+		}
+
+		.stats {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			max-width: 250px;
 		}
 
 		.word {

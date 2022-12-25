@@ -7,6 +7,7 @@
 
 	export let heading: string;
 	export let type: 'win' | 'lose';
+	export let stats: { duration: string; moves: string };
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -20,6 +21,19 @@
 			{heading}
 		</UnderlinedHeading>
 	</span>
+
+	{#if type === 'win'}
+		<div class="stats">
+			<span class="row">
+				<p>Moves used</p>
+				<p class="value">{stats.moves}</p>
+			</span>
+			<span class="row">
+				<p>Time spent</p>
+				<p class="value">{stats.duration}</p>
+			</span>
+		</div>
+	{/if}
 
 	<div class="buttons">
 		<button
@@ -94,9 +108,37 @@
 			}
 		}
 
+		.stats {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			width: 100%;
+			max-width: 250px;
+			margin-top: 30px;
+			border-radius: var(--border-radius);
+			background-color: var(--white);
+			padding: 16px 32px;
+
+			.row {
+				display: flex;
+				justify-content: space-between;
+				color: var(--gray);
+
+				.value {
+					font-weight: bold;
+					font-family: var(--font-heading);
+					color: var(--black);
+				}
+
+				p {
+					margin: 0;
+				}
+			}
+		}
+
 		.buttons {
+			margin-top: 40px;
 			max-width: 200px;
-			margin-top: 60px;
 			display: flex;
 			flex-direction: column;
 			gap: 16px;
