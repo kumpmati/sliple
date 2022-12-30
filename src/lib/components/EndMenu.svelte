@@ -7,7 +7,7 @@
 
 	export let heading: string;
 	export let type: 'win' | 'lose';
-	export let stats: { duration: string; moves: string };
+	export let stats: { moves: string };
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -27,10 +27,6 @@
 			<span class="row">
 				<p>Moves used</p>
 				<p class="value">{stats.moves}</p>
-			</span>
-			<span class="row">
-				<p>Time spent</p>
-				<p class="value">{stats.duration}</p>
 			</span>
 		</div>
 	{/if}

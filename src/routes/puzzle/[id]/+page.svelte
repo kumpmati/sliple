@@ -8,8 +8,6 @@
 	import { userStore } from '$lib/stores/user';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
-	import { createTimer } from '$lib/stores/timer';
-	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -17,19 +15,16 @@
 
 	const grid = createGridStore(data.puzzle.data);
 	const word = currentWord(grid);
-	const timer = createTimer();
 
 	$: movesExhausted = $grid.maxMoves === 0 ? false : $grid.numMovesTaken >= $grid.maxMoves;
 	$: isAnswer = grid.isAnswer($word);
 
 	$: if (isAnswer) {
 		userStore.setPuzzleStatus(data.puzzle.id, 'completed');
-		timer.stop();
 		setTimeout(() => (showEndMenu = true), 500);
 	}
 
 	$: if (movesExhausted && !isAnswer) {
-		timer.stop();
 		setTimeout(() => (showEndMenu = true), 500);
 	}
 
@@ -44,8 +39,6 @@
 
 		grid.moveTile(id, dir);
 	};
-
-	onMount(() => timer.start());
 </script>
 
 <svelte:head>
@@ -57,13 +50,7 @@
 		<ArrowLeftIcon />
 	</button>
 
-	<button
-		class="reset"
-		on:click={() => {
-			grid.reset();
-			timer.start();
-		}}
-	>
+	<button class="reset" on:click={grid.reset}>
 		<RotateCcwIcon />
 	</button>
 </nav>
@@ -73,14 +60,12 @@
 		type={isAnswer ? 'win' : 'lose'}
 		heading={isAnswer ? 'Completed!' : 'Out of moves!'}
 		stats={{
-			duration: $timer,
 			moves: `${$grid.numMovesTaken} / ${$grid.maxMoves}`
 		}}
 		on:close={() => (showEndMenu = false)}
 		on:reset={() => {
 			grid.reset();
 			showEndMenu = false;
-			timer.start();
 		}}
 	/>
 {/if}
@@ -106,8 +91,6 @@
 			<p>
 				{$grid.numMovesTaken} / {$grid.maxMoves} moves
 			</p>
-
-			<p>{$timer}</p>
 		</div>
 
 		<span class="grid">
@@ -169,10 +152,6 @@
 		p {
 			color: var(--gray);
 			margin: 8px 0;
-
-			b {
-				color: var(--black);
-			}
 		}
 
 		.grid {
@@ -186,7 +165,7 @@
 
 		.stats {
 			display: flex;
-			justify-content: space-between;
+			justify-content: center;
 			width: 100%;
 			max-width: 250px;
 		}
