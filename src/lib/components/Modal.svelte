@@ -36,6 +36,7 @@
 		display: flex;
 		flex-direction: column;
 		box-shadow: 0 15px 23px rgba(0, 0, 0, 0.18);
+		max-width: calc(100vw - 32px);
 
 		h2 {
 			font-family: var(--font-heading);
