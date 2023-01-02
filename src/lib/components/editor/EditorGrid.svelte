@@ -7,6 +7,7 @@
 	import Letter from '../grid/tiles/Letter.svelte';
 	import Sticky from '../grid/tiles/Sticky.svelte';
 	import Wall from '../grid/tiles/Wall.svelte';
+	import { dndzone } from 'svelte-dnd-action';
 
 	export let editor: Writable<Grid>;
 
@@ -15,7 +16,7 @@
 	const sortTiles = (a: Tile) => (a.type === 'letter' ? 1 : -1);
 </script>
 
-<div class="grid">
+<div class="grid" use:dndzone={{ type: 'grid', items: [] }}>
 	<GridContainer width={$editor.width} height={$editor.height}>
 		<!-- Grid points -->
 		{#each new Array($editor.width + 1) as _, x}

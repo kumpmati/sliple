@@ -4,6 +4,7 @@
 	import EditorLevelSettings from '$lib/components/editor/EditorLevelSettings.svelte';
 	import { createEditorStore } from '$lib/stores/editor';
 	import { ArrowLeftIcon, PlayIcon, SaveIcon } from 'svelte-feather-icons';
+	import EditorTileDrawer from '$lib/components/editor/EditorTileDrawer.svelte';
 
 	const editor = createEditorStore();
 </script>
@@ -26,6 +27,7 @@
 	<EditorLevelSettings {editor} />
 	<EditorGrid {editor} />
 	<EditorSolution {editor} />
+	<EditorTileDrawer {editor} />
 </main>
 
 <style lang="scss">

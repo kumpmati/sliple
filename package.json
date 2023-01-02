@@ -38,6 +38,7 @@
 	"type": "module",
 	"dependencies": {
 		"nanoid": "^4.0.0",
+		"svelte-dnd-action": "^0.9.22",
 		"svelte-gestures": "^1.4.1",
 		"svelte-local-storage-store": "^0.3.2"
 	}
