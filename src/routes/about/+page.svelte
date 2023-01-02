@@ -7,7 +7,7 @@
 	<title>About Sliple</title>
 </svelte:head>
 
-<a href="/">
+<a href="/" aria-label="Back to the front page">
 	<ArrowLeftIcon />
 </a>
 
@@ -45,18 +45,11 @@
 
 	<p>
 		I like Sliple and I don't like ads, so I'll try to keep the game ad-free for as long as I can
-		afford it. You can help cover the costs by donating if you want, but no pressure.
+		afford it. You can help cover the costs by donating if you want, but no worries if you don't.
 	</p>
 	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer">
 		<img width="150px" src="bmc.svg" alt="Buy me a coffee" />
 	</a>
-</div>
-
-<div class="section">
-	<p>
-		Made with <span title="bugs">🐛</span> by Matias Kumpulainen /
-		<a href="https://github.com/kumpmati" target="_blank" rel="noreferrer">@kumpmati</a>
-	</p>
 </div>
 
 <style lang="scss">
