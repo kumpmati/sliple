@@ -16,7 +16,6 @@
 </script>
 
 <svelte:head>
-	<title>Sliple</title>
 	<script defer data-domain="sliple.app" src="https://plausible.io/js/script.js"></script>
 </svelte:head>
 
