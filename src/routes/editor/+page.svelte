@@ -5,8 +5,41 @@
 	import { createEditorStore } from '$lib/stores/editor';
 	import { ArrowLeftIcon, PlayIcon, SaveIcon } from 'svelte-feather-icons';
 	import EditorTileDrawer from '$lib/components/editor/EditorTileDrawer.svelte';
+	import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
+	import type { Tile } from '$lib/types/grid';
 
 	const editor = createEditorStore();
+
+	const handleTilePlace = (e: CustomEvent<any>) => {
+		const { type, x, y } = e.detail;
+
+		const highestIndex = $editor.tiles.reduce((t, curr) => (curr.type === 'goal' ? t + 1 : t), -1);
+
+		let tile: Tile | null = null;
+
+		switch (type) {
+			case 'wall': {
+				tile = createWall(x, y);
+				break;
+			}
+			case 'letter': {
+				tile = createLetter(x, y, 'A');
+				break;
+			}
+			case 'goal': {
+				tile = createGoal(x, y, ['A', (highestIndex + 1).toString()]);
+				break;
+			}
+			case 'sticky': {
+				tile = createSticky(x, y);
+				break;
+			}
+		}
+
+		if (tile) {
+			$editor.tiles = [...$editor.tiles, tile];
+		}
+	};
 </script>
 
 <svelte:head>
@@ -27,7 +60,7 @@
 	<EditorLevelSettings {editor} />
 	<EditorGrid {editor} />
 	<EditorSolution {editor} />
-	<EditorTileDrawer {editor} />
+	<EditorTileDrawer {editor} on:place={handleTilePlace} />
 </main>
 
 <style lang="scss">

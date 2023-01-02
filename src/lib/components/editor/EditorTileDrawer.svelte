@@ -1,13 +1,19 @@
 <script lang="ts">
 	import type { Grid } from '$lib/types/grid';
+	import { onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import { dndzone } from 'svelte-dnd-action';
-	import Wall from '../grid/tiles/Wall.svelte';
-	import Letter from '../grid/tiles/Letter.svelte';
-	import LetterTile from '../graphics/LetterTile.svelte';
-	import WallTile from '../graphics/WallTile.svelte';
+	import Sortable from 'sortablejs';
+	import { createEventDispatcher } from 'svelte';
+	import WallGraphic from '../graphics/WallGraphic.svelte';
+	import LetterGraphic from '../graphics/LetterGraphic.svelte';
+	import GoalGraphic from '../graphics/GoalGraphic.svelte';
+	import StickyGraphic from '../graphics/StickyGraphic.svelte';
 
 	export let editor: Writable<Grid>;
+
+	const dispatch = createEventDispatcher();
+
+	let sortable: any;
 
 	let items = [
 		{ id: 'wall', name: 'Wall' },
@@ -15,21 +21,43 @@
 		{ id: 'goal', name: 'Goal' },
 		{ id: 'sticky', name: 'Sticky' }
 	];
+
+	onMount(() => {
+		Sortable.create(sortable, {
+			group: {
+				name: 'editor',
+				put: false,
+				pull: false
+			},
+			animation: 200,
+
+			onEnd: (e) => {
+				const targetTile = (e as any).explicitOriginalTarget as SVGRectElement;
+				const x = parseInt(targetTile.dataset?.['x'] ?? '');
+				const y = parseInt(targetTile.dataset?.['y'] ?? '');
+
+				const type = e.item.dataset?.['type'];
+
+				if (!isNaN(x) && !isNaN(y) && typeof type === 'string') {
+					dispatch('place', { type, x, y });
+				}
+			}
+		});
+	});
 </script>
 
-<ul
-	class="drawer"
-	use:dndzone={{ type: 'editor', items: items, dropFromOthersDisabled: true }}
-	on:consider={(e) => (items = e.detail.items)}
-	on:finalize={(e) => (items = e.detail.items)}
->
+<ul class="drawer" bind:this={sortable}>
 	{#each items as item (item.id)}
-		<li>
-			<svg width="100%" viewBox="0 0 {68} {68}" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<li data-type={item.id}>
+			<svg viewBox="0 0 68 68">
 				{#if item.id === 'wall'}
-					<WallTile />
+					<WallGraphic />
 				{:else if item.id === 'letter'}
-					<LetterTile />
+					<LetterGraphic letter="A" />
+				{:else if item.id === 'goal'}
+					<GoalGraphic letter="A" />
+				{:else if item.id === 'sticky'}
+					<StickyGraphic />
 				{/if}
 			</svg>
 		</li>
