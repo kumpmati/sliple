@@ -44,6 +44,7 @@
 			display: flex;
 			justify-content: space-between;
 			width: 100%;
+			margin: 2px 0;
 
 			.value {
 				color: var(--black);
