@@ -1,11 +1,12 @@
 <script lang="ts">
-	export let value: string;
+	export let value: number;
 	export let placeholder = '';
 	export let style = '';
-	export let maxLength: number | null = null;
+	export let min: number | null;
+	export let max: number | null;
 </script>
 
-<input type="text" bind:value {placeholder} {style} maxlength={maxLength} />
+<input type="number" bind:value {placeholder} {style} {min} {max} />
 
 <style lang="scss">
 	input {

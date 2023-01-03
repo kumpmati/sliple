@@ -1,171 +1,105 @@
 <script lang="ts">
-	import Grid from '$lib/components/grid/Grid.svelte';
-	import { createGridStore } from '$lib/stores/grid';
-	import type { GoalTile, LetterTile, StickyTile, WallTile } from '$lib/types/grid';
-	import type { Puzzle } from '$lib/types/puzzle';
-	import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
-	import { nanoid } from 'nanoid';
+	import EditorGrid from '$lib/components/editor/EditorGrid.svelte';
+	import EditorSolution from '$lib/components/editor/EditorSolution.svelte';
+	import EditorLevelSettings from '$lib/components/editor/EditorLevelSettings.svelte';
+	import { createEditorStore } from '$lib/stores/editor';
+	import { ArrowLeftIcon, PlayIcon, SaveIcon } from 'svelte-feather-icons';
+	import EditorTileDrawer from '$lib/components/editor/EditorTileDrawer.svelte';
+	import type { Tile } from '$lib/types/grid';
+	import { copy } from '$lib/utils/copy';
+	import EditorTileEditModal from '$lib/components/editor/EditorTileEditModal.svelte';
+	import EditorSaveForm from '$lib/components/editor/EditorSaveForm.svelte';
 
-	const grid = createGridStore({
-		width: 5,
-		height: 5,
-		maxMoves: 10,
-		numMovesTaken: 0,
-		mode: 'predefined',
-		solutions: [],
-		tiles: []
-	});
+	const editor = createEditorStore();
 
-	let w = 5;
-	let h = 5;
-	let type = 'letter';
-	let letter = 'A';
-	let x = 0;
-	let y = 0;
-	let index = 0;
-	let inputString = '';
-
-	$: grid.setState({ ...$grid, width: w });
-	$: grid.setState({ ...$grid, height: h });
-
-	const handleSubmit = () => {
-		const state = $grid;
-		const id = nanoid();
-
-		switch (type) {
-			case 'letter': {
-				state.tiles.push(createLetter(x, y, letter));
-				break;
-			}
-
-			case 'wall': {
-				state.tiles.push(createWall(x, y));
-				break;
-			}
-
-			case 'sticky': {
-				state.tiles.push(createSticky(x, y));
-				break;
-			}
-
-			case 'goal': {
-				state.tiles.push(createGoal(x, y, [letter, index.toString()]));
-				break;
-			}
-		}
-
-		grid.setState(state);
+	const handleTilePlace = (e: CustomEvent<{ type: string; x: number; y: number }>) => {
+		const { type, x, y } = e.detail;
+		editor.placeTile(type, x, y);
 	};
 
-	const handleCopy = async () => {
-		const puzzle: Puzzle = {
-			id: nanoid(8),
-			publishedAt: new Date(),
-			data: $grid
-		};
-
-		navigator.clipboard.writeText(JSON.stringify(puzzle));
+	const handleEditTile = (e: CustomEvent) => {
+		showModal = true;
+		// make a copy of the tile to prevent mutation
+		currentTile = copy(e.detail);
 	};
+
+	const closeModal = () => {
+		showModal = false;
+		currentTile = null;
+	};
+
+	let showModal = false;
+	let showSaveModal = false;
+	let currentTile: Tile | null = null;
 </script>
 
-<main>
-	<div>
-		<h1>Level editor (work in progress)</h1>
-		<p>You shouldn't be able to see this yet, but I'm lazy...</p>
-		<form
-			on:submit|preventDefault={() => {
-				const state = JSON.parse(inputString);
-				grid.setState(state);
-			}}
-		>
-			<input type="text" bind:value={inputString} />
-			<input type="submit" value="load from JSON string" />
-		</form>
+<svelte:head>
+	<title>Level editor</title>
+</svelte:head>
 
-		<form on:submit|preventDefault={handleSubmit}>
-			<label>
-				Width
-				<input type="number" bind:value={w} />
-			</label>
-			<label>
-				Height
-				<input type="number" bind:value={h} />
-			</label>
+<nav>
+	<a href="/"><ArrowLeftIcon /></a>
+	<p class="center">Level editor</p>
 
-			<div class="types">
-				<p>Type</p>
-				<label>
-					Letter
-					<input type="radio" bind:group={type} value="letter" />
-				</label>
-				<label>
-					Wall
-					<input type="radio" bind:group={type} value="wall" />
-				</label>
-				<label>
-					Sticky
-					<input type="radio" bind:group={type} value="sticky" />
-				</label>
-				<label>
-					Goal
-					<input type="radio" bind:group={type} value="goal" />
-				</label>
-			</div>
-
-			<p>Index: {index}</p>
-
-			<label>
-				Letter
-				<input type="text" maxlength="1" bind:value={letter} />
-			</label>
-
-			<label>
-				X
-				<input type="number" min={0} max={$grid.width} bind:value={x} />
-			</label>
-			<label>
-				Y
-				<input type="number" min={0} max={$grid.width} bind:value={y} />
-			</label>
-
-			<input type="submit" value="Add" />
-		</form>
-
-		<br />
-
-		<button on:click={handleCopy}> Copy level to clipboard </button>
-	</div>
-
-	<span class="grid">
-		<Grid {grid} />
+	<span class="right">
+		<a href="/editor/preview"><PlayIcon /></a>
+		<button on:click={() => (showSaveModal = true)}><SaveIcon /></button>
 	</span>
+</nav>
+
+<EditorTileEditModal
+	{editor}
+	{currentTile}
+	{showModal}
+	on:cancel={closeModal}
+	on:confirm={closeModal}
+/>
+
+<EditorSaveForm {editor} {showSaveModal} on:close={() => (showSaveModal = false)} />
+
+<main>
+	<EditorLevelSettings {editor} />
+	<span class="grid">
+		<EditorGrid {editor} {currentTile} on:edit={handleEditTile} />
+	</span>
+	<EditorSolution {editor} />
+	<EditorTileDrawer {editor} on:place={handleTilePlace} />
 </main>
 
-<style>
-	main {
-		position: absolute;
-		min-width: 1000px;
-		left: -200px;
+<style lang="scss">
+	nav {
 		display: grid;
-		grid-template-columns: 1fr 2fr;
-		gap: 2rem;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+
+		p {
+			color: var(--gray);
+		}
+
+		.right {
+			margin-left: auto;
+		}
+
+		button {
+			background-color: transparent;
+			cursor: pointer;
+			border: none;
+		}
+
+		a {
+			color: var(--black);
+		}
 	}
 
-	form {
+	main {
+		margin: 16px 0;
 		display: flex;
 		flex-direction: column;
-	}
-
-	.types {
-		display: flex;
-		flex-direction: column;
+		align-items: center;
+		width: 100%;
 	}
 
 	.grid {
-		margin-top: 2rem;
-		display: block;
-		width: 100%;
-		max-width: 400px;
-		max-height: 400px;
+		margin-top: 40px;
 	}
 </style>
