@@ -5,7 +5,7 @@ export const load: ServerLoad = async ({ setHeaders }) => {
 	await connectDB();
 
 	setHeaders({
-		'Cache-Control': 'public, max-age=60' // cache for 1 min
+		'Cache-Control': 'public, max-age=3600' // cache for 1 hour
 	});
 
 	return {

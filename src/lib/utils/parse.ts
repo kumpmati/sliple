@@ -99,11 +99,11 @@ export const createLetter = (x: number, y: number, letter: string): LetterTile =
 	y
 });
 
-export const createGoal = (x: number, y: number, args: [string, string]): GoalTile => ({
+export const createGoal = (x: number, y: number, [letter, index]: [string, string]): GoalTile => ({
 	id: nanoid(),
 	type: 'goal',
-	letter: args[0] !== '-' ? args[0] : null,
-	index: parseInt(args[1]) ?? 0,
+	letter: letter,
+	index: parseInt(index) ?? 0,
 	x,
 	y
 });

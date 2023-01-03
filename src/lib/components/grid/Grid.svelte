@@ -7,6 +7,7 @@
 	import Letter from './tiles/Letter.svelte';
 	import Wall from './tiles/Wall.svelte';
 	import Sticky from './tiles/Sticky.svelte';
+	import GridContainer from '../graphics/GridContainer.svelte';
 
 	export let grid: GridStore;
 
@@ -17,26 +18,7 @@
 	const sortTiles = (a: Tile) => (a.type === 'letter' ? 1 : -1);
 </script>
 
-<svg
-	width="100%"
-	viewBox="0 0 {$grid.width * 68} {$grid.height * 68}"
-	fill="none"
-	xmlns="http://www.w3.org/2000/svg"
-	style:max-width="{$grid.width * 68}px"
-	style:max-height="{$grid.height * 68}px"
->
-	<rect
-		x={-5}
-		y={-5}
-		width={$grid.width * 68 + 10}
-		height={$grid.height * 68 + 10}
-		rx="17.5"
-		fill="var(--white)"
-		stroke="var(--black)"
-		stroke-opacity="0.25"
-		stroke-width="2"
-	/>
-
+<GridContainer width={$grid.width} height={$grid.height}>
 	{#each $grid.tiles.sort(sortTiles) as tile (tile.id)}
 		{#if isLetterTile(tile)}
 			<Letter {tile} />
@@ -48,11 +30,4 @@
 			<Sticky {tile} />
 		{/if}
 	{/each}
-</svg>
-
-<style lang="scss">
-	svg {
-		overflow: visible;
-		position: relative;
-	}
-</style>
+</GridContainer>

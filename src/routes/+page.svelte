@@ -14,7 +14,7 @@
 	<title>Sliple</title>
 </svelte:head>
 
-<a href="/about" class="about">
+<a href="/about" class="about" aria-label="About the website">
 	<HelpCircleIcon />
 </a>
 

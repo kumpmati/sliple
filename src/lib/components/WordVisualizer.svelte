@@ -7,7 +7,7 @@
 </script>
 
 <div class="container">
-	{#each $grid.solutions[0].split('') as letter, index}
+	{#each $grid.solutions[0]?.split('') as letter, index}
 		<div class="slot" class:correct={$word.at(index) === letter}>
 			<p>{letter}</p>
 		</div>
