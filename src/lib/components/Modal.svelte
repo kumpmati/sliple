@@ -29,8 +29,8 @@
 <style lang="scss">
 	.container {
 		position: relative;
-		border-radius: var(--border-radius-small);
-		border: 2px solid var(--gray);
+		border-radius: var(--border-radius);
+		border: 2px solid var(--black);
 		background-color: var(--white);
 		z-index: 100;
 		display: flex;

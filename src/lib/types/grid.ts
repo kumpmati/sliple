@@ -26,7 +26,7 @@ export interface WallTile extends Tile {
 
 export interface GoalTile extends Tile {
 	type: 'goal';
-	letter: string | null;
+	letter: string;
 	index: number;
 }
 

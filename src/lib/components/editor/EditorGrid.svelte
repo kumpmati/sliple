@@ -1,54 +1,76 @@
 <script lang="ts">
 	import type { Grid, Tile } from '$lib/types/grid';
 	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
+	import Sortable from 'sortablejs';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import GridContainer from '../graphics/GridContainer.svelte';
-	import Goal from '../grid/tiles/Goal.svelte';
-	import Letter from '../grid/tiles/Letter.svelte';
-	import Sticky from '../grid/tiles/Sticky.svelte';
-	import Wall from '../grid/tiles/Wall.svelte';
+	import GoalGraphic from '../graphics/GoalGraphic.svelte';
+	import LetterGraphic from '../graphics/LetterGraphic.svelte';
+	import StickyGraphic from '../graphics/StickyGraphic.svelte';
+	import WallGraphic from '../graphics/WallGraphic.svelte';
 
 	export let editor: Writable<Grid>;
+	export let currentTile: Tile | null;
+
+	let sortable: any;
+	const dispatch = createEventDispatcher();
 
 	// letters should be the last items to be drawn,
 	// so that they are drawn on top of every other tile.
 	const sortTiles = (a: Tile) => (a.type === 'letter' ? 1 : -1);
+
+	onMount(() => {
+		Sortable.create(sortable, {
+			group: {
+				name: 'editor',
+				put: true,
+				pull: true
+			},
+			filter: '.nodrag'
+		});
+	});
 </script>
 
-<div class="grid">
-	<GridContainer width={$editor.width} height={$editor.height}>
-		<!-- Grid points -->
-		{#each new Array($editor.width + 1) as _, x}
-			{#each new Array($editor.height + 1) as _, y}
-				<circle cx={x * 68} cy={y * 68} r="2" fill="var(--gray-light)" />
-			{/each}
+<svg viewBox="0 0 {$editor.width * 68} {$editor.height * 68}" bind:this={sortable}>
+	{#each new Array($editor.width + 1) as _, x}
+		{#each new Array($editor.height + 1) as _, y}
+			<circle class="nodrag" cx={x * 68} cy={y * 68} r="1.25" fill="var(--gray-light)" />
 		{/each}
+	{/each}
 
-		<!-- Tiles -->
-		{#each $editor.tiles.sort(sortTiles) as tile (tile.id)}
-			<g>
-				{#if isLetterTile(tile)}
-					<Letter {tile} />
-				{:else if isGoalTile(tile)}
-					<Goal {tile} />
-				{:else if isWallTile(tile)}
-					<Wall {tile} />
-				{:else if isStickyTile(tile)}
-					<Sticky {tile} />
-				{/if}
-			</g>
-		{/each}
-	</GridContainer>
-</div>
+	<!-- Tiles -->
+	{#each $editor.tiles.sort(sortTiles) as tile (tile.id)}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<g
+			transform="translate({tile.x * 68}, {tile.y * 68})"
+			on:click={() => dispatch('edit', tile)}
+			class:selected={currentTile?.id === tile.id}
+		>
+			{#if isLetterTile(tile)}
+				<LetterGraphic letter={tile.letter} />
+			{:else if isWallTile(tile)}
+				<WallGraphic />
+			{:else if isGoalTile(tile)}
+				<GoalGraphic letter={tile.letter ?? '?'} />
+			{:else if isStickyTile(tile)}
+				<StickyGraphic />
+			{/if}
+		</g>
+	{/each}
+</svg>
 
 <style lang="scss">
-	.grid {
-		margin-top: 50px;
+	svg {
+		position: relative;
 		padding: 4px;
-		max-width: 400px;
 		display: flex;
-		align-items: center;
-		justify-content: center;
 		border-radius: var(--border-radius-big);
+		border: 2px solid var(--gray-light);
+		overflow: visible;
+		width: 100%;
+	}
+
+	g.selected {
+		filter: drop-shadow(0 0 4px red);
 	}
 </style>
