@@ -2,9 +2,10 @@
 	export let value: string;
 	export let placeholder = '';
 	export let style = '';
+	export let maxLength: number | null = null;
 </script>
 
-<input type="text" bind:value {placeholder} {style} />
+<input type="text" bind:value {placeholder} {style} maxlength={maxLength} />
 
 <style lang="scss">
 	input {

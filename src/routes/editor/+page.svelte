@@ -7,16 +7,19 @@
 	import EditorTileDrawer from '$lib/components/editor/EditorTileDrawer.svelte';
 	import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
 	import type { Tile } from '$lib/types/grid';
+	import { copy } from '$lib/utils/copy';
+	import EditorTileEditModal from '$lib/components/editor/EditorTileEditModal.svelte';
 
 	const editor = createEditorStore();
 
-	const handleTilePlace = (e: CustomEvent<any>) => {
-		const { type, x, y } = e.detail;
+	let showModal = false;
+	let currentTile: Tile | null = null;
 
+	const handleTilePlace = (e: CustomEvent<{ type: string; x: number; y: number }>) => {
+		const { type, x, y } = e.detail;
 		const highestIndex = $editor.tiles.reduce((t, curr) => (curr.type === 'goal' ? t + 1 : t), -1);
 
 		let tile: Tile | null = null;
-
 		switch (type) {
 			case 'wall': {
 				tile = createWall(x, y);
@@ -40,6 +43,17 @@
 			$editor.tiles = [...$editor.tiles, tile];
 		}
 	};
+
+	const handleEditTile = (e: CustomEvent) => {
+		showModal = true;
+		// make a copy of the tile to prevent mutation
+		currentTile = copy(e.detail);
+	};
+
+	const closeModal = () => {
+		showModal = false;
+		currentTile = null;
+	};
 </script>
 
 <svelte:head>
@@ -48,29 +62,43 @@
 
 <nav>
 	<a href="/"><ArrowLeftIcon /></a>
-	<p>Level editor</p>
+	<p class="center">Level editor</p>
 
-	<span>
+	<span class="right">
 		<button on:click={() => null}><PlayIcon /></button>
 		<button on:click={() => null}><SaveIcon /></button>
 	</span>
 </nav>
 
+<EditorTileEditModal
+	{editor}
+	{currentTile}
+	{showModal}
+	on:cancel={closeModal}
+	on:confirm={closeModal}
+/>
+
 <main>
 	<EditorLevelSettings {editor} />
-	<EditorGrid {editor} />
+	<span class="grid">
+		<EditorGrid {editor} {currentTile} on:edit={handleEditTile} />
+	</span>
 	<EditorSolution {editor} />
 	<EditorTileDrawer {editor} on:place={handleTilePlace} />
 </main>
 
 <style lang="scss">
 	nav {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
 		align-items: center;
 
 		p {
 			color: var(--gray);
+		}
+
+		.right {
+			margin-left: auto;
 		}
 
 		button {
@@ -90,5 +118,9 @@
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
+	}
+
+	.grid {
+		margin-top: 40px;
 	}
 </style>

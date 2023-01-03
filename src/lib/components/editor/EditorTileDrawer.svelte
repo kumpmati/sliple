@@ -31,16 +31,20 @@
 			},
 			animation: 200,
 
-			onEnd: (e) => {
-				const targetTile = (e as any).explicitOriginalTarget as SVGRectElement;
-				const x = parseInt(targetTile.dataset?.['x'] ?? '');
-				const y = parseInt(targetTile.dataset?.['y'] ?? '');
+			onEnd: (e: any) => {
+				const { layerX, layerY } = e.originalEvent;
+				const { width, height } = e.originalEvent.target.getBoundingClientRect();
 
+				// calculate x and y based on position inside the grid element
+				const x = Math.floor((layerX / width) * $editor.width);
+				const y = Math.floor((layerY / height) * $editor.height);
 				const type = e.item.dataset?.['type'];
 
-				if (!isNaN(x) && !isNaN(y) && typeof type === 'string') {
-					dispatch('place', { type, x, y });
+				if (x < 0 || x >= $editor.width || y < 0 || y >= $editor.height || !type) {
+					return;
 				}
+
+				dispatch('place', { type, x, y });
 			}
 		});
 	});
