@@ -23,7 +23,7 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 		...state,
 		placeTile: (type, x, y) => {
 			state.update((prev) => {
-				const highestIndex = prev.tiles.reduce((t, curr) => (curr.type === 'goal' ? t + 1 : t), -1);
+				const numGoalTiles = prev.tiles.reduce((t, curr) => (curr.type === 'goal' ? t + 1 : t), 0);
 
 				let tile: Tile | null = null;
 				switch (type) {
@@ -36,7 +36,7 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 						break;
 					}
 					case 'goal': {
-						tile = createGoal(x, y, ['A', (highestIndex + 1).toString()]);
+						tile = createGoal(x, y, ['A', numGoalTiles.toString()]);
 						break;
 					}
 					case 'sticky': {

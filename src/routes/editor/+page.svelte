@@ -34,7 +34,7 @@
 </script>
 
 <svelte:head>
-	<title>Sliple - Level editor</title>
+	<title>Level editor</title>
 </svelte:head>
 
 <nav>

@@ -17,8 +17,8 @@
 
 <div class="solution">
 	<h3>Solution</h3>
-	<p class:empty={$editor.solutions.length === 0}>
-		{$editor.solutions.length === 0 ? '< empty >' : $editor.solutions[0]}
+	<p class:empty={$editor?.solutions?.length === 0}>
+		{$editor?.solutions?.length === 0 ? '< empty >' : $editor?.solutions?.[0]}
 	</p>
 </div>
 

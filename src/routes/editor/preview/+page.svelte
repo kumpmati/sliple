@@ -74,7 +74,7 @@
 		<UnderlinedHeading color="var(--orange-light)">Preview</UnderlinedHeading>
 
 		<p>
-			Spell “<span class="highlight">{$grid.solutions[0].toLowerCase()}</span>” within
+			Spell “<span class="highlight">{$grid.solutions[0]?.toLowerCase()}</span>” within
 			<span class="highlight">{$grid.maxMoves}</span> moves
 		</p>
 	</div>
