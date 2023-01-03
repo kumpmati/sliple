@@ -40,7 +40,7 @@
 	<p class="center">Level editor</p>
 
 	<span class="right">
-		<button on:click={() => null}><PlayIcon /></button>
+		<a href="/editor/preview"><PlayIcon /></a>
 		<button on:click={() => null}><SaveIcon /></button>
 	</span>
 </nav>

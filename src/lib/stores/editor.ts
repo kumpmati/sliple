@@ -1,13 +1,14 @@
 import type { Grid, Tile } from '$lib/types/grid';
 import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
-import { writable, type Writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
+import { writable } from 'svelte-local-storage-store';
 
 export type EditorStore = Writable<Grid> & {
 	placeTile: (type: string, x: number, y: number) => void;
 };
 
 export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => {
-	const state = writable<Grid>({
+	const state = writable<Grid>('sliple-editor', {
 		width: 5,
 		height: 5,
 		maxMoves: 50,

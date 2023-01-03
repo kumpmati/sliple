@@ -5,18 +5,20 @@
 
 	export let editor: Writable<Grid>;
 
-	$: solution = $editor.tiles.reduce<string[]>((s, tile) => {
-		if (!isGoalTile(tile)) return s;
+	$: $editor.solutions[0] = $editor.tiles
+		.reduce<string[]>((s, tile) => {
+			if (!isGoalTile(tile)) return s;
 
-		s[tile.index] = tile.letter;
-		return s;
-	}, []);
+			s[tile.index] = tile.letter;
+			return s;
+		}, [])
+		.join('');
 </script>
 
 <div class="solution">
 	<h3>Solution</h3>
-	<p class:empty={solution.length === 0}>
-		{solution.length === 0 ? '< empty >' : solution.join('')}
+	<p class:empty={$editor.solutions.length === 0}>
+		{$editor.solutions.length === 0 ? '< empty >' : $editor.solutions[0]}
 	</p>
 </div>
 
