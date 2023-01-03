@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export type Grid = {
 	width: number;
 	height: number;
@@ -40,3 +42,22 @@ export type Coordinates = {
 };
 
 export type CollisionType = 'none' | 'sticky' | 'solid';
+
+export const tileSchema = z.object({
+	type: z.string(),
+	id: z.string(),
+	x: z.number().min(0).max(10),
+	y: z.number().min(0).max(10),
+	letter: z.string().optional(),
+	index: z.number().min(0).optional()
+});
+
+export const gridSchema = z.object({
+	width: z.number().min(1).max(10),
+	height: z.number().min(1).max(10),
+	numMovesTaken: z.number().min(0),
+	maxMoves: z.number().min(1).max(100),
+	mode: z.string().max(11),
+	solutions: z.array(z.string()),
+	tiles: z.array(tileSchema)
+});

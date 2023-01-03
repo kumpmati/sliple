@@ -8,6 +8,7 @@
 	import type { Tile } from '$lib/types/grid';
 	import { copy } from '$lib/utils/copy';
 	import EditorTileEditModal from '$lib/components/editor/EditorTileEditModal.svelte';
+	import EditorSaveForm from '$lib/components/editor/EditorSaveForm.svelte';
 
 	const editor = createEditorStore();
 
@@ -28,6 +29,7 @@
 	};
 
 	let showModal = false;
+	let showSaveModal = false;
 	let currentTile: Tile | null = null;
 </script>
 
@@ -41,7 +43,7 @@
 
 	<span class="right">
 		<a href="/editor/preview"><PlayIcon /></a>
-		<button on:click={() => null}><SaveIcon /></button>
+		<button on:click={() => (showSaveModal = true)}><SaveIcon /></button>
 	</span>
 </nav>
 
@@ -52,6 +54,8 @@
 	on:cancel={closeModal}
 	on:confirm={closeModal}
 />
+
+<EditorSaveForm {editor} {showSaveModal} on:close={() => (showSaveModal = false)} />
 
 <main>
 	<EditorLevelSettings {editor} />
