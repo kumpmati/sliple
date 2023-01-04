@@ -5,6 +5,7 @@ import z from 'zod';
 import { PuzzleModel } from '$lib/schemas/puzzle';
 import { nanoid } from 'nanoid';
 import { EDITOR_PASSWORD } from '$env/static/private';
+import { connectDB } from '$lib/services/database';
 
 const bodySchema = z.object({
 	password: z.string(),
@@ -12,6 +13,8 @@ const bodySchema = z.object({
 });
 
 export const POST: RequestHandler = async ({ request }) => {
+	await connectDB();
+
 	const raw = await request.json();
 	const body = bodySchema.safeParse(raw);
 	if (!body.success) {

@@ -17,8 +17,8 @@
 
 <div class="section">
 	<p>
-		Sliple is a <b>free</b> web game where you try to spell words by sliding letter tiles on a grid.
-		That's pretty much it.
+		Sliple is a free web game where you try to spell words by sliding letter tiles on a grid. That's
+		pretty much it. Hope you have fun!
 	</p>
 </div>
 
@@ -44,8 +44,8 @@
 	<h3>Support</h3>
 
 	<p>
-		I like Sliple and I don't like ads, so I'll try to keep the game ad-free for as long as I can
-		afford it. You can help cover the costs by donating if you want, but no worries if you don't.
+		I want to keep the game both free and ad-free. You can help me cover the running costs by
+		donating, but no worries if you don't.
 	</p>
 	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer">
 		<img width="150px" src="bmc.svg" alt="Buy me a coffee" />
