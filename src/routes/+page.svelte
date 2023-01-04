@@ -8,6 +8,7 @@
 	export let data: PageData;
 
 	$: latestIsNew = data.latest && !$userStore.puzzles[data.latest.id];
+	$: latestPuzzle = data.latest?.data;
 </script>
 
 <svelte:head>
@@ -30,7 +31,14 @@
 			{/if}
 
 			<h2>Latest puzzle</h2>
-			<p>Spell the word within the given moves</p>
+			<p>
+				{#if latestPuzzle}
+					Spell “<b>{latestPuzzle.solutions[0].toLowerCase()}</b>” within
+					<b>{latestPuzzle.maxMoves}</b> moves
+				{:else}
+					Solve the puzzle within the given moves
+				{/if}
+			</p>
 		</span>
 
 		<span class="puzzle-icon">
