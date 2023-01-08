@@ -4,12 +4,12 @@
 	import { RotateCcwIcon, ChevronRightIcon, StarIcon } from 'svelte-feather-icons';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-	import type { Puzzle_v2 } from '$lib/types/puzzle';
+	import type { Puzzle } from '$lib/types/puzzle';
 	import { getRank } from '$lib/utils/grid';
 
 	export let type: 'win' | 'lose';
 	export let moves: number;
-	export let puzzle: Puzzle_v2;
+	export let puzzle: Puzzle;
 
 	$: rank = getRank(puzzle.data, moves);
 

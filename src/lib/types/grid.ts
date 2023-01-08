@@ -9,17 +9,7 @@ export const tileSchema = z.object({
 	index: z.number().min(0).optional()
 });
 
-export const gridSchema_v1 = z.object({
-	width: z.number().min(1).max(10),
-	height: z.number().min(1).max(10),
-	numMovesTaken: z.number().min(0),
-	maxMoves: z.number().min(1).max(100),
-	mode: z.string().max(11),
-	solutions: z.array(z.string()),
-	tiles: z.array(tileSchema)
-});
-
-export const gridSchema_v2 = z.object({
+export const gridSchema = z.object({
 	width: z.number().min(1).max(10),
 	height: z.number().min(1).max(10),
 	numMovesTaken: z.number().min(0),
@@ -32,16 +22,6 @@ export const gridSchema_v2 = z.object({
 	solution: z.string(),
 	tiles: z.array(tileSchema)
 });
-
-export type Grid_v1 = {
-	width: number;
-	height: number;
-	numMovesTaken: number;
-	maxMoves: number;
-	mode: 'freestyle' | 'predefined';
-	solutions: string[];
-	tiles: Tile[];
-};
 
 export type Grid_v2 = {
 	width: number;
