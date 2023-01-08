@@ -1,4 +1,4 @@
-import type { Grid, WallTile, LetterTile, StickyTile, GoalTile } from '$lib/types/grid';
+import type { Grid_v1, WallTile, LetterTile, StickyTile, GoalTile } from '$lib/types/grid';
 import { nanoid } from 'nanoid';
 
 /**
@@ -14,7 +14,7 @@ import { nanoid } from 'nanoid';
  * Example of the letter A at (1,1): A1,1
  * Example of a goal (required) at (10,10): #G!10,10
  */
-export const parseGridFromString = (input: string): Grid => {
+export const parseGridFromString = (input: string): Grid_v1 => {
 	const [gridSettings, ...tiles] = input.split(';').filter((p) => !!p);
 	if (!tiles || tiles.length === 1) {
 		throw new Error('at least one tile is required');
@@ -37,7 +37,7 @@ const parseGridSettings = (part: string) => {
 
 	const parsedSolutions = solutions === '-' ? [] : solutions?.split('|') ?? [];
 
-	const state: Grid = {
+	const state: Grid_v1 = {
 		width: parseInt(w),
 		height: parseInt(h),
 		numMovesTaken: 0,

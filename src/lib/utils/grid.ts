@@ -1,5 +1,5 @@
 import type { Direction } from '$lib/stores/grid';
-import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
+import type { Tile, Grid_v1, Coordinates, CollisionType } from '$lib/types/grid';
 import { clamp } from './math';
 
 /**
@@ -12,7 +12,7 @@ import { clamp } from './math';
  * @returns
  */
 export const calculateNextPosition = (
-	grid: Grid,
+	grid: Grid_v1,
 	tileId: string,
 	direction: Direction
 ): Coordinates => {

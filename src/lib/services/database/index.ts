@@ -1,7 +1,7 @@
 import { DB_URI } from '$env/static/private';
-import type { Puzzle } from '$lib/types/puzzle';
+import type { Puzzle_v2 } from '$lib/types/puzzle';
 import mongoose from 'mongoose';
-import { PuzzleModel } from '../../schemas/puzzle';
+import { PuzzleModel_v1 } from '../../schemas/puzzle';
 
 /**
  * Connects to the database if not already connected
@@ -13,20 +13,20 @@ export const connectDB = async () => {
 	}
 };
 
-export const getAllPuzzles = async (): Promise<Puzzle[]> => {
-	const ps = await PuzzleModel.find({}).sort({ publishedAt: -1 }).exec();
+export const getAllPuzzles = async (): Promise<Puzzle_v2[]> => {
+	const ps = await PuzzleModel_v1.find({}).sort({ publishedAt: -1 }).exec();
 	return ps.map((p) => p.toObject());
 };
 
-export const getLatestPuzzle = async (): Promise<Puzzle | null> => {
-	const p = await PuzzleModel.findOne({}).sort({ publishedAt: -1 }).exec();
+export const getLatestPuzzle = async (): Promise<Puzzle_v2 | null> => {
+	const p = await PuzzleModel_v1.findOne({}).sort({ publishedAt: -1 }).exec();
 	if (!p) return null;
 
 	return p.toObject();
 };
 
-export const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
-	const p = await PuzzleModel.findOne({ id }).exec();
+export const getPuzzleById = async (id: string): Promise<Puzzle_v2 | null> => {
+	const p = await PuzzleModel_v1.findOne({ id }).exec();
 	if (!p) return null;
 
 	return p.toObject();

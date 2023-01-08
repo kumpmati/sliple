@@ -1,14 +1,14 @@
-import type { Tile, GoalTile, Grid, LetterTile } from '$lib/types/grid';
+import type { Tile, GoalTile, Grid_v1, LetterTile } from '$lib/types/grid';
 import { calculateNextPosition, canMove } from '$lib/utils/grid';
 import { normalizeWord } from '$lib/utils/word';
 import { derived, writable, type Readable } from 'svelte/store';
 
 export type Direction = 'top' | 'right' | 'left' | 'bottom';
 
-export type GridStore = Readable<Grid> & {
+export type GridStore = Readable<Grid_v1> & {
 	moveTile: (id: string, dir: Direction) => void;
 	getAt: (x: number, y: number) => Tile[];
-	setState: (grid: Grid) => void;
+	setState: (grid: Grid_v1) => void;
 	reset: () => void;
 	isAnswer: (value: string) => boolean;
 };
@@ -16,9 +16,9 @@ export type GridStore = Readable<Grid> & {
 /**
  * createGridStore initializes the grid store.
  */
-export const createGridStore = (initialState: Grid): GridStore => {
-	let _state = JSON.parse(JSON.stringify(initialState)) as Grid;
-	const state = writable<Grid>(_state);
+export const createGridStore = (initialState: Grid_v1): GridStore => {
+	let _state = JSON.parse(JSON.stringify(initialState)) as Grid_v1;
+	const state = writable<Grid_v1>(_state);
 
 	const moveTile = (id: string, dir: Direction) => {
 		state.update((prev) => {
@@ -47,7 +47,7 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		return found;
 	};
 
-	const setState = (s: Grid) => {
+	const setState = (s: Grid_v1) => {
 		state.set(s);
 	};
 
