@@ -23,6 +23,7 @@
 	<Logo />
 </div>
 
+<h3>Featured</h3>
 <div class="links">
 	<a class="link latest" class:new={latestIsNew} href="/puzzle/latest">
 		<span class="text">
@@ -30,7 +31,7 @@
 				<p class="new">New!</p>
 			{/if}
 
-			<h2>Latest puzzle</h2>
+			<h2>Featured puzzle</h2>
 			<p>
 				{#if latestPuzzle}
 					Spell “<b>{latestPuzzle.solution.toLowerCase()}</b>” within
@@ -56,10 +57,12 @@
 	</a>
 </div>
 
-<h3>Community (coming soon 🚧)</h3>
-<div class="links community">
-	<div class="link" />
-	<div class="link" />
+<h3>Campaign</h3>
+<div class="links">
+	<a class="link" href="/tutorial">
+		<h2>Tutorial</h2>
+		<HelpCircleIcon />
+	</a>
 </div>
 
 <style lang="scss">
@@ -88,7 +91,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
-		margin-bottom: 50px;
+		margin-bottom: 32px;
 	}
 
 	.link {
@@ -96,7 +99,7 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		padding: 14px 18px;
+		padding: 12px 24px;
 		color: var(--black);
 		text-decoration: none;
 
@@ -104,6 +107,7 @@
 		border-radius: var(--border-radius);
 
 		transition: transform 200ms;
+
 		&:active {
 			transform: scale(0.97);
 		}
@@ -150,36 +154,15 @@
 
 		h2 {
 			margin: 0;
-			font-size: 24px;
+			font-size: 20px;
 			font-family: var(--font-heading);
 		}
 
 		p {
 			margin: 0;
-			font-size: 16px;
+			font-size: 14px;
 			font-family: var(--font-body);
 			color: rgba(0, 0, 0, 0.5);
-		}
-	}
-
-	.community {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-
-		.link {
-			opacity: 0.25;
-			cursor: default;
-
-			div {
-				background-color: var(--gray);
-				display: block;
-				height: 20px;
-				width: 100%;
-				border-radius: var(--border-radius);
-				max-width: 70%;
-			}
 		}
 	}
 </style>

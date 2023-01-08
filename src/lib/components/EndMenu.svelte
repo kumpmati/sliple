@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import UnderlinedHeading from './UnderlinedHeading.svelte';
-	import { RotateCcwIcon, ChevronRightIcon, StarIcon } from 'svelte-feather-icons';
+	import { StarIcon } from 'svelte-feather-icons';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import { getRank } from '$lib/utils/grid';
 
-	export let type: 'win' | 'lose';
+	export let type: 'win' | 'loss';
 	export let moves: number;
 	export let puzzle: Puzzle;
 
@@ -16,12 +15,10 @@
 	const isGold = () => type === 'win' && rank === 'gold';
 	const isSilver = () => type === 'win' && ['silver', 'gold'].includes(rank!);
 	const isBronze = () => type === 'win' && ['bronze', 'silver', 'gold'].includes(rank!);
-
-	const dispatch = createEventDispatcher();
 </script>
 
 <div in:fade|local={{ duration: 200 }} class="content" class:win={type === 'win'}>
-	<span transition:fly|local={{ y: -10, duration: 500, easing: quintOut }}>
+	<span transition:fly|local={{ y: -20, duration: 500, delay: 0, easing: quintOut }}>
 		<UnderlinedHeading
 			style="font-size: 36px"
 			color={type === 'win' ? 'var(--green-light)' : 'var(--red-light)'}
@@ -40,7 +37,7 @@
 		</UnderlinedHeading>
 	</span>
 
-	<div class="stats">
+	<div class="stats" transition:fly|local={{ y: -10, duration: 200, delay: 100, easing: quintOut }}>
 		<span class="row">
 			<p>Moves used</p>
 			<p class="value">{moves} / {puzzle.data.maxMoves.bronze}</p>
@@ -56,34 +53,19 @@
 		</span>
 	</div>
 
-	<div class="buttons">
-		<button
-			transition:fly|local={{ y: -5, duration: 200, delay: 100, easing: quintOut }}
-			class="button reset"
-			class:highlight={type === 'lose'}
-			on:click={() => dispatch('reset')}
-		>
-			Retry
-			<RotateCcwIcon />
-		</button>
-
-		<a
-			href="/archive"
-			class="button more"
-			class:highlight={type === 'win'}
-			transition:fly|local={{ y: -5, duration: 200, delay: 150, easing: quintOut }}
-		>
-			More puzzles
-
-			<ChevronRightIcon />
-		</a>
+	<div
+		class="buttons"
+		transition:fly|local={{ y: -5, duration: 200, delay: 200, easing: quintOut }}
+	>
+		<slot />
 	</div>
 </div>
+
 <div class="underlay" />
 
 <style lang="scss">
 	.underlay {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -104,30 +86,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
-		&.win {
-			.reset {
-				border: 2px solid var(--gray-light);
-				background-color: var(--white);
-			}
-
-			.more {
-				border: 2px solid var(--green-dark);
-				background-color: var(--green-light);
-			}
-		}
-
-		&:not(.win) {
-			.reset {
-				border: 2px solid var(--red);
-				background-color: var(--red-light);
-			}
-
-			.more {
-				border: 2px solid var(--gray-light);
-				background-color: var(--white);
-			}
-		}
 
 		.stats {
 			display: flex;
@@ -182,24 +140,6 @@
 			flex-direction: column;
 			gap: 16px;
 			width: 100%;
-		}
-
-		.button {
-			text-decoration: none;
-			color: var(--black);
-			cursor: pointer;
-			border-radius: var(--border-radius);
-			font-family: var(--font-body);
-			font-size: 16px;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 8px 16px;
-			transition: transform 200ms;
-
-			&:active {
-				transform: scale(0.9);
-			}
 		}
 	}
 </style>

@@ -18,3 +18,8 @@ export type Puzzle = {
 	 */
 	version: string;
 };
+
+export type FinishEvent = {
+	type: 'win' | 'loss';
+	moves: number;
+};

@@ -1,13 +1,14 @@
 export type UserState = {
 	id: string;
-	puzzles: Record<string, Puzzle>;
+	puzzles: Record<string, PuzzleState>;
 };
 
-export type PuzzleStatus = 'none' | 'inprogress' | 'completed';
-export type PuzzleRank = 'gold' | 'silver' | 'bronze';
+export type CompletionStatus = 'none' | 'inprogress' | 'completed';
+export type CompletionRank = 'gold' | 'silver' | 'bronze';
 
-type Puzzle = {
+type PuzzleState = {
 	id: string;
-	status: 'none' | 'inprogress' | 'completed';
-	rank: PuzzleRank | null;
+	campaignId?: string;
+	status: CompletionStatus;
+	rank: CompletionRank | null;
 };
