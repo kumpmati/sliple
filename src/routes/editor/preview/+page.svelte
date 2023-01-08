@@ -16,7 +16,7 @@
 	const grid = createGridStore($editor);
 	const word = currentWord(grid);
 
-	$: movesExhausted = $grid.maxMoves === 0 ? false : $grid.numMovesTaken >= $grid.maxMoves;
+	$: movesExhausted = $grid.numMovesTaken >= $grid.maxMoves.bronze;
 	$: isAnswer = grid.isAnswer($word);
 
 	$: if (isAnswer) {
@@ -55,7 +55,7 @@
 		type={isAnswer ? 'win' : 'lose'}
 		heading={isAnswer ? 'Completed!' : 'Out of moves!'}
 		stats={{
-			moves: `${$grid.numMovesTaken} / ${$grid.maxMoves}`
+			moves: `${$grid.numMovesTaken} / ${$grid.maxMoves.bronze}`
 		}}
 		on:close={() => (showEndMenu = false)}
 		on:reset={() => {
@@ -74,15 +74,15 @@
 		<UnderlinedHeading color="var(--orange-light)">Preview</UnderlinedHeading>
 
 		<p>
-			Spell “<span class="highlight">{$grid.solutions[0]?.toLowerCase()}</span>” within
-			<span class="highlight">{$grid.maxMoves}</span> moves
+			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
+			<span class="highlight">{$grid.maxMoves.bronze}</span> moves
 		</p>
 	</div>
 
 	<div class="content">
 		<div class="stats">
 			<p>
-				{$grid.numMovesTaken} / {$grid.maxMoves} moves
+				{$grid.numMovesTaken} / {$grid.maxMoves.bronze} moves
 			</p>
 		</div>
 

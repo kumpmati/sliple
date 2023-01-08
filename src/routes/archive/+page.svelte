@@ -25,7 +25,7 @@
 <ul class="links">
 	{#each data.puzzles as puzzle (puzzle.id)}
 		{@const visited = !!$userStore.puzzles[puzzle.id]}
-		{@const solutions = puzzle.data.solutions.map((s) => s.toUpperCase()) ?? 'Puzzle'}
+		{@const solution = puzzle.data.solution.toUpperCase() ?? 'Puzzle'}
 
 		<li>
 			<a class="link" class:visited href="/puzzle/{puzzle.id}">
@@ -40,7 +40,7 @@
 				<span>
 					<p class="upper">{puzzle.publishedAt.toLocaleDateString()}</p>
 					<p class="lower">
-						{solutions.join(' | ')} - {puzzle.data.maxMoves} moves
+						{solution} - {puzzle.data.maxMoves.bronze} moves
 					</p>
 				</span>
 

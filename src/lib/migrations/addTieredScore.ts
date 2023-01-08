@@ -14,14 +14,15 @@ export const addTieredScore = {
 		const { mode, maxMoves, solutions, ...d } = puzzle.data;
 
 		return {
-			...puzzle,
+			id: puzzle.id,
+			publishedAt: puzzle.publishedAt,
 			data: {
 				...d,
 				solution: puzzle.data.solutions[0],
 				maxMoves: {
 					gold: maxMoves,
-					silver: null,
-					bronze: null
+					silver: maxMoves,
+					bronze: maxMoves
 				}
 			},
 			version: '2'

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { Grid } from '$lib/types/grid';
+	import type { Grid_v2 } from '$lib/types/grid';
 	import { isGoalTile } from '$lib/utils/typeguards';
 	import type { Writable } from 'svelte/store';
 
-	export let editor: Writable<Grid>;
+	export let editor: Writable<Grid_v2>;
 
-	$: $editor.solutions[0] = $editor.tiles
+	$: $editor.solution = $editor.tiles
 		.reduce<string[]>((s, tile) => {
 			if (!isGoalTile(tile)) return s;
 
@@ -17,8 +17,8 @@
 
 <div class="solution">
 	<h3>Solution</h3>
-	<p class:empty={$editor?.solutions?.length === 0}>
-		{$editor?.solutions?.length === 0 ? '< empty >' : $editor?.solutions?.[0]}
+	<p class:empty={$editor?.solution.length === 0}>
+		{$editor?.solution.length === 0 ? '< empty >' : $editor?.solution}
 	</p>
 </div>
 

@@ -49,8 +49,8 @@ export type Grid_v2 = {
 	numMovesTaken: number;
 	maxMoves: {
 		gold: number;
-		silver: number | null;
-		bronze: number | null;
+		silver: number;
+		bronze: number;
 	};
 	solution: string;
 	tiles: Tile[];

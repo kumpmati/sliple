@@ -1,15 +1,15 @@
-import { gridSchema_v1 } from '$lib/types/grid';
+import { gridSchema_v2 } from '$lib/types/grid';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import z from 'zod';
-import { PuzzleModel_v1 } from '$lib/schemas/puzzle';
+import { PuzzleModel_v2 } from '$lib/schemas/puzzle';
 import { nanoid } from 'nanoid';
 import { EDITOR_PASSWORD } from '$env/static/private';
 import { connectDB } from '$lib/services/database';
 
 const bodySchema = z.object({
 	password: z.string(),
-	level: gridSchema_v1
+	level: gridSchema_v2
 });
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const id = nanoid(15);
 
-	await new PuzzleModel_v1({
+	await new PuzzleModel_v2({
 		id: id,
 		data: body.data.level,
 		publishedAt: new Date()
