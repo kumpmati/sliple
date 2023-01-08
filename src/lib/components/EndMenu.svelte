@@ -7,7 +7,6 @@
 	import type { Puzzle_v2 } from '$lib/types/puzzle';
 	import { getRank } from '$lib/utils/grid';
 
-	export let heading: string;
 	export let type: 'win' | 'lose';
 	export let moves: number;
 	export let puzzle: Puzzle_v2;
@@ -27,7 +26,17 @@
 			style="font-size: 36px"
 			color={type === 'win' ? 'var(--green-light)' : 'var(--red-light)'}
 		>
-			{heading}
+			{#if type === 'win'}
+				{#if rank === 'gold'}
+					Perfect! 🎉
+				{:else if rank === 'silver'}
+					Great! 😊
+				{:else if rank === 'bronze'}
+					Passable 🙂
+				{/if}
+			{:else}
+				Out of moves!
+			{/if}
 		</UnderlinedHeading>
 	</span>
 

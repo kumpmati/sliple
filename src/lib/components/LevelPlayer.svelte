@@ -63,7 +63,6 @@
 {#if showEndMenu}
 	<EndMenu
 		type={isAnswer ? 'win' : 'lose'}
-		heading={isAnswer ? 'Completed!' : 'Out of moves!'}
 		moves={$grid.numMovesTaken}
 		{puzzle}
 		on:close={() => {
