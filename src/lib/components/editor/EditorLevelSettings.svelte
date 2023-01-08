@@ -115,9 +115,9 @@
 	</span>
 	<span class="row">
 		<p>Moves</p>
-		<p class="value">{$editor.maxMoves.gold}</p>
-		<p class="value">{$editor.maxMoves.silver}</p>
-		<p class="value">{$editor.maxMoves.bronze}</p>
+		<p class="value">
+			{$editor.maxMoves.gold} / {$editor.maxMoves.silver} / {$editor.maxMoves.bronze}
+		</p>
 	</span>
 </div>
 
