@@ -63,7 +63,7 @@
 			class:highlight={type === 'lose'}
 			on:click={() => dispatch('reset')}
 		>
-			Reset
+			Retry
 			<RotateCcwIcon />
 		</button>
 
