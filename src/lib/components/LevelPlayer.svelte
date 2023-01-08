@@ -6,12 +6,12 @@
 	import { userStore } from '$lib/stores/user';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
-	import type { Puzzle_v2 } from '$lib/types/puzzle';
+	import type { Puzzle } from '$lib/types/puzzle';
 	import { createEventDispatcher } from 'svelte';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { getRank } from '$lib/utils/grid';
 
-	export let puzzle: Puzzle_v2;
+	export let puzzle: Puzzle;
 	export let preview: boolean;
 
 	const dispatch = createEventDispatcher();

@@ -7,7 +7,7 @@ export const load: ServerLoad = async ({ setHeaders }) => {
 	const latest = await getLatestPuzzle();
 
 	setHeaders({
-		'Cache-Control': 'public, max-age=3600' // cache for 1 hour
+		'Cache-Control': 'public, max-age=300' // cache for 5 minutes
 	});
 
 	return {
