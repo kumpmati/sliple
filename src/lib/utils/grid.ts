@@ -1,6 +1,14 @@
 import type { Direction } from '$lib/stores/grid';
-import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
+import type { Tile, Grid_v2, Coordinates, CollisionType } from '$lib/types/grid';
+import type { PuzzleRank } from '$lib/types/user';
 import { clamp } from './math';
+
+export const getRank = (grid: Grid_v2, moves: number): PuzzleRank | null => {
+	if (moves <= grid.maxMoves.gold) return 'gold';
+	if (moves <= grid.maxMoves.silver) return 'silver';
+	if (moves <= grid.maxMoves.bronze) return 'bronze';
+	return null;
+};
 
 /**
  * calculateNextPosition gets the grid, a tile ID and a direction as the input,
@@ -12,7 +20,7 @@ import { clamp } from './math';
  * @returns
  */
 export const calculateNextPosition = (
-	grid: Grid,
+	grid: Grid_v2,
 	tileId: string,
 	direction: Direction
 ): Coordinates => {

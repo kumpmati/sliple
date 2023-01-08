@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Grid } from '$lib/types/grid';
+	import type { Grid_v2 } from '$lib/types/grid';
 	import { createEventDispatcher } from 'svelte';
 	import { EditIcon } from 'svelte-feather-icons';
 	import type { Writable } from 'svelte/store';
 	import Modal from '../Modal.svelte';
 	import NumberField from '../NumberField.svelte';
 
-	export let editor: Writable<Grid>;
+	export let editor: Writable<Grid_v2>;
 
 	const dispatch = createEventDispatcher();
 
@@ -65,10 +65,32 @@
 				</span>
 
 				<span class="row">
-					Moves
+					Moves (gold)
 
 					<NumberField
-						bind:value={maxMoves}
+						bind:value={maxMoves.gold}
+						min={1}
+						max={100}
+						style="width: 10ch; font-family: var(--font-heading); font-weight: bold"
+					/>
+				</span>
+
+				<span class="row">
+					Moves (silver)
+
+					<NumberField
+						bind:value={maxMoves.silver}
+						min={1}
+						max={100}
+						style="width: 10ch; font-family: var(--font-heading); font-weight: bold"
+					/>
+				</span>
+
+				<span class="row">
+					Moves (bronze)
+
+					<NumberField
+						bind:value={maxMoves.bronze}
 						min={1}
 						max={100}
 						style="width: 10ch; font-family: var(--font-heading); font-weight: bold"
@@ -92,8 +114,10 @@
 		<p class="value">{$editor.width}x{$editor.height}</p>
 	</span>
 	<span class="row">
-		<p>Number of moves</p>
-		<p class="value">{$editor.maxMoves}</p>
+		<p>Moves</p>
+		<p class="value">
+			{$editor.maxMoves.gold} / {$editor.maxMoves.silver} / {$editor.maxMoves.bronze}
+		</p>
 	</span>
 </div>
 

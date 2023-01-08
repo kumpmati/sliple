@@ -1,2 +1,2 @@
-export const normalizeWord = (w: string): string =>
-	w.toLowerCase().replaceAll('_', ' ').trim().replaceAll(' ', '_');
+export const normalizeWord = (w: string | undefined): string =>
+	w?.toLowerCase().replaceAll('_', ' ').trim().replaceAll(' ', '_') ?? '';
