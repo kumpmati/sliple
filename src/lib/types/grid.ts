@@ -23,7 +23,7 @@ export const gridSchema = z.object({
 	tiles: z.array(tileSchema)
 });
 
-export type Grid_v2 = {
+export type Grid = {
 	width: number;
 	height: number;
 	numMovesTaken: number;

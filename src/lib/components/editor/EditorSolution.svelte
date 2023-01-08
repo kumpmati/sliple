@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Grid_v2 } from '$lib/types/grid';
+	import type { Grid } from '$lib/types/grid';
 	import { isGoalTile } from '$lib/utils/typeguards';
 	import type { Writable } from 'svelte/store';
 
-	export let editor: Writable<Grid_v2>;
+	export let editor: Writable<Grid>;
 
 	$: $editor.solution = $editor.tiles
 		.reduce<string[]>((s, tile) => {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Grid_v2, Tile } from '$lib/types/grid';
+	import type { Grid, Tile } from '$lib/types/grid';
 	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
 	import Sortable from 'sortablejs';
 	import { createEventDispatcher, onMount } from 'svelte';
@@ -9,7 +9,7 @@
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
 	import WallGraphic from '../graphics/WallGraphic.svelte';
 
-	export let editor: Writable<Grid_v2>;
+	export let editor: Writable<Grid>;
 	export let currentTile: Tile | null;
 
 	let sortable: any;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Grid_v2 } from '$lib/types/grid';
+	import type { Grid } from '$lib/types/grid';
 	import { onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import Sortable from 'sortablejs';
@@ -9,7 +9,7 @@
 	import GoalGraphic from '../graphics/GoalGraphic.svelte';
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
 
-	export let editor: Writable<Grid_v2>;
+	export let editor: Writable<Grid>;
 
 	const dispatch = createEventDispatcher();
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Grid_v2, Tile } from '$lib/types/grid';
+	import type { Grid, Tile } from '$lib/types/grid';
 	import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
 	import { createEventDispatcher } from 'svelte';
 	import { TrashIcon } from 'svelte-feather-icons';
@@ -9,7 +9,7 @@
 	import TextField from '../TextField.svelte';
 
 	export let currentTile: Tile | null;
-	export let editor: Writable<Grid_v2>;
+	export let editor: Writable<Grid>;
 	export let showModal: boolean;
 
 	const dispatch = createEventDispatcher();
