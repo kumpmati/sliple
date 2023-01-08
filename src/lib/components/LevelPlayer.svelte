@@ -9,6 +9,7 @@
 	import type { Puzzle_v2 } from '$lib/types/puzzle';
 	import { createEventDispatcher } from 'svelte';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { getRank } from '$lib/utils/grid';
 
 	export let puzzle: Puzzle_v2;
 	export let preview: boolean;
@@ -24,7 +25,9 @@
 	$: isAnswer = grid.isAnswer($word);
 
 	$: if (isAnswer) {
-		if (!preview) userStore.setPuzzleStatus(puzzle.id, 'completed');
+		if (!preview) {
+			userStore.setPuzzleStatus(puzzle.id, 'completed', getRank($grid, $grid.numMovesTaken));
+		}
 		setTimeout(() => (showEndMenu = true), 500);
 	}
 
@@ -33,10 +36,12 @@
 	}
 
 	if (!$userStore.puzzles[puzzle.id]) {
-		if (!preview) userStore.setPuzzleStatus(puzzle.id, 'inprogress');
+		if (!preview) userStore.setPuzzleStatus(puzzle.id, 'inprogress', null);
 	}
 
 	const handleSwipe = (e: CustomEvent) => {
+		if (movesExhausted) return;
+
 		const dir = e.detail.direction;
 		const id = e.detail.target.dataset?.['tileId'];
 		if (!id) return;
@@ -59,9 +64,8 @@
 	<EndMenu
 		type={isAnswer ? 'win' : 'lose'}
 		heading={isAnswer ? 'Completed!' : 'Out of moves!'}
-		stats={{
-			moves: `${$grid.numMovesTaken} / ${$grid.maxMoves.bronze}`
-		}}
+		moves={$grid.numMovesTaken}
+		{puzzle}
 		on:close={() => {
 			showEndMenu = false;
 			dispatch('close');
