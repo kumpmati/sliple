@@ -1,42 +1,28 @@
 <script lang="ts">
 	import Grid from '$lib/components/grid/Grid.svelte';
 	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
-	import { createGridStore, currentWord } from '$lib/stores/grid';
+	import { currentWord, type GridStore } from '$lib/stores/grid';
 	import { swipe } from 'svelte-gestures';
-	import { userStore } from '$lib/stores/user';
-	import EndMenu from '$lib/components/EndMenu.svelte';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
-	import type { Puzzle } from '$lib/types/puzzle';
 	import { createEventDispatcher } from 'svelte';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
-	import { getRank } from '$lib/utils/grid';
+	import type { FinishEvent } from '$lib/types/puzzle';
 
-	export let puzzle: Puzzle;
-	export let preview: boolean;
+	export let title: string;
+	export let grid: GridStore;
 
-	const dispatch = createEventDispatcher();
-
-	let showEndMenu = false;
-
-	const grid = createGridStore(puzzle.data);
+	const dispatch = createEventDispatcher<{ finish: FinishEvent }>();
 	const word = currentWord(grid);
 
 	$: movesExhausted = $grid.numMovesTaken >= $grid.maxMoves.bronze;
 	$: isAnswer = grid.isAnswer($word);
 
 	$: if (isAnswer) {
-		if (!preview) {
-			userStore.markPuzzleComplete(puzzle.id, 'completed', getRank($grid, $grid.numMovesTaken));
-		}
-		setTimeout(() => (showEndMenu = true), 500);
+		dispatch('finish', { type: 'win', moves: $grid.numMovesTaken });
 	}
 
 	$: if (movesExhausted && !isAnswer) {
-		setTimeout(() => (showEndMenu = true), 500);
-	}
-
-	if (!$userStore.puzzles[puzzle.id]) {
-		if (!preview) userStore.markPuzzleInProgress(puzzle.id);
+		dispatch('finish', { type: 'loss', moves: $grid.numMovesTaken });
 	}
 
 	const handleSwipe = (e: CustomEvent) => {
@@ -60,23 +46,6 @@
 	</button>
 </nav>
 
-{#if showEndMenu}
-	<EndMenu
-		type={isAnswer ? 'win' : 'lose'}
-		moves={$grid.numMovesTaken}
-		{puzzle}
-		on:close={() => {
-			showEndMenu = false;
-			dispatch('close');
-		}}
-		on:reset={() => {
-			grid.reset();
-			showEndMenu = false;
-			dispatch('reset');
-		}}
-	/>
-{/if}
-
 <span
 	class="container"
 	use:swipe={{ minSwipeDistance: 20, timeframe: 500, touchAction: 'none' }}
@@ -84,13 +53,10 @@
 >
 	<div class="heading">
 		<UnderlinedHeading color="var(--orange-light)">
-			{puzzle.publishedAt.toLocaleDateString()}
+			{title}
 		</UnderlinedHeading>
 
-		<p>
-			Spell “<span class="highlight">{puzzle.data.solution.toLowerCase()}</span>” within
-			<span class="highlight">{puzzle.data.maxMoves.bronze}</span> moves
-		</p>
+		<slot name="description" />
 	</div>
 
 	<div class="content">
@@ -133,21 +99,21 @@
 		}
 	}
 
+	.container {
+		min-height: 400px;
+		max-height: 700px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 100%;
+	}
+
 	.heading {
 		margin-top: 16px;
 		margin-bottom: 32px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
-		p {
-			color: var(--gray);
-		}
-
-		.highlight {
-			font-weight: bold;
-			color: var(--black);
-		}
 	}
 
 	.content {

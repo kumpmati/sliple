@@ -1,9 +1,9 @@
 import type { Direction } from '$lib/stores/grid';
 import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
-import type { PuzzleRank } from '$lib/types/user';
+import type { CompletionRank } from '$lib/types/user';
 import { clamp } from './math';
 
-export const getRank = (grid: Grid, moves: number): PuzzleRank | null => {
+export const getRank = (grid: Grid, moves: number): CompletionRank | null => {
 	if (moves <= grid.maxMoves.gold) return 'gold';
 	if (moves <= grid.maxMoves.silver) return 'silver';
 	if (moves <= grid.maxMoves.bronze) return 'bronze';
@@ -13,7 +13,7 @@ export const getRank = (grid: Grid, moves: number): PuzzleRank | null => {
 /**
  * Returns true if `a` is the same rank or a higher rank than `b`
  */
-export const isHigherRank = (a: PuzzleRank | null, b: PuzzleRank | null): boolean => {
+export const isHigherRank = (a: CompletionRank | null, b: CompletionRank | null): boolean => {
 	const ranks = ['gold', 'silver', 'bronze', null, undefined];
 
 	const aIndex = ranks.indexOf(a);
