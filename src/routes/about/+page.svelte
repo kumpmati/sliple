@@ -52,6 +52,10 @@
 	</a>
 </div>
 
+<div class="section">
+	<pre>v1.0.0</pre>
+</div>
+
 <style lang="scss">
 	.heading {
 		display: flex;
