@@ -33,8 +33,12 @@
 			<h2>Latest puzzle</h2>
 			<p>
 				{#if latestPuzzle}
-					Spell “<b>{latestPuzzle.solutions[0].toLowerCase()}</b>” within
-					<b>{latestPuzzle.maxMoves}</b> moves
+					Spell “<b>{latestPuzzle.solution.toLowerCase()}</b>” within
+					<b
+						>{latestPuzzle.maxMoves.bronze ??
+							latestPuzzle.maxMoves.silver ??
+							latestPuzzle.maxMoves.gold}</b
+					> moves
 				{:else}
 					Solve the puzzle within the given moves
 				{/if}
