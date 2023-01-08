@@ -26,7 +26,7 @@
 
 	$: if (isAnswer) {
 		if (!preview) {
-			userStore.setPuzzleStatus(puzzle.id, 'completed', getRank($grid, $grid.numMovesTaken));
+			userStore.markPuzzleComplete(puzzle.id, 'completed', getRank($grid, $grid.numMovesTaken));
 		}
 		setTimeout(() => (showEndMenu = true), 500);
 	}
@@ -36,7 +36,7 @@
 	}
 
 	if (!$userStore.puzzles[puzzle.id]) {
-		if (!preview) userStore.setPuzzleStatus(puzzle.id, 'inprogress', null);
+		if (!preview) userStore.markPuzzleInProgress(puzzle.id);
 	}
 
 	const handleSwipe = (e: CustomEvent) => {

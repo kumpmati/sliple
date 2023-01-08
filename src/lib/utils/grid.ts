@@ -11,6 +11,18 @@ export const getRank = (grid: Grid_v2, moves: number): PuzzleRank | null => {
 };
 
 /**
+ * Returns true if `a` is the same rank or a higher rank than `b`
+ */
+export const isHigherRank = (a: PuzzleRank | null, b: PuzzleRank | null): boolean => {
+	const ranks = ['gold', 'silver', 'bronze', null, undefined];
+
+	const aIndex = ranks.indexOf(a);
+	const bIndex = ranks.indexOf(b);
+
+	return aIndex <= bIndex;
+};
+
+/**
  * calculateNextPosition gets the grid, a tile ID and a direction as the input,
  * and calculates the ending position for that tile when moved in the direction.
  * It takes into account all the encountered tile types, like walls and sticky tiles.

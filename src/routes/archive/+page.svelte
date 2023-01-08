@@ -5,7 +5,9 @@
 	import PuzzleIcon from '$lib/components/graphics/PuzzleIcon.svelte';
 	import { ChevronRightIcon } from 'svelte-feather-icons';
 	import { userStore } from '$lib/stores/user';
-	import CompletedPuzzleIcon from '$lib/components/graphics/CompletedPuzzleIcon.svelte';
+	import CompletedPuzzleIconGold from '$lib/components/graphics/CompletedPuzzleIconGold.svelte';
+	import CompletedPuzzleIconSilver from '$lib/components/graphics/CompletedPuzzleIconSilver.svelte';
+	import CompletedPuzzleIconBronze from '$lib/components/graphics/CompletedPuzzleIconBronze.svelte';
 
 	export let data: PageData;
 </script>
@@ -24,14 +26,22 @@
 
 <ul class="links">
 	{#each data.puzzles as puzzle (puzzle.id)}
-		{@const visited = !!$userStore.puzzles[puzzle.id]}
-		{@const solution = puzzle.data.solution.toUpperCase() ?? 'Puzzle'}
+		{@const status = $userStore.puzzles[puzzle.id]}
+		{@const solution = puzzle.data.solution.toUpperCase()}
 
 		<li>
-			<a class="link" class:visited href="/puzzle/{puzzle.id}">
+			<a class="link" class:visited={!!status} href="/puzzle/{puzzle.id}">
 				<span class="icon">
-					{#if $userStore.puzzles?.[puzzle.id]?.status === 'completed'}
-						<CompletedPuzzleIcon />
+					{#if status?.status === 'completed'}
+						{#if status?.rank === 'gold'}
+							<CompletedPuzzleIconGold />
+						{:else if status.rank === 'silver'}
+							<CompletedPuzzleIconSilver />
+						{:else if status.rank === 'bronze'}
+							<CompletedPuzzleIconBronze />
+						{:else}
+							<CompletedPuzzleIconBronze />
+						{/if}
 					{:else}
 						<PuzzleIcon />
 					{/if}
