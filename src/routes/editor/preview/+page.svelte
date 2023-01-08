@@ -11,5 +11,5 @@
 
 <LevelPlayer
 	puzzle={{ data: $editor, id: 'test', version: '2', publishedAt: new Date() }}
-	preview={false}
+	preview={true}
 />
