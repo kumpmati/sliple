@@ -1,11 +1,12 @@
-import type { PuzzleRank, PuzzleStatus, UserState } from '$lib/types/user';
+import type { CompletionRank, CompletionStatus, UserState } from '$lib/types/user';
 import { isHigherRank } from '$lib/utils/grid';
 import { writable } from 'svelte-local-storage-store';
 import type { Readable } from 'svelte/store';
 
 export type UserStore = Readable<UserState> & {
 	markPuzzleInProgress: (id: string) => void;
-	markPuzzleComplete: (id: string, status: PuzzleStatus, rank: PuzzleRank | null) => void;
+	markPuzzleComplete: (id: string, status: CompletionStatus, rank: CompletionRank | null) => void;
+	deletePuzzleProgress: (id: string) => void;
 };
 
 const createUserStore = (): UserStore => {
@@ -14,17 +15,21 @@ const createUserStore = (): UserStore => {
 		puzzles: {}
 	});
 
-	const markPuzzleComplete = (id: string, status: PuzzleStatus, rank: PuzzleRank | null) => {
+	const markPuzzleComplete = (
+		id: string,
+		status: CompletionStatus,
+		rank: CompletionRank | null,
+		campaignId?: string
+	) => {
 		state.update((prev) => {
-			console.log(prev.puzzles[id].rank, rank);
-
 			prev.puzzles[id] = {
 				id,
+				campaignId,
 				status,
-
 				// keep the higher rank of the two, so that you can't go down a rank
 				rank: isHigherRank(rank, prev.puzzles[id]?.rank) ? rank : prev.puzzles[id].rank
 			};
+
 			return prev;
 		});
 	};
@@ -43,10 +48,18 @@ const createUserStore = (): UserStore => {
 		});
 	};
 
+	const deletePuzzleProgress = (id: string) => {
+		state.update((prev) => {
+			delete prev.puzzles[id];
+			return prev;
+		});
+	};
+
 	return {
 		subscribe: state.subscribe,
 		markPuzzleComplete,
-		markPuzzleInProgress
+		markPuzzleInProgress,
+		deletePuzzleProgress
 	};
 };
 

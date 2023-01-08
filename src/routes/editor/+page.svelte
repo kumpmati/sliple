@@ -43,7 +43,14 @@
 
 	<span class="right">
 		<a href="/editor/preview"><PlayIcon /></a>
-		<button on:click={() => (showSaveModal = true)}><SaveIcon /></button>
+		<button
+			on:click={() => {
+				showSaveModal = true;
+				console.log($editor);
+			}}
+		>
+			<SaveIcon />
+		</button>
 	</span>
 </nav>
 
