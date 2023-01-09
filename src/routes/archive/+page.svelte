@@ -96,7 +96,7 @@
 			grid-template-columns: auto 1fr auto;
 			gap: 16px;
 			align-items: center;
-			border-radius: var(--border-radius-big);
+			border-radius: var(--border-radius);
 			color: var(--gray);
 			text-decoration: none;
 			padding: 4px;
