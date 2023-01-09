@@ -53,7 +53,7 @@
 
 	<a class="link" href="/archive">
 		<h2>Puzzle archive</h2>
-		<ArchiveIcon size="30" strokeWidth={2} />
+		<ArchiveIcon strokeWidth={2} />
 	</a>
 </div>
 
