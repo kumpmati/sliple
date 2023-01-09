@@ -11,7 +11,7 @@
 	export let title: string;
 	export let grid: GridStore;
 
-	const dispatch = createEventDispatcher<{ finish: FinishEvent }>();
+	const dispatch = createEventDispatcher<{ finish: FinishEvent; reset: null }>();
 	const word = currentWord(grid);
 
 	$: movesExhausted = $grid.numMovesTaken >= $grid.maxMoves.bronze;
@@ -41,7 +41,7 @@
 		<ArrowLeftIcon />
 	</button>
 
-	<button class="reset" on:click={grid.reset}>
+	<button class="reset" on:click={() => dispatch('reset')}>
 		<RotateCcwIcon />
 	</button>
 </nav>
@@ -80,6 +80,7 @@
 	nav {
 		display: flex;
 		justify-content: space-between;
+		z-index: 2;
 	}
 
 	.back,
