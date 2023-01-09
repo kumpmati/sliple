@@ -103,16 +103,22 @@
 		color: var(--black);
 		text-decoration: none;
 
-		background-color: var(--gray-light);
+		background-color: var(--white);
+		border: 2px solid var(--gray-light);
 		border-radius: var(--border-radius);
 
 		transition: transform 200ms;
+
+		&:hover {
+			transform: scale(1.01);
+		}
 
 		&:active {
 			transform: scale(0.97);
 		}
 
 		&.latest {
+			border-color: transparent;
 			position: relative;
 			background-color: var(--orange-light);
 

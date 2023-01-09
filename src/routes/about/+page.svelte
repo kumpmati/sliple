@@ -1,4 +1,5 @@
 <script>
+	import { version } from '$app/environment';
 	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
 	import { ArrowLeftIcon } from 'svelte-feather-icons';
 </script>
@@ -53,7 +54,7 @@
 </div>
 
 <div class="section">
-	<pre>v1.0.0</pre>
+	<pre>{version}</pre>
 </div>
 
 <style lang="scss">
