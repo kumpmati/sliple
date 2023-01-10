@@ -3,7 +3,7 @@
 	import { userStore } from '$lib/stores/user';
 	import type { Campaign } from '$lib/types/campaign';
 	import type { FinishEvent } from '$lib/types/puzzle';
-	import { ArrowLeftIcon, ChevronRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronRightIcon, GridIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { createEventDispatcher } from 'svelte';
 	import Button from '../Button.svelte';
 	import EndMenu from '../EndMenu.svelte';
@@ -55,9 +55,9 @@
 	<title>{data.name}</title>
 </svelte:head>
 
-<p class="name">
+<a class="name" href="/campaign/{data.id}">
 	{data.name} ({currentLevel + 1} / {data.levels.length})
-</p>
+</a>
 
 {#if showMenu}
 	<EndMenu
@@ -68,6 +68,11 @@
 		<Button on:click={handleResetLevel} color="red" highlight={endType === 'loss'}>
 			Try again
 			<RotateCcwIcon />
+		</Button>
+
+		<Button on:click={() => goto(`/campaign/${data.id}`)}>
+			Levels
+			<GridIcon />
 		</Button>
 
 		{#if endType === 'win'}
@@ -107,8 +112,11 @@
 
 	.name {
 		position: absolute;
-		top: 2px;
+		top: 20px;
 		left: 50%;
 		transform: translateX(-50%);
+		text-decoration: none;
+		color: var(--gray);
+		z-index: 3;
 	}
 </style>

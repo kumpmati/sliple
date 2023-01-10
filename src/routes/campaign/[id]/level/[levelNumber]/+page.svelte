@@ -5,7 +5,7 @@
 
 	export let data: PageData;
 
-	const handleNextLevel = (e: CustomEvent) => {
+	const handleNextLevel = () => {
 		goto(`/campaign/${data.campaign.id}/level/${data.levelNumber + 1}`);
 	};
 </script>

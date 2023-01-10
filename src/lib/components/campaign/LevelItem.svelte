@@ -28,7 +28,7 @@
 		color: var(--black);
 		border: 2px solid var(--gray-light);
 		border-radius: var(--border-radius);
-		width: 100%;
+		width: 60px;
 		height: 60px;
 		display: grid;
 		place-content: center;
@@ -37,6 +37,7 @@
 			font-family: var(--font-heading);
 			font-size: 20px;
 			font-weight: bold;
+			margin: 0;
 		}
 
 		.rank {
@@ -48,8 +49,8 @@
 
 		&.gold {
 			color: var(--white);
-			border-color: #fbcd57;
-			background-color: #fbcd57;
+			border-color: #f3c54f;
+			background-color: #f3c54f;
 		}
 
 		&.silver {

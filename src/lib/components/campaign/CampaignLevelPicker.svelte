@@ -21,12 +21,22 @@
 	ul {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-		padding: 0;
-		gap: 16px;
+		padding: 16px;
+		gap: 8px;
 		list-style: none;
 	}
 
 	a {
+		display: block;
 		text-decoration: none;
+		transition: transform 200ms;
+
+		&:hover {
+			transform: scale(1.05);
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
 	}
 </style>
