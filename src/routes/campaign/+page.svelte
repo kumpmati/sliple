@@ -52,13 +52,5 @@
 		width: 100%;
 		padding: 16px;
 		list-style: none;
-
-		li {
-			transition: transform 200ms;
-
-			&:hover {
-				transform: scale(1.03);
-			}
-		}
 	}
 </style>

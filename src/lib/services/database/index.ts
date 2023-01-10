@@ -1,4 +1,6 @@
 import { DB_URI } from '$env/static/private';
+import { CampaignModel } from '$lib/schemas/campaign';
+import type { Campaign } from '$lib/types/campaign';
 import type { Puzzle } from '$lib/types/puzzle';
 import mongoose from 'mongoose';
 import { PuzzleModel } from '../../schemas/puzzle';
@@ -30,4 +32,16 @@ export const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
 	if (!p) return null;
 
 	return p.toObject();
+};
+
+export const getAllCampaigns = async (): Promise<Campaign[]> => {
+	const cs = await CampaignModel.find({}).sort({ publishedAt: -1 }).exec();
+	return cs.map((c) => c.toObject());
+};
+
+export const getCampaignById = async (id: string): Promise<Campaign | null> => {
+	const c = await CampaignModel.findOne({ id }).exec();
+	if (!c) return null;
+
+	return c.toObject();
 };
