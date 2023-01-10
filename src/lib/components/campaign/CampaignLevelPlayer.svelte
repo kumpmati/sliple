@@ -70,10 +70,12 @@
 			<RotateCcwIcon />
 		</Button>
 
-		<Button on:click={() => goto(`/campaign/${data.id}`)}>
-			Levels
-			<GridIcon />
-		</Button>
+		{#if !isLastOne}
+			<Button on:click={() => goto(`/campaign/${data.id}`)}>
+				Levels
+				<GridIcon />
+			</Button>
+		{/if}
 
 		{#if endType === 'win'}
 			<Button on:click={handleNextLevel} color="green" highlight={endType === 'win'}>
