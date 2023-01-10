@@ -1,10 +1,20 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import CampaignListItem from '$lib/components/campaign/CampaignListItem.svelte';
 	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
+	import { showTutorial } from '$lib/stores/tutorial';
 	import { ArrowLeftIcon } from 'svelte-feather-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	$: if (browser && $showTutorial) {
+		const yes = confirm('Do you want to do a tutorial first?');
+		if (yes) goto('/tutorial');
+
+		$showTutorial = false;
+	}
 </script>
 
 <svelte:head>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { userStore } from '$lib/stores/user';
-	import type { Campaign, CampaignLevel } from '$lib/types/campaign';
+	import type { Campaign } from '$lib/types/campaign';
 	import { ChevronRightIcon } from 'svelte-feather-icons';
 	import OneStar from './OneStar.svelte';
 	import ThreeStar from './ThreeStar.svelte';
