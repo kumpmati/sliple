@@ -52,7 +52,13 @@
 	</EndMenu>
 {/if}
 
-<LevelPlayer {grid} title="Editor preview" on:finish={handleFinish} on:reset={handleReset}>
+<LevelPlayer
+	backLink="/editor"
+	{grid}
+	title="Editor preview"
+	on:finish={handleFinish}
+	on:reset={handleReset}
+>
 	<p slot="description">
 		Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
 		<span class="highlight">{$grid.maxMoves.bronze}</span> moves
