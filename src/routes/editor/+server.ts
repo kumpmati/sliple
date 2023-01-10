@@ -15,10 +15,11 @@ const bodySchema = z.object({
 export const POST: RequestHandler = async ({ request }) => {
 	await connectDB();
 
-	const raw = await request.json();
-	const body = bodySchema.safeParse(raw);
+	const unsafeBody = await request.json();
+	const body = bodySchema.safeParse(unsafeBody);
+
 	if (!body.success) {
-		throw error(400, 'malformed body');
+		throw error(400, 'malformed');
 	}
 
 	if (!EDITOR_PASSWORD || body.data.password !== EDITOR_PASSWORD) {

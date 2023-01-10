@@ -2,7 +2,7 @@
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { userStore } from '$lib/stores/user';
-	import { ArchiveIcon, HelpCircleIcon } from 'svelte-feather-icons';
+	import { HelpCircleIcon, ListIcon, PlayIcon } from 'svelte-feather-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -25,7 +25,7 @@
 
 <h3>Featured</h3>
 <div class="links">
-	<a class="link latest" class:new={latestIsNew} href="/puzzle/latest">
+	<a class="link highlight" class:new={latestIsNew} href="/puzzle/latest">
 		<span class="text">
 			{#if latestIsNew}
 				<p class="new">New!</p>
@@ -53,12 +53,17 @@
 
 	<a class="link" href="/archive">
 		<h2>Puzzle archive</h2>
-		<ArchiveIcon size="30" strokeWidth={2} />
+		<ListIcon />
 	</a>
 </div>
 
 <h3>Campaign</h3>
-<div class="links">
+<div class="links campaign">
+	<a class="link" href="/campaign">
+		<h2>Play</h2>
+		<PlayIcon />
+	</a>
+
 	<a class="link" href="/tutorial">
 		<h2>Tutorial</h2>
 		<HelpCircleIcon />
@@ -94,6 +99,14 @@
 		margin-bottom: 32px;
 	}
 
+	.campaign {
+		flex-direction: row;
+
+		@media screen and (max-width: 550px) {
+			flex-direction: column;
+		}
+	}
+
 	.link {
 		display: flex;
 		align-items: center;
@@ -117,7 +130,7 @@
 			transform: scale(0.97);
 		}
 
-		&.latest {
+		&.highlight {
 			border-color: transparent;
 			position: relative;
 			background-color: var(--orange-light);
