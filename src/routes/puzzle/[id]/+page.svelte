@@ -65,6 +65,7 @@
 {/if}
 
 <LevelPlayer
+	backLink="/"
 	{grid}
 	title={data.puzzle.publishedAt.toLocaleDateString('fi-FI')}
 	on:finish={handleFinish}

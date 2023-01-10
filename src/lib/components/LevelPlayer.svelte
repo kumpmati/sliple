@@ -7,9 +7,11 @@
 	import { createEventDispatcher } from 'svelte';
 	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import type { FinishEvent } from '$lib/types/puzzle';
+	import { goto } from '$app/navigation';
 
 	export let title: string;
 	export let grid: GridStore;
+	export let backLink: string;
 
 	const dispatch = createEventDispatcher<{ finish: FinishEvent; reset: null }>();
 	const word = currentWord(grid);
@@ -37,7 +39,7 @@
 </script>
 
 <nav>
-	<button class="back" on:click={() => history.back()}>
+	<button class="back" on:click={() => goto(backLink)}>
 		<ArrowLeftIcon />
 	</button>
 

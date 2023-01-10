@@ -2,7 +2,7 @@
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { userStore } from '$lib/stores/user';
-	import { ArchiveIcon, HelpCircleIcon } from 'svelte-feather-icons';
+	import { GridIcon, HelpCircleIcon, ListIcon, PlayIcon } from 'svelte-feather-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -25,7 +25,7 @@
 
 <h3>Featured</h3>
 <div class="links">
-	<a class="link latest" class:new={latestIsNew} href="/puzzle/latest">
+	<a class="link highlight" class:new={latestIsNew} href="/puzzle/latest">
 		<span class="text">
 			{#if latestIsNew}
 				<p class="new">New!</p>
@@ -53,12 +53,17 @@
 
 	<a class="link" href="/archive">
 		<h2>Puzzle archive</h2>
-		<ArchiveIcon size="30" strokeWidth={2} />
+		<ListIcon />
 	</a>
 </div>
 
-<h3>Campaign</h3>
+<h3>Other</h3>
 <div class="links">
+	<a class="link purple" href="/campaign">
+		<h2>Campaigns</h2>
+		<GridIcon size="48" strokeWidth={1} />
+	</a>
+
 	<a class="link" href="/tutorial">
 		<h2>Tutorial</h2>
 		<HelpCircleIcon />
@@ -110,14 +115,19 @@
 		transition: transform 200ms;
 
 		&:hover {
-			transform: scale(1.01);
+			transform: scale(1.025);
 		}
 
 		&:active {
 			transform: scale(0.97);
 		}
 
-		&.latest {
+		&.purple {
+			border-color: transparent;
+			background-color: var(--purple-light);
+		}
+
+		&.highlight {
 			border-color: transparent;
 			position: relative;
 			background-color: var(--orange-light);
