@@ -45,3 +45,13 @@ export const getCampaignById = async (id: string): Promise<Campaign | null> => {
 
 	return c.toObject();
 };
+
+export const updateCampaign = async (
+	id: string,
+	body: Partial<Campaign>
+): Promise<Campaign | null> => {
+	const c = await CampaignModel.findOneAndUpdate({ id }, body).exec();
+	if (!c) return null;
+
+	return c.toObject();
+};

@@ -2,7 +2,7 @@
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { userStore } from '$lib/stores/user';
-	import { HelpCircleIcon, ListIcon, PlayIcon } from 'svelte-feather-icons';
+	import { GridIcon, HelpCircleIcon, ListIcon, PlayIcon } from 'svelte-feather-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -57,11 +57,11 @@
 	</a>
 </div>
 
-<h3>Campaign</h3>
-<div class="links campaign">
-	<a class="link" href="/campaign">
-		<h2>Play</h2>
-		<PlayIcon />
+<h3>Other</h3>
+<div class="links">
+	<a class="link purple" href="/campaign">
+		<h2>Campaigns</h2>
+		<GridIcon size="48" strokeWidth={1} />
 	</a>
 
 	<a class="link" href="/tutorial">
@@ -99,14 +99,6 @@
 		margin-bottom: 32px;
 	}
 
-	.campaign {
-		flex-direction: row;
-
-		@media screen and (max-width: 550px) {
-			flex-direction: column;
-		}
-	}
-
 	.link {
 		display: flex;
 		align-items: center;
@@ -123,11 +115,16 @@
 		transition: transform 200ms;
 
 		&:hover {
-			transform: scale(1.01);
+			transform: scale(1.025);
 		}
 
 		&:active {
 			transform: scale(0.97);
+		}
+
+		&.purple {
+			border-color: transparent;
+			background-color: var(--purple-light);
 		}
 
 		&.highlight {

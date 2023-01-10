@@ -11,6 +11,7 @@
 	const dispatch = createEventDispatcher();
 
 	let password = '';
+	let campaignId = '';
 
 	const handleSaveLevel = async () => {
 		const response = await fetch('/editor', {
@@ -20,6 +21,7 @@
 			},
 			body: JSON.stringify({
 				password,
+				campaignId: campaignId === '' ? null : campaignId,
 				level: $editor
 			})
 		});
@@ -31,7 +33,12 @@
 
 {#if showSaveModal}
 	<div class="modal" transition:fly|local={{ duration: 200, y: -10 }}>
-		<Modal title="Save level" closeButton={true} on:close={() => dispatch('close')}>
+		<Modal
+			title="Save level"
+			closeButton={true}
+			on:close={() => dispatch('close')}
+			on:confirm={handleSaveLevel}
+		>
 			<form class="modal-content" on:submit|preventDefault={handleSaveLevel}>
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label>
@@ -39,7 +46,11 @@
 					<TextField bind:value={password} />
 				</label>
 
-				<input type="submit" value="Save" />
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<label>
+					Campaign ID (optional)
+					<TextField bind:value={campaignId} />
+				</label>
 			</form>
 		</Modal>
 	</div>

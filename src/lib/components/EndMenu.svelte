@@ -61,7 +61,7 @@
 	</div>
 </div>
 
-<div class="underlay" out:fade|local={{ duration: 200 }} />
+<div class="underlay" out:fade|local={{ duration: 200, delay: 200 }} />
 
 <style lang="scss">
 	.underlay {
