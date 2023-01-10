@@ -20,9 +20,11 @@
 	<ArrowLeftIcon />
 </a>
 
-<span class="title">
-	<UnderlinedHeading color="var(--purple-light)">Puzzle archive</UnderlinedHeading>
-</span>
+<nav>
+	<span class="title">
+		<UnderlinedHeading color="var(--purple-light)">Puzzle archive</UnderlinedHeading>
+	</span>
+</nav>
 
 <ul class="links">
 	{#each data.puzzles as puzzle (puzzle.id)}
@@ -48,7 +50,7 @@
 				</span>
 
 				<span>
-					<p class="upper">{puzzle.publishedAt.toLocaleDateString()}</p>
+					<p class="upper">{puzzle.publishedAt.toLocaleDateString('fi-FI')}</p>
 					<p class="lower">
 						{solution} - {puzzle.data.maxMoves.bronze} moves
 					</p>
@@ -63,29 +65,39 @@
 </ul>
 
 <style lang="scss">
-	.title {
+	nav {
 		margin-top: 32px;
+		display: flex;
+		flex-direction: column;
+		position: sticky;
+		top: 0;
+		padding: 8px 0 16px 0;
+		background-color: var(--white);
+	}
+
+	.title {
 		align-self: center;
 	}
 
 	.back {
-		position: absolute;
-		top: 8px;
+		position: sticky;
+		top: 16px;
 		left: 8px;
 		color: var(--black);
 		display: grid;
 		place-content: center;
 		width: fit-content;
-		padding: 8px;
+		z-index: 2;
 	}
 
 	.links {
-		margin-top: 60px;
 		display: flex;
-		flex-direction: column;
-		padding: 0;
-		list-style: none;
 		gap: 16px;
+		flex-direction: column;
+		margin-top: 60px;
+		padding: 0;
+		padding-bottom: 60px;
+		list-style: none;
 
 		li {
 			display: contents;

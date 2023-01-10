@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { Grid } from '$lib/types/grid';
 	import { onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
 	import Sortable from 'sortablejs';
 	import { createEventDispatcher } from 'svelte';
 	import WallGraphic from '../graphics/WallGraphic.svelte';
 	import LetterGraphic from '../graphics/LetterGraphic.svelte';
 	import GoalGraphic from '../graphics/GoalGraphic.svelte';
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
+	import type { EditorStore } from '$lib/stores/editor';
 
-	export let editor: Writable<Grid>;
+	export let editor: EditorStore;
 
 	const dispatch = createEventDispatcher();
 

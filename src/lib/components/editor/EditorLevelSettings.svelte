@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { Grid } from '$lib/types/grid';
+	import type { EditorStore } from '$lib/stores/editor';
 	import { createEventDispatcher } from 'svelte';
 	import { EditIcon } from 'svelte-feather-icons';
-	import type { Writable } from 'svelte/store';
 	import Modal from '../Modal.svelte';
 	import NumberField from '../NumberField.svelte';
 
-	export let editor: Writable<Grid>;
+	export let editor: EditorStore;
 
 	const dispatch = createEventDispatcher();
 
