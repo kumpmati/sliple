@@ -3,6 +3,7 @@
 	"name": "Tutorial",
 	"description": "Tutorial campaign",
 	"publishedAt": "2023-01-08T20:52:41.406Z",
+	"difficulty": "beginner",
 	"levels": [
 		{
 			"id": "t1",

@@ -23,6 +23,7 @@
 		font-size: 24px;
 		color: var(--black);
 		font-family: var(--font-heading);
+		z-index: 1;
 
 		.underline {
 			display: block;

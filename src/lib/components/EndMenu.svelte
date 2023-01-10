@@ -61,7 +61,7 @@
 	</div>
 </div>
 
-<div class="underlay" />
+<div class="underlay" out:fade|local={{ duration: 200 }} />
 
 <style lang="scss">
 	.underlay {
@@ -71,8 +71,18 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(255, 255, 255, 0.8);
-		backdrop-filter: blur(5px);
-		z-index: 1;
+		z-index: 2;
+
+		animation: blur 500ms both;
+	}
+
+	@keyframes blur {
+		from {
+			backdrop-filter: blur(0px);
+		}
+		to {
+			backdrop-filter: blur(5px);
+		}
 	}
 
 	.content {
