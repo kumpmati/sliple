@@ -94,6 +94,7 @@
 			title="Tutorial ({currentLevel + 1} / {data.levels.length})"
 			{grid}
 			on:finish={handleFinish}
+			on:reset={handleResetLevel}
 		>
 			<p slot="description">
 				{data.levels[currentLevel].message ?? 'Complete the puzzle'}

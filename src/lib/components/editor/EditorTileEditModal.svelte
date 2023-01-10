@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { Grid, Tile } from '$lib/types/grid';
+	import type { EditorStore } from '$lib/stores/editor';
+	import type { Tile } from '$lib/types/grid';
 	import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
 	import { createEventDispatcher } from 'svelte';
 	import { TrashIcon } from 'svelte-feather-icons';
-	import type { Writable } from 'svelte/store';
 	import { fly } from 'svelte/transition';
 	import Modal from '../Modal.svelte';
 	import TextField from '../TextField.svelte';
 
 	export let currentTile: Tile | null;
-	export let editor: Writable<Grid>;
+	export let editor: EditorStore;
 	export let showModal: boolean;
 
 	const dispatch = createEventDispatcher();

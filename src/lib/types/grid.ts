@@ -15,26 +15,14 @@ export const gridSchema = z.object({
 	numMovesTaken: z.number().min(0),
 	maxMoves: z.object({
 		gold: z.number().min(0),
-		silver: z.number().min(0).nullable(),
-		bronze: z.number().min(0).nullable()
+		silver: z.number().min(0),
+		bronze: z.number().min(0)
 	}),
-	mode: z.string().max(11),
 	solution: z.string(),
 	tiles: z.array(tileSchema)
 });
 
-export type Grid = {
-	width: number;
-	height: number;
-	numMovesTaken: number;
-	maxMoves: {
-		gold: number;
-		silver: number;
-		bronze: number;
-	};
-	solution: string;
-	tiles: Tile[];
-};
+export type Grid = z.infer<typeof gridSchema>;
 
 export interface Tile {
 	type: string;
