@@ -12,7 +12,7 @@
 </svelte:head>
 
 <div class="details">
-	<a class="back" href="../">
+	<a class="back" href="/campaign">
 		<ArrowLeftIcon />
 	</a>
 
