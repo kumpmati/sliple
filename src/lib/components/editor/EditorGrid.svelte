@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { GRID_CELL_SIZE } from '$lib/constants/grid';
 	import type { EditorStore } from '$lib/stores/editor';
 	import type { Tile } from '$lib/types/grid';
 	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
@@ -31,10 +32,19 @@
 	});
 </script>
 
-<svg viewBox="0 0 {$editor.width * 68} {$editor.height * 68}" bind:this={sortable}>
+<svg
+	viewBox="0 0 {$editor.width * GRID_CELL_SIZE} {$editor.height * GRID_CELL_SIZE}"
+	bind:this={sortable}
+>
 	{#each new Array($editor.width + 1) as _, x}
 		{#each new Array($editor.height + 1) as _, y}
-			<circle class="nodrag" cx={x * 68} cy={y * 68} r="1.25" fill="var(--gray-light)" />
+			<circle
+				class="nodrag"
+				cx={x * GRID_CELL_SIZE}
+				cy={y * GRID_CELL_SIZE}
+				r="1.25"
+				fill="var(--gray-light)"
+			/>
 		{/each}
 	{/each}
 
@@ -42,7 +52,7 @@
 	{#each $editor.tiles.sort(sortTiles) as tile (tile.id)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<g
-			transform="translate({tile.x * 68}, {tile.y * 68})"
+			transform="translate({tile.x * GRID_CELL_SIZE}, {tile.y * GRID_CELL_SIZE})"
 			on:click={() => dispatch('edit', tile)}
 			class:selected={currentTile?.id === tile.id}
 		>
@@ -70,7 +80,11 @@
 		width: 100%;
 	}
 
-	g.selected {
-		filter: drop-shadow(0 0 4px red);
+	g {
+		pointer-events: all;
+
+		&.selected {
+			filter: drop-shadow(0 0 4px red);
+		}
 	}
 </style>

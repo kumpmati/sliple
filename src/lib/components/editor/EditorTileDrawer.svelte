@@ -7,6 +7,7 @@
 	import GoalGraphic from '../graphics/GoalGraphic.svelte';
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
 	import type { EditorStore } from '$lib/stores/editor';
+	import { GRID_CELL_SIZE } from '$lib/constants/grid';
 
 	export let editor: EditorStore;
 
@@ -52,7 +53,7 @@
 <ul class="drawer" bind:this={sortable}>
 	{#each items as item (item.id)}
 		<li data-type={item.id}>
-			<svg viewBox="0 0 68 68">
+			<svg viewBox="0 0 {GRID_CELL_SIZE} {GRID_CELL_SIZE}">
 				{#if item.id === 'wall'}
 					<WallGraphic />
 				{:else if item.id === 'letter'}
