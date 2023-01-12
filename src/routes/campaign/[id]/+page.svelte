@@ -9,7 +9,7 @@
 
 <svelte:head>
 	<title>{data.campaign.name}</title>
-	<meta name="description" content="Play the official campaign" />
+	<meta name="description" content="Play the official campaign - {data.campaign.name}" />
 </svelte:head>
 
 <div class="details">
