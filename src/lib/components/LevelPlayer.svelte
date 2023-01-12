@@ -103,16 +103,14 @@
 	}
 
 	.container {
-		min-height: 400px;
 		max-height: 700px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		height: 100%;
 	}
 
 	.heading {
-		margin-top: 16px;
+		margin-top: 64px;
 		margin-bottom: 32px;
 		display: flex;
 		flex-direction: column;

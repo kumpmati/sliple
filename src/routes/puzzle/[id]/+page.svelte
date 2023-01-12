@@ -48,12 +48,16 @@
 
 <svelte:head>
 	<title>Sliple - {data.puzzle.publishedAt.toLocaleDateString('fi')}</title>
+	<meta
+		name="description"
+		content="Play the featured puzzle of {data.puzzle.publishedAt.toLocaleDateString('fi')}"
+	/>
 </svelte:head>
 
 {#if showEndMenu}
 	<EndMenu {type} {moves} puzzle={data.puzzle}>
 		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Retry
+			Try again
 			<RotateCcwIcon />
 		</Button>
 

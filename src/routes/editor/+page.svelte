@@ -35,6 +35,7 @@
 
 <svelte:head>
 	<title>Level editor</title>
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 <nav>

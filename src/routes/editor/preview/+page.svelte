@@ -32,6 +32,7 @@
 
 <svelte:head>
 	<title>Level editor - Preview</title>
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 {#if showMenu}
@@ -41,7 +42,7 @@
 		puzzle={{ publishedAt: new Date(), id: 'preview', data: $grid, version: '2' }}
 	>
 		<Button on:click={handleReset}>
-			Retry
+			Try again
 			<RotateCcwIcon />
 		</Button>
 

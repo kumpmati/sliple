@@ -9,10 +9,11 @@
 
 <svelte:head>
 	<title>{data.campaign.name}</title>
+	<meta name="description" content="Play the official campaign - {data.campaign.name}" />
 </svelte:head>
 
 <div class="details">
-	<a class="back" href="../">
+	<a class="back" href="/campaign">
 		<ArrowLeftIcon />
 	</a>
 

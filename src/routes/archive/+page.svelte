@@ -14,6 +14,7 @@
 
 <svelte:head>
 	<title>Sliple - Puzzle archive</title>
+	<meta name="description" content="Browse all past featured puzzles" />
 </svelte:head>
 
 <a href="/" class="back">

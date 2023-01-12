@@ -12,6 +12,7 @@
 
 <svelte:head>
 	<title>{data.campaign.name}</title>
+	<meta name="description" content="Play the official campaign" />
 </svelte:head>
 
 <CampaignLevelPlayer

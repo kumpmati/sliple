@@ -60,6 +60,7 @@
 
 <svelte:head>
 	<title>Tutorial - level {currentLevel + 1}</title>
+	<meta name="description" content="Learn how to play the game" />
 </svelte:head>
 
 {#if showMenu}
