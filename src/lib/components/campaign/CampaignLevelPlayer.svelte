@@ -65,6 +65,18 @@
 		{moves}
 		puzzle={{ ...data.levels[currentLevel], publishedAt: data.publishedAt, version: '2' }}
 	>
+		{#if endType === 'win'}
+			<Button on:click={handleNextLevel} color="green" highlight={endType === 'win'}>
+				{#if isLastOne}
+					Level selection
+					<GridIcon />
+				{:else}
+					Next level
+					<ChevronRightIcon />
+				{/if}
+			</Button>
+		{/if}
+
 		<Button on:click={handleResetLevel} color="red" highlight={endType === 'loss'}>
 			Try again
 			<RotateCcwIcon />
@@ -72,19 +84,8 @@
 
 		{#if !isLastOne}
 			<Button on:click={() => goto(`/campaign/${data.id}`)}>
-				Levels
+				Level selection
 				<GridIcon />
-			</Button>
-		{/if}
-
-		{#if endType === 'win'}
-			<Button on:click={handleNextLevel} color="green" highlight={endType === 'win'}>
-				{#if isLastOne}
-					Back to levels
-				{:else}
-					Next level
-				{/if}
-				<ChevronRightIcon />
 			</Button>
 		{/if}
 	</EndMenu>
