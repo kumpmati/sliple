@@ -30,7 +30,7 @@
 <div class="content">
 	<UnderlinedHeading color="var(--purple-light)">Campaigns</UnderlinedHeading>
 
-	<ul class="grid">
+	<ul class="list">
 		{#each data.campaigns as campaign (campaign.id)}
 			<li>
 				<CampaignListItem item={campaign} />
@@ -54,13 +54,13 @@
 		align-items: center;
 	}
 
-	.grid {
+	.list {
 		margin-block: 40px;
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
 		width: 100%;
-		padding: 16px;
+		padding: 0;
 		list-style: none;
 	}
 </style>
