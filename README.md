@@ -1,5 +1,7 @@
-# Sliple
+![Sliple logo banner](/static/banner.jpg)
 
-A slippery puzzle game.
+# Getting started
 
-[Getting started](./docs/GETTINGSTARTED.md)
+[Getting started guide](./docs/GETTINGSTARTED.md)
+
+This project is built using SvelteKit. You can read the [SvelteKit docs](https://kit.svelte.dev/docs/introduction) for more information.
