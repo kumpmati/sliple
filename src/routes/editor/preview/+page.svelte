@@ -42,7 +42,7 @@
 		puzzle={{ publishedAt: new Date(), id: 'preview', data: $grid, version: '2' }}
 	>
 		<Button on:click={handleReset}>
-			Retry
+			Try again
 			<RotateCcwIcon />
 		</Button>
 

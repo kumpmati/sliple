@@ -57,7 +57,7 @@
 {#if showEndMenu}
 	<EndMenu {type} {moves} puzzle={data.puzzle}>
 		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Retry
+			Try again
 			<RotateCcwIcon />
 		</Button>
 
