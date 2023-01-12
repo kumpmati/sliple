@@ -2,7 +2,7 @@
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { userStore } from '$lib/stores/user';
-	import { GridIcon, HelpCircleIcon, ListIcon, PlayIcon } from 'svelte-feather-icons';
+	import { GridIcon, HelpCircleIcon, ListIcon } from 'svelte-feather-icons';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -13,6 +13,7 @@
 
 <svelte:head>
 	<title>Sliple</title>
+	<meta name="description" content="Slippery, free puzzle game" />
 </svelte:head>
 
 <a href="/about" class="about" aria-label="About the website">

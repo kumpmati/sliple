@@ -6,6 +6,7 @@
 
 <svelte:head>
 	<title>About Sliple</title>
+	<meta name="description" content="Information about the game" />
 </svelte:head>
 
 <a href="/" aria-label="Back to the front page">

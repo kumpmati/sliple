@@ -19,6 +19,7 @@
 
 <svelte:head>
 	<title>Campaigns</title>
+	<meta name="description" content="Browse all the official campaigns" />
 </svelte:head>
 
 <nav>

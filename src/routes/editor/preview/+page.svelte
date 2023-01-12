@@ -32,6 +32,7 @@
 
 <svelte:head>
 	<title>Level editor - Preview</title>
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 {#if showMenu}
