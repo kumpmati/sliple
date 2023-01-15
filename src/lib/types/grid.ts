@@ -8,7 +8,7 @@ export const tileSchema = z.object({
 	y: z.number().min(0).max(10),
 	letter: z.string().optional(),
 	index: z.number().min(0).optional(),
-	dircetion: z.string().optional()
+	direction: z.enum(['top', 'bottom', 'left', 'right']).optional()
 });
 
 export const gridSchema = z.object({
@@ -62,4 +62,4 @@ export type Coordinates = {
 	y: number;
 };
 
-export type CollisionType = 'none' | 'sticky' | 'solid';
+export type CollisionType = 'none' | 'sticky' | 'solid' | 'direction';
