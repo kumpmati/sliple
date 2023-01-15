@@ -28,7 +28,6 @@
 		color: var(--black);
 		border: 2px solid var(--gray-light);
 		border-radius: var(--border-radius);
-		width: 60px;
 		height: 60px;
 		display: grid;
 		place-content: center;
