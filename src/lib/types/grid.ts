@@ -1,3 +1,4 @@
+import type { Direction } from '$lib/stores/grid';
 import { z } from 'zod';
 
 export const tileSchema = z.object({
@@ -6,7 +7,8 @@ export const tileSchema = z.object({
 	x: z.number().min(0).max(10),
 	y: z.number().min(0).max(10),
 	letter: z.string().optional(),
-	index: z.number().min(0).optional()
+	index: z.number().min(0).optional(),
+	dircetion: z.string().optional()
 });
 
 export const gridSchema = z.object({
@@ -48,6 +50,11 @@ export interface GoalTile extends Tile {
 
 export interface StickyTile extends Tile {
 	type: 'sticky';
+}
+
+export interface DirectionTile extends Tile {
+	type: 'direction';
+	direction: Direction;
 }
 
 export type Coordinates = {

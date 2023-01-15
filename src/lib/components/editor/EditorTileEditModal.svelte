@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { EditorStore } from '$lib/stores/editor';
 	import type { Tile } from '$lib/types/grid';
-	import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
+	import { isDirectionTile, isGoalTile, isLetterTile } from '$lib/utils/typeguards';
 	import { createEventDispatcher } from 'svelte';
 	import { TrashIcon } from 'svelte-feather-icons';
 	import { fly } from 'svelte/transition';
@@ -51,6 +51,15 @@
 					<TextField
 						bind:value={currentTile.letter}
 						maxLength={1}
+						style="text-align: center; font-weight: bold"
+					/>
+				{/if}
+
+				{#if isDirectionTile(currentTile)}
+					<TextField
+						bind:value={currentTile.direction}
+						maxLength={8}
+						placeholder="direction"
 						style="text-align: center; font-weight: bold"
 					/>
 				{/if}

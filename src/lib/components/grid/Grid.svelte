@@ -1,13 +1,20 @@
 <script lang="ts">
 	import type { GridStore } from '$lib/stores/grid';
 	import type { Tile } from '$lib/types/grid';
-	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
+	import {
+		isDirectionTile,
+		isGoalTile,
+		isLetterTile,
+		isStickyTile,
+		isWallTile
+	} from '$lib/utils/typeguards';
 	import { setContext } from 'svelte';
 	import Goal from './tiles/Goal.svelte';
 	import Letter from './tiles/Letter.svelte';
 	import Wall from './tiles/Wall.svelte';
 	import Sticky from './tiles/Sticky.svelte';
 	import GridContainer from '../graphics/GridContainer.svelte';
+	import Direction from './tiles/Direction.svelte';
 
 	export let grid: GridStore;
 
@@ -28,6 +35,8 @@
 			<Wall {tile} />
 		{:else if isStickyTile(tile)}
 			<Sticky {tile} />
+		{:else if isDirectionTile(tile)}
+			<Direction {tile} />
 		{/if}
 	{/each}
 </GridContainer>

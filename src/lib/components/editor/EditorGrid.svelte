@@ -2,9 +2,16 @@
 	import { GRID_CELL_SIZE } from '$lib/constants/grid';
 	import type { EditorStore } from '$lib/stores/editor';
 	import type { Tile } from '$lib/types/grid';
-	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
+	import {
+		isDirectionTile,
+		isGoalTile,
+		isLetterTile,
+		isStickyTile,
+		isWallTile
+	} from '$lib/utils/typeguards';
 	import Sortable from 'sortablejs';
 	import { createEventDispatcher, onMount } from 'svelte';
+	import DirectionGraphic from '../graphics/DirectionGraphic.svelte';
 	import GoalGraphic from '../graphics/GoalGraphic.svelte';
 	import LetterGraphic from '../graphics/LetterGraphic.svelte';
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
@@ -64,6 +71,8 @@
 				<GoalGraphic letter={tile.letter ?? '?'} />
 			{:else if isStickyTile(tile)}
 				<StickyGraphic />
+			{:else if isDirectionTile(tile)}
+				<DirectionGraphic direction={tile.direction} />
 			{/if}
 		</g>
 	{/each}

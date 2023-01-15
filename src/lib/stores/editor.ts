@@ -1,5 +1,11 @@
 import type { Grid, Tile } from '$lib/types/grid';
-import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
+import {
+	createDirectional,
+	createGoal,
+	createLetter,
+	createSticky,
+	createWall
+} from '$lib/utils/parse';
 import type { Writable } from 'svelte/store';
 import { writable } from 'svelte-local-storage-store';
 
@@ -45,6 +51,10 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 					case 'sticky': {
 						tile = createSticky(x, y);
 						break;
+					}
+
+					case 'direction': {
+						tile = createDirectional(x, y, 'right');
 					}
 				}
 
