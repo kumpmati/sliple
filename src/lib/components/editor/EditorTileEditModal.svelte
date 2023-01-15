@@ -56,12 +56,24 @@
 				{/if}
 
 				{#if isDirectionTile(currentTile)}
-					<TextField
-						bind:value={currentTile.direction}
-						maxLength={8}
-						placeholder="direction"
-						style="text-align: center; font-weight: bold"
-					/>
+					<div class="dir">
+						<label>
+							<input type="radio" bind:group={currentTile.direction} value="top" />
+							Up
+						</label>
+						<label>
+							<input type="radio" bind:group={currentTile.direction} value="bottom" />
+							Down
+						</label>
+						<label>
+							<input type="radio" bind:group={currentTile.direction} value="left" />
+							Left
+						</label>
+						<label>
+							<input type="radio" bind:group={currentTile.direction} value="right" />
+							Right
+						</label>
+					</div>
 				{/if}
 
 				<button class="delete" on:click={handleDeleteTile}>Delete <TrashIcon size="16" /></button>
@@ -78,6 +90,12 @@
 		transform: translate(-50%, -50%);
 		z-index: 100;
 		max-width: 250px;
+		width: 100%;
+	}
+
+	.dir {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 		width: 100%;
 	}
 
