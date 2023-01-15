@@ -61,15 +61,15 @@ export const calculateNextPosition = (
 		// get all tiles at the current position
 		const tilesAtPosition = otherTiles.filter((b) => b.x === x && b.y === y);
 
+		const solidTile = tilesAtPosition.find((t) => getCollisionType(t) === 'solid');
+		if (solidTile) {
+			return { x: x - vel.x, y: y - vel.y };
+		}
+
 		const dirTile = tilesAtPosition.find((t) => getCollisionType(t) === 'direction');
 		if (dirTile) {
 			// in the next tick, move the same tile in the direction of the found tile
 			return { x, y, nextTick: dirTile.direction };
-		}
-
-		const solidTile = tilesAtPosition.find((t) => getCollisionType(t) === 'solid');
-		if (solidTile) {
-			return { x: x - vel.x, y: y - vel.y };
 		}
 
 		const stickyTile = tilesAtPosition.find((t) => getCollisionType(t) === 'sticky');
