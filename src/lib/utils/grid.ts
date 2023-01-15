@@ -22,6 +22,10 @@ export const isHigherRank = (a: CompletionRank | null, b: CompletionRank | null)
 	return aIndex <= bIndex;
 };
 
+export type NextPositionResult = Coordinates & {
+	nextTick?: Direction;
+};
+
 /**
  * calculateNextPosition gets the grid, a tile ID and a direction as the input,
  * and calculates the ending position for that tile when moved in the direction.
@@ -35,7 +39,7 @@ export const calculateNextPosition = (
 	grid: Grid,
 	tileId: string,
 	direction: Direction
-): Coordinates => {
+): NextPositionResult => {
 	const tile = grid.tiles.find((b) => b.id === tileId);
 	if (!tile) throw new Error('tile not found');
 
@@ -57,12 +61,20 @@ export const calculateNextPosition = (
 		// get all tiles at the current position
 		const tilesAtPosition = otherTiles.filter((b) => b.x === x && b.y === y);
 
-		if (tilesAtPosition.find((t) => getCollisionType(t) === 'solid')) {
+		const dirTile = tilesAtPosition.find((t) => getCollisionType(t) === 'direction');
+		if (dirTile) {
+			// in the next tick, move the same tile in the direction of the found tile
+			return { x, y, nextTick: dirTile.direction };
+		}
+
+		const solidTile = tilesAtPosition.find((t) => getCollisionType(t) === 'solid');
+		if (solidTile) {
 			return { x: x - vel.x, y: y - vel.y };
 		}
 
-		if (tilesAtPosition.find((t) => getCollisionType(t) === 'sticky')) {
-			return { x: x, y: y };
+		const stickyTile = tilesAtPosition.find((t) => getCollisionType(t) === 'sticky');
+		if (stickyTile) {
+			return { x, y };
 		}
 	}
 
@@ -79,7 +91,8 @@ const getCollisionType = (t: Tile): CollisionType => {
 		goal: 'none',
 		sticky: 'sticky',
 		wall: 'solid',
-		letter: 'solid'
+		letter: 'solid',
+		direction: 'direction'
 	};
 
 	return types?.[t.type] ?? 'none';

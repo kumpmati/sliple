@@ -1,10 +1,16 @@
 import type { Grid, Tile } from '$lib/types/grid';
-import { createGoal, createLetter, createSticky, createWall } from '$lib/utils/parse';
+import {
+	createDirectional,
+	createGoal,
+	createLetter,
+	createSticky,
+	createWall
+} from '$lib/utils/parse';
 import type { Writable } from 'svelte/store';
 import { writable } from 'svelte-local-storage-store';
 
 export type EditorStore = Writable<Grid> & {
-	placeTile: (type: string, x: number, y: number) => void;
+	placeTile: <T extends Tile>(type: string, x: number, y: number) => T | null;
 };
 
 export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => {
@@ -25,6 +31,8 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 	return {
 		...state,
 		placeTile: (type, x, y) => {
+			let placedTile = null;
+
 			state.update((prev) => {
 				const numGoalTiles = prev.tiles.reduce((t, curr) => (curr.type === 'goal' ? t + 1 : t), 0);
 
@@ -46,14 +54,21 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 						tile = createSticky(x, y);
 						break;
 					}
+
+					case 'direction': {
+						tile = createDirectional(x, y, 'right');
+					}
 				}
 
 				if (tile) {
+					placedTile = tile;
 					prev.tiles = [...prev.tiles, tile];
 				}
 
 				return prev;
 			});
+
+			return placedTile;
 		}
 	};
 };

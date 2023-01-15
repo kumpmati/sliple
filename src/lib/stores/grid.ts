@@ -6,10 +6,14 @@ import { derived, writable, type Readable } from 'svelte/store';
 
 export type Direction = 'top' | 'right' | 'left' | 'bottom';
 
-export type GridStore = Readable<Grid> & {
+export type GridState = Grid & {
+	pendingUpdate: any | null;
+};
+
+export type GridStore = Readable<GridState> & {
 	moveTile: (id: string, dir: Direction) => void;
 	getAt: (x: number, y: number) => Tile[];
-	setState: (grid: Grid) => void;
+	setState: (grid: GridState) => void;
 	reset: () => void;
 	isAnswer: (value: string) => boolean;
 };
@@ -18,25 +22,52 @@ export type GridStore = Readable<Grid> & {
  * createGridStore initializes the grid store.
  */
 export const createGridStore = (initialState: Grid): GridStore => {
-	let _state = copy(initialState);
-	const state = writable<Grid>(_state);
+	let _state = copy({ ...initialState, pendingUpdate: null });
+	const state = writable<GridState>(_state);
 
-	const moveTile = (id: string, dir: Direction) => {
+	const moveTile = (id: string, dir: Direction, isUpdate = false) => {
 		state.update((prev) => {
 			const tile = prev.tiles.find((t) => t.id === id);
-			if (!tile || !canMove(tile)) return prev;
+
+			// prevent moving if the tile isn't allowed to move, or
+			// if the game is still in the process of updating and
+			// the user tries to move a tile.
+			if (!tile || !canMove(tile) || (!!prev.pendingUpdate && !isUpdate)) return prev;
 
 			const pos = calculateNextPosition(prev, id, dir);
+
+			// tile has not moved
 			if (tile.x === pos.x && tile.y === pos.y) {
+				if (prev.pendingUpdate) {
+					clearTimeout(prev.pendingUpdate);
+					prev.pendingUpdate = null;
+
+					// increment number of taken moves
+					prev.numMovesTaken++;
+				}
+
 				return prev;
+			}
+
+			const d = pos.nextTick;
+
+			// Check if the response requires that the tile should move
+			// again after this move is complete
+			if (d) {
+				// prevent user from moving until the tile stops
+				prev.pendingUpdate = setTimeout(() => moveTile(id, d, true), 150);
+			} else {
+				// no nextTick is specified, stop the update
+				clearTimeout(prev.pendingUpdate);
+				prev.pendingUpdate = null;
+
+				// increment number of taken moves
+				prev.numMovesTaken++;
 			}
 
 			// update tile position
 			tile.x = pos.x;
 			tile.y = pos.y;
-
-			// increment number of taken moves
-			prev.numMovesTaken++;
 
 			_state = prev;
 			return prev;
@@ -48,12 +79,16 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		return found;
 	};
 
-	const setState = (s: Grid) => {
+	const setState = (s: GridState) => {
 		state.set(s);
 	};
 
 	const reset = () => {
-		_state = copy(initialState);
+		if (_state.pendingUpdate) {
+			clearTimeout(_state.pendingUpdate);
+		}
+
+		_state = copy({ ...initialState, pendingUpdate: null });
 		state.set(_state);
 	};
 
