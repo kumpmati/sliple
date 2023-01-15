@@ -8,6 +8,7 @@
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
 	import type { EditorStore } from '$lib/stores/editor';
 	import { GRID_CELL_SIZE } from '$lib/constants/grid';
+	import DirectionGraphic from '../graphics/DirectionGraphic.svelte';
 
 	export let editor: EditorStore;
 
@@ -19,7 +20,8 @@
 		{ id: 'wall', name: 'Wall' },
 		{ id: 'letter', name: 'Letter' },
 		{ id: 'goal', name: 'Goal' },
-		{ id: 'sticky', name: 'Sticky' }
+		{ id: 'sticky', name: 'Sticky' },
+		{ id: 'direction', name: 'Direction' }
 	];
 
 	onMount(() => {
@@ -62,6 +64,8 @@
 					<GoalGraphic letter="A" />
 				{:else if item.id === 'sticky'}
 					<StickyGraphic />
+				{:else if item.id === 'direction'}
+					<DirectionGraphic direction="right" />
 				{/if}
 			</svg>
 		</li>

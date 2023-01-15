@@ -14,10 +14,12 @@
 
 	const handleTilePlace = (e: CustomEvent<{ type: string; x: number; y: number }>) => {
 		const { type, x, y } = e.detail;
-		editor.placeTile(type, x, y);
+		const tile = editor.placeTile(type, x, y);
+
+		if (tile) handleEditTile({ detail: tile } as any);
 	};
 
-	const handleEditTile = (e: CustomEvent) => {
+	const handleEditTile = (e: CustomEvent<Tile>) => {
 		showModal = true;
 		// make a copy of the tile to prevent mutation
 		currentTile = copy(e.detail);
