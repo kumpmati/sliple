@@ -10,7 +10,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		version: {
-			name: 'v1.4.1'
+			name: 'v1.4.2'
 		}
 	}
 };
