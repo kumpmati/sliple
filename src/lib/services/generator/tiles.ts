@@ -1,5 +1,5 @@
 import { mapToRange } from '$lib/utils/math';
-import { alea } from 'seedrandom';
+import seedrandom from 'seedrandom';
 
 type TilePos = {
 	x: number;
@@ -22,7 +22,7 @@ export const generateUniqueTilePositions = (
 	settings: { width: number; height: number },
 	existingTiles: TilePos[]
 ): TilePos[] => {
-	const rnd = alea(seed);
+	const rnd = seedrandom.alea(seed);
 
 	const tiles: TilePos[] = [];
 

@@ -2,7 +2,7 @@ import type { GoalTile, LetterTile, Tile, WallTile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
 import { mapToRange } from '$lib/utils/math';
 import { nanoid } from 'nanoid';
-import { alea } from 'seedrandom';
+import seedrandom from 'seedrandom';
 import { generateUniqueTilePositions } from './tiles';
 
 type MinMaxConstraint = {
@@ -75,7 +75,7 @@ export const generatePuzzle = (
 	id: string,
 	constraints: GeneratorConstraints
 ): Puzzle => {
-	const rnd = alea(seed);
+	const rnd = seedrandom.alea(seed);
 
 	const { words, maxLength } = constraints;
 
