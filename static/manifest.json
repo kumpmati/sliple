@@ -4,7 +4,7 @@
 	"start_url": "/",
 	"scope": "/",
 	"description": "A slippery word puzzle",
-	"theme_color": "#ffefe0",
+	"theme_color": "#ff6854",
 	"background_color": "#fff",
 	"display": "standalone",
 	"icons": [
