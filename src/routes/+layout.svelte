@@ -22,6 +22,9 @@
 				window.location.reload();
 			}
 		});
+
+		// check update status when first started
+		updated.check();
 	});
 </script>
 

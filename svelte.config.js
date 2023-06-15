@@ -9,7 +9,10 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		version: { name: 'v1.5.3' }
+		version: {
+			name: 'v1.5.3',
+			pollInterval: 60 * 1000 // every minute
+		}
 	}
 };
 
