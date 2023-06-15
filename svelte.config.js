@@ -1,16 +1,16 @@
 import adapter from '@sveltejs/adapter-netlify';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+	preprocess: preprocess({ globalStyle: true }),
 
 	kit: {
 		adapter: adapter(),
 		version: {
-			name: 'v1.5.3',
+			name: 'v1.5.4',
 			pollInterval: 60 * 1000 // every minute
 		}
 	}
