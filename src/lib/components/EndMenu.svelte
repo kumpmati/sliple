@@ -134,7 +134,7 @@
 
 		.buttons {
 			margin-top: 40px;
-			max-width: 200px;
+			max-width: 250px;
 			display: flex;
 			flex-direction: column;
 			gap: 16px;
