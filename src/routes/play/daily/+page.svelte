@@ -15,7 +15,7 @@
 
 	export let data: PageData;
 
-	const grid = createGridStore(data.puzzle.data);
+	$: grid = createGridStore(data.puzzle.data);
 
 	let showEndMenu = false;
 	let type: 'win' | 'loss' = 'win';
@@ -60,18 +60,20 @@
 	</EndMenu>
 {/if}
 
-<LevelPlayer
-	backLink="/"
-	{grid}
-	title="Daily puzzle"
-	on:finish={handleFinish}
-	on:reset={handleReset}
->
-	<p slot="description">
-		Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
-		<span class="highlight">{$grid.maxMoves.bronze}</span> moves
-	</p>
-</LevelPlayer>
+{#key data.puzzle.id}
+	<LevelPlayer
+		backLink="/"
+		{grid}
+		title="Daily puzzle"
+		on:finish={handleFinish}
+		on:reset={handleReset}
+	>
+		<p slot="description">
+			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
+			<span class="highlight">{$grid.maxMoves.bronze}</span> moves
+		</p>
+	</LevelPlayer>
+{/key}
 
 <style lang="scss">
 	p {

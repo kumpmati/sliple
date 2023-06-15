@@ -49,11 +49,6 @@
 
 {#if showEndMenu}
 	<EndMenu {type} {moves} puzzle={data.puzzle}>
-		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-
 		<Button
 			on:click={() => goto('/play/random').then(() => (showEndMenu = false))}
 			color="green"
@@ -61,6 +56,11 @@
 		>
 			New random puzzle
 			<ChevronsRightIcon />
+		</Button>
+
+		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
+			Try again
+			<RotateCcwIcon />
 		</Button>
 	</EndMenu>
 {/if}

@@ -32,7 +32,7 @@
 
 <div class="links">
 	<div class="row">
-		<LargeLink title="Daily" href="/play/daily" highlightColor="var(--blue-light)">
+		<LargeLink title="Daily Puzzle" href="/play/daily" highlightColor="var(--blue-light)">
 			<svelte:fragment slot="description">Every day a new random puzzle!</svelte:fragment>
 
 			<span slot="icon" class="icon" style="color:var(--blue)">
@@ -53,18 +53,11 @@
 
 	<LargeLink
 		href="/play/featured/latest"
-		title="Featured"
+		title="Featured puzzle"
 		badge={latestIsNew ? 'New!' : null}
 		highlightColor="var(--orange-light)"
 	>
-		<svelte:fragment slot="description">
-			{#if latestPuzzle}
-				Spell “<b>{latestPuzzle.solution.toLowerCase()}</b>” within
-				<b>{latestPuzzle.maxMoves.bronze}</b> moves
-			{:else}
-				Solve the puzzle within the given moves
-			{/if}
-		</svelte:fragment>
+		<svelte:fragment slot="description">A challenging puzzle created by a human!</svelte:fragment>
 
 		<span slot="icon" style="display:contents;color:var(--orange);">
 			<BookmarkIcon size="48" strokeWidth={1} />
