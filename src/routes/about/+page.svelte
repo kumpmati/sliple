@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>About Sliple</title>
+	<title>About</title>
 	<meta name="description" content="Information about the game" />
 </svelte:head>
 
