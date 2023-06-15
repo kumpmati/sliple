@@ -13,6 +13,7 @@ type MinMaxConstraint = {
 type GeneratorConstraints = {
 	words: string[];
 	maxLength?: number;
+	minLength?: number;
 	width?: MinMaxConstraint;
 	height?: MinMaxConstraint;
 	moves?: {
@@ -77,9 +78,13 @@ export const generatePuzzle = (
 ): Puzzle => {
 	const rnd = seedrandom.alea(seed);
 
-	const { words, maxLength } = constraints;
+	const { words, maxLength, minLength } = constraints;
 
-	const validWords = words.filter((w) => (maxLength ? w.length < maxLength : true));
+	const validWords = words.filter((w) => {
+		if (maxLength && w.length > maxLength) return false;
+		if (minLength && w.length < minLength) return false;
+		return true;
+	});
 
 	const word = validWords[Math.floor(rnd.quick() * validWords.length)];
 
@@ -111,8 +116,8 @@ export const generatePuzzle = (
 			numMovesTaken: 0,
 			maxMoves: constraints.moves ?? {
 				bronze: 30,
-				silver: 20,
-				gold: 10
+				silver: 30,
+				gold: 30
 			},
 			tiles: [...goalTiles, ...letterTiles, ...wallTiles]
 		}

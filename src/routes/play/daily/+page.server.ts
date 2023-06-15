@@ -13,7 +13,7 @@ export const load = async () => {
 
 	try {
 		return {
-			puzzle: generatePuzzle(seed, date, { words, maxLength: 7 })
+			puzzle: generatePuzzle(seed, date, { words, maxLength: 7, minLength: 3 })
 		};
 	} catch (err: any) {
 		throw error(500, err?.message ?? 'unknown error');

@@ -1,12 +1,9 @@
 <script>
 	import LargeLink from '$lib/components/LargeLink.svelte';
-	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { userStore } from '$lib/stores/user';
 	import {
-		ArrowLeftIcon,
-		AwardIcon,
 		BookmarkIcon,
 		CalendarIcon,
 		GridIcon,
