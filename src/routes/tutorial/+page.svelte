@@ -69,20 +69,20 @@
 		{moves}
 		puzzle={{ ...data.levels[currentLevel], publishedAt: data.publishedAt, version: '2' }}
 	>
-		<Button on:click={handleResetLevel} color="red" highlight={endType === 'loss'}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-
 		{#if endType === 'win'}
 			<Button on:click={handleNextLevel} color="green" highlight={endType === 'win'}>
 				{#if !isLastOne}
-					Next level
+					Next tutorial
 					<ChevronRightIcon />
 				{:else}
 					Finish
 					<CheckIcon />
 				{/if}
+			</Button>
+		{:else}
+			<Button on:click={handleResetLevel} color="red" highlight={endType === 'loss'}>
+				Try again
+				<RotateCcwIcon />
 			</Button>
 		{/if}
 	</EndMenu>
