@@ -9,10 +9,7 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		version: {
-			name: 'v1.5.4',
-			pollInterval: 5 * 1000
-		}
+		version: { name: 'v1.5.3' }
 	}
 };
 
