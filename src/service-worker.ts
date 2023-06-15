@@ -21,6 +21,13 @@ worker.addEventListener('install', (event) => {
 	);
 });
 
+// clear cache if main thread requests it
+worker.addEventListener('message', async (e) => {
+	if (e.data === 'CLEAR_CACHE') {
+		await caches.keys().then((names) => Promise.all(names.map((n) => caches.delete(n))));
+	}
+});
+
 worker.addEventListener('activate', (event) => {
 	event.waitUntil(
 		caches.keys().then(async (keys) => {

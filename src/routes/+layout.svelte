@@ -1,7 +1,8 @@
 <script lang="ts">
 	import NProgress from 'nprogress';
-	import { navigating } from '$app/stores';
+	import { navigating, updated } from '$app/stores';
 	import 'nprogress/nprogress.css';
+	import { onMount } from 'svelte';
 	import '../app.css';
 
 	NProgress.configure({ minimum: 0.16, showSpinner: false });
@@ -13,6 +14,15 @@
 			NProgress.done();
 		}
 	}
+
+	onMount(() => {
+		updated.subscribe((u) => {
+			if (u) {
+				postMessage('CLEAR_CACHE');
+				window.location.reload();
+			}
+		});
+	});
 </script>
 
 <svelte:head>
