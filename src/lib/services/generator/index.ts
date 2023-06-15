@@ -70,7 +70,11 @@ const generateWallTiles = (
  *
  * The publish date of the puzzle is the current time.
  */
-export const generatePuzzle = (seed: string, constraints: GeneratorConstraints): Puzzle => {
+export const generatePuzzle = (
+	seed: string,
+	id: string,
+	constraints: GeneratorConstraints
+): Puzzle => {
 	const rnd = alea(seed);
 
 	const { words, maxLength } = constraints;
@@ -97,7 +101,7 @@ export const generatePuzzle = (seed: string, constraints: GeneratorConstraints):
 	]);
 
 	return {
-		id: seed,
+		id,
 		publishedAt: new Date(),
 		version: 'generated.v1',
 		data: {

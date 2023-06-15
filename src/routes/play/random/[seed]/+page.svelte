@@ -3,7 +3,7 @@
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { ChevronRightIcon, HelpCircleIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronsRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { createGridStore } from '$lib/stores/grid';
 	import type { FinishEvent } from '$lib/types/puzzle';
@@ -60,14 +60,14 @@
 			highlight={type === 'win'}
 		>
 			New random puzzle
-			<HelpCircleIcon />
+			<ChevronsRightIcon />
 		</Button>
 	</EndMenu>
 {/if}
 
 {#key data.puzzle.id}
 	<LevelPlayer
-		backLink="/play"
+		backLink="/"
 		{grid}
 		title="Random puzzle"
 		on:finish={handleFinish}

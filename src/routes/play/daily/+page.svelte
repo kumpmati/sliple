@@ -61,7 +61,7 @@
 {/if}
 
 <LevelPlayer
-	backLink="/play"
+	backLink="/"
 	{grid}
 	title="Daily puzzle"
 	on:finish={handleFinish}
