@@ -7,7 +7,7 @@ type TilePos = {
 };
 
 // prevents infinite loops
-const MAX_TRIES = 10;
+const MAX_TRIES = 20;
 
 /**
  *
@@ -44,7 +44,7 @@ export const generateUniqueTilePositions = (
 
 		tries++;
 
-		if (tries >= MAX_TRIES) throw new Error('ran out of space');
+		if (tries >= MAX_TRIES) throw new Error('Not enough room for all tiles');
 
 		tiles.push({ x, y });
 	}

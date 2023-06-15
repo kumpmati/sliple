@@ -1,14 +1,8 @@
 <script lang="ts">
-	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
-	import { userStore } from '$lib/stores/user';
-	import { GridIcon, HelpCircleIcon, ListIcon } from 'svelte-feather-icons';
-	import type { PageData } from './$types';
 
-	export let data: PageData;
-
-	$: latestIsNew = data.latest && !$userStore.puzzles[data.latest.id];
-	$: latestPuzzle = data.latest?.data;
+	import { GridIcon, HelpCircleIcon, ListIcon, PlayIcon } from 'svelte-feather-icons';
+	import LargeLink from '$lib/components/LargeLink.svelte';
 </script>
 
 <svelte:head>
@@ -24,51 +18,24 @@
 	<Logo />
 </div>
 
-<h3>Featured</h3>
+<h3>Play</h3>
 <div class="links">
-	<a class="link highlight" class:new={latestIsNew} href="/puzzle/featured/latest">
-		<span class="text">
-			{#if latestIsNew}
-				<p class="new">New!</p>
-			{/if}
+	<LargeLink href="/play" title="Play" highlightColor="var(--blue-light)">
+		<svelte:fragment slot="description">Daily puzzles, featured puzzles and more!</svelte:fragment>
 
-			<h2>Featured puzzle</h2>
-			<p>
-				{#if latestPuzzle}
-					Spell “<b>{latestPuzzle.solution.toLowerCase()}</b>” within
-					<b
-						>{latestPuzzle.maxMoves.bronze ??
-							latestPuzzle.maxMoves.silver ??
-							latestPuzzle.maxMoves.gold}</b
-					> moves
-				{:else}
-					Solve the puzzle within the given moves
-				{/if}
-			</p>
-		</span>
+		<PlayIcon size="48" strokeWidth={1.5} class="challenges" slot="icon" />
+	</LargeLink>
 
-		<span class="puzzle-icon">
-			<FeaturedPuzzle />
-		</span>
-	</a>
-
-	<a class="link" href="/archive">
-		<h2>Puzzle archive</h2>
-		<ListIcon />
-	</a>
+	<LargeLink title="Campaigns" href="/campaign">
+		<GridIcon slot="icon" size="24" class="campaign" />
+	</LargeLink>
 </div>
 
 <h3>Other</h3>
 <div class="links">
-	<a class="link purple" href="/campaign">
-		<h2>Campaigns</h2>
-		<GridIcon size="48" strokeWidth={1} />
-	</a>
-
-	<a class="link" href="/tutorial">
-		<h2>Tutorial</h2>
-		<HelpCircleIcon />
-	</a>
+	<LargeLink title="Tutorial" href="/tutorial">
+		<HelpCircleIcon slot="icon" />
+	</LargeLink>
 </div>
 
 <style lang="scss">
@@ -77,6 +44,14 @@
 		justify-content: center;
 		margin-top: 32px;
 		margin-bottom: 50px;
+	}
+
+	:global(.challenges) {
+		opacity: 0.5;
+	}
+
+	:global(.campaign) {
+		opacity: 0.5;
 	}
 
 	.about {
@@ -98,88 +73,5 @@
 		flex-direction: column;
 		gap: 16px;
 		margin-bottom: 32px;
-	}
-
-	.link {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 100%;
-		padding: 12px 24px;
-		color: var(--black);
-		text-decoration: none;
-
-		background-color: var(--white);
-		border: 2px solid var(--gray-light);
-		border-radius: var(--border-radius);
-
-		transition: transform 200ms;
-
-		&:hover {
-			transform: scale(1.025);
-		}
-
-		&:active {
-			transform: scale(0.97);
-		}
-
-		&.purple {
-			border-color: transparent;
-			background-color: var(--purple-light);
-		}
-
-		&.highlight {
-			border-color: transparent;
-			position: relative;
-			background-color: var(--orange-light);
-
-			&.new {
-				border: 2px solid var(--orange);
-			}
-
-			.new {
-				border-radius: 20px;
-				background-color: var(--red);
-				padding: 0px 10px;
-				color: var(--white);
-				position: absolute;
-				top: -10px;
-				animation: wiggle 2s both infinite;
-			}
-
-			@keyframes wiggle {
-				0% {
-					transform: translateY(-2px);
-				}
-				50% {
-					transform: translateY(0);
-				}
-				100% {
-					transform: translateY(-2px);
-				}
-			}
-		}
-
-		.text {
-			width: 100%;
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			gap: 5px;
-			margin-right: 30px;
-		}
-
-		h2 {
-			margin: 0;
-			font-size: 20px;
-			font-family: var(--font-heading);
-		}
-
-		p {
-			margin: 0;
-			font-size: 14px;
-			font-family: var(--font-body);
-			color: rgba(0, 0, 0, 0.5);
-		}
 	}
 </style>

@@ -9,6 +9,9 @@
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { showTutorial } from '$lib/stores/tutorial';
 	import { browser } from '$app/environment';
+	import dayjs from 'dayjs';
+	import localized from 'dayjs/plugin/localizedFormat';
+	dayjs.extend(localized);
 
 	export let data: PageData;
 
@@ -39,11 +42,8 @@
 </script>
 
 <svelte:head>
-	<title>Sliple - {data.puzzle.publishedAt.toLocaleDateString('fi')}</title>
-	<meta
-		name="description"
-		content="Play the featured puzzle of {data.puzzle.publishedAt.toLocaleDateString('fi')}"
-	/>
+	<title>Sliple - Daily puzzle</title>
+	<meta name="description" content="Solve the daily puzzle - '{data.puzzle.data.solution}'" />
 </svelte:head>
 
 {#if showEndMenu}
@@ -61,9 +61,9 @@
 {/if}
 
 <LevelPlayer
-	backLink="/"
+	backLink="/play"
 	{grid}
-	title={data.puzzle.publishedAt.toLocaleDateString('fi-FI')}
+	title="Daily puzzle"
 	on:finish={handleFinish}
 	on:reset={handleReset}
 >

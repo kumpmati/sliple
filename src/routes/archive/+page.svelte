@@ -33,7 +33,7 @@
 		{@const solution = puzzle.data.solution.toUpperCase()}
 
 		<li>
-			<a class="link" class:visited={!!status} href="/puzzle/featured/{puzzle.id}">
+			<a class="link" class:visited={!!status} href="/play/featured/{puzzle.id}">
 				<span class="icon">
 					{#if status?.status === 'completed'}
 						{#if status?.rank === 'gold'}
