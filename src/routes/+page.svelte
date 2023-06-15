@@ -26,7 +26,7 @@
 
 <h3>Featured</h3>
 <div class="links">
-	<a class="link highlight" class:new={latestIsNew} href="/puzzle/latest">
+	<a class="link highlight" class:new={latestIsNew} href="/puzzle/featured/latest">
 		<span class="text">
 			{#if latestIsNew}
 				<p class="new">New!</p>
