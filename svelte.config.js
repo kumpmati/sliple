@@ -10,7 +10,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		version: {
-			name: 'v1.7.0',
+			name: 'v1.7.1',
 			pollInterval: 60 * 1000 // every minute
 		},
 		serviceWorker: {
