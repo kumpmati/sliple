@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 export const load = async ({ params }) => {
 	try {
 		return {
-			puzzle: generatePuzzle(params.seed, params.seed, { words, maxLength: 8, minLength: 3 })
+			puzzle: generatePuzzle(params.seed, params.seed, { words, maxLength: 7, minLength: 4 })
 		};
 	} catch (err: any) {
 		throw error(500, err?.message ?? 'unknown error');

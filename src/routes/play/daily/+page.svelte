@@ -3,7 +3,14 @@
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { ChevronRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import {
+		ChevronRightIcon,
+		HomeIcon,
+		LayoutIcon,
+		ListIcon,
+		MenuIcon,
+		RotateCcwIcon
+	} from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { createGridStore } from '$lib/stores/grid';
 	import type { FinishEvent } from '$lib/types/puzzle';
@@ -48,14 +55,14 @@
 
 {#if showEndMenu}
 	<EndMenu {type} {moves} puzzle={data.puzzle}>
-		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Try again
+		<Button on:click={handleReset} color={type === 'win' ? 'green' : 'red'} highlight>
+			{type === 'win' ? 'Improve' : 'Try again'}
 			<RotateCcwIcon />
 		</Button>
 
-		<Button on:click={() => goto('/archive')} color="green" highlight={type === 'win'}>
-			More puzzles
-			<ChevronRightIcon />
+		<Button on:click={() => goto('/')}>
+			Main menu
+			<HomeIcon />
 		</Button>
 	</EndMenu>
 {/if}
@@ -65,6 +72,7 @@
 		backLink="/"
 		{grid}
 		title="Daily puzzle"
+		titleColor="var(--blue-light)"
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>

@@ -12,6 +12,7 @@
 	export let title: string;
 	export let grid: GridStore;
 	export let backLink: string;
+	export let titleColor = 'var(--orange-light)';
 
 	const dispatch = createEventDispatcher<{ finish: FinishEvent; reset: null }>();
 	const word = currentWord(grid);
@@ -54,7 +55,7 @@
 	on:swipe={handleSwipe}
 >
 	<div class="heading">
-		<UnderlinedHeading color="var(--orange-light)">
+		<UnderlinedHeading color={titleColor}>
 			{title}
 		</UnderlinedHeading>
 

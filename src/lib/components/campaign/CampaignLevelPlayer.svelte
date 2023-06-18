@@ -3,7 +3,7 @@
 	import { userStore } from '$lib/stores/user';
 	import type { Campaign } from '$lib/types/campaign';
 	import type { FinishEvent } from '$lib/types/puzzle';
-	import { ChevronRightIcon, GridIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronsRightIcon, GridIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { createEventDispatcher } from 'svelte';
 	import Button from '../Button.svelte';
 	import EndMenu from '../EndMenu.svelte';
@@ -72,7 +72,7 @@
 					<GridIcon />
 				{:else}
 					Next level
-					<ChevronRightIcon />
+					<ChevronsRightIcon />
 				{/if}
 			</Button>
 		{/if}
