@@ -6,7 +6,7 @@
 	import { createEditorStore } from '$lib/stores/editor';
 	import { createGridStore } from '$lib/stores/grid';
 	import type { FinishEvent } from '$lib/types/puzzle';
-	import { GridIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { Edit2Icon, EditIcon, GridIcon, RotateCcwIcon } from 'svelte-feather-icons';
 
 	const editor = createEditorStore();
 	const grid = createGridStore($editor);
@@ -40,17 +40,11 @@
 		type={endType}
 		{moves}
 		puzzle={{ publishedAt: new Date(), id: 'preview', data: $grid, version: '2' }}
-	>
-		<Button on:click={handleReset}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-
-		<Button on:click={() => goto('/editor')}>
-			Back to editor
-			<GridIcon />
-		</Button>
-	</EndMenu>
+		buttons={[
+			{ text: 'Try again', onClick: handleReset, icon: RotateCcwIcon },
+			{ text: 'Back to editor', onClick: () => goto('/editor'), icon: EditIcon }
+		]}
+	/>
 {/if}
 
 <LevelPlayer
