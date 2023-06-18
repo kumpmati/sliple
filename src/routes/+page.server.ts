@@ -1,9 +1,7 @@
-import { connectDB, getLatestPuzzle } from '$lib/services/database';
+import { getLatestPuzzle } from '$lib/services/database';
 import type { ServerLoad } from '@sveltejs/kit';
 
 export const load: ServerLoad = async ({ setHeaders }) => {
-	await connectDB();
-
 	const latest = await getLatestPuzzle();
 
 	setHeaders({
