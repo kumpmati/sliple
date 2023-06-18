@@ -5,10 +5,22 @@
 	import { quintOut } from 'svelte/easing';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import { getRank } from '$lib/utils/grid';
+	import Button from './Button.svelte';
+	import type { ComponentType } from 'svelte/internal';
 
 	export let type: 'win' | 'loss';
 	export let moves: number;
 	export let puzzle: Puzzle;
+
+	type EndMenuButton = {
+		onClick: () => any;
+		text: string;
+		hightlight?: 'loss' | 'win' | 'both';
+		icon?: ComponentType;
+		enabled?: 'loss' | 'win';
+	};
+
+	export let buttons: EndMenuButton[];
 
 	$: rank = getRank(puzzle.data, moves);
 
@@ -57,7 +69,20 @@
 		class="buttons"
 		transition:fly|local={{ y: -5, duration: 200, delay: 200, easing: quintOut }}
 	>
-		<slot />
+		{#each buttons as btn}
+			<Button
+				color={type === 'win' ? 'green' : 'red'}
+				highlight={btn.hightlight === 'both' || btn.hightlight === type}
+				on:click={btn.onClick}
+				disabled={btn.enabled ? btn.enabled !== type : false}
+			>
+				{btn.text}
+
+				{#if btn.icon}
+					<svelte:component this={btn.icon} />
+				{/if}
+			</Button>
+		{/each}
 	</div>
 </div>
 
@@ -70,7 +95,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(255, 255, 255, 0.9);
+		background-color: rgba(255, 255, 255, 0.95);
 		z-index: 2;
 	}
 
@@ -78,7 +103,7 @@
 		padding: 1rem;
 		position: absolute;
 		left: 50%;
-		top: 40%;
+		top: 50%;
 		width: 100%;
 		transform: translate(-50%, -50%);
 		z-index: 10;

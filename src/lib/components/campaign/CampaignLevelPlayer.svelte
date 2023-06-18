@@ -3,7 +3,7 @@
 	import { userStore } from '$lib/stores/user';
 	import type { Campaign } from '$lib/types/campaign';
 	import type { FinishEvent } from '$lib/types/puzzle';
-	import { ChevronRightIcon, GridIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronsRightIcon, GridIcon, HomeIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { createEventDispatcher } from 'svelte';
 	import Button from '../Button.svelte';
 	import EndMenu from '../EndMenu.svelte';
@@ -64,31 +64,17 @@
 		type={endType}
 		{moves}
 		puzzle={{ ...data.levels[currentLevel], publishedAt: data.publishedAt, version: '2' }}
-	>
-		{#if endType === 'win'}
-			<Button on:click={handleNextLevel} color="green" highlight={endType === 'win'}>
-				{#if isLastOne}
-					Level selection
-					<GridIcon />
-				{:else}
-					Next level
-					<ChevronRightIcon />
-				{/if}
-			</Button>
-		{/if}
-
-		<Button on:click={handleResetLevel} color="red" highlight={endType === 'loss'}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-
-		{#if !isLastOne}
-			<Button on:click={() => goto(`/campaign/${data.id}`)}>
-				Level selection
-				<GridIcon />
-			</Button>
-		{/if}
-	</EndMenu>
+		buttons={[
+			{ text: 'Try again', onClick: handleResetLevel, icon: RotateCcwIcon, hightlight: 'loss' },
+			{
+				text: isLastOne ? 'Level selection' : 'Next level',
+				onClick: handleNextLevel,
+				icon: ChevronsRightIcon,
+				hightlight: 'win'
+			},
+			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
+		]}
+	/>
 {/if}
 
 {#if data.levels.length > 0 && grid}

@@ -2,8 +2,7 @@
 	import type { PageData } from './$types';
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import { ChevronsRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronsRightIcon, HomeIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { createGridStore } from '$lib/stores/grid';
 	import type { FinishEvent } from '$lib/types/puzzle';
@@ -48,21 +47,26 @@
 </svelte:head>
 
 {#if showEndMenu}
-	<EndMenu {type} {moves} puzzle={data.puzzle}>
-		<Button
-			on:click={() => goto('/play/random').then(() => (showEndMenu = false))}
-			color="green"
-			highlight={type === 'win'}
-		>
-			New random puzzle
-			<ChevronsRightIcon />
-		</Button>
-
-		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-	</EndMenu>
+	<EndMenu
+		{type}
+		{moves}
+		puzzle={data.puzzle}
+		buttons={[
+			{
+				text: type === 'win' ? 'Improve' : 'Try again',
+				onClick: handleReset,
+				icon: RotateCcwIcon,
+				hightlight: 'loss'
+			},
+			{
+				text: 'Next puzzle',
+				onClick: () => goto('/play/random'),
+				icon: ChevronsRightIcon,
+				hightlight: 'win'
+			},
+			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
+		]}
+	/>
 {/if}
 
 {#key data.puzzle.id}
@@ -70,6 +74,7 @@
 		backLink="/"
 		{grid}
 		title="Random puzzle"
+		titleColor="var(--purple-light)"
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>

@@ -2,8 +2,7 @@
 	import type { PageData } from './$types';
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import { ChevronRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronsRightIcon, HomeIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { createGridStore } from '$lib/stores/grid';
 	import { userStore } from '$lib/stores/user';
@@ -55,17 +54,21 @@
 </svelte:head>
 
 {#if showEndMenu}
-	<EndMenu {type} {moves} puzzle={data.puzzle}>
-		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-
-		<Button on:click={() => goto('/archive')} color="green" highlight={type === 'win'}>
-			More puzzles
-			<ChevronRightIcon />
-		</Button>
-	</EndMenu>
+	<EndMenu
+		{type}
+		{moves}
+		puzzle={data.puzzle}
+		buttons={[
+			{ text: 'Try again', onClick: handleReset, icon: RotateCcwIcon, hightlight: 'loss' },
+			{
+				text: 'More puzzles',
+				onClick: () => goto('/archive'),
+				hightlight: 'win',
+				icon: ChevronsRightIcon
+			},
+			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
+		]}
+	/>
 {/if}
 
 <LevelPlayer

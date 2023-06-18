@@ -2,8 +2,7 @@
 	import type { PageData } from './$types';
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import { ChevronRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { HomeIcon, RotateCcwIcon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { createGridStore } from '$lib/stores/grid';
 	import type { FinishEvent } from '$lib/types/puzzle';
@@ -47,17 +46,20 @@
 </svelte:head>
 
 {#if showEndMenu}
-	<EndMenu {type} {moves} puzzle={data.puzzle}>
-		<Button on:click={handleReset} color="red" highlight={type === 'loss'}>
-			Try again
-			<RotateCcwIcon />
-		</Button>
-
-		<Button on:click={() => goto('/archive')} color="green" highlight={type === 'win'}>
-			More puzzles
-			<ChevronRightIcon />
-		</Button>
-	</EndMenu>
+	<EndMenu
+		{type}
+		{moves}
+		puzzle={data.puzzle}
+		buttons={[
+			{
+				text: type === 'win' ? 'Improve' : 'Try again',
+				onClick: handleReset,
+				icon: RotateCcwIcon,
+				hightlight: 'both'
+			},
+			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
+		]}
+	/>
 {/if}
 
 {#key data.puzzle.id}
@@ -65,6 +67,7 @@
 		backLink="/"
 		{grid}
 		title="Daily puzzle"
+		titleColor="var(--blue-light)"
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>

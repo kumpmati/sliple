@@ -11,7 +11,13 @@
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { getFirstInProgressLevel } from '$lib/utils/campaign';
 	import { onMount } from 'svelte';
-	import { CheckIcon, ChevronRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import {
+		CheckIcon,
+		ChevronRightIcon,
+		ChevronsRightIcon,
+		HomeIcon,
+		RotateCcwIcon
+	} from 'svelte-feather-icons';
 
 	export let data: Campaign;
 
@@ -68,24 +74,17 @@
 		type={endType}
 		{moves}
 		puzzle={{ ...data.levels[currentLevel], publishedAt: data.publishedAt, version: '2' }}
-	>
-		{#if endType === 'win'}
-			<Button on:click={handleNextLevel} color="green" highlight={endType === 'win'}>
-				{#if !isLastOne}
-					Next tutorial
-					<ChevronRightIcon />
-				{:else}
-					Finish
-					<CheckIcon />
-				{/if}
-			</Button>
-		{:else}
-			<Button on:click={handleResetLevel} color="red" highlight={endType === 'loss'}>
-				Try again
-				<RotateCcwIcon />
-			</Button>
-		{/if}
-	</EndMenu>
+		buttons={[
+			{
+				text: isLastOne ? 'Finish' : 'Next tutorial',
+				onClick: handleNextLevel,
+				icon: isLastOne ? CheckIcon : ChevronsRightIcon,
+				hightlight: 'win',
+				enabled: 'win'
+			},
+			{ text: 'Try again', onClick: handleResetLevel, icon: RotateCcwIcon, hightlight: 'loss' }
+		]}
+	/>
 {/if}
 
 {#if data.levels.length > 0 && grid}
