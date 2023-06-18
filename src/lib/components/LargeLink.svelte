@@ -10,12 +10,12 @@
 	class="link"
 	class:highlight={!!highlightColor}
 	style:--highlight={highlightColor}
-	class:new={!!badge}
+	class:badge
 	{href}
 >
 	<span class="text">
 		{#if badge}
-			<p class="new">{badge}</p>
+			<p class="badge">{badge}</p>
 		{/if}
 
 		<h2>{title}</h2>
@@ -62,11 +62,11 @@
 			background-color: var(--highlight);
 			color: var(--large-link-text-highlight);
 
-			&.new {
+			&.badge {
 				border: 2px solid var(--red);
 			}
 
-			.new {
+			.badge {
 				border-radius: 20px;
 				background-color: var(--red);
 				padding: 0px 10px;
@@ -74,6 +74,7 @@
 				position: absolute;
 				top: -10px;
 				animation: wiggle 2s both infinite;
+				opacity: 1;
 			}
 
 			@keyframes wiggle {
