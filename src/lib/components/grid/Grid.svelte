@@ -26,7 +26,7 @@
 </script>
 
 <GridContainer width={$grid.width} height={$grid.height}>
-	{#each $grid.tiles.sort(sortTiles) as tile (tile.id)}
+	{#each [...$grid.tiles].sort(sortTiles) as tile (tile.id)}
 		{#if isLetterTile(tile)}
 			<Letter {tile} />
 		{:else if isGoalTile(tile)}

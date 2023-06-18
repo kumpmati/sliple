@@ -5,20 +5,26 @@
 	import { swipe } from 'svelte-gestures';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { ArrowLeftIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ArrowLeftIcon, ChevronsLeftIcon, RefreshCcwIcon } from 'svelte-feather-icons';
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { goto } from '$app/navigation';
+	import { spring } from 'svelte/motion';
 
 	export let title: string;
 	export let grid: GridStore;
 	export let backLink: string;
 	export let titleColor = 'var(--orange-light)';
+	export let canUndo = false;
+
+	const resetAnimation = spring(0, { stiffness: 0.01, damping: 0.05, precision: 0.001 });
+	const undoAnimation = spring(0, { stiffness: 0.1, damping: 0.3, precision: 0.01 });
 
 	const dispatch = createEventDispatcher<{ finish: FinishEvent; reset: null }>();
 	const word = currentWord(grid);
 
 	$: movesExhausted = $grid.numMovesTaken >= $grid.maxMoves.bronze;
 	$: isAnswer = grid.isAnswer($word);
+	$: hasEnded = isAnswer || (movesExhausted && !isAnswer);
 
 	$: if (isAnswer) {
 		dispatch('finish', { type: 'win', moves: $grid.numMovesTaken });
@@ -44,9 +50,35 @@
 		<ArrowLeftIcon />
 	</button>
 
-	<button class="reset" on:click={() => dispatch('reset')}>
-		<RotateCcwIcon />
-	</button>
+	<div class="buttons">
+		<slot name="buttons" />
+
+		{#if canUndo && !hasEnded}
+			<button
+				class="undo"
+				disabled={$grid.numMovesTaken === 0}
+				on:click={() => {
+					grid.undo();
+					undoAnimation.set(-4).then(() => undoAnimation.set(0));
+				}}
+				style:transform="translateX({$undoAnimation}px)"
+			>
+				<ChevronsLeftIcon />
+			</button>
+		{/if}
+
+		<button
+			class="reset"
+			disabled={$grid.numMovesTaken === 0}
+			on:click={() => {
+				dispatch('reset');
+				$resetAnimation++;
+			}}
+			style:transform="rotate({-$resetAnimation * 180}deg)"
+		>
+			<RefreshCcwIcon />
+		</button>
+	</div>
 </nav>
 
 <span
@@ -86,8 +118,15 @@
 		z-index: 2;
 	}
 
+	.buttons {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
 	.back,
-	.reset {
+	.reset,
+	.undo {
 		color: var(--black);
 		display: grid;
 		place-content: center;
@@ -97,9 +136,9 @@
 		cursor: pointer;
 		padding: 0;
 
-		transition: transform 200ms;
-		&:active {
-			transform: scale(0.95);
+		&:disabled {
+			opacity: 0.5;
+			cursor: default;
 		}
 	}
 

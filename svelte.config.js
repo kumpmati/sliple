@@ -12,6 +12,10 @@ const config = {
 		version: {
 			name: 'v1.5.4',
 			pollInterval: 60 * 1000 // every minute
+		},
+		serviceWorker: {
+			// only register in
+			register: process.env.NODE_ENV === 'production'
 		}
 	}
 };
