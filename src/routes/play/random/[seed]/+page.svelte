@@ -60,7 +60,10 @@
 			},
 			{
 				text: 'Next puzzle',
-				onClick: () => goto('/play/random'),
+				onClick: async () => {
+					await goto('/play/random');
+					showEndMenu = false;
+				},
 				icon: ChevronsRightIcon,
 				hightlight: 'win'
 			},

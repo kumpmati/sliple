@@ -10,7 +10,7 @@
 
 	const store = getContext('grid') as GridStore;
 
-	$: goalTile = store.getAt(tile.x, tile.y).find((t) => t.type === 'goal') as GoalTile;
+	$: goalTile = store.getAt(tile.x, tile.y).find((t) => t.type === 'goal') as GoalTile | null;
 	$: status = getGoalStatus(goalTile, tile);
 </script>
 
@@ -43,6 +43,23 @@
 		>
 			{tile.letter}
 		</text>
+
+		<!--
+			If over a goal tile that's not the right one,
+			show the underlying goal letter. This improves
+			the readability of a puzzle.
+		-->
+		{#if status === 'invalid' && goalTile}
+			<text
+				transform="translate(16, 16)"
+				fill="var(--white)"
+				text-anchor="middle"
+				dominant-baseline="middle"
+				class="goal-letter"
+			>
+				{goalTile.letter}
+			</text>
+		{/if}
 	</g>
 </TileWrapper>
 
@@ -51,6 +68,11 @@
 		pointer-events: none;
 		font-size: 32px;
 		font-family: var(--font-heading);
+
+		&.goal-letter {
+			font-size: 18px;
+			opacity: 0.5;
+		}
 	}
 
 	g {
