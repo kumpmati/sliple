@@ -1,4 +1,5 @@
-import type { Grid } from './grid';
+import { z } from 'zod';
+import { gridSchema, type Grid } from './grid';
 
 export type Puzzle = {
 	id: string;
@@ -23,3 +24,10 @@ export type FinishEvent = {
 	type: 'win' | 'loss';
 	moves: number;
 };
+
+export const puzzleSchema = z.object({
+	id: z.string().min(1),
+	data: gridSchema,
+	publishedAt: z.string(),
+	version: z.string().min(1)
+});

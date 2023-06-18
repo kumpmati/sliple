@@ -44,9 +44,13 @@
 		<ArrowLeftIcon />
 	</button>
 
-	<button class="reset" on:click={() => dispatch('reset')}>
-		<RotateCcwIcon />
-	</button>
+	<div class="buttons">
+		<slot name="buttons" />
+
+		<button class="reset" on:click={() => dispatch('reset')}>
+			<RotateCcwIcon />
+		</button>
+	</div>
 </nav>
 
 <span
@@ -84,6 +88,12 @@
 		display: flex;
 		justify-content: space-between;
 		z-index: 2;
+	}
+
+	.buttons {
+		display: flex;
+		align-items: center;
+		gap: 8px;
 	}
 
 	.back,

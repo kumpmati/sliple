@@ -3,8 +3,9 @@
 	import { navigating, updated } from '$app/stores';
 	import 'nprogress/nprogress.css';
 	import { onMount } from 'svelte';
-	import '../app.css';
 	import { authUser } from '$lib/stores/auth';
+	import '../app.css';
+	import 'tippy.js/dist/tippy.css';
 
 	export let data;
 
