@@ -84,7 +84,7 @@
 		padding: 4px;
 		display: flex;
 		border-radius: var(--border-radius-big);
-		border: 2px solid var(--gray-light);
+		border: 2px solid var(--grid-border);
 		overflow: visible;
 		width: 100%;
 	}

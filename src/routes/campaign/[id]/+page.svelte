@@ -33,25 +33,25 @@
 
 <style lang="scss">
 	a {
-		color: var(--black);
+		color: var(--text);
 		position: absolute;
 		top: 16px;
 		left: 16px;
 	}
 
 	p {
-		color: var(--gray);
+		color: var(--text-subtle);
 		margin: 0;
 
 		b {
 			font-family: var(--font-heading);
-			color: var(--black);
+			color: var(--text);
 		}
 	}
 
 	.levels {
 		font-family: var(--font-heading);
-		color: var(--black);
+		color: var(--text);
 		font-weight: bold;
 	}
 
@@ -74,7 +74,7 @@
 		padding: 30px;
 		padding-top: 60px;
 
-		border: 2px solid var(--gray-light);
+		border: 2px solid var(--large-link-border);
 		border-radius: var(--border-radius);
 	}
 </style>

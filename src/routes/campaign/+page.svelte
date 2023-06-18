@@ -42,7 +42,7 @@
 
 <style lang="scss">
 	a {
-		color: var(--black);
+		color: var(--text);
 	}
 
 	.content {

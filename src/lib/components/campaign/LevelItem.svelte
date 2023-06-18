@@ -25,8 +25,8 @@
 <style lang="scss">
 	div {
 		position: relative;
-		color: var(--black);
-		border: 2px solid var(--gray-light);
+		color: var(--text);
+		border: 2px solid var(--text-subtle);
 		border-radius: var(--border-radius);
 		height: 60px;
 		display: grid;
@@ -44,22 +44,23 @@
 			bottom: -8px;
 			left: 50%;
 			transform: translateX(-50%);
+			color: var(--white);
 		}
 
 		&.gold {
-			color: var(--white);
+			color: var(--black);
 			border-color: #f3c54f;
 			background-color: #f3c54f;
 		}
 
 		&.silver {
-			color: var(--white);
-			border-color: #a8a8a8;
-			background-color: #a8a8a8;
+			color: var(--black);
+			border-color: #c9c9c9;
+			background-color: #c9c9c9;
 		}
 
 		&.bronze {
-			color: var(--white);
+			color: var(--black);
 			border-color: #ff9d67;
 			background-color: #ff9d67;
 		}
