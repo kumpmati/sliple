@@ -4,6 +4,9 @@
 	import 'nprogress/nprogress.css';
 	import { onMount } from 'svelte';
 	import '../app.css';
+	import { authUser } from '$lib/stores/auth';
+
+	export let data;
 
 	NProgress.configure({ minimum: 0.16, showSpinner: false });
 
@@ -26,6 +29,8 @@
 		// check update status when first started
 		updated.check();
 	});
+
+	$: $authUser = data.user;
 </script>
 
 <svelte:head>

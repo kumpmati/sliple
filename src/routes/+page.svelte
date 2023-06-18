@@ -1,20 +1,22 @@
 <script>
 	import LargeLink from '$lib/components/LargeLink.svelte';
+	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
+	import { authUser } from '$lib/stores/auth';
 	import { userStore } from '$lib/stores/user';
 	import {
 		BookmarkIcon,
 		CalendarIcon,
 		GridIcon,
 		HelpCircleIcon,
-		ListIcon
+		ListIcon,
+		UserIcon
 	} from 'svelte-feather-icons';
 
 	export let data;
 
 	$: latestIsNew = data.latest && !$userStore.puzzles[data.latest.id];
-	$: latestPuzzle = data.latest?.data;
 </script>
 
 <svelte:head>
@@ -22,9 +24,19 @@
 	<meta name="description" content="Slippery, free puzzle game" />
 </svelte:head>
 
-<a href="/about" class="about" aria-label="About the website">
-	<HelpCircleIcon />
-</a>
+<nav>
+	<a href="/about" class="about" aria-label="About the website">
+		<HelpCircleIcon />
+	</a>
+
+	<a href={$authUser ? '/me' : '/auth/signin'}>
+		{#if $authUser}
+			<UserAvatar user={$authUser} />
+		{:else}
+			<UserIcon />
+		{/if}
+	</a>
+</nav>
 
 <div class="logo">
 	<Logo />
@@ -96,9 +108,19 @@
 		text-align: center;
 	}
 
-	.about {
-		width: fit-content;
-		color: var(--black);
+	nav {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+
+		a {
+			color: var(--black);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 16px;
+			text-decoration: none;
+		}
 	}
 
 	.icon {
