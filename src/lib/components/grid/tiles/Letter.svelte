@@ -71,7 +71,7 @@
 
 		&.goal-letter {
 			font-size: 18px;
-			opacity: 0.5;
+			opacity: 0.75;
 		}
 	}
 
