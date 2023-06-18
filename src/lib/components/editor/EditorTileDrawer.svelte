@@ -75,7 +75,7 @@
 <style lang="scss">
 	.drawer {
 		border-radius: var(--border-radius);
-		background-color: var(--orange-light);
+		background-color: var(--tile-drawer-bg);
 		display: flex;
 		flex-direction: row;
 		gap: 8px;

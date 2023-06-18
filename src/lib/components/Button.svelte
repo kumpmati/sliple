@@ -11,7 +11,7 @@
 <style lang="scss">
 	button {
 		text-decoration: none;
-		color: var(--black);
+		color: var(--button-text);
 		cursor: pointer;
 		border-radius: var(--border-radius);
 		font-family: var(--font-body);
@@ -22,13 +22,15 @@
 		padding: 8px 16px;
 		transition: transform 200ms;
 
-		--bg: var(--white);
-		--border: var(--gray-light);
+		--bg: var(--button-bg);
+		--border: var(--button-border);
 
 		border: 2px solid var(--border);
 		background-color: var(--bg);
 
 		&.highlight {
+			color: var(--black);
+
 			&.green {
 				--bg: var(--green-light);
 				--border: var(--green-dark);

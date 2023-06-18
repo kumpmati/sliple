@@ -34,7 +34,7 @@
 
 		<li>
 			<a class="link" class:visited={!!status} href="/play/featured/{puzzle.id}">
-				<span class="icon">
+				<span class="icon rank">
 					{#if status?.status === 'completed'}
 						{#if status?.rank === 'gold'}
 							<CompletedPuzzleIconGold />
@@ -73,7 +73,7 @@
 		position: sticky;
 		top: 0;
 		padding: 8px 0 16px 0;
-		background-color: var(--white);
+		background-color: var(--bg);
 	}
 
 	.title {
@@ -84,7 +84,7 @@
 		position: sticky;
 		top: 16px;
 		left: 8px;
-		color: var(--black);
+		color: var(--text);
 		display: grid;
 		place-content: center;
 		width: fit-content;
@@ -110,14 +110,14 @@
 			gap: 16px;
 			align-items: center;
 			border-radius: var(--border-radius);
-			color: var(--gray);
+			color: var(--text-subtle);
 			text-decoration: none;
 			padding: 4px;
 
 			transition: transform 200ms;
 
 			&:not(.visited) {
-				background-color: var(--orange-light);
+				background-color: var(--unvisited-link-bg);
 			}
 
 			&:active {
@@ -125,7 +125,7 @@
 			}
 
 			&:hover {
-				background-color: var(--gray-light);
+				background-color: var(--large-link-bg);
 			}
 
 			p {
@@ -134,11 +134,15 @@
 
 			.icon {
 				display: flex;
-				color: var(--black);
+				color: var(--text);
+
+				&.rank {
+					color: var(--bg);
+				}
 			}
 
 			.upper {
-				color: var(--black);
+				color: var(--text);
 				font-family: var(--font-heading);
 				font-weight: 900;
 			}

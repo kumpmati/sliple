@@ -127,7 +127,7 @@
 	.back,
 	.reset,
 	.undo {
-		color: var(--black);
+		color: var(--text);
 		display: grid;
 		place-content: center;
 		width: fit-content;
