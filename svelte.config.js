@@ -10,8 +10,12 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		version: {
-			name: 'v1.5.4',
+			name: 'v1.6.0',
 			pollInterval: 60 * 1000 // every minute
+		},
+		serviceWorker: {
+			// only register in
+			register: process.env.NODE_ENV === 'production'
 		}
 	}
 };

@@ -1,4 +1,4 @@
-import { connectDB, getCampaignById } from '$lib/services/database';
+import { getCampaignById } from '$lib/services/database';
 import { error, type ServerLoad } from '@sveltejs/kit';
 
 /**
@@ -6,8 +6,6 @@ import { error, type ServerLoad } from '@sveltejs/kit';
  * when changing levels, or otherwise navigating between campaign pages.
  */
 export const load: ServerLoad<{ id: string }> = async ({ params }) => {
-	await connectDB();
-
 	const campaign = await getCampaignById(params.id);
 
 	if (!campaign) {

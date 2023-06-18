@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let color: 'green' | 'red' | 'default' = 'default';
 	export let highlight = false;
+	export let disabled = false;
 </script>
 
-<button on:click class={color} class:highlight>
+<button on:click class={color} class:highlight {disabled}>
 	<slot />
 </button>
 
@@ -39,11 +40,16 @@
 			}
 		}
 
-		&:hover {
+		&:disabled {
+			color: rgba(0, 0, 0, 0.25);
+			cursor: default;
+		}
+
+		&:hover:not(:disabled) {
 			transform: scale(1.03);
 		}
 
-		&:active {
+		&:active:not(:disabled) {
 			transform: scale(0.9);
 		}
 	}
