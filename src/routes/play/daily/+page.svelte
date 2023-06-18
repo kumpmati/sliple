@@ -68,6 +68,7 @@
 		{grid}
 		title="Daily puzzle"
 		titleColor="var(--blue-light)"
+		canUndo
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>
