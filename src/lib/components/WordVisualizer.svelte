@@ -27,7 +27,7 @@
 		place-content: center;
 		width: 40px;
 		height: 40px;
-		background-color: var(--gray-light);
+		background-color: var(--letter-slot-bg);
 		border-radius: var(--border-radius);
 		border: 2px solid transparent;
 		font-size: 20px;
@@ -37,9 +37,9 @@
 		transition: background-color 200ms, color 200ms, border-color 200ms;
 
 		&.correct {
-			background-color: var(--white);
-			border-color: var(--gray);
-			color: var(--black);
+			background-color: var(--tile-bg);
+			border-color: var(--tile-border);
+			color: var(--tile-text);
 		}
 	}
 </style>

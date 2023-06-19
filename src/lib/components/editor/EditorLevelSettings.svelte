@@ -128,14 +128,14 @@
 		flex-direction: column;
 		align-items: center;
 		border-radius: var(--border-radius);
-		background-color: var(--orange-light);
+		background-color: var(--large-link-bg);
 		padding: 10px 20px 20px 20px;
 		max-width: 250px;
 		margin: 0 auto;
 
 		p {
 			margin: 0;
-			color: var(--gray);
+			color: var(--text-subtle);
 		}
 
 		h2 {
@@ -145,7 +145,7 @@
 		}
 
 		.edit {
-			color: var(--gray);
+			color: var(--text-subtle);
 			background-color: transparent;
 			border: none;
 			position: absolute;
@@ -161,7 +161,7 @@
 			margin: 2px 0;
 
 			.value {
-				color: var(--black);
+				color: var(--text);
 				font-weight: bold;
 				font-family: var(--font-heading);
 			}
@@ -187,7 +187,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			color: var(--gray);
+			color: var(--text-subtle);
 		}
 	}
 </style>

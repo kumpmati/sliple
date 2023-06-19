@@ -76,7 +76,7 @@
 	}
 
 	a {
-		color: var(--black);
+		color: var(--text);
 		width: fit-content;
 	}
 

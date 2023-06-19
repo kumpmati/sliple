@@ -8,13 +8,13 @@
 	width="59"
 	height="59"
 	rx="8.5"
-	fill={'var(--white)'}
-	stroke={'var(--gray)'}
+	fill="var(--tile-bg)"
+	stroke="var(--tile-border)"
 	stroke-width="2"
 />
 <text
 	transform="translate(34, 36)"
-	fill={'var(--white)'}
+	fill="var(--tile-text)"
 	text-anchor="middle"
 	dominant-baseline="middle"
 >

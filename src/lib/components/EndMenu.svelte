@@ -95,7 +95,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(255, 255, 255, 0.95);
+		background-color: var(--end-menu-underlay);
 		z-index: 2;
 	}
 
@@ -119,7 +119,7 @@
 			max-width: 250px;
 			margin-top: 30px;
 			border-radius: var(--border-radius);
-			background-color: var(--white);
+			background-color: var(--bg);
 			padding: 16px 32px;
 
 			.ranks {
@@ -143,12 +143,12 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				color: var(--gray);
+				color: var(--text-subtle);
 
 				.value {
 					font-weight: bold;
 					font-family: var(--font-heading);
-					color: var(--black);
+					color: var(--text);
 				}
 
 				p {

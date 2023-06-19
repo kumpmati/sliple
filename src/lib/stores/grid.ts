@@ -1,8 +1,9 @@
 import type { Tile, GoalTile, Grid, LetterTile } from '$lib/types/grid';
-import { copy } from '$lib/utils/copy';
 import { calculateNextPosition, canMove } from '$lib/utils/grid';
 import { normalizeWord } from '$lib/utils/word';
-import { derived, writable, type Readable } from 'svelte/store';
+import { derived, get, type Readable } from 'svelte/store';
+import { undoable } from '@macfja/svelte-undoable';
+import { produce } from 'immer';
 
 export type Direction = 'top' | 'right' | 'left' | 'bottom';
 
@@ -16,93 +17,91 @@ export type GridStore = Readable<GridState> & {
 	setState: (grid: GridState) => void;
 	reset: () => void;
 	isAnswer: (value: string) => boolean;
+	undo: () => void;
 };
 
 /**
  * createGridStore initializes the grid store.
  */
 export const createGridStore = (initialState: Grid): GridStore => {
-	let _state = copy({ ...initialState, pendingUpdate: null });
-	const state = writable<GridState>(_state);
+	const state = undoable<GridState & { pendingUpdate: any }>({
+		...initialState,
+		pendingUpdate: null
+	});
 
 	const moveTile = (id: string, dir: Direction, isUpdate = false) => {
 		state.update((prev) => {
-			const tile = prev.tiles.find((t) => t.id === id);
+			return produce(prev, (draft) => {
+				const tile = draft.tiles.find((t) => t.id === id);
 
-			// prevent moving if the tile isn't allowed to move, or
-			// if the game is still in the process of updating and
-			// the user tries to move a tile.
-			if (!tile || !canMove(tile) || (!!prev.pendingUpdate && !isUpdate)) return prev;
+				// prevent moving if the tile isn't allowed to move, or
+				// if the game is still in the process of updating and
+				// the user tries to move a tile.
+				if (!tile || !canMove(tile) || (!!draft.pendingUpdate && !isUpdate)) return;
 
-			const pos = calculateNextPosition(prev, id, dir);
+				const pos = calculateNextPosition(draft, id, dir);
 
-			// tile has not moved
-			if (tile.x === pos.x && tile.y === pos.y) {
-				if (prev.pendingUpdate) {
-					clearTimeout(prev.pendingUpdate);
-					prev.pendingUpdate = null;
+				// tile has not moved
+				if (tile.x === pos.x && tile.y === pos.y) {
+					if (draft.pendingUpdate) {
+						clearTimeout(draft.pendingUpdate);
+						draft.pendingUpdate = null;
 
-					// increment number of taken moves
-					prev.numMovesTaken++;
+						// increment number of taken moves
+						draft.numMovesTaken++;
+					}
+
+					return;
 				}
 
-				return prev;
-			}
+				const d = pos.nextTick;
 
-			const d = pos.nextTick;
+				// Check if the response requires that the tile should move
+				// again after this move is complete
+				if (d) {
+					// prevent user from moving until the tile stops
+					draft.pendingUpdate = setTimeout(() => moveTile(id, d, true), 150);
+				} else {
+					// no nextTick is specified, stop the update
+					clearTimeout(draft.pendingUpdate);
+					draft.pendingUpdate = null;
 
-			// Check if the response requires that the tile should move
-			// again after this move is complete
-			if (d) {
-				// prevent user from moving until the tile stops
-				prev.pendingUpdate = setTimeout(() => moveTile(id, d, true), 150);
-			} else {
-				// no nextTick is specified, stop the update
-				clearTimeout(prev.pendingUpdate);
-				prev.pendingUpdate = null;
+					// increment number of taken moves
+					draft.numMovesTaken++;
+				}
 
-				// increment number of taken moves
-				prev.numMovesTaken++;
-			}
-
-			// update tile position
-			tile.x = pos.x;
-			tile.y = pos.y;
-
-			_state = prev;
-			return prev;
+				// update tile position
+				tile.x = pos.x;
+				tile.y = pos.y;
+				return;
+			});
 		});
 	};
 
-	const getAt = (x: number, y: number) => {
-		const found = _state.tiles.filter((b) => b.x === x && b.y === y);
-		return found;
-	};
-
-	const setState = (s: GridState) => {
-		state.set(s);
-	};
+	const getAt = (x: number, y: number) => get(state).tiles.filter((b) => b.x === x && b.y === y);
 
 	const reset = () => {
-		if (_state.pendingUpdate) {
-			clearTimeout(_state.pendingUpdate);
+		const s = get(state);
+
+		if (s.pendingUpdate) {
+			clearTimeout(s.pendingUpdate);
 		}
 
-		_state = copy({ ...initialState, pendingUpdate: null });
-		state.set(_state);
+		state.reset();
 	};
 
 	const isAnswer = (value: string) => {
-		return normalizeWord(value) === normalizeWord(_state.solution);
+		return normalizeWord(value) === normalizeWord(get(state).solution);
 	};
 
 	return {
 		subscribe: state.subscribe,
 		moveTile: moveTile,
 		getAt,
-		setState,
+		setState: state.set,
 		reset,
-		isAnswer
+		isAnswer,
+		undo: state.undo
 	};
 };
 

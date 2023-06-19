@@ -102,10 +102,7 @@
 			},
 			{
 				text: 'Next puzzle',
-				onClick: async () => {
-					await goto('/play/random');
-					showEndMenu = false;
-				},
+				onClick: () => goto('/play/random').then(() => (showEndMenu = false)),
 				icon: ChevronsRightIcon,
 				hightlight: 'win'
 			},
@@ -120,6 +117,7 @@
 		{grid}
 		title="Random puzzle"
 		titleColor="var(--purple-light)"
+		canUndo
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>
@@ -141,12 +139,12 @@
 
 <style lang="scss">
 	p {
-		color: var(--gray);
+		color: var(--text-subtle);
 	}
 
 	.highlight {
 		font-weight: bold;
-		color: var(--black);
+		color: var(--text);
 	}
 
 	button {

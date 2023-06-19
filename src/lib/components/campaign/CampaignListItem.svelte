@@ -48,10 +48,11 @@
 		grid-template-columns: 48px 1fr;
 		gap: 16px;
 		border-radius: var(--border-radius);
-		border: 2px solid var(--gray-light);
+		border: 2px solid var(--large-link-border);
 		text-decoration: none;
-		color: var(--black);
+		color: var(--text);
 		height: 100%;
+		background-color: var(--large-link-bg);
 
 		transition: transform 200ms;
 

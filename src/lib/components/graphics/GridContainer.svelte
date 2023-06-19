@@ -21,9 +21,8 @@
 		width={width * GRID_CELL_SIZE + 10}
 		height={height * GRID_CELL_SIZE + 10}
 		rx="17.5"
-		fill="var(--white)"
-		stroke="var(--black)"
-		stroke-opacity="0.25"
+		fill="var(--grid-bg)"
+		stroke="var(--grid-border)"
 		stroke-width="2"
 	/>
 

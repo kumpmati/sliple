@@ -34,10 +34,8 @@
 			margin: 0;
 		}
 
-		p {
-			&.empty {
-				color: var(--gray);
-			}
+		p.empty {
+			color: var(--text-subtle);
 		}
 	}
 </style>

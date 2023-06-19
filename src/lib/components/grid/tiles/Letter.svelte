@@ -27,17 +27,17 @@
 				? 'var(--green)'
 				: status === 'invalid'
 				? 'var(--red)'
-				: 'var(--white)'}
+				: 'var(--tile-bg)'}
 			stroke={status === 'valid'
 				? 'var(--green-dark)'
 				: status === 'invalid'
 				? 'var(--red-dark)'
-				: 'var(--gray)'}
+				: 'var(--tile-border)'}
 			stroke-width="2"
 		/>
 		<text
 			transform="translate(34, 36)"
-			fill={status === 'none' ? 'var(--black)' : 'var(--white)'}
+			fill={status === 'none' ? 'var(--text)' : 'var(--white)'}
 			text-anchor="middle"
 			dominant-baseline="middle"
 		>
@@ -71,7 +71,7 @@
 
 		&.goal-letter {
 			font-size: 18px;
-			opacity: 0.5;
+			opacity: 0.75;
 		}
 	}
 

@@ -68,6 +68,7 @@
 		{grid}
 		title="Daily puzzle"
 		titleColor="var(--blue-light)"
+		canUndo
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>
@@ -80,11 +81,11 @@
 
 <style lang="scss">
 	p {
-		color: var(--gray);
+		color: var(--text-subtle);
 	}
 
 	.highlight {
 		font-weight: bold;
-		color: var(--black);
+		color: var(--text);
 	}
 </style>

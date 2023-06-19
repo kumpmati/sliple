@@ -44,17 +44,18 @@
 
 <div class="links">
 	<div class="row">
-		<LargeLink title="Daily Puzzle" href="/play/daily" highlightColor="var(--blue-light)">
-			<svelte:fragment slot="description">Every day a new random puzzle!</svelte:fragment>
-
+		<LargeLink
+			title="Daily Puzzle"
+			description="Every day a new random puzzle!"
+			href="/play/daily"
+			highlightColor="var(--blue-light)"
+		>
 			<span slot="icon" class="icon" style="color:var(--blue)">
 				<CalendarIcon size="48" strokeWidth={1} />
 			</span>
 		</LargeLink>
 
-		<LargeLink title="Random" href="/play/random">
-			<svelte:fragment slot="description">Infinite variations</svelte:fragment>
-
+		<LargeLink title="Random" description="Infinite variations" href="/play/random">
 			<span slot="icon" style="color:var(--red)">
 				<FeaturedPuzzle />
 			</span>
@@ -66,11 +67,10 @@
 	<LargeLink
 		href="/play/featured/latest"
 		title="Featured puzzle"
+		description="A challenging puzzle created by a human!"
 		badge={latestIsNew ? 'New!' : null}
 		highlightColor="var(--orange-light)"
 	>
-		<svelte:fragment slot="description">A challenging puzzle created by a human!</svelte:fragment>
-
 		<span slot="icon" style="display:contents;color:var(--orange);">
 			<BookmarkIcon size="48" strokeWidth={1} />
 		</span>
@@ -104,7 +104,7 @@
 		font-family: var(--font-body);
 		font-weight: 400;
 		font-size: 14px;
-		color: var(--gray);
+		color: var(--text-subtle);
 		text-align: center;
 	}
 
@@ -121,6 +121,11 @@
 			font-size: 16px;
 			text-decoration: none;
 		}
+	}
+
+	.about {
+		width: fit-content;
+		color: var(--text);
 	}
 
 	.icon {

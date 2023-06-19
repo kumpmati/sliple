@@ -21,7 +21,7 @@
 		position: relative;
 		font-weight: 900;
 		font-size: 24px;
-		color: var(--black);
+		color: var(--text);
 		font-family: var(--font-heading);
 		z-index: 1;
 
@@ -34,6 +34,10 @@
 			height: 16px;
 			border-radius: 16px;
 			z-index: -1;
+
+			@media screen and (prefers-color-scheme: dark) {
+				filter: brightness(0.5);
+			}
 		}
 	}
 </style>

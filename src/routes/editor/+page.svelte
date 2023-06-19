@@ -83,7 +83,7 @@
 		align-items: center;
 
 		p {
-			color: var(--gray);
+			color: var(--text-subtle);
 		}
 
 		.right {
@@ -96,8 +96,9 @@
 			border: none;
 		}
 
-		a {
-			color: var(--black);
+		a,
+		button {
+			color: var(--text);
 		}
 	}
 

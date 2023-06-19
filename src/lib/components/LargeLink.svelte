@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let href: string;
 	export let title: string;
+	export let description: string | null = null;
 	export let badge: string | null = null;
 	export let highlightColor: string | null = null;
 </script>
@@ -9,17 +10,18 @@
 	class="link"
 	class:highlight={!!highlightColor}
 	style:--highlight={highlightColor}
-	class:new={!!badge}
+	class:badge
 	{href}
 >
 	<span class="text">
 		{#if badge}
-			<p class="new">{badge}</p>
+			<p class="badge">{badge}</p>
 		{/if}
 
 		<h2>{title}</h2>
-		{#if $$slots.description}
-			<p><slot name="description" /></p>
+
+		{#if description}
+			<p>{description}</p>
 		{/if}
 	</span>
 
@@ -37,11 +39,11 @@
 		justify-content: space-between;
 		width: 100%;
 		padding: 12px 24px;
-		color: var(--black);
+		color: var(--large-link-text);
 		text-decoration: none;
 
-		background-color: var(--white);
-		border: 1.5px solid var(--gray-light);
+		background-color: var(--large-link-bg);
+		border: 2px solid var(--large-link-border);
 		border-radius: var(--border-radius);
 
 		transition: transform 200ms;
@@ -58,12 +60,13 @@
 			border-color: transparent;
 			position: relative;
 			background-color: var(--highlight);
+			color: var(--large-link-text-highlight);
 
-			&.new {
+			&.badge {
 				border: 2px solid var(--red);
 			}
 
-			.new {
+			.badge {
 				border-radius: 20px;
 				background-color: var(--red);
 				padding: 0px 10px;
@@ -71,6 +74,7 @@
 				position: absolute;
 				top: -10px;
 				animation: wiggle 2s both infinite;
+				opacity: 1;
 			}
 
 			@keyframes wiggle {
@@ -109,7 +113,7 @@
 			margin: 0;
 			font-size: 14px;
 			font-family: var(--font-body);
-			color: rgba(0, 0, 0, 0.5);
+			opacity: 0.5;
 		}
 	}
 </style>
