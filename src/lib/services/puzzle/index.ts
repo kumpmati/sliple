@@ -87,12 +87,7 @@ export const getPuzzleTop5 = async (
 	return await Promise.all(
 		uniqueSorted.map(async (s) => ({
 			...s,
-			user: s.userId
-				? await getUserById(s.userId!).then((d) => {
-						console.log(s.userId, d);
-						return d;
-				  })
-				: null
+			user: s.userId ? await getUserById(s.userId!) : null
 		}))
 	);
 };

@@ -15,7 +15,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const body = await schema.spa(await request.json());
 
 	if (!body.success) {
-		console.log(body.error);
 		throw error(400, 'malformed');
 	}
 
