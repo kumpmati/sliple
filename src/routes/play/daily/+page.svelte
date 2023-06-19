@@ -10,9 +10,13 @@
 	import { browser } from '$app/environment';
 	import dayjs from 'dayjs';
 	import localized from 'dayjs/plugin/localizedFormat';
+	import { requestable } from '$lib/stores/fetch';
+	import PuzzleStatistics from '$lib/components/statistics/PuzzleStatistics.svelte';
 	dayjs.extend(localized);
 
 	export let data: PageData;
+
+	const { request } = requestable('/api/puzzle/stats', 'POST');
 
 	$: grid = createGridStore(data.puzzle.data);
 
@@ -20,9 +24,21 @@
 	let type: 'win' | 'loss' = 'win';
 	let moves = 0;
 
-	const handleFinish = (e: CustomEvent<FinishEvent>) => {
+	const handleFinish = async (e: CustomEvent<FinishEvent>) => {
 		type = e.detail.type;
 		moves = e.detail.moves;
+
+		type SendData = {
+			puzzleId: string;
+			moves: number;
+			result: 'w' | 'l';
+		};
+
+		request<SendData>({
+			puzzleId: data.puzzle.id,
+			moves,
+			result: type === 'loss' ? 'l' : 'w'
+		});
 
 		setTimeout(() => (showEndMenu = true), 500);
 	};
@@ -59,7 +75,13 @@
 			},
 			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
 		]}
-	/>
+	>
+		<PuzzleStatistics
+			puzzle={data.puzzle}
+			data={data.streamed.stats}
+			leaderboards={data.streamed.top5}
+		/>
+	</EndMenu>
 {/if}
 
 {#key data.puzzle.id}

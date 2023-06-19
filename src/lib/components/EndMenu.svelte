@@ -84,6 +84,12 @@
 			</Button>
 		{/each}
 	</div>
+
+	{#if $$slots.default}
+		<div class="below">
+			<slot />
+		</div>
+	{/if}
 </div>
 
 <div class="underlay" out:fade|local={{ duration: 200, delay: 200 }} />
@@ -99,13 +105,18 @@
 		z-index: 2;
 	}
 
+	.below {
+		margin-top: 5rem;
+	}
+
 	.content {
 		padding: 1rem;
 		position: absolute;
 		left: 50%;
-		top: 50%;
+		top: 5rem;
 		width: 100%;
-		transform: translate(-50%, -50%);
+		transform: translateX(-50%);
+		margin-bottom: 5rem;
 		z-index: 10;
 		display: flex;
 		flex-direction: column;

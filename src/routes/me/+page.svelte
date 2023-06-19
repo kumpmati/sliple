@@ -7,6 +7,10 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title>My profile</title>
+</svelte:head>
+
 <a href="/" class="back">
 	<ArrowLeftIcon />
 </a>
@@ -32,7 +36,7 @@
 
 <style lang="scss">
 	.back {
-		color: var(--black);
+		color: var(--text);
 		margin-bottom: 1rem;
 		width: fit-content;
 	}
@@ -56,10 +60,10 @@
 			text-decoration: none;
 			padding: 6px 6px;
 			border-radius: var(--border-radius);
-			color: var(--black);
+			color: var(--text);
 
 			&:hover {
-				background-color: rgba(0, 0, 0, 0.05);
+				background-color: var(--list-item-hover);
 			}
 		}
 	}

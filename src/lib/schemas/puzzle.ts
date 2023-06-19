@@ -68,3 +68,58 @@ export type SavedPuzzle = {
 	url: string;
 	description: string;
 };
+
+export const PuzzleStatsModel: mongoose.Model<SavedPuzzle> =
+	mongoose.models?.['puzzle_stats'] ??
+	mongoose.model(
+		'puzzle_stats',
+		new Schema<PuzzleStats>(
+			{
+				puzzleId: String,
+				completions: [
+					new Schema({
+						userId: {
+							type: String,
+							required: false
+						},
+						moves: Number,
+						result: String,
+						timestamp: Number
+					})
+				]
+			},
+			{
+				timestamps: true,
+				toJSON: {
+					transform: (_, ret) => {
+						delete ret._id;
+						ret.completions = ret.completions.map((r: any) => {
+							delete r._id;
+							return r;
+						});
+					}
+				},
+				toObject: {
+					transform: (_, ret) => {
+						delete ret._id;
+						ret.completions = ret.completions.map((r: any) => {
+							delete r._id;
+							return r;
+						});
+					}
+				}
+			}
+		)
+	);
+
+export type PuzzleCompletion = {
+	userId: string | null;
+	moves: number;
+	result: 'w' | 'l';
+	timestamp: number;
+};
+
+export type PuzzleStats = {
+	puzzleId: string;
+	completions: PuzzleCompletion[];
+};

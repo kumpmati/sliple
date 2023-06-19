@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import Button from '$lib/components/Button.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import { createGridStore } from '$lib/stores/grid';
@@ -11,13 +10,7 @@
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { getFirstInProgressLevel } from '$lib/utils/campaign';
 	import { onMount } from 'svelte';
-	import {
-		CheckIcon,
-		ChevronRightIcon,
-		ChevronsRightIcon,
-		HomeIcon,
-		RotateCcwIcon
-	} from 'svelte-feather-icons';
+	import { CheckIcon, ChevronsRightIcon, RotateCcwIcon } from 'svelte-feather-icons';
 
 	export let data: Campaign;
 

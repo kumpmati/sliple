@@ -57,6 +57,10 @@
 
 	--unvisited-link-bg: var(--orange-light);
 
+	--list-item-hover: rgba(0, 0, 0, 0.05);
+
+	--tab-bg: #eee;
+
 	--letter-slot-bg: var(--gray-light);
 
 	--large-link-bg: #fff;
@@ -117,7 +121,11 @@ html {
 
 		--letter-slot-bg: #282828;
 
+		--tab-bg: #222;
+
 		--unvisited-link-bg: var(--orange-dark);
+
+		--list-item-hover: rgba(255, 255, 255, 0.05);
 
 		--large-link-bg: #222;
 		--large-link-text: #fff;

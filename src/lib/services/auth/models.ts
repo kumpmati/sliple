@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import type { AuthUser } from '.';
 
 /**
  * @see https://lucia-auth.com/adapters/mongoose?sveltekit#authuser
  */
-export const UserModel =
+export const UserModel: mongoose.Model<AuthUser> =
 	mongoose.models['auth_user'] ??
 	mongoose.model(
 		'auth_user',

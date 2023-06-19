@@ -114,7 +114,7 @@
 		align-items: flex-start;
 
 		a {
-			color: var(--black);
+			color: var(--text);
 			display: flex;
 			align-items: center;
 			gap: 8px;

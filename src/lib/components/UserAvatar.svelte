@@ -2,12 +2,13 @@
 	import type { AuthUser } from '$lib/services/auth';
 
 	export let user: AuthUser | null;
+	export let size: 'default' | 'small' = 'default';
 </script>
 
 {#if user}
-	<img class="user" src={user?.image} alt={user?.name} />
+	<img class="user" class:small={size === 'small'} src={user?.image} alt={user?.name} />
 {:else}
-	<div class="user" />
+	<div class="user" class:small={size === 'small'} />
 {/if}
 
 <style lang="scss">
@@ -16,5 +17,10 @@
 		height: 32px;
 		border-radius: 99px;
 		background-color: var(--gray-light);
+
+		&.small {
+			width: 16px;
+			height: 16px;
+		}
 	}
 </style>
