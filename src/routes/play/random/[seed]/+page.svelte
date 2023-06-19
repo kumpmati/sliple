@@ -158,7 +158,7 @@
 		}
 
 		:global(.star) {
-			stroke: var(--black);
+			stroke: var(--text);
 		}
 
 		:global(.star.filled) {

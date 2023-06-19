@@ -17,8 +17,8 @@
 	{:then [_data, _leaderboards]}
 		<TabView
 			items={[
+				{ label: 'Top 5', component: Leaderboards },
 				{ label: 'Move distribution', component: MoveDistribution },
-				{ label: 'Leaderboards', component: Leaderboards },
 				{ label: 'Win percentage', component: WinPercentage }
 			]}
 			tabProps={{ puzzle, data: _data, leaderboards: _leaderboards }}

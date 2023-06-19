@@ -14,7 +14,7 @@
 </div>
 
 <ul>
-	{#each leaderboards as item, index (item.userId)}
+	{#each leaderboards as item, index (item?.userId)}
 		<li>
 			<span class="rank">#{index + 1}</span>
 
@@ -26,6 +26,17 @@
 			<span class="moves">{item.moves}</span>
 		</li>
 	{/each}
+
+	{#if leaderboards.length < 5}
+		{#each Array(5 - leaderboards.length) as _, index}
+			<li>
+				<span class="rank">#{index + 1 + leaderboards.length}</span>
+
+				<span class="name"> - </span>
+				<span class="moves"> - </span>
+			</li>
+		{/each}
+	{/if}
 
 	{#if !$authUser}
 		<p class="signin">
