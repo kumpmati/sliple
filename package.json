@@ -44,6 +44,7 @@
 	"type": "module",
 	"dependencies": {
 		"@macfja/svelte-undoable": "^1.1.0",
+		"caccu": "^0.3.0",
 		"dayjs": "^1.11.8",
 		"immer": "^10.0.2",
 		"nanoid": "^4.0.0",

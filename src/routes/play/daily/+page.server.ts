@@ -1,8 +1,8 @@
-import { generatePuzzle } from '$lib/services/generator';
 import dayjs from 'dayjs';
 import words from '$lib/assets/words.json';
 import { DAILY_LEVEL_SALT } from '$env/static/private';
 import { error } from '@sveltejs/kit';
+import { shufflingGenerator } from '$lib/services/generator/strategies/shuffling';
 
 export const load = async () => {
 	const date = dayjs().format('YYYY-MM-DD');
@@ -12,9 +12,10 @@ export const load = async () => {
 	const seed = date + DAILY_LEVEL_SALT;
 
 	try {
-		return {
-			puzzle: generatePuzzle(seed, date, { words, maxLength: 7, minLength: 4 })
-		};
+		const puzzle = shufflingGenerator.generate(seed, { words, maxLength: 7, minLength: 4 });
+		puzzle.id = `daily-${date}`;
+
+		return { puzzle };
 	} catch (err: any) {
 		throw error(500, err?.message ?? 'unknown error');
 	}
