@@ -2,7 +2,7 @@ import type { GoalTile, LetterTile, Tile, WallTile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
 import { mapToRange } from '$lib/utils/math';
 import { nanoid } from 'nanoid';
-import seedrandom, { alea } from 'seedrandom';
+import seedrandom from 'seedrandom';
 import { generateUniqueTilePositions } from '../tiles';
 import type { PuzzleGenerator } from '../interface';
 
@@ -30,7 +30,7 @@ type PuzzleSize = {
 };
 
 const generateGoalTiles = (word: string, size: PuzzleSize): GoalTile[] => {
-	const rnd = alea(word + 'goal');
+	const rnd = seedrandom.alea(word + 'goal');
 
 	return generateUniqueTilePositions(rnd, word.length, size, []).map((pos, i) => ({
 		...pos,
@@ -46,7 +46,7 @@ const generateLetterTiles = (
 	size: PuzzleSize,
 	existingTiles: Tile[]
 ): LetterTile[] => {
-	const rnd = alea(word + 'letters');
+	const rnd = seedrandom.alea(word + 'letters');
 
 	return generateUniqueTilePositions(rnd, word.length, size, existingTiles).map((pos, i) => ({
 		...pos,
@@ -62,7 +62,7 @@ const generateWallTiles = (
 	size: PuzzleSize,
 	tiles: Tile[]
 ): WallTile[] => {
-	const rnd = alea(word + 'wall');
+	const rnd = seedrandom.alea(word + 'wall');
 	return generateUniqueTilePositions(rnd, amount, size, tiles).map((pos) => ({
 		...pos,
 		type: 'wall',

@@ -1,7 +1,7 @@
 import type { Puzzle } from '$lib/types/puzzle';
 import type { GeneratorConstraints, PuzzleGenerator } from '../interface';
 import { generateUniqueTilePositions } from '../tiles';
-import seedrandom, { xor4096 } from 'seedrandom';
+import seedrandom from 'seedrandom';
 import {
 	filterWordsByLength,
 	generateGridSize,
@@ -67,7 +67,7 @@ class ReversibleGenerator implements PuzzleGenerator {
 	 * @returns
 	 */
 	private generateUncached(seed: string, constraints: GeneratorConstraints): Puzzle {
-		const rnd = xor4096(seed);
+		const rnd = seedrandom.xor4096(seed);
 
 		const eligibleWords = filterWordsByLength(
 			constraints.words,

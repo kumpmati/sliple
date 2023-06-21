@@ -1,5 +1,5 @@
 import type { Puzzle } from '$lib/types/puzzle';
-import { xor4096 } from 'seedrandom';
+import * as seedrandom from 'seedrandom';
 import type { GeneratorConstraints, PuzzleGenerator } from '../interface';
 import {
 	generateGridSize,
@@ -26,7 +26,7 @@ const SHUFFLE_ITERATIONS = 200;
  */
 class ShufflingGenerator implements PuzzleGenerator {
 	public generate(seed: string, constraints: GeneratorConstraints): Puzzle {
-		const rnd = xor4096(seed);
+		const rnd = seedrandom.xor4096(seed);
 
 		const word = getRandomWord(rnd, constraints);
 		const size = generateGridSize(rnd, word.length + 5, word.length * 4);
