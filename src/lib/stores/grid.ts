@@ -14,7 +14,7 @@ export type GridState = Grid & {
 type MoveHistoryItem = { letter: string; id: string; dir: Direction; transitional?: boolean };
 
 export type GridStore = Readable<GridState> & {
-	moveTile: (id: string, dir: Direction) => void;
+	moveTile: (id: string, dir: Direction) => { moved: boolean };
 	getAt: (x: number, y: number) => Tile[];
 	setState: (grid: GridState) => void;
 	reset: () => void;
@@ -35,6 +35,8 @@ export const createGridStore = (initialState: Grid): GridStore => {
 	const moveHistory: MoveHistoryItem[] = [];
 
 	const moveTile = (id: string, dir: Direction, isUpdate = false) => {
+		let moved = false;
+
 		state.update((prev) =>
 			produce(prev, (draft) => {
 				const tile = draft.tiles.find((t) => t.id === id) as LetterTile | undefined;
@@ -48,6 +50,7 @@ export const createGridStore = (initialState: Grid): GridStore => {
 
 				// tile has not moved
 				if (tile.x === pos.x && tile.y === pos.y) {
+					// this case will happen only if boosting against a wall but can't move
 					if (draft.pendingUpdate) {
 						clearTimeout(draft.pendingUpdate);
 						draft.pendingUpdate = null;
@@ -55,6 +58,8 @@ export const createGridStore = (initialState: Grid): GridStore => {
 						// increment number of taken moves
 						draft.numMovesTaken++;
 						moveHistory.push({ letter: tile.letter, id: tile.id, dir, transitional: true });
+
+						moved = true;
 					}
 
 					return;
@@ -75,6 +80,8 @@ export const createGridStore = (initialState: Grid): GridStore => {
 					// increment number of taken moves
 					draft.numMovesTaken++;
 					moveHistory.push({ letter: tile.letter, id: tile.id, dir });
+
+					moved = true;
 				}
 
 				// update tile position
@@ -83,6 +90,8 @@ export const createGridStore = (initialState: Grid): GridStore => {
 				return;
 			})
 		);
+
+		return { moved };
 	};
 
 	const getAt = (x: number, y: number) => get(state).tiles.filter((b) => b.x === x && b.y === y);

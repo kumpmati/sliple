@@ -37,7 +37,7 @@
 		/>
 		<text
 			transform="translate(34, 36)"
-			fill={status === 'none' ? 'var(--text)' : 'var(--white)'}
+			fill={status === 'none' ? 'var(--tile-text)' : 'var(--white)'}
 			text-anchor="middle"
 			dominant-baseline="middle"
 		>
