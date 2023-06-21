@@ -2,18 +2,27 @@
 	import LargeLink from '$lib/components/LargeLink.svelte';
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
+	import { GameAudio } from '$lib/services/sound';
+	import { soundsEnabled } from '$lib/stores/sound';
 	import { userStore } from '$lib/stores/user';
 	import {
 		BookmarkIcon,
 		CalendarIcon,
 		GridIcon,
 		HelpCircleIcon,
-		ListIcon
+		ListIcon,
+		Volume2Icon,
+		VolumeXIcon
 	} from 'svelte-feather-icons';
 
 	export let data;
 
 	$: latestIsNew = data.latest && !$userStore.puzzles[data.latest.id];
+
+	const toggleSound = () => {
+		$soundsEnabled = !$soundsEnabled;
+		new GameAudio().play('click');
+	};
 </script>
 
 <svelte:head>
@@ -21,9 +30,21 @@
 	<meta name="description" content="Slippery, free puzzle game" />
 </svelte:head>
 
-<a href="/about" class="about" aria-label="About the website">
-	<HelpCircleIcon />
-</a>
+<nav>
+	<a href="/about" class="about" aria-label="About the website">
+		<HelpCircleIcon />
+	</a>
+
+	<div>
+		<button class="audio" on:click={toggleSound}>
+			{#if $soundsEnabled}
+				<Volume2Icon />
+			{:else}
+				<VolumeXIcon />
+			{/if}
+		</button>
+	</div>
+</nav>
 
 <div class="logo">
 	<Logo />
@@ -80,6 +101,22 @@
 </div>
 
 <style lang="scss">
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.about,
+		.audio {
+			width: fit-content;
+			color: var(--text);
+			padding: 0;
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+		}
+	}
+
 	.logo {
 		display: flex;
 		justify-content: center;
@@ -93,11 +130,6 @@
 		font-size: 14px;
 		color: var(--text-subtle);
 		text-align: center;
-	}
-
-	.about {
-		width: fit-content;
-		color: var(--text);
 	}
 
 	.icon {

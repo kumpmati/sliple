@@ -4,11 +4,13 @@
 	import { currentWord, type GridStore } from '$lib/stores/grid';
 	import { swipe } from 'svelte-gestures';
 	import WordVisualizer from '$lib/components/WordVisualizer.svelte';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { ArrowLeftIcon, ChevronsLeftIcon, RefreshCcwIcon } from 'svelte-feather-icons';
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { goto } from '$app/navigation';
 	import { spring } from 'svelte/motion';
+	import { GameAudio } from '$lib/services/sound';
+	import { sleep } from '$lib/utils/sleep';
 
 	export let title: string;
 	export let grid: GridStore;
@@ -22,27 +24,40 @@
 	const dispatch = createEventDispatcher<{ finish: FinishEvent; reset: null }>();
 	const word = currentWord(grid);
 
+	const sfx = new GameAudio();
+
 	$: movesExhausted = $grid.numMovesTaken >= $grid.maxMoves.bronze;
 	$: isAnswer = grid.isAnswer($word);
 	$: hasEnded = isAnswer || (movesExhausted && !isAnswer);
 
 	$: if (isAnswer) {
 		dispatch('finish', { type: 'win', moves: $grid.numMovesTaken });
+		sfx.play('win', 500);
 	}
 
 	$: if (movesExhausted && !isAnswer) {
 		dispatch('finish', { type: 'loss', moves: $grid.numMovesTaken });
+		sfx.play('lose', 500);
 	}
 
-	const handleSwipe = (e: CustomEvent) => {
+	const handleSwipe = async (e: CustomEvent) => {
 		if (movesExhausted) return;
 
 		const dir = e.detail.direction;
 		const id = e.detail.target.dataset?.['tileId'];
 		if (!id) return;
 
-		grid.moveTile(id, dir);
+		sfx.play('swipe');
+
+		await sleep(10);
+
+		const { moved } = grid.moveTile(id, dir);
+		if (moved) {
+			sfx.play('click', 90);
+		}
 	};
+
+	onMount(() => sfx.init());
 </script>
 
 <nav>
@@ -60,6 +75,7 @@
 				on:click={() => {
 					grid.undo();
 					undoAnimation.set(-4).then(() => undoAnimation.set(0));
+					sfx.play('undo');
 				}}
 				style:transform="translateX({$undoAnimation}px)"
 			>
@@ -73,6 +89,7 @@
 			on:click={() => {
 				dispatch('reset');
 				$resetAnimation++;
+				sfx.play('reset');
 			}}
 			style:transform="rotate({-$resetAnimation * 180}deg)"
 		>
