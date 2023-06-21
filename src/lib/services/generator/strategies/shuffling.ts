@@ -3,6 +3,7 @@ import * as seedrandom from 'seedrandom';
 import type { GeneratorConstraints, PuzzleGenerator } from '../interface';
 import {
 	generateGridSize,
+	getOverlappingCoordinates,
 	getRandomDirection,
 	getRandomLetterTile,
 	getRandomWord,
@@ -15,8 +16,17 @@ import { nanoid } from 'nanoid';
 import { get } from 'svelte/store';
 import { isLetterTile } from '$lib/utils/typeguards';
 
-const MAX_ITERATIONS = 500;
-const SHUFFLE_ITERATIONS = 200;
+// max iterations to use when initially shuffling
+// letter tiles around
+const MAX_SHUFFLE_ITERATIONS = 200;
+
+// max iterations to use when trying to get enough
+// letter tiles off the walls and towards the center
+const MAX_WALL_ITERATIONS = 200;
+
+// max iterations to use when too many letters are
+// immediately correct and need to be moved
+const MAX_EXTRA_SHUFFLE_ITERATIONS = 50;
 
 /**
  * Generates puzzles by placing down a bunch of letters and walls,
@@ -52,11 +62,8 @@ class ShufflingGenerator implements PuzzleGenerator {
 
 		const initialGrid: Grid = {
 			...size,
-			maxMoves: {
-				bronze: MAX_ITERATIONS,
-				silver: MAX_ITERATIONS,
-				gold: MAX_ITERATIONS
-			},
+			// temporary move limits
+			maxMoves: { bronze: 999999, silver: 999999, gold: 999999 },
 			numMovesTaken: 0,
 			solution: word,
 			tiles: [
@@ -70,9 +77,10 @@ class ShufflingGenerator implements PuzzleGenerator {
 
 		const store = createGridStore(initialGrid);
 
+		// shuffle the letters around randomly
 		let n = 0;
-		while (n++ < SHUFFLE_ITERATIONS) {
-			const tile = getRandomLetterTile(get(store), rnd);
+		while (n++ < MAX_SHUFFLE_ITERATIONS) {
+			const tile = getRandomLetterTile(get(store).tiles, rnd);
 			const dir = getRandomDirection(rnd);
 
 			store.moveTile(tile.id, dir);
@@ -83,10 +91,12 @@ class ShufflingGenerator implements PuzzleGenerator {
 			(t) => isLetterTile(t) && isAgainsWall(_state, t.id)
 		);
 
+		n = 0;
+
 		// try to shuffle letters until max 2 are against the wall
 		// or we hit the iteration limit
-		while (lettersAgainstWall.length > 3 && n++ < MAX_ITERATIONS) {
-			const tile = getRandomLetterTile({ tiles: lettersAgainstWall } as Grid, rnd);
+		while (lettersAgainstWall.length > 3 && n++ < MAX_WALL_ITERATIONS) {
+			const tile = getRandomLetterTile(lettersAgainstWall, rnd);
 			const dir = getRandomDirection(rnd);
 
 			store.moveTile(tile.id, dir);
@@ -94,6 +104,31 @@ class ShufflingGenerator implements PuzzleGenerator {
 			_state = get(store);
 			lettersAgainstWall = _state.tiles.filter(
 				(t) => isLetterTile(t) && isAgainsWall(_state, t.id)
+			);
+		}
+
+		_state = get(store);
+		let immediatelyCorrect = getOverlappingCoordinates(
+			_state.tiles.filter(isLetterTile),
+			startPositions
+		);
+
+		n = 0;
+
+		// shuffle the letters around until max 50% of the letters
+		// are directly above their corresponding goals
+		while (immediatelyCorrect.length / word.length > 0.5 && n++ < MAX_EXTRA_SHUFFLE_ITERATIONS) {
+			const tiles = store.getAt(immediatelyCorrect[0].x, immediatelyCorrect[0].y);
+			const dir = getRandomDirection(rnd);
+
+			if (tiles.length > 0) {
+				store.moveTile(tiles[0].id, dir);
+			}
+
+			_state = get(store);
+			immediatelyCorrect = getOverlappingCoordinates(
+				_state.tiles.filter(isLetterTile),
+				startPositions
 			);
 		}
 

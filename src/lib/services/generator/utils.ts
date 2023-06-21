@@ -1,7 +1,7 @@
 import { mapToRange } from '$lib/utils/math';
 import type seedrandom from 'seedrandom';
 import type { TilePos } from './tiles';
-import type { GoalTile, Grid, LetterTile } from '$lib/types/grid';
+import type { GoalTile, Grid, LetterTile, Tile } from '$lib/types/grid';
 import { nanoid } from 'nanoid';
 import { createGridStore, type Direction, type GridStore } from '$lib/stores/grid';
 import { get } from 'svelte/store';
@@ -115,8 +115,8 @@ export const getRandomDirection = (rnd: seedrandom.PRNG): Direction =>
  * @param rnd Random number generator
  * @returns
  */
-export const getRandomLetterTile = (grid: Grid, rnd: seedrandom.PRNG): LetterTile => {
-	const letters = grid.tiles.filter((t) => isLetterTile(t)) as LetterTile[];
+export const getRandomLetterTile = (tiles: Tile[], rnd: seedrandom.PRNG): LetterTile => {
+	const letters = tiles.filter((t) => isLetterTile(t)) as LetterTile[];
 	return letters[Math.floor(rnd.double() * letters.length)];
 };
 
@@ -132,6 +132,10 @@ export const getAllImmediatelyCorrectTiles = (grid: Grid): LetterTile[] => {
 	return letters.filter((l) =>
 		grid.tiles.find((g) => isGoalTile(g) && g.letter === l.letter && g.x === l.x && g.y === l.y)
 	) as LetterTile[];
+};
+
+export const getOverlappingCoordinates = (a: TilePos[], b: TilePos[]): TilePos[] => {
+	return a.filter((aItem) => b.find((bItem) => bItem.x === aItem.x && bItem.y === aItem.y));
 };
 
 /**
