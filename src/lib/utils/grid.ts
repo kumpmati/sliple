@@ -86,7 +86,7 @@ export const canMove = (t: Tile) => t.type === 'letter';
 /**
  * Returns the tile's collision type.
  */
-const getCollisionType = (t: Tile): CollisionType => {
+export const getCollisionType = (t: Tile): CollisionType => {
 	const types: Record<string, CollisionType> = {
 		goal: 'none',
 		sticky: 'sticky',

@@ -11,6 +11,8 @@ export type GridState = Grid & {
 	pendingUpdate: any | null;
 };
 
+type MoveHistoryItem = { letter: string; id: string; dir: Direction; transitional?: boolean };
+
 export type GridStore = Readable<GridState> & {
 	moveTile: (id: string, dir: Direction) => void;
 	getAt: (x: number, y: number) => Tile[];
@@ -18,6 +20,7 @@ export type GridStore = Readable<GridState> & {
 	reset: () => void;
 	isAnswer: (value: string) => boolean;
 	undo: () => void;
+	getMoveHistory: () => MoveHistoryItem[];
 };
 
 /**
@@ -29,10 +32,12 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		pendingUpdate: null
 	});
 
+	const moveHistory: MoveHistoryItem[] = [];
+
 	const moveTile = (id: string, dir: Direction, isUpdate = false) => {
-		state.update((prev) => {
-			return produce(prev, (draft) => {
-				const tile = draft.tiles.find((t) => t.id === id);
+		state.update((prev) =>
+			produce(prev, (draft) => {
+				const tile = draft.tiles.find((t) => t.id === id) as LetterTile | undefined;
 
 				// prevent moving if the tile isn't allowed to move, or
 				// if the game is still in the process of updating and
@@ -49,6 +54,7 @@ export const createGridStore = (initialState: Grid): GridStore => {
 
 						// increment number of taken moves
 						draft.numMovesTaken++;
+						moveHistory.push({ letter: tile.letter, id: tile.id, dir, transitional: true });
 					}
 
 					return;
@@ -68,14 +74,15 @@ export const createGridStore = (initialState: Grid): GridStore => {
 
 					// increment number of taken moves
 					draft.numMovesTaken++;
+					moveHistory.push({ letter: tile.letter, id: tile.id, dir });
 				}
 
 				// update tile position
 				tile.x = pos.x;
 				tile.y = pos.y;
 				return;
-			});
-		});
+			})
+		);
 	};
 
 	const getAt = (x: number, y: number) => get(state).tiles.filter((b) => b.x === x && b.y === y);
@@ -101,7 +108,8 @@ export const createGridStore = (initialState: Grid): GridStore => {
 		setState: state.set,
 		reset,
 		isAnswer,
-		undo: state.undo
+		undo: state.undo,
+		getMoveHistory: () => moveHistory
 	};
 };
 
