@@ -39,7 +39,7 @@ class ShufflingGenerator implements PuzzleGenerator {
 		const rnd = seedrandom.xor4096(seed);
 
 		const word = getRandomWord(rnd, constraints);
-		const size = generateGridSize(rnd, word.length + 5, word.length * 4);
+		const size = generateGridSize(rnd, word.length + 4, word.length * 2.5 + 4);
 
 		// generate random starting positions for each letter in the word
 		const startPositions = generateUniqueTilePositions(rnd, word.length, size);
