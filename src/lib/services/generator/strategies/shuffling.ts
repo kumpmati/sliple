@@ -1,5 +1,5 @@
 import type { Puzzle } from '$lib/types/puzzle';
-import * as seedrandom from 'seedrandom';
+import seedrandom from 'seedrandom';
 import type { GeneratorConstraints, PuzzleGenerator } from '../interface';
 import {
 	generateGridSize,

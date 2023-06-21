@@ -159,7 +159,7 @@ class ReversibleGenerator implements PuzzleGenerator {
 			n2 <= MAX_UNSHUFFLE_IMMEDIATES_ITERATIONS &&
 			totalIterations++ < MAX_TOTAL_ITERATIONS
 		) {
-			const tile = getRandomLetterTile(get(store), rnd);
+			const tile = getRandomLetterTile(get(store).tiles, rnd);
 
 			const dir = getRandomReversibleDirection(store, tile.id, rnd);
 			if (dir) {
