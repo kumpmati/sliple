@@ -10,8 +10,8 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		version: {
-			name: 'v1.7.1',
-			pollInterval: 60 * 1000 // every minute
+			name: 'v1.8.0',
+			pollInterval: 5 * 60 * 1000 // every 5 minutes
 		},
 		serviceWorker: {
 			// only register in
