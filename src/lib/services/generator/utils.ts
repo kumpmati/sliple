@@ -7,6 +7,7 @@ import { createGridStore, type Direction, type GridStore } from '$lib/stores/gri
 import { get } from 'svelte/store';
 import { copy } from '$lib/utils/copy';
 import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
+import type { GeneratorConstraints } from './interface';
 
 /**
  * Given a direction, this returns the opposite direction
@@ -28,6 +29,19 @@ export const getOppositeDir = (d: Direction): Direction => {
 
 export const filterWordsByLength = (words: string[], min: number, max: number) =>
 	words.filter((w) => w.length <= (max ?? 99) && w.length >= (min ?? 0));
+
+/**
+ * Returns a random word that fits within the given constraints.
+ */
+export const getRandomWord = (rnd: seedrandom.PRNG, constraints: GeneratorConstraints): string => {
+	const eligibleWords = filterWordsByLength(
+		constraints.words,
+		constraints.minLength ?? 0,
+		constraints.maxLength ?? 99
+	);
+
+	return eligibleWords[Math.floor(rnd.double() * eligibleWords.length)];
+};
 
 /**
  * Generates a random grid size between the min and max area
@@ -183,4 +197,23 @@ export const getRandomReversibleDirection = (
 
 	// return a random direction from the possible outcomes, or null if no valid direction is found
 	return arr.length > 0 ? arr[Math.floor(rnd.double() * arr.length)] : null;
+};
+
+/**
+ * Returns true if the given tile is directly against a wall
+ * @param grid
+ * @param id
+ */
+export const isAgainsWall = (grid: Grid, id: string): boolean => {
+	const tile = grid.tiles.find((t) => t.id === id);
+	if (!tile) {
+		return false;
+	}
+
+	if (tile.x === 0) return true;
+	if (tile.x === grid.width - 1) return true;
+	if (tile.y === 0) return true;
+	if (tile.y === grid.height - 1) return true;
+
+	return false;
 };

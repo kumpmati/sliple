@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import words from '$lib/assets/words.json';
 import { DAILY_LEVEL_SALT } from '$env/static/private';
 import { error } from '@sveltejs/kit';
-import { generator } from '$lib/services/generator/v2';
+import { generator } from '$lib/services/generator/strategies/backtrack';
 
 export const load = async () => {
 	const date = dayjs().format('YYYY-MM-DD');

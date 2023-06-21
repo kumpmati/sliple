@@ -1,5 +1,5 @@
 import { mapToRange } from '$lib/utils/math';
-import seedrandom from 'seedrandom';
+import type seedrandom from 'seedrandom';
 
 export type TilePos = {
 	x: number;
@@ -17,13 +17,11 @@ const MAX_TRIES = 20;
  * @returns
  */
 export const generateUniqueTilePositions = (
-	seed: string,
+	rnd: seedrandom.PRNG,
 	amount: number,
 	settings: { width: number; height: number },
 	existingPositions: TilePos[] = []
 ): TilePos[] => {
-	const rnd = seedrandom.alea(seed);
-
 	const positions: TilePos[] = [];
 
 	for (let i = 0; i < amount; i++) {

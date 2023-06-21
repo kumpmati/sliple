@@ -1,6 +1,6 @@
 import type { Puzzle } from '$lib/types/puzzle';
-import type { GeneratorConstraints, PuzzleGenerator } from './interface';
-import { generateUniqueTilePositions } from './tiles';
+import type { GeneratorConstraints, PuzzleGenerator } from '../interface';
+import { generateUniqueTilePositions } from '../tiles';
 import seedrandom, { xor4096 } from 'seedrandom';
 import {
 	filterWordsByLength,
@@ -10,7 +10,7 @@ import {
 	mapPositionsToGoalTiles,
 	getOppositeDir,
 	getRandomLetterTile
-} from './utils';
+} from '../utils';
 import type { Grid, LetterTile, WallTile } from '$lib/types/grid';
 import { nanoid } from 'nanoid';
 import { createGridStore } from '$lib/stores/grid';
@@ -31,7 +31,12 @@ const BRONZE_MULTIPLIER = 1.5;
 const MAX_TOTAL_ITERATIONS = 1000;
 const MAX_UNSHUFFLE_IMMEDIATES_ITERATIONS = 100;
 
-class PuzzleGeneratorV2 implements PuzzleGenerator {
+/**
+ * Generates levels by placing random goals, placing letters
+ * onto them then shuffling the letters around in a way that
+ * is always reversible.
+ */
+class ReversibleGenerator implements PuzzleGenerator {
 	private cache: Caccu;
 
 	constructor() {
@@ -75,13 +80,13 @@ class PuzzleGeneratorV2 implements PuzzleGenerator {
 
 		const goals = mapPositionsToGoalTiles(
 			word,
-			generateUniqueTilePositions(seed, word.length, size)
+			generateUniqueTilePositions(rnd, word.length, size)
 		);
 
 		// 20% chance of including a wall in the puzzle
 		const walls =
 			rnd.double() < 0.2
-				? generateUniqueTilePositions(seed, 1, size, goals).map(
+				? generateUniqueTilePositions(rnd, 1, size, goals).map(
 						(t) => ({ ...t, id: nanoid(), type: 'wall' } satisfies WallTile)
 				  )
 				: [];
@@ -193,4 +198,4 @@ class PuzzleGeneratorV2 implements PuzzleGenerator {
 	}
 }
 
-export const generator = new PuzzleGeneratorV2();
+export const reversibleGenerator = new ReversibleGenerator();

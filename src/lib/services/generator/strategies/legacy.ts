@@ -2,8 +2,9 @@ import type { GoalTile, LetterTile, Tile, WallTile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
 import { mapToRange } from '$lib/utils/math';
 import { nanoid } from 'nanoid';
-import seedrandom from 'seedrandom';
-import { generateUniqueTilePositions } from './tiles';
+import seedrandom, { alea } from 'seedrandom';
+import { generateUniqueTilePositions } from '../tiles';
+import type { PuzzleGenerator } from '../interface';
 
 type MinMaxConstraint = {
 	min?: number;
@@ -29,7 +30,9 @@ type PuzzleSize = {
 };
 
 const generateGoalTiles = (word: string, size: PuzzleSize): GoalTile[] => {
-	return generateUniqueTilePositions(word + 'goal', word.length, size, []).map((pos, i) => ({
+	const rnd = alea(word + 'goal');
+
+	return generateUniqueTilePositions(rnd, word.length, size, []).map((pos, i) => ({
 		...pos,
 		type: 'goal',
 		id: nanoid(),
@@ -43,14 +46,14 @@ const generateLetterTiles = (
 	size: PuzzleSize,
 	existingTiles: Tile[]
 ): LetterTile[] => {
-	return generateUniqueTilePositions(word + 'letters', word.length, size, existingTiles).map(
-		(pos, i) => ({
-			...pos,
-			type: 'letter',
-			id: nanoid(),
-			letter: word[i]
-		})
-	);
+	const rnd = alea(word + 'letters');
+
+	return generateUniqueTilePositions(rnd, word.length, size, existingTiles).map((pos, i) => ({
+		...pos,
+		type: 'letter',
+		id: nanoid(),
+		letter: word[i]
+	}));
 };
 
 const generateWallTiles = (
@@ -59,7 +62,8 @@ const generateWallTiles = (
 	size: PuzzleSize,
 	tiles: Tile[]
 ): WallTile[] => {
-	return generateUniqueTilePositions(word + 'wall', amount, size, tiles).map((pos) => ({
+	const rnd = alea(word + 'wall');
+	return generateUniqueTilePositions(rnd, amount, size, tiles).map((pos) => ({
 		...pos,
 		type: 'wall',
 		id: nanoid()
@@ -68,8 +72,10 @@ const generateWallTiles = (
 
 /**
  * Generates a pseudorandom puzzle based on a seed value and the given constraints.
+ * Randomly places a bunch of letters, goals and walls, disregarding if it's possible
+ * to slide the letters to their goals.
  *
- * The publish date of the puzzle is the current time.
+ * This is the original algorithm used to generate random puzzles.
  */
 export const generatePuzzle = (
 	seed: string,
@@ -122,4 +128,8 @@ export const generatePuzzle = (
 			tiles: [...goalTiles, ...letterTiles, ...wallTiles]
 		}
 	};
+};
+
+export const randomGenerator: PuzzleGenerator = {
+	generate: (seed, constraints) => generatePuzzle(seed, seed, constraints)
 };
