@@ -5,8 +5,8 @@
 
 	export let tile: Tile;
 
-	const x = spring(tile.x, { stiffness: 0.25, damping: 0.4 });
-	const y = spring(tile.y, { stiffness: 0.25, damping: 0.4 });
+	const x = spring(tile.x, { stiffness: 0.25, damping: 0.6 });
+	const y = spring(tile.y, { stiffness: 0.25, damping: 0.6 });
 
 	// make sure values change when tile is updated
 	$: $x = tile.x;
