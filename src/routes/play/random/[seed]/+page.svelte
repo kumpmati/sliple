@@ -51,6 +51,7 @@
 		{type}
 		{moves}
 		puzzle={data.puzzle}
+		shareText="I beat this random puzzle in {moves} moves! Can you beat it?"
 		buttons={[
 			{
 				text: type === 'win' ? 'Improve' : 'Try again',

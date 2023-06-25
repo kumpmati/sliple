@@ -1,16 +1,19 @@
 <script lang="ts">
 	import UnderlinedHeading from './UnderlinedHeading.svelte';
-	import { StarIcon } from 'svelte-feather-icons';
+	import { ShareIcon, StarIcon } from 'svelte-feather-icons';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import { getRank } from '$lib/utils/grid';
 	import Button from './Button.svelte';
 	import type { ComponentType } from 'svelte/internal';
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 
 	export let type: 'win' | 'loss';
 	export let moves: number;
 	export let puzzle: Puzzle;
+	export let shareText: string | null = null;
 
 	type EndMenuButton = {
 		onClick: () => any;
@@ -83,6 +86,23 @@
 				{/if}
 			</Button>
 		{/each}
+
+		{#if browser && navigator?.canShare?.({ text: shareText ?? '' })}
+			<br />
+
+			<Button
+				on:click={() =>
+					navigator.share({
+						title: 'Sliple',
+						url: $page.url.toString(),
+						text: shareText ?? ''
+					})}
+			>
+				Share
+
+				<ShareIcon />
+			</Button>
+		{/if}
 	</div>
 </div>
 
