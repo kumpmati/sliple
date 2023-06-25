@@ -58,6 +58,7 @@
 		{type}
 		{moves}
 		puzzle={data.puzzle}
+		shareText="I solved this featured puzzle in {moves} moves! Try to beat that 😉"
 		buttons={[
 			{ text: 'Try again', onClick: handleReset, icon: RotateCcwIcon, hightlight: 'loss' },
 			{
