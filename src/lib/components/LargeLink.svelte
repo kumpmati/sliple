@@ -46,7 +46,7 @@
 		border: 2px solid var(--large-link-border);
 		border-radius: var(--border-radius);
 
-		transition: transform 200ms;
+		transition: transform 150ms;
 
 		&:hover {
 			transform: scale(1.025);
