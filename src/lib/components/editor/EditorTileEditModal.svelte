@@ -120,7 +120,7 @@
 			height: 32px;
 			padding: 0 12px;
 			border-radius: var(--border-radius-small);
-			transition: color 100ms;
+			transition: color 150ms;
 
 			&:hover {
 				background-color: var(--red-light);

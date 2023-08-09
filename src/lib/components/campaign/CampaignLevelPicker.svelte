@@ -29,7 +29,7 @@
 	a {
 		display: block;
 		text-decoration: none;
-		transition: transform 200ms;
+		transition: transform 150ms;
 
 		&:hover {
 			transform: scale(1.05);
