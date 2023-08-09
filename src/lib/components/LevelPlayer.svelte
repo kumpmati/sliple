@@ -53,7 +53,10 @@
 
 		const { moved } = grid.moveTile(id, dir);
 		if (moved) {
-			sfx.play('click', 90);
+			sleep(90).then(() => {
+				// if ('vibrate' in navigator) navigator.vibrate(5);
+				sfx.play('click');
+			});
 		}
 	};
 

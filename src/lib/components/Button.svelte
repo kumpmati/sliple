@@ -20,7 +20,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 8px 16px;
-		transition: transform 200ms;
+		transition: transform 150ms;
 
 		--bg: var(--button-bg);
 		--border: var(--button-border);

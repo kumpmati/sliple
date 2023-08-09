@@ -49,7 +49,7 @@
 		cursor: pointer;
 		background: none;
 		border-radius: var(--border-radius);
-		transition: transform 200ms;
+		transition: transform 150ms;
 
 		&:active {
 			transform: scale(0.95);

@@ -114,7 +114,7 @@
 			text-decoration: none;
 			padding: 4px;
 
-			transition: transform 200ms;
+			transition: transform 150ms;
 
 			&:not(.visited) {
 				background-color: var(--unvisited-link-bg);

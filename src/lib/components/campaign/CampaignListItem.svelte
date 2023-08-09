@@ -54,7 +54,7 @@
 		height: 100%;
 		background-color: var(--large-link-bg);
 
-		transition: transform 200ms;
+		transition: transform 150ms;
 
 		&:hover {
 			transform: scale(1.025);
@@ -68,7 +68,7 @@
 		right: 16px;
 		opacity: 0;
 		transform: translate(-10px, -50%);
-		transition: opacity 200ms, transform 200ms;
+		transition: opacity 150ms, transform 150ms;
 	}
 
 	a:hover .arrow {
