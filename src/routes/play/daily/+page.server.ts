@@ -12,7 +12,7 @@ export const load = async () => {
 	const seed = date + DAILY_LEVEL_SALT;
 
 	try {
-		const puzzle = shufflingGenerator.generate(seed, { words, maxLength: 7, minLength: 4 });
+		const puzzle = shufflingGenerator.generate(seed, { words, maxLength: 7, minLength: 6 });
 		puzzle.id = `daily-${date}`;
 
 		return { puzzle };
