@@ -72,6 +72,10 @@
 		color: var(--text);
 		box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
 
+		&::backdrop {
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+
 		h2 {
 			font-family: var(--font-heading);
 			text-align: center;

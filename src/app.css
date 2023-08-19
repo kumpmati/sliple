@@ -130,7 +130,7 @@ html {
 
 		--tile-drawer-bg: var(--orange-dark);
 
-		--dialog-bg: #111;
+		--dialog-bg: #1f1f1f;
 		--dialog-border: #333;
 		--table-border: #333;
 	}
