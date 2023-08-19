@@ -1,4 +1,8 @@
-<svg width="40" height="40" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+<script lang="ts">
+	export let size = 40;
+</script>
+
+<svg width={size} height={size} viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
 	<rect x="4" y="4" width="46" height="46" rx="11" stroke="#FBCD57" stroke-width="8" />
 	<rect
 		x="6.25"

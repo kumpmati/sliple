@@ -2,6 +2,10 @@
 	import type { PuzzleAnalysisData } from '$lib/services/generator/analyze';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import { BarChart2Icon, XIcon } from 'svelte-feather-icons';
+	import ThreeStarDots from '../graphics/ThreeStarDots.svelte';
+	import CompletedPuzzleIconGold from '../graphics/CompletedPuzzleIconGold.svelte';
+	import CompletedPuzzleIconSilver from '../graphics/CompletedPuzzleIconSilver.svelte';
+	import CompletedPuzzleIconBronze from '../graphics/CompletedPuzzleIconBronze.svelte';
 
 	export let puzzle: Puzzle;
 	export let analysis: PuzzleAnalysisData;
@@ -33,8 +37,36 @@
 
 	<table>
 		<tr>
-			<td>Theoretical Optimal Solution*</td>
-			<td class="bold">{analysis.minRequiredMoves} moves</td>
+			<th style="width: 33%">
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<CompletedPuzzleIconGold size={20} /> Gold
+				</div>
+			</th>
+
+			<th style="width: 33%">
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<CompletedPuzzleIconSilver size={20} /> Silver
+				</div>
+			</th>
+
+			<th style="width: 33%">
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<CompletedPuzzleIconBronze size={20} />Bronze
+				</div>
+			</th>
+		</tr>
+
+		<tr>
+			<td>{puzzle.data.maxMoves.gold} moves</td>
+			<td>{puzzle.data.maxMoves.silver} moves</td>
+			<td>{puzzle.data.maxMoves.bronze} moves</td>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<td>Optimal Solution*</td>
+			<td class="bold" style="width:33%">{analysis.minRequiredMoves} moves</td>
 		</tr>
 	</table>
 
@@ -107,7 +139,14 @@
 		border-collapse: collapse;
 		margin-bottom: 2rem;
 
+		th {
+			font-weight: normal;
+			color: var(--text-subtle);
+			padding: 0.5rem 0;
+		}
+
 		td {
+			color: var(--text);
 			padding: 0.5rem;
 			border: 1px solid var(--table-border);
 		}
