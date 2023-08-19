@@ -33,14 +33,14 @@
 
 	<table>
 		<tr>
-			<td>Minimum Required Moves*</td>
-			<td class="bold">{analysis.minRequiredMoves}</td>
+			<td>Theoretical Optimal Solution*</td>
+			<td class="bold">{analysis.minRequiredMoves} moves</td>
 		</tr>
 	</table>
 
 	<small>
-		*This feature is in Beta and might show a number that is smaller than actually possible.</small
-	>
+		*This feature is in Beta and might show a number that is smaller than what is actually possible.
+	</small>
 </dialog>
 
 <style lang="scss">
