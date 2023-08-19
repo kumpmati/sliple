@@ -10,6 +10,7 @@
 	import { browser } from '$app/environment';
 	import dayjs from 'dayjs';
 	import localized from 'dayjs/plugin/localizedFormat';
+	import PuzzleAnalysis from '$lib/components/analysis/PuzzleAnalysis.svelte';
 	dayjs.extend(localized);
 
 	export let data: PageData;
@@ -73,6 +74,8 @@
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>
+		<PuzzleAnalysis slot="buttons" puzzle={data.puzzle} analysis={data.analysis} />
+
 		<p slot="description">
 			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
 			<span class="highlight">{$grid.maxMoves.bronze}</span> moves

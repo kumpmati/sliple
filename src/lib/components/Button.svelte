@@ -48,11 +48,11 @@
 		}
 
 		&:hover:not(:disabled) {
-			transform: scale(1.025);
+			transform: translateY(-1px);
 		}
 
 		&:active:not(:disabled) {
-			transform: scale(0.98);
+			transform: translateY(1px);
 		}
 	}
 </style>

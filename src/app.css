@@ -65,6 +65,10 @@
 	--large-link-border: var(--gray-light);
 
 	--tile-drawer-bg: var(--orange-light);
+
+	--dialog-bg: #fff;
+	--dialog-border: #fff;
+	--table-border: #eee;
 }
 
 body,
@@ -125,5 +129,9 @@ html {
 		--large-link-text-highlight: #000;
 
 		--tile-drawer-bg: var(--orange-dark);
+
+		--dialog-bg: #111;
+		--dialog-border: #333;
+		--table-border: #333;
 	}
 }
