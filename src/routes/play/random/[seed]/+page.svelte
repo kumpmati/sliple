@@ -8,7 +8,7 @@
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { showTutorial } from '$lib/stores/tutorial';
 	import { browser } from '$app/environment';
-	import PuzzleAnalysis from '$lib/components/analysis/PuzzleAnalysis.svelte';
+	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
 
 	export let data: PageData;
 
@@ -81,7 +81,7 @@
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>
-		<PuzzleAnalysis slot="buttons" puzzle={data.puzzle} analysis={data.analysis} />
+		<PuzzleAnalytics slot="buttons" puzzle={data.puzzle} analysis={data.analysis} />
 
 		<p slot="description">
 			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
