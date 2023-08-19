@@ -52,7 +52,7 @@
 		}
 
 		&:active:not(:disabled) {
-			transform: translateY(2px);
+			transform: translateY(1px);
 		}
 	}
 </style>
