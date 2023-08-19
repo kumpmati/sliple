@@ -32,11 +32,11 @@
 		transition: transform 150ms;
 
 		&:hover {
-			transform: scale(1.05);
+			transform: translateY(-1px);
 		}
 
 		&:active {
-			transform: scale(0.95);
+			transform: translateY(1px);
 		}
 	}
 </style>

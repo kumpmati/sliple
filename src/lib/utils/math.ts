@@ -10,3 +10,7 @@ export const mapToRange = (
 	const mapped = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 	return clamp(mapped, out_min, out_max);
 };
+
+export const sum = (arr: number[], initial = 0): number => {
+	return arr.reduce((prev, curr) => prev + curr, initial);
+};

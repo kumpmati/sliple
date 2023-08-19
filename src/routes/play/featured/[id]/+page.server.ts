@@ -1,4 +1,5 @@
 import { getLatestPuzzle, getPuzzleById } from '$lib/services/database';
+import { analyzePuzzle } from '$lib/services/generator/analyze';
 import { error, type ServerLoad } from '@sveltejs/kit';
 
 export const load: ServerLoad<{ id: string }> = async ({ params, setHeaders }) => {
@@ -12,5 +13,8 @@ export const load: ServerLoad<{ id: string }> = async ({ params, setHeaders }) =
 		'Cache-Control': 'public, max-age=300' // cache for 5 minutes
 	});
 
-	return { puzzle };
+	return {
+		puzzle,
+		analysis: analyzePuzzle(puzzle)
+	};
 };
