@@ -49,11 +49,11 @@
 		transition: transform 150ms;
 
 		&:hover {
-			transform: scale(1.025);
+			transform: translateY(-1px);
 		}
 
 		&:active {
-			transform: scale(0.98);
+			transform: translateY(2px);
 		}
 
 		&.highlight {
