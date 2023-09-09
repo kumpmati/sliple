@@ -10,21 +10,21 @@
 			"difficulty": "beginner",
 			"message": "You play by sliding all the letter tiles onto their goal tiles. Move the white letter tile to the red goal tile.",
 			"data": {
-				"width": 2,
-				"height": 2,
+				"width": 3,
+				"height": 1,
 				"maxMoves": { "gold": 2, "silver": 2, "bronze": 2 },
 				"numMovesTaken": 0,
-				"solution": "A",
+				"solution": "a",
 				"tiles": [
 					{
 						"id": "njdHyqOw7nu7PJNdiHADq",
 						"type": "goal",
-						"letter": "A",
+						"letter": "a",
 						"index": 0,
-						"x": 1,
-						"y": 1
+						"x": 2,
+						"y": 0
 					},
-					{ "id": "hzO-wQTW6iYYMYDK_yjQn", "type": "letter", "letter": "A", "x": 0, "y": 0 }
+					{ "id": "hzO-wQTW6iYYMYDK_yjQn", "type": "letter", "letter": "a", "x": 0, "y": 0 }
 				]
 			}
 		},
@@ -37,12 +37,12 @@
 				"height": 3,
 				"maxMoves": { "gold": 2, "silver": 2, "bronze": 2 },
 				"numMovesTaken": 0,
-				"solution": "AB",
+				"solution": "ab",
 				"tiles": [
 					{
 						"id": "1id_l-4Fs4h1XOtCEq_hq",
 						"type": "goal",
-						"letter": "A",
+						"letter": "a",
 						"index": 0,
 						"x": 0,
 						"y": 2
@@ -50,13 +50,13 @@
 					{
 						"id": "628Ivi-KYYmExEgHH90zQ",
 						"type": "goal",
-						"letter": "B",
+						"letter": "b",
 						"index": 1,
 						"x": 2,
 						"y": 2
 					},
-					{ "id": "pjlgYX5AoiZ9-QQ7WwAkL", "type": "letter", "letter": "B", "x": 2, "y": 0 },
-					{ "id": "oge7bDfl7XbDn3ixpOZIv", "type": "letter", "letter": "A", "x": 0, "y": 0 }
+					{ "id": "pjlgYX5AoiZ9-QQ7WwAkL", "type": "letter", "letter": "b", "x": 2, "y": 0 },
+					{ "id": "oge7bDfl7XbDn3ixpOZIv", "type": "letter", "letter": "a", "x": 0, "y": 0 }
 				]
 			}
 		},
@@ -69,18 +69,18 @@
 				"height": 3,
 				"maxMoves": { "gold": 2, "silver": 2, "bronze": 2 },
 				"numMovesTaken": 0,
-				"solution": "A",
+				"solution": "a",
 				"tiles": [
 					{ "id": "_3BAvt4r1K1hwGIGzlwqJ", "type": "wall", "x": 0, "y": 2 },
 					{
 						"id": "T5pv2_ksZy9o7INa8Nesu",
 						"type": "goal",
-						"letter": "A",
+						"letter": "a",
 						"index": 0,
 						"x": 2,
 						"y": 1
 					},
-					{ "id": "0OGg0POIF0a6_b7VP-oiE", "type": "letter", "letter": "A", "x": 0, "y": 0 }
+					{ "id": "0OGg0POIF0a6_b7VP-oiE", "type": "letter", "letter": "a", "x": 0, "y": 0 }
 				]
 			}
 		},
@@ -93,18 +93,18 @@
 				"height": 4,
 				"maxMoves": { "gold": 2, "silver": 2, "bronze": 2 },
 				"numMovesTaken": 0,
-				"solution": "A",
+				"solution": "a",
 				"tiles": [
 					{ "id": "fZOvZiLVSFk7GX1WwGLxC", "type": "sticky", "x": 0, "y": 2 },
 					{
 						"id": "J0rmIMcTqzWw-OylmX2lQ",
 						"type": "goal",
-						"letter": "A",
+						"letter": "a",
 						"index": 0,
 						"x": 3,
 						"y": 2
 					},
-					{ "id": "HJwpgvrOpWm-6j09GCcd6", "type": "letter", "letter": "A", "x": 0, "y": 0 }
+					{ "id": "HJwpgvrOpWm-6j09GCcd6", "type": "letter", "letter": "a", "x": 0, "y": 0 }
 				]
 			}
 		},
@@ -117,13 +117,13 @@
 				"height": 3,
 				"maxMoves": { "gold": 3, "silver": 3, "bronze": 3 },
 				"numMovesTaken": 0,
-				"solution": "AB",
+				"solution": "ab",
 				"tiles": [
 					{ "id": "993M5HYC9gzAPS6JBtQZg", "type": "wall", "x": 0, "y": 1 },
 					{
 						"id": "qID25zd6RHlxYIlJmCQXU",
 						"type": "goal",
-						"letter": "A",
+						"letter": "a",
 						"index": 0,
 						"x": 1,
 						"y": 2
@@ -131,13 +131,13 @@
 					{
 						"id": "aVl6anBv0QDnO2icjtQhC",
 						"type": "goal",
-						"letter": "B",
+						"letter": "b",
 						"index": 1,
 						"x": 2,
 						"y": 0
 					},
-					{ "id": "9EXnYwSUjpahHk9In8d3V", "type": "letter", "letter": "B", "x": 2, "y": 2 },
-					{ "id": "FYSP2kiYI2sFgTVOdS9F8", "type": "letter", "letter": "A", "x": 0, "y": 0 }
+					{ "id": "9EXnYwSUjpahHk9In8d3V", "type": "letter", "letter": "b", "x": 2, "y": 2 },
+					{ "id": "FYSP2kiYI2sFgTVOdS9F8", "type": "letter", "letter": "a", "x": 0, "y": 0 }
 				]
 			}
 		}
