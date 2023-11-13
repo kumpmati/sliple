@@ -57,6 +57,10 @@ export interface DirectionTile extends Tile {
 	direction: Direction;
 }
 
+export interface HeavyTile extends Tile {
+	type: 'heavy';
+}
+
 export type Coordinates = {
 	x: number;
 	y: number;

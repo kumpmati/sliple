@@ -4,6 +4,7 @@
 	import {
 		isDirectionTile,
 		isGoalTile,
+		isHeavyTile,
 		isLetterTile,
 		isStickyTile,
 		isWallTile
@@ -15,6 +16,7 @@
 	import Sticky from './tiles/Sticky.svelte';
 	import GridContainer from '../graphics/GridContainer.svelte';
 	import Direction from './tiles/Direction.svelte';
+	import Heavy from './tiles/Heavy.svelte';
 
 	export let grid: GridStore;
 
@@ -37,6 +39,8 @@
 			<Sticky {tile} />
 		{:else if isDirectionTile(tile)}
 			<Direction {tile} />
+		{:else if isHeavyTile(tile)}
+			<Heavy {tile} />
 		{/if}
 	{/each}
 </GridContainer>

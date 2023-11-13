@@ -1,5 +1,12 @@
 import type { Direction } from '$lib/stores/grid';
-import type { WallTile, LetterTile, StickyTile, GoalTile, DirectionTile } from '$lib/types/grid';
+import type {
+	WallTile,
+	LetterTile,
+	StickyTile,
+	GoalTile,
+	DirectionTile,
+	HeavyTile
+} from '$lib/types/grid';
 import { nanoid } from 'nanoid';
 
 export const createWall = (x: number, y: number): WallTile => ({
@@ -37,6 +44,13 @@ export const createDirectional = (x: number, y: number, dir: Direction): Directi
 	id: nanoid(),
 	type: 'direction',
 	direction: dir,
+	x,
+	y
+});
+
+export const createHeavy = (x: number, y: number): HeavyTile => ({
+	id: nanoid(),
+	type: 'heavy',
 	x,
 	y
 });

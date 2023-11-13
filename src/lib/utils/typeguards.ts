@@ -1,6 +1,7 @@
 import type {
 	DirectionTile,
 	GoalTile,
+	HeavyTile,
 	LetterTile,
 	StickyTile,
 	Tile,
@@ -12,3 +13,4 @@ export const isWallTile = (t: Tile): t is WallTile => t.type === 'wall';
 export const isGoalTile = (t: Tile): t is GoalTile => t.type === 'goal';
 export const isStickyTile = (t: Tile): t is StickyTile => t.type === 'sticky';
 export const isDirectionTile = (t: Tile): t is DirectionTile => t.type === 'direction';
+export const isHeavyTile = (t: Tile): t is HeavyTile => t.type === 'heavy';

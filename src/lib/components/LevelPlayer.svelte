@@ -45,6 +45,7 @@
 
 		const dir = e.detail.direction;
 		const id = e.detail.target.dataset?.['tileId'];
+
 		if (!id) return;
 
 		sfx.play('swipe');

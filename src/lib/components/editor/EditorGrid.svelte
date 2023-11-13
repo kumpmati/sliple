@@ -5,6 +5,7 @@
 	import {
 		isDirectionTile,
 		isGoalTile,
+		isHeavyTile,
 		isLetterTile,
 		isStickyTile,
 		isWallTile
@@ -16,6 +17,7 @@
 	import LetterGraphic from '../graphics/LetterGraphic.svelte';
 	import StickyGraphic from '../graphics/StickyGraphic.svelte';
 	import WallGraphic from '../graphics/WallGraphic.svelte';
+	import HeavyGraphic from '../graphics/HeavyGraphic.svelte';
 
 	export let editor: EditorStore;
 	export let currentTile: Tile | null;
@@ -73,6 +75,8 @@
 				<StickyGraphic />
 			{:else if isDirectionTile(tile)}
 				<DirectionGraphic direction={tile.direction} />
+			{:else if isHeavyTile(tile)}
+				<HeavyGraphic />
 			{/if}
 		</g>
 	{/each}

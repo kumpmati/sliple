@@ -2,6 +2,7 @@ import type { Grid, Tile } from '$lib/types/grid';
 import {
 	createDirectional,
 	createGoal,
+	createHeavy,
 	createLetter,
 	createSticky,
 	createWall
@@ -57,6 +58,12 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 
 					case 'direction': {
 						tile = createDirectional(x, y, 'right');
+						break;
+					}
+
+					case 'heavy': {
+						tile = createHeavy(x, y);
+						break;
 					}
 				}
 

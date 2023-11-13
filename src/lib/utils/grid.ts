@@ -2,6 +2,7 @@ import type { Direction } from '$lib/stores/grid';
 import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
 import type { CompletionRank } from '$lib/types/user';
 import { clamp } from './math';
+import { isHeavyTile, isLetterTile } from './typeguards';
 
 export const getRank = (grid: Grid, moves: number): CompletionRank | null => {
 	if (moves <= grid.maxMoves.gold) return 'gold';
@@ -76,12 +77,17 @@ export const calculateNextPosition = (
 		if (stickyTile) {
 			return { x, y };
 		}
+
+		// heavy tiles move only 1 tile at a time, so stop after 1 tile
+		if (isHeavyTile(tile)) {
+			break;
+		}
 	}
 
 	return { x: x, y: y };
 };
 
-export const canMove = (t: Tile) => t.type === 'letter';
+export const canMove = (t: Tile) => isLetterTile(t) || isHeavyTile(t);
 
 /**
  * Returns the tile's collision type.
@@ -92,7 +98,8 @@ export const getCollisionType = (t: Tile): CollisionType => {
 		sticky: 'sticky',
 		wall: 'solid',
 		letter: 'solid',
-		direction: 'direction'
+		direction: 'direction',
+		heavy: 'solid'
 	};
 
 	return types?.[t.type] ?? 'none';
