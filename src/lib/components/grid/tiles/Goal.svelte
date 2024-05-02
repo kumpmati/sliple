@@ -38,9 +38,9 @@
 			{tile.letter ?? '?'}
 		</text>
 	{:else}
+		<!-- TODO: set delay back to 100 when this issue is fixed: https://github.com/sveltejs/svelte/issues/10876  -->
 		<rect
-			in:scale={{ duration: 200, delay: 100 }}
-			out:scale={{ duration: 0 }}
+			in:scale={{ duration: 200, delay: 0 }}
 			x="0"
 			y="0"
 			width="68"
