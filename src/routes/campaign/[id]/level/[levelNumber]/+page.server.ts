@@ -10,7 +10,7 @@ export const load: Load<{ levelNumber: string }, any, { campaign: Campaign }> = 
 	const num = parseInt(params.levelNumber);
 
 	if (isNaN(num) || num < 1 || num > parentData.campaign.levels.length) {
-		throw error(404, 'not found');
+		error(404, 'not found');
 	}
 
 	return {

@@ -21,6 +21,6 @@ export const load = async () => {
 			analysis: analyzePuzzle(puzzle)
 		};
 	} catch (err: any) {
-		throw error(500, err?.message ?? 'unknown error');
+		error(500, err?.message ?? 'unknown error');
 	}
 };
