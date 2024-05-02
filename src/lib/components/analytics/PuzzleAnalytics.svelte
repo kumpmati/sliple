@@ -36,43 +36,46 @@
 	<h2>Puzzle analytics <sup>Beta</sup></h2>
 
 	<table>
-		<tr>
-			<th style="width: 33%">
-				<div style="display: flex; align-items: center; gap: 0.5rem;">
-					<CompletedPuzzleIconGold size={20} /> Gold
-				</div>
-			</th>
+		<thead>
+			<tr>
+				<th style="width: 33%">
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<CompletedPuzzleIconGold size={20} /> Gold
+					</div>
+				</th>
 
-			<th style="width: 33%">
-				<div style="display: flex; align-items: center; gap: 0.5rem;">
-					<CompletedPuzzleIconSilver size={20} /> Silver
-				</div>
-			</th>
+				<th style="width: 33%">
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<CompletedPuzzleIconSilver size={20} /> Silver
+					</div>
+				</th>
 
-			<th style="width: 33%">
-				<div style="display: flex; align-items: center; gap: 0.5rem;">
-					<CompletedPuzzleIconBronze size={20} />Bronze
-				</div>
-			</th>
-		</tr>
-
-		<tr>
-			<td>{puzzle.data.maxMoves.gold} moves</td>
-			<td>{puzzle.data.maxMoves.silver} moves</td>
-			<td>{puzzle.data.maxMoves.bronze} moves</td>
-		</tr>
+				<th style="width: 33%">
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<CompletedPuzzleIconBronze size={20} />Bronze
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{puzzle.data.maxMoves.gold} moves</td>
+				<td>{puzzle.data.maxMoves.silver} moves</td>
+				<td>{puzzle.data.maxMoves.bronze} moves</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<table>
-		<tr>
-			<td>Optimal Solution*</td>
-			<td class="bold" style="width:33%">{analysis.minRequiredMoves} moves</td>
-		</tr>
+		<thead>
+			<tr>
+				<td>Optimal Solution*</td>
+				<td class="bold" style="width:33%">{analysis.minRequiredMoves} moves</td>
+			</tr>
+		</thead>
 	</table>
 
-	<small>
-		*This feature is in Beta and might show a number that is smaller than what is actually possible.
-	</small>
+	<small> *This feature is in Beta and might show a number that is not accurate. </small>
 </dialog>
 
 <style lang="scss">
