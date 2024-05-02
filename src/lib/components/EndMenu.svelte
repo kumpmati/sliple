@@ -52,7 +52,8 @@
 		</UnderlinedHeading>
 	</span>
 
-	<div class="stats" transition:fly={{ y: -10, duration: 200, delay: 100, easing: quintOut }}>
+	<!-- TODO: set delay back to 100 when this issue is fixed: https://github.com/sveltejs/svelte/issues/10876  -->
+	<div class="stats" transition:fly={{ y: -10, duration: 200, delay: 0, easing: quintOut }}>
 		<span class="row">
 			<p>Moves used</p>
 			<p class="value">{moves} / {puzzle.data.maxMoves.bronze}</p>
@@ -68,7 +69,8 @@
 		</span>
 	</div>
 
-	<div class="buttons" transition:fly={{ y: -5, duration: 200, delay: 200, easing: quintOut }}>
+	<!-- TODO: set delay back to 200 when this issue is fixed: https://github.com/sveltejs/svelte/issues/10876  -->
+	<div class="buttons" transition:fly={{ y: -5, duration: 200, delay: 0, easing: quintOut }}>
 		{#each buttons as btn}
 			<Button
 				color={type === 'win' ? 'green' : 'red'}
@@ -103,7 +105,8 @@
 	</div>
 </div>
 
-<div class="underlay" out:fade={{ duration: 200, delay: 200 }}></div>
+<!-- TODO: set delay back to 200 when this issue is fixed: https://github.com/sveltejs/svelte/issues/10876  -->
+<div class="underlay" out:fade={{ duration: 200, delay: 0 }}></div>
 
 <style lang="scss">
 	.underlay {
