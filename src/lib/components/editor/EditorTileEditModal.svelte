@@ -39,7 +39,7 @@
 </script>
 
 {#if showModal && currentTile}
-	<div class="modal" transition:fly|local={{ duration: 200, y: -10 }}>
+	<div class="modal" transition:fly={{ duration: 200, y: -10 }}>
 		<Modal
 			title="Edit {currentTile?.type} tile {isGoalTile(currentTile) ? currentTile.index + 1 : ''}"
 			closeButton={true}

@@ -1,3 +1,3 @@
-import { writable } from 'svelte-local-storage-store';
+import { persisted } from 'svelte-persisted-store';
 
-export const soundsEnabled = writable<boolean>('sliple-sounds-enabled', false);
+export const soundsEnabled = persisted<boolean>('sliple-sounds-enabled', false);

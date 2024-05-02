@@ -17,8 +17,8 @@
 <TileWrapper {tile}>
 	{#if status === 'none'}
 		<rect
-			out:fade|local={{ duration: 100 }}
-			in:fade|local={{ duration: 0 }}
+			out:fade={{ duration: 100 }}
+			in:fade={{ duration: 0 }}
 			x="4.5"
 			y="4.5"
 			width="59"
@@ -30,7 +30,7 @@
 		/>
 
 		<text
-			transition:fade|local={{ duration: 150 }}
+			transition:fade={{ duration: 150 }}
 			transform="translate(34, 37)"
 			text-anchor="middle"
 			dominant-baseline="middle"
@@ -39,8 +39,8 @@
 		</text>
 	{:else}
 		<rect
-			in:scale|local={{ duration: 200, delay: 100 }}
-			out:scale|local={{ duration: 0 }}
+			in:scale={{ duration: 200, delay: 100 }}
+			out:scale={{ duration: 0 }}
 			x="0"
 			y="0"
 			width="68"

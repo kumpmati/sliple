@@ -32,7 +32,7 @@
 </script>
 
 {#if showSaveModal}
-	<div class="modal" transition:fly|local={{ duration: 200, y: -10 }}>
+	<div class="modal" transition:fly={{ duration: 200, y: -10 }}>
 		<Modal
 			title="Save level"
 			closeButton={true}
@@ -46,7 +46,7 @@
 					<TextField bind:value={password} />
 				</label>
 
-				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<!-- svelte-ignore a11y_label_has_associated_control -->
 				<label>
 					Campaign ID (optional)
 					<TextField bind:value={campaignId} />
