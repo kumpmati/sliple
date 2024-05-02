@@ -11,7 +11,7 @@
 		in:fly={{ y: -5, duration: 300, delay: 200 }}
 		class="underline"
 		style:background-color={color}
-	/>
+	></div>
 </h1>
 
 <style lang="scss">

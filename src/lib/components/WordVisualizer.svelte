@@ -34,7 +34,10 @@
 		font-family: var(--font-heading);
 		color: transparent;
 
-		transition: background-color 150ms, color 150ms, border-color 150ms;
+		transition:
+			background-color 150ms,
+			color 150ms,
+			border-color 150ms;
 
 		&.correct {
 			background-color: var(--tile-bg);

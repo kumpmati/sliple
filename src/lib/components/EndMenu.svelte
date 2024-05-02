@@ -68,10 +68,7 @@
 		</span>
 	</div>
 
-	<div
-		class="buttons"
-		transition:fly={{ y: -5, duration: 200, delay: 200, easing: quintOut }}
-	>
+	<div class="buttons" transition:fly={{ y: -5, duration: 200, delay: 200, easing: quintOut }}>
 		{#each buttons as btn}
 			<Button
 				color={type === 'win' ? 'green' : 'red'}
@@ -106,7 +103,7 @@
 	</div>
 </div>
 
-<div class="underlay" out:fade={{ duration: 200, delay: 200 }} />
+<div class="underlay" out:fade={{ duration: 200, delay: 200 }}></div>
 
 <style lang="scss">
 	.underlay {
