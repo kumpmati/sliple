@@ -18,11 +18,11 @@ export const POST: RequestHandler = async ({ request }) => {
 	const body = bodySchema.safeParse(unsafeBody);
 
 	if (!body.success) {
-		throw error(400, 'malformed');
+		error(400, 'malformed');
 	}
 
 	if (!EDITOR_PASSWORD || body.data.password !== EDITOR_PASSWORD) {
-		throw error(403, 'unauthorized');
+		error(403, 'unauthorized');
 	}
 
 	// generate id for the level
@@ -32,7 +32,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const campaignId = body.data.campaignId;
 	if (campaignId) {
 		const campaign = await getCampaignById(campaignId);
-		if (!campaign) throw error(404, 'campaign not found');
+		if (!campaign) error(404, 'campaign not found');
 
 		campaign.levels.push({
 			id: id,

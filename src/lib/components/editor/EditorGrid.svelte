@@ -57,7 +57,6 @@
 
 	<!-- Tiles -->
 	{#each $editor.tiles.sort(sortTiles) as tile (tile.id)}
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<g
 			transform="translate({tile.x * GRID_CELL_SIZE}, {tile.y * GRID_CELL_SIZE})"
 			on:click={() => dispatch('edit', tile)}

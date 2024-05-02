@@ -51,13 +51,13 @@ class ShufflingGenerator implements PuzzleGenerator {
 					type: 'letter',
 					letter: word[i],
 					index: i
-				} satisfies LetterTile & { index: number })
+				}) satisfies LetterTile & { index: number }
 		);
 
 		const numWalls = rnd.double() < 0.1 ? 1 : 0;
 		const wallPositions = generateUniqueTilePositions(rnd, numWalls, size, startPositions);
 		const walls = wallPositions.map(
-			(pos) => ({ id: nanoid(), type: 'wall', ...pos } satisfies WallTile)
+			(pos) => ({ id: nanoid(), type: 'wall', ...pos }) satisfies WallTile
 		);
 
 		const initialGrid: Grid = {

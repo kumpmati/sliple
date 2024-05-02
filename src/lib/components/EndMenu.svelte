@@ -6,9 +6,9 @@
 	import type { Puzzle } from '$lib/types/puzzle';
 	import { getRank } from '$lib/utils/grid';
 	import Button from './Button.svelte';
-	import type { ComponentType } from 'svelte/internal';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
+	import type { ComponentType } from 'svelte';
 
 	export let type: 'win' | 'loss';
 	export let moves: number;
@@ -32,8 +32,8 @@
 	const isBronze = () => type === 'win' && ['bronze', 'silver', 'gold'].includes(rank!);
 </script>
 
-<div in:fade|local={{ duration: 200 }} class="content" class:win={type === 'win'}>
-	<span transition:fly|local={{ y: -20, duration: 500, delay: 0, easing: quintOut }}>
+<div in:fade={{ duration: 200 }} class="content" class:win={type === 'win'}>
+	<span transition:fly={{ y: -20, duration: 500, delay: 0, easing: quintOut }}>
 		<UnderlinedHeading
 			style="font-size: 36px"
 			color={type === 'win' ? 'var(--green-light)' : 'var(--red-light)'}
@@ -52,7 +52,7 @@
 		</UnderlinedHeading>
 	</span>
 
-	<div class="stats" transition:fly|local={{ y: -10, duration: 200, delay: 100, easing: quintOut }}>
+	<div class="stats" transition:fly={{ y: -10, duration: 200, delay: 100, easing: quintOut }}>
 		<span class="row">
 			<p>Moves used</p>
 			<p class="value">{moves} / {puzzle.data.maxMoves.bronze}</p>
@@ -68,10 +68,7 @@
 		</span>
 	</div>
 
-	<div
-		class="buttons"
-		transition:fly|local={{ y: -5, duration: 200, delay: 200, easing: quintOut }}
-	>
+	<div class="buttons" transition:fly={{ y: -5, duration: 200, delay: 200, easing: quintOut }}>
 		{#each buttons as btn}
 			<Button
 				color={type === 'win' ? 'green' : 'red'}
@@ -106,7 +103,7 @@
 	</div>
 </div>
 
-<div class="underlay" out:fade|local={{ duration: 200, delay: 200 }} />
+<div class="underlay" out:fade={{ duration: 200, delay: 200 }}></div>
 
 <style lang="scss">
 	.underlay {
