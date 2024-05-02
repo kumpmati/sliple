@@ -7,14 +7,14 @@ import {
 	createWall
 } from '$lib/utils/parse';
 import type { Writable } from 'svelte/store';
-import { writable } from 'svelte-local-storage-store';
+import { persisted } from 'svelte-persisted-store';
 
 export type EditorStore = Writable<Grid> & {
 	placeTile: <T extends Tile>(type: string, x: number, y: number) => T | null;
 };
 
 export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => {
-	const state = writable<Grid>('sliple-editor', {
+	const state = persisted<Grid>('sliple-editor', {
 		width: 5,
 		height: 5,
 		maxMoves: {

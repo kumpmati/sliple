@@ -87,13 +87,13 @@ class ReversibleGenerator implements PuzzleGenerator {
 		const walls =
 			rnd.double() < 0.2
 				? generateUniqueTilePositions(rnd, 1, size, goals).map(
-						(t) => ({ ...t, id: nanoid(), type: 'wall' } satisfies WallTile)
-				  )
+						(t) => ({ ...t, id: nanoid(), type: 'wall' }) satisfies WallTile
+					)
 				: [];
 
 		const letters = goals.map(
 			(g) =>
-				({ x: g.x, y: g.y, letter: g.letter, id: nanoid(), type: 'letter' } satisfies LetterTile)
+				({ x: g.x, y: g.y, letter: g.letter, id: nanoid(), type: 'letter' }) satisfies LetterTile
 		);
 
 		const initialGrid: Grid = {

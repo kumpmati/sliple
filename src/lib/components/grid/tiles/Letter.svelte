@@ -26,13 +26,13 @@
 			fill={status === 'valid'
 				? 'var(--green)'
 				: status === 'invalid'
-				? 'var(--red)'
-				: 'var(--tile-bg)'}
+					? 'var(--red)'
+					: 'var(--tile-bg)'}
 			stroke={status === 'valid'
 				? 'var(--green-dark)'
 				: status === 'invalid'
-				? 'var(--red-dark)'
-				: 'var(--tile-border)'}
+					? 'var(--red-dark)'
+					: 'var(--tile-border)'}
 			stroke-width="2"
 		/>
 		<text
@@ -77,7 +77,9 @@
 
 	g {
 		transform-origin: calc(var(--size) / 2) calc(var(--size) / 2);
-		transition: scale 50ms, filter 50ms;
+		transition:
+			scale 50ms,
+			filter 50ms;
 
 		&:active {
 			filter: brightness(0.98);

@@ -96,7 +96,7 @@ export const mapPositionsToGoalTiles = (word: string, positions: TilePos[]) => {
 				letter: word[index],
 				type: 'goal',
 				id: nanoid()
-			} satisfies GoalTile)
+			}) satisfies GoalTile
 	);
 };
 

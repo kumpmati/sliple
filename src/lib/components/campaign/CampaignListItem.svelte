@@ -72,7 +72,9 @@
 		right: 16px;
 		opacity: 0;
 		transform: translate(-10px, -50%);
-		transition: opacity 150ms, transform 150ms;
+		transition:
+			opacity 150ms,
+			transform 150ms;
 	}
 
 	a:hover .arrow {

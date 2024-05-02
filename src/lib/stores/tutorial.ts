@@ -1,3 +1,3 @@
-import { writable } from 'svelte-local-storage-store';
+import { persisted } from 'svelte-persisted-store';
 
-export const showTutorial = writable<boolean>('sliple-show-tutorial', true);
+export const showTutorial = persisted<boolean>('sliple-show-tutorial', true);

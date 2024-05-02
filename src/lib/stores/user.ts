@@ -1,6 +1,6 @@
 import type { CompletionRank, CompletionStatus, UserState } from '$lib/types/user';
 import { isHigherRank } from '$lib/utils/grid';
-import { writable } from 'svelte-local-storage-store';
+import { persisted } from 'svelte-persisted-store';
 import type { Readable } from 'svelte/store';
 
 export type UserStore = Readable<UserState> & {
@@ -10,7 +10,7 @@ export type UserStore = Readable<UserState> & {
 };
 
 const createUserStore = (): UserStore => {
-	const state = writable<UserState>('sliple-user', {
+	const state = persisted<UserState>('sliple-user', {
 		id: '',
 		puzzles: {}
 	});

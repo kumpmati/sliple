@@ -9,7 +9,7 @@ export const load: ServerLoad<{ id: string }> = async ({ params }) => {
 	const campaign = await getCampaignById(params.id);
 
 	if (!campaign) {
-		throw error(404, 'not found');
+		error(404, 'not found');
 	}
 
 	return {

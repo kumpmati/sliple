@@ -87,7 +87,9 @@ html {
 	background: var(--red);
 }
 #nprogress .peg {
-	box-shadow: 0 0 10px var(--red), 0 0 5px var(--red);
+	box-shadow:
+		0 0 10px var(--red),
+		0 0 5px var(--red);
 }
 
 @media screen and (prefers-color-scheme: dark) {
