@@ -32,18 +32,4 @@
 	<script defer data-domain="sliple.app" src="https://plausible.io/js/script.js"></script>
 </svelte:head>
 
-<main>
-	<slot />
-</main>
-
-<style lang="scss">
-	main {
-		position: relative;
-		margin: 0 auto;
-		max-width: 35rem;
-		padding: 16px;
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 1rem;
-	}
-</style>
+<slot />

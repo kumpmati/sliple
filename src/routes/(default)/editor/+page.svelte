@@ -40,7 +40,7 @@
 			data: $editor
 		});
 
-		await goto(`/play/custom/${shareCode}`);
+		await goto(`/play/community/${shareCode}`);
 	};
 
 	let showModal = false;

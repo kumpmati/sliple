@@ -66,10 +66,10 @@
 
 {#key data.puzzle.id}
 	<LevelPlayer
-		backLink="/"
+		backLink="/play/community"
 		{grid}
-		title="Custom puzzle"
-		titleColor="var(--blue-light)"
+		title="Community Level"
+		titleColor="var(--orange)"
 		canUndo
 		on:finish={handleFinish}
 		on:reset={handleReset}
