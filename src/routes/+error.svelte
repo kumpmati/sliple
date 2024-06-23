@@ -41,7 +41,7 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		color: var(--black);
+		color: var(--text);
 		text-decoration: none;
 		font-size: 16px;
 		padding: 8px 16px;

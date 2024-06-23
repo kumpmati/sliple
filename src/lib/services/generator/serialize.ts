@@ -1,5 +1,6 @@
 import type { Tile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
+import { nanoid } from 'nanoid';
 
 const serializeTile = <T extends Tile>(t: T): any[] => {
 	const { id, type, x, y, ...rest } = t;
@@ -25,7 +26,7 @@ export const toShareCode = (p: Puzzle): string => {
 		p.data.tiles.map(serializeTile)
 	];
 
-	return btoa(JSON.stringify([p.version, p.id, p.publishedAt, data]));
+	return btoa(JSON.stringify([p.version, data]));
 };
 
 /**
@@ -36,13 +37,13 @@ export const toShareCode = (p: Puzzle): string => {
  */
 export const fromShareCode = (code: string): Puzzle => {
 	try {
-		const [version, id, publishedAt, rawData] = JSON.parse(atob(code));
+		const [version, rawData] = JSON.parse(atob(code));
 		const [width, height, [bronze, silver, gold], solution, tiles] = rawData;
 
 		return {
 			version,
-			id,
-			publishedAt,
+			id: nanoid(),
+			publishedAt: new Date(),
 			data: {
 				width,
 				height,

@@ -59,9 +59,9 @@
 				{#if item.id === 'wall'}
 					<WallGraphic />
 				{:else if item.id === 'letter'}
-					<LetterGraphic letter="A" />
+					<LetterGraphic letter="s" />
 				{:else if item.id === 'goal'}
-					<GoalGraphic letter="A" />
+					<GoalGraphic letter="s" />
 				{:else if item.id === 'sticky'}
 					<StickyGraphic />
 				{:else if item.id === 'direction'}

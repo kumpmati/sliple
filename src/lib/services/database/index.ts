@@ -4,8 +4,6 @@ import type { Campaign } from '$lib/types/campaign';
 import type { Puzzle } from '$lib/types/puzzle';
 import mongoose from 'mongoose';
 import { PuzzleModel } from '../../schemas/puzzle';
-import type { CommunityPuzzle } from '$lib/types/communityPuzzle';
-import { CommunityPuzzleModel } from '$lib/schemas/communityPuzzle';
 
 /**
  * Connects to the database if not already connected
@@ -34,17 +32,6 @@ export const getPuzzleById = async (id: string): Promise<Puzzle | null> => {
 	if (!p) return null;
 
 	return p.toObject();
-};
-
-export const getAllCommunityPuzzles = async (): Promise<CommunityPuzzle[]> => {
-	const ps = await CommunityPuzzleModel.find({}).sort({ createdAt: -1 }).exec();
-	return ps.map((p) => p.toObject());
-};
-
-export const getCommunityPuzzleById = async (id: string): Promise<CommunityPuzzle | null> => {
-	const p = await CommunityPuzzleModel.findOne({ id }).exec();
-
-	return p ? p.toObject() : null;
 };
 
 export const getAllCampaigns = async (): Promise<Campaign[]> => {

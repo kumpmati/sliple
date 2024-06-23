@@ -42,7 +42,7 @@
 </script>
 
 <svelte:head>
-	<title>Sliple - Daily puzzle</title>
+	<title>Sliple - Custom Puzzle</title>
 	<meta name="description" content="Solve the daily puzzle - '{data.puzzle.data.solution}'" />
 </svelte:head>
 
@@ -66,9 +66,9 @@
 
 {#key data.puzzle.id}
 	<LevelPlayer
-		backLink="/play/community"
+		backLink="/"
 		{grid}
-		title="Community Level"
+		title="Custom Puzzle"
 		titleColor="var(--orange)"
 		canUndo
 		on:finish={handleFinish}

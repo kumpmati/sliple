@@ -44,11 +44,11 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 						break;
 					}
 					case 'letter': {
-						tile = createLetter(x, y, 'A');
+						tile = createLetter(x, y, 's');
 						break;
 					}
 					case 'goal': {
-						tile = createGoal(x, y, ['A', numGoalTiles.toString()]);
+						tile = createGoal(x, y, ['s', numGoalTiles.toString()]);
 						break;
 					}
 					case 'sticky': {

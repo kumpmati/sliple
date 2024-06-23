@@ -89,6 +89,7 @@ export const createGridStore = (initialState: Grid): GridStore => {
 			// update tile position
 			tile.x = pos.x;
 			tile.y = pos.y;
+
 			return draft;
 		});
 

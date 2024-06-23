@@ -3,7 +3,7 @@
 	import EditorSolution from '$lib/components/editor/EditorSolution.svelte';
 	import EditorLevelSettings from '$lib/components/editor/EditorLevelSettings.svelte';
 	import { createEditorStore } from '$lib/stores/editor';
-	import { ArrowLeftIcon, PlayIcon, SaveIcon } from 'svelte-feather-icons';
+	import { ArrowLeftIcon, PlayIcon, EyeIcon } from 'svelte-feather-icons';
 	import EditorTileDrawer from '$lib/components/editor/EditorTileDrawer.svelte';
 	import type { Tile } from '$lib/types/grid';
 	import { copy } from '$lib/utils/copy';
@@ -32,7 +32,7 @@
 		currentTile = null;
 	};
 
-	const handleSave = async () => {
+	const handlePlay = async () => {
 		const shareCode = toShareCode({
 			id: nanoid(8),
 			publishedAt: new Date(),
@@ -58,10 +58,10 @@
 
 	<span class="right">
 		<a href="/editor/preview">
-			<PlayIcon />
+			<EyeIcon />
 		</a>
-		<button on:click={handleSave}>
-			<SaveIcon />
+		<button on:click={handlePlay}>
+			<PlayIcon />
 		</button>
 	</span>
 </nav>
@@ -84,6 +84,11 @@
 </main>
 
 <style lang="scss">
+	a {
+		width: fit-content;
+		display: flex;
+	}
+
 	nav {
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
@@ -91,10 +96,13 @@
 
 		p {
 			color: var(--text-subtle);
+			margin: 0;
 		}
 
 		.right {
 			margin-left: auto;
+			display: flex;
+			gap: 0.5rem;
 		}
 
 		button {

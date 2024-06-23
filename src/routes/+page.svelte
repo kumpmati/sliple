@@ -9,7 +9,6 @@
 		HelpCircleIcon,
 		Volume2Icon,
 		VolumeXIcon,
-		GlobeIcon,
 		EditIcon
 	} from 'svelte-feather-icons';
 
@@ -70,18 +69,14 @@
 <h3>Other</h3>
 <div class="links">
 	<LargeLink
-		href="/play/community"
-		title="Community Levels"
-		description="Solve puzzles made by other players"
+		href="/editor"
+		title="Level Editor (Beta)"
+		description="Create and share your own levels!"
 		highlightColor="var(--orange-light)"
 	>
 		<span slot="icon" class="icon" style="color:var(--orange)">
-			<GlobeIcon size="48" strokeWidth={1} />
+			<EditIcon size="48" strokeWidth={1} />
 		</span>
-	</LargeLink>
-
-	<LargeLink href="/editor" title="Level Editor">
-		<EditIcon slot="icon" />
 	</LargeLink>
 
 	<LargeLink title="Tutorial" href="/tutorial">

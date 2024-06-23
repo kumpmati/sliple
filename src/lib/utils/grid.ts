@@ -88,15 +88,30 @@ export const canMove = (t: Tile) => isLetterTile(t);
  * Returns the tile's collision type.
  */
 export const getCollisionType = (t: Tile): CollisionType => {
-	const types: Record<string, CollisionType> = {
-		goal: 'none',
-		sticky: 'sticky',
-		wall: 'solid',
-		letter: 'solid',
-		direction: 'direction'
-	};
+	switch (t.type) {
+		case 'goal':
+		case 'g':
+			return 'none';
 
-	return types?.[t.type] ?? 'none';
+		case 'sticky':
+		case 's':
+			return 'sticky';
+
+		case 'wall':
+		case 'w':
+			return 'solid';
+
+		case 'letter':
+		case 'l':
+			return 'solid';
+
+		case 'direction':
+		case 'd':
+			return 'direction';
+
+		default:
+			return 'none';
+	}
 };
 
 /**
