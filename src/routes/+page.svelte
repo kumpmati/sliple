@@ -55,11 +55,7 @@
 		</span>
 	</LargeLink>
 
-	<LargeLink
-		title="Random"
-		description="More unique puzzles than you can manage!"
-		href="/play/random"
-	>
+	<LargeLink title="Random" description="Unlimited amounts of unique puzzles!" href="/play/random">
 		<span slot="icon" style="color:var(--red)">
 			<FeaturedPuzzle />
 		</span>

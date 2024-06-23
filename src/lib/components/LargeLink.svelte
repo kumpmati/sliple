@@ -38,7 +38,7 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		padding: 12px 24px;
+		padding: 12px 16px;
 		color: var(--large-link-text);
 		text-decoration: none;
 
