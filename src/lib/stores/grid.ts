@@ -3,7 +3,8 @@ import { calculateNextPosition, canMove } from '$lib/utils/grid';
 import { normalizeWord } from '$lib/utils/word';
 import { derived, get, type Readable } from 'svelte/store';
 import { undoable } from '@macfja/svelte-undoable';
-import { produce } from 'immer';
+import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
+import { copy } from '$lib/utils/copy';
 
 export type Direction = 'top' | 'right' | 'left' | 'bottom';
 
@@ -37,59 +38,60 @@ export const createGridStore = (initialState: Grid): GridStore => {
 	const moveTile = (id: string, dir: Direction, isUpdate = false) => {
 		let moved = false;
 
-		state.update((prev) =>
-			produce(prev, (draft) => {
-				const tile = draft.tiles.find((t) => t.id === id) as LetterTile | undefined;
+		state.update((prev) => {
+			const draft = copy(prev);
 
-				// prevent moving if the tile isn't allowed to move, or
-				// if the game is still in the process of updating and
-				// the user tries to move a tile.
-				if (!tile || !canMove(tile) || (!!draft.pendingUpdate && !isUpdate)) return;
+			const tile = draft.tiles.find((t) => t.id === id) as LetterTile | undefined;
 
-				const pos = calculateNextPosition(draft, id, dir);
+			// prevent moving if the tile isn't allowed to move, or
+			// if the game is still in the process of updating and
+			// the user tries to move a tile.
+			if (!tile || !canMove(tile) || (!!draft.pendingUpdate && !isUpdate)) return draft;
 
-				// tile has not moved
-				if (tile.x === pos.x && tile.y === pos.y) {
-					// this case will happen only if boosting against a wall but can't move
-					if (draft.pendingUpdate) {
-						clearTimeout(draft.pendingUpdate);
-						draft.pendingUpdate = null;
+			const pos = calculateNextPosition(draft, id, dir);
 
-						// increment number of taken moves
-						draft.numMovesTaken++;
-						moveHistory.push({ letter: tile.letter, id: tile.id, dir, transitional: true });
-
-						moved = true;
-					}
-
-					return;
-				}
-
-				const d = pos.nextTick;
-
-				// Check if the response requires that the tile should move
-				// again after this move is complete
-				if (d) {
-					// prevent user from moving until the tile stops
-					draft.pendingUpdate = setTimeout(() => moveTile(id, d, true), 150);
-				} else {
-					// no nextTick is specified, stop the update
+			// tile has not moved
+			if (tile.x === pos.x && tile.y === pos.y) {
+				// this case will happen only if boosting against a wall but can't move
+				if (draft.pendingUpdate) {
 					clearTimeout(draft.pendingUpdate);
 					draft.pendingUpdate = null;
 
 					// increment number of taken moves
 					draft.numMovesTaken++;
-					moveHistory.push({ letter: tile.letter, id: tile.id, dir });
+					moveHistory.push({ letter: tile.letter, id: tile.id, dir, transitional: true });
 
 					moved = true;
 				}
 
-				// update tile position
-				tile.x = pos.x;
-				tile.y = pos.y;
-				return;
-			})
-		);
+				return draft;
+			}
+
+			const d = pos.nextTick;
+
+			// Check if the response requires that the tile should move
+			// again after this move is complete
+			if (d) {
+				// prevent user from moving until the tile stops
+				draft.pendingUpdate = setTimeout(() => moveTile(id, d, true), 150);
+			} else {
+				// no nextTick is specified, stop the update
+				clearTimeout(draft.pendingUpdate);
+				draft.pendingUpdate = null;
+
+				// increment number of taken moves
+				draft.numMovesTaken++;
+				moveHistory.push({ letter: tile.letter, id: tile.id, dir });
+
+				moved = true;
+			}
+
+			// update tile position
+			tile.x = pos.x;
+			tile.y = pos.y;
+
+			return draft;
+		});
 
 		return { moved };
 	};
@@ -124,13 +126,13 @@ export const createGridStore = (initialState: Grid): GridStore => {
 
 export const currentWord = (store: GridStore) =>
 	derived(store, ($grid) => {
-		const goalTiles = $grid.tiles.filter((b) => b.type === 'goal') as GoalTile[];
+		const goalTiles = $grid.tiles.filter((g) => isGoalTile(g)) as GoalTile[];
 
 		const word = new Array(goalTiles.length).fill('_');
 
 		for (const g of goalTiles) {
 			const letter = $grid.tiles.find(
-				(b) => b.type === 'letter' && b.x === g.x && b.y === g.y
+				(b) => isLetterTile(b) && b.x === g.x && b.y === g.y
 			) as LetterTile;
 
 			if (!letter) {

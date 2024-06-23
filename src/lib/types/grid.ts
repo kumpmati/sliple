@@ -34,26 +34,26 @@ export interface Tile {
 }
 
 export interface LetterTile extends Tile {
-	type: 'letter';
+	type: 'letter' | 'l';
 	letter: string; // Letter
 }
 
 export interface WallTile extends Tile {
-	type: 'wall';
+	type: 'wall' | 'w';
 }
 
 export interface GoalTile extends Tile {
-	type: 'goal';
+	type: 'goal' | 'g';
 	letter: string;
 	index: number;
 }
 
 export interface StickyTile extends Tile {
-	type: 'sticky';
+	type: 'sticky' | 's';
 }
 
 export interface DirectionTile extends Tile {
-	type: 'direction';
+	type: 'direction' | 'd';
 	direction: Direction;
 }
 

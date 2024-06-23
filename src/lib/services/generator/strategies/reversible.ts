@@ -16,6 +16,7 @@ import { nanoid } from 'nanoid';
 import { createGridStore } from '$lib/stores/grid';
 import { get } from 'svelte/store';
 import { Caccu } from 'caccu';
+import { isLetterTile } from '$lib/utils/typeguards';
 
 /**
  * When the generator attempts to shuffle immediately
@@ -92,8 +93,7 @@ class ReversibleGenerator implements PuzzleGenerator {
 				: [];
 
 		const letters = goals.map(
-			(g) =>
-				({ x: g.x, y: g.y, letter: g.letter, id: nanoid(), type: 'letter' }) satisfies LetterTile
+			(g) => ({ x: g.x, y: g.y, letter: g.letter, id: nanoid(), type: 'l' }) satisfies LetterTile
 		);
 
 		const initialGrid: Grid = {
@@ -132,7 +132,7 @@ class ReversibleGenerator implements PuzzleGenerator {
 
 		const store = createGridStore(grid);
 
-		const letters = get(store).tiles.filter((t) => t.type === 'letter') as LetterTile[];
+		const letters = get(store).tiles.filter(isLetterTile) as LetterTile[];
 
 		// Move all letters in a random direction where,
 		// if reversed, it results in the same outcome

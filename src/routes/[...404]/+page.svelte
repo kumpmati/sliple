@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
 	import { ChevronLeftIcon } from 'svelte-feather-icons';
 </script>
 
 <div>
-	<p><i>Uh oh!</i></p>
+	<p><i>404</i></p>
 	<span class="heading">
-		<UnderlinedHeading color="var(--red-light)">{$page.error?.message}</UnderlinedHeading>
+		<UnderlinedHeading color="var(--red-light)">Page not found</UnderlinedHeading>
 	</span>
 
 	<a href="/">

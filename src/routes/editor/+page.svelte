@@ -3,12 +3,14 @@
 	import EditorSolution from '$lib/components/editor/EditorSolution.svelte';
 	import EditorLevelSettings from '$lib/components/editor/EditorLevelSettings.svelte';
 	import { createEditorStore } from '$lib/stores/editor';
-	import { ArrowLeftIcon, PlayIcon, SaveIcon } from 'svelte-feather-icons';
+	import { ArrowLeftIcon, PlayIcon, EyeIcon } from 'svelte-feather-icons';
 	import EditorTileDrawer from '$lib/components/editor/EditorTileDrawer.svelte';
 	import type { Tile } from '$lib/types/grid';
 	import { copy } from '$lib/utils/copy';
 	import EditorTileEditModal from '$lib/components/editor/EditorTileEditModal.svelte';
-	import EditorSaveForm from '$lib/components/editor/EditorSaveForm.svelte';
+	import { toShareCode } from '$lib/services/generator/serialize';
+	import { nanoid } from 'nanoid';
+	import { goto } from '$app/navigation';
 
 	const editor = createEditorStore();
 
@@ -30,8 +32,18 @@
 		currentTile = null;
 	};
 
+	const handlePlay = async () => {
+		const shareCode = toShareCode({
+			id: nanoid(8),
+			publishedAt: new Date(),
+			version: 'custom.v1',
+			data: $editor
+		});
+
+		await goto(`/play/community/${shareCode}`);
+	};
+
 	let showModal = false;
-	let showSaveModal = false;
 	let currentTile: Tile | null = null;
 </script>
 
@@ -45,14 +57,11 @@
 	<p class="center">Level editor</p>
 
 	<span class="right">
-		<a href="/editor/preview"><PlayIcon /></a>
-		<button
-			on:click={() => {
-				showSaveModal = true;
-				console.log($editor);
-			}}
-		>
-			<SaveIcon />
+		<a href="/editor/preview">
+			<EyeIcon />
+		</a>
+		<button on:click={handlePlay}>
+			<PlayIcon />
 		</button>
 	</span>
 </nav>
@@ -65,8 +74,6 @@
 	on:confirm={closeModal}
 />
 
-<EditorSaveForm {editor} {showSaveModal} on:close={() => (showSaveModal = false)} />
-
 <main>
 	<EditorLevelSettings {editor} />
 	<span class="grid">
@@ -77,6 +84,11 @@
 </main>
 
 <style lang="scss">
+	a {
+		width: fit-content;
+		display: flex;
+	}
+
 	nav {
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
@@ -84,10 +96,13 @@
 
 		p {
 			color: var(--text-subtle);
+			margin: 0;
 		}
 
 		.right {
 			margin-left: auto;
+			display: flex;
+			gap: 0.5rem;
 		}
 
 		button {
