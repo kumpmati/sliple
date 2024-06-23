@@ -8,6 +8,7 @@ import {
 } from '$lib/utils/parse';
 import type { Writable } from 'svelte/store';
 import { persisted } from 'svelte-persisted-store';
+import { isGoalTile } from '$lib/utils/typeguards';
 
 export type EditorStore = Writable<Grid> & {
 	placeTile: <T extends Tile>(type: string, x: number, y: number) => T | null;
@@ -34,7 +35,7 @@ export const createEditorStore = (initialState?: Partial<Grid>): EditorStore => 
 			let placedTile = null;
 
 			state.update((prev) => {
-				const numGoalTiles = prev.tiles.reduce((t, curr) => (curr.type === 'goal' ? t + 1 : t), 0);
+				const numGoalTiles = prev.tiles.reduce((t, curr) => (isGoalTile(curr) ? t + 1 : t), 0);
 
 				let tile: Tile | null = null;
 				switch (type) {

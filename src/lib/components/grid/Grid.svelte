@@ -22,7 +22,7 @@
 
 	// letters should be the last items to be drawn,
 	// so that they are drawn on top of every other tile.
-	const sortTiles = (a: Tile) => (a.type === 'letter' ? 1 : -1);
+	const sortTiles = (a: Tile) => (isLetterTile(a) ? 1 : -1);
 </script>
 
 <GridContainer width={$grid.width} height={$grid.height}>
