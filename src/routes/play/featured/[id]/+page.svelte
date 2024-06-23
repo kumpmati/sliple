@@ -11,10 +11,13 @@
 	import { showTutorial } from '$lib/stores/tutorial';
 	import { browser } from '$app/environment';
 	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
+	import { toShareCode } from '$lib/services/generator/serialize';
 
 	export let data: PageData;
 
 	const grid = createGridStore(data.puzzle.data);
+
+	$: console.log(toShareCode(data.puzzle));
 
 	let showEndMenu = false;
 	let type: 'win' | 'loss' = 'win';

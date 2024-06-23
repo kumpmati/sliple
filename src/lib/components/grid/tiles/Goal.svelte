@@ -5,12 +5,13 @@
 	import { getContext } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 	import TileWrapper from './TileWrapper.svelte';
+	import { isLetterTile } from '$lib/utils/typeguards';
 
 	export let tile: GoalTile;
 
 	const store = getContext('grid') as GridStore;
 
-	$: letterTile = store.getAt(tile.x, tile.y).find((t) => t.type === 'letter') as LetterTile;
+	$: letterTile = store.getAt(tile.x, tile.y).find(isLetterTile) as LetterTile;
 	$: status = getGoalStatus(tile, letterTile);
 </script>
 

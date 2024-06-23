@@ -31,7 +31,7 @@
 		position: relative;
 		border-radius: var(--border-radius);
 		border: 2px solid var(--black);
-		background-color: var(--white);
+		background-color: var(--button-bg);
 		z-index: 100;
 		display: flex;
 		flex-direction: column;
@@ -41,7 +41,7 @@
 		h2 {
 			font-family: var(--font-heading);
 			font-size: 16px;
-			color: var(--black);
+			color: var(--text);
 			text-align: center;
 			margin: 0;
 			margin-top: 12px;

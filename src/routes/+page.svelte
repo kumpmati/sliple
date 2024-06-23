@@ -4,20 +4,13 @@
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { GameAudio } from '$lib/services/sound';
 	import { soundsEnabled } from '$lib/stores/sound';
-	import { userStore } from '$lib/stores/user';
 	import {
-		BookmarkIcon,
 		CalendarIcon,
-		GridIcon,
 		HelpCircleIcon,
-		ListIcon,
 		Volume2Icon,
-		VolumeXIcon
+		VolumeXIcon,
+		EditIcon
 	} from 'svelte-feather-icons';
-
-	export let data;
-
-	$: latestIsNew = data.latest && !$userStore.puzzles[data.latest.id];
 
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;
@@ -51,48 +44,39 @@
 </div>
 
 <div class="links">
-	<div class="row">
-		<LargeLink
-			title="Daily Puzzle"
-			description="Every day a new random puzzle!"
-			href="/play/daily"
-			highlightColor="var(--blue-light)"
-		>
-			<span slot="icon" class="icon" style="color:var(--blue)">
-				<CalendarIcon size="48" strokeWidth={1} />
-			</span>
-		</LargeLink>
-
-		<LargeLink title="Random" description="Infinite variations" href="/play/random">
-			<span slot="icon" style="color:var(--red)">
-				<FeaturedPuzzle />
-			</span>
-		</LargeLink>
-	</div>
-
-	<br />
-
 	<LargeLink
-		href="/play/featured/latest"
-		title="Featured puzzle"
-		description="A challenging puzzle created by a human!"
-		badge={latestIsNew ? 'New!' : null}
-		highlightColor="var(--orange-light)"
+		title="Daily Puzzle"
+		description="Every day a new random puzzle!"
+		href="/play/daily"
+		highlightColor="var(--blue-light)"
 	>
-		<span slot="icon" style="display:contents;color:var(--orange);">
-			<BookmarkIcon size="48" strokeWidth={1} />
+		<span slot="icon" class="icon" style="color:var(--blue)">
+			<CalendarIcon size="48" strokeWidth={1} />
 		</span>
 	</LargeLink>
 
-	<LargeLink title="Puzzle archive" href="/archive">
-		<ListIcon slot="icon" />
+	<LargeLink
+		title="Random"
+		description="More unique puzzles than you can manage!"
+		href="/play/random"
+	>
+		<span slot="icon" style="color:var(--red)">
+			<FeaturedPuzzle />
+		</span>
 	</LargeLink>
 </div>
 
 <h3>Other</h3>
 <div class="links">
-	<LargeLink title="Campaigns" href="/campaign">
-		<GridIcon slot="icon" />
+	<LargeLink
+		href="/editor"
+		title="Level Editor (Beta)"
+		description="Create and share your own levels!"
+		highlightColor="var(--orange-light)"
+	>
+		<span slot="icon" class="icon" style="color:var(--orange)">
+			<EditIcon size="48" strokeWidth={1} />
+		</span>
 	</LargeLink>
 
 	<LargeLink title="Tutorial" href="/tutorial">
@@ -142,15 +126,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
-		margin-bottom: 32px;
-	}
-
-	.row {
-		display: flex;
-		gap: 16px;
-
-		@media screen and (max-width: 500px) {
-			flex-direction: column;
-		}
+		margin-bottom: 16px;
 	}
 </style>
