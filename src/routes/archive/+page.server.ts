@@ -1,9 +1,9 @@
 import { getAllPuzzles } from '$lib/services/database';
-import type { ServerLoad } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-export const load: ServerLoad = async ({ setHeaders }) => {
+export const load: PageServerLoad = async ({ setHeaders }) => {
 	setHeaders({
-		'Cache-Control': 'public, max-age=300' // cache for 5 minutes
+		'Cache-Control': `public, max-age=${60 * 60 * 24}` // cache for 24h
 	});
 
 	return {

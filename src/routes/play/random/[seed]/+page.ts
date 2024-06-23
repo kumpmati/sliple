@@ -1,10 +1,12 @@
 import words from '$lib/assets/words.json';
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 import { shufflingGenerator } from '$lib/services/generator/strategies/shuffling';
 import { analyzePuzzle } from '$lib/services/generator/analyze';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const ssr = false;
+
+export const load: PageLoad = async ({ params }) => {
 	try {
 		const puzzle = shufflingGenerator.generate(params.seed, {
 			words,
