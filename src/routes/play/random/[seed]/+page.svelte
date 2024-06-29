@@ -18,7 +18,6 @@
 	let showEndMenu = false;
 	let type: 'win' | 'loss' = 'win';
 	let moves = 0;
-	$: shareText = `I solved this puzzle '${data.puzzle.data.solution}' in ${moves} moves!`;
 
 	const handleFinish = (e: CustomEvent<FinishEvent>) => {
 		type = e.detail.type;
@@ -44,8 +43,7 @@
 	<title>Sliple - Random puzzle</title>
 	<meta
 		name="description"
-		content="Spell the word '{data.puzzle.data.solution}' within {data.puzzle.data.maxMoves
-			.bronze} moves"
+		content="Solve a randomly generated puzzle - '{data.puzzle.data.solution}'"
 	/>
 </svelte:head>
 
@@ -54,7 +52,8 @@
 		{type}
 		{moves}
 		puzzle={data.puzzle}
-		{shareText}
+		shareText="I solved this randomly generated puzzle '{data.puzzle.data
+			.solution}' in {moves} moves! Can you do better? 😉"
 		buttons={[
 			{
 				text: type === 'win' ? 'Improve' : 'Try again',
@@ -84,10 +83,14 @@
 		on:reset={handleReset}
 	>
 		<svelte:fragment slot="buttons">
-			{#if browser && navigator?.canShare?.({ text: shareText })}
+			{#if browser && navigator?.canShare?.({ text: 'Lorem ipsum' })}
 				<button
 					on:click={() =>
-						navigator.share({ title: 'Sliple', url: $page.url.toString(), text: shareText })}
+						navigator.share({
+							title: 'Sliple',
+							url: $page.url.toString(),
+							text: `Can you solve this puzzle '${data.puzzle.data.solution}' in under ${data.puzzle.data.maxMoves.bronze} moves?`
+						})}
 				>
 					<Share2Icon size="22" />
 				</button>
