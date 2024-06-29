@@ -81,9 +81,9 @@
 				<button
 					on:click={() =>
 						navigator.share({
-							title: 'Sliple',
+							title: 'Sliple - Daily puzzle',
 							url: $page.url.toString(),
-							text: `Can you solve today's puzzle '${data.puzzle.data.solution}' in under ${data.puzzle.data.maxMoves.bronze} moves?`
+							text: `Can you solve today's puzzle '${data.puzzle.data.solution}' in ${data.puzzle.data.maxMoves.bronze} moves?`
 						})}
 				>
 					<Share2Icon size="22" />
