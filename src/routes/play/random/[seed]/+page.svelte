@@ -2,13 +2,14 @@
 	import type { PageData } from './$types';
 	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
 	import EndMenu from '$lib/components/EndMenu.svelte';
-	import { ChevronsRightIcon, HomeIcon, RotateCcwIcon } from 'svelte-feather-icons';
+	import { ChevronsRightIcon, HomeIcon, RotateCcwIcon, Share2Icon } from 'svelte-feather-icons';
 	import { goto } from '$app/navigation';
 	import { createGridStore } from '$lib/stores/grid';
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { showTutorial } from '$lib/stores/tutorial';
 	import { browser } from '$app/environment';
 	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
@@ -17,6 +18,7 @@
 	let showEndMenu = false;
 	let type: 'win' | 'loss' = 'win';
 	let moves = 0;
+	$: shareText = `I solved this puzzle '${data.puzzle.data.solution}' in ${moves} moves!`;
 
 	const handleFinish = (e: CustomEvent<FinishEvent>) => {
 		type = e.detail.type;
@@ -52,7 +54,7 @@
 		{type}
 		{moves}
 		puzzle={data.puzzle}
-		shareText="I solved this puzzle in {moves} moves! Can you beat it? 😉"
+		{shareText}
 		buttons={[
 			{
 				text: type === 'win' ? 'Improve' : 'Try again',
@@ -81,7 +83,18 @@
 		on:finish={handleFinish}
 		on:reset={handleReset}
 	>
-		<PuzzleAnalytics slot="buttons" puzzle={data.puzzle} analysis={data.analysis} />
+		<svelte:fragment slot="buttons">
+			{#if browser && navigator?.canShare?.({ text: shareText })}
+				<button
+					on:click={() =>
+						navigator.share({ title: 'Sliple', url: $page.url.toString(), text: shareText })}
+				>
+					<Share2Icon size="22" />
+				</button>
+			{/if}
+
+			<PuzzleAnalytics puzzle={data.puzzle} analysis={data.analysis} />
+		</svelte:fragment>
 
 		<p slot="description">
 			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
@@ -98,5 +111,13 @@
 	.highlight {
 		font-weight: bold;
 		color: var(--text);
+	}
+
+	button {
+		display: flex;
+		background-color: transparent;
+		border: none;
+		color: var(--button-text);
+		cursor: pointer;
 	}
 </style>
