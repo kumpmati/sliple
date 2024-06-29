@@ -43,7 +43,10 @@
 
 <svelte:head>
 	<title>Sliple - Custom Puzzle</title>
-	<meta name="description" content="Solve the daily puzzle - '{data.puzzle.data.solution}'" />
+	<meta
+		name="description"
+		content="Solve a community-made puzzle - '{data.puzzle.data.solution}'"
+	/>
 </svelte:head>
 
 {#if showEndMenu}
@@ -51,7 +54,8 @@
 		{type}
 		{moves}
 		puzzle={data.puzzle}
-		shareText="I solved today's puzzle in {moves} moves! Can you beat it? 😉"
+		shareText="I solved this community puzzle '{data.puzzle.data
+			.solution}' in {moves} moves! Can you do better? 😉"
 		buttons={[
 			{
 				text: type === 'win' ? 'Improve' : 'Try again',
