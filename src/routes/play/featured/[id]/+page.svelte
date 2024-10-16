@@ -12,6 +12,7 @@
 	import { browser } from '$app/environment';
 	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
 	import { toShareCode } from '$lib/services/generator/serialize';
+	import { markCompletion } from '$lib/utils/completions';
 
 	export let data: PageData;
 
@@ -32,6 +33,8 @@
 		moves = e.detail.moves;
 
 		userStore.markPuzzleComplete(data.puzzle.id, 'completed', getRank($grid, $grid.numMovesTaken));
+
+		markCompletion(data.puzzle.id, type === 'loss' ? 'l' : 'w', moves);
 
 		setTimeout(() => (showEndMenu = true), 500);
 	};
