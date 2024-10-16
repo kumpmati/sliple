@@ -4,6 +4,9 @@ import type { Campaign } from '$lib/types/campaign';
 import type { Puzzle } from '$lib/types/puzzle';
 import mongoose from 'mongoose';
 import { PuzzleModel } from '../../schemas/puzzle';
+import { PuzzleCompletionModel } from '$lib/schemas/solution';
+import type { PuzzleCompletion } from '$lib/types/completion';
+import { nanoid } from 'nanoid';
 
 /**
  * Connects to the database if not already connected
@@ -54,4 +57,16 @@ export const updateCampaign = async (
 	if (!c) return null;
 
 	return c.toObject();
+};
+
+export const getPuzzleCompletions = async (): Promise<PuzzleCompletion[]> => {
+	return await PuzzleCompletionModel.find({}).exec();
+};
+
+export const createPuzzleCompletion = async (
+	completion: Omit<PuzzleCompletion, 'createdAt' | 'updatedAt'>
+) => {
+	const a = await PuzzleCompletionModel.create(completion);
+
+	console.log(a);
 };

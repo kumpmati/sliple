@@ -12,6 +12,7 @@
 	import localized from 'dayjs/plugin/localizedFormat';
 	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
 	import { page } from '$app/stores';
+	import { markCompletion } from '$lib/utils/completions';
 	dayjs.extend(localized);
 
 	export let data: PageData;
@@ -25,6 +26,8 @@
 	const handleFinish = (e: CustomEvent<FinishEvent>) => {
 		type = e.detail.type;
 		moves = e.detail.moves;
+
+		markCompletion(data.puzzle.id, type === 'loss' ? 'l' : 'w', moves);
 
 		setTimeout(() => (showEndMenu = true), 500);
 	};
