@@ -2,16 +2,18 @@
 	import type { PuzzleAnalysisData } from '$lib/services/generator/analyze';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import { BarChart2Icon, XIcon } from 'svelte-feather-icons';
-	import ThreeStarDots from '../graphics/ThreeStarDots.svelte';
 	import CompletedPuzzleIconGold from '../graphics/CompletedPuzzleIconGold.svelte';
 	import CompletedPuzzleIconSilver from '../graphics/CompletedPuzzleIconSilver.svelte';
 	import CompletedPuzzleIconBronze from '../graphics/CompletedPuzzleIconBronze.svelte';
+	import type { PuzzleStats } from '../../../routes/api/stats/[id]/+server';
+	import { getPuzzleStats } from '$lib/utils/completions';
 
 	export let puzzle: Puzzle;
 	export let analysis: PuzzleAnalysisData;
 
 	let ref: HTMLDialogElement;
 	let show = false;
+	let puzzleStats: PuzzleStats | null = null;
 
 	const toggleModal = () => {
 		if (show) {
@@ -20,6 +22,10 @@
 		} else {
 			ref.showModal();
 			show = true;
+
+			if (!puzzleStats) {
+				getPuzzleStats(puzzle.id).then((d) => (puzzleStats = d));
+			}
 		}
 	};
 </script>
@@ -72,6 +78,47 @@
 				<td>Optimal Solution*</td>
 				<td class="bold" style="width:33%">{analysis.minRequiredMoves} moves</td>
 			</tr>
+		</thead>
+	</table>
+
+	<table>
+		<thead>
+			<tr>
+				<td colspan="2"><strong> Global statistics </strong> </td>
+			</tr>
+
+			{#if puzzleStats}
+				<tr>
+					<td>Moves (lowest / average)</td>
+					<td class="bold" style="width:33%">
+						{puzzleStats.minMoves ?? '-'}
+						/
+						{#if puzzleStats.averageMoves !== null}
+							{Math.round(puzzleStats.averageMoves)}
+						{:else}
+							-
+						{/if}
+					</td>
+				</tr>
+
+				<tr>
+					<td> Wins / Losses</td>
+					<td class="bold" style="width:33%">
+						{puzzleStats.numWins} / {puzzleStats.numCompletions - puzzleStats.numWins}
+					</td>
+				</tr>
+
+				<tr>
+					<td>Win percentage</td>
+					<td class="bold" style="width:33%">
+						{Math.round((puzzleStats.numWins / puzzleStats.numCompletions) * 100) || 0}%
+					</td>
+				</tr>
+			{:else}
+				<tr>
+					<td colspan="2">Loading...</td>
+				</tr>
+			{/if}
 		</thead>
 	</table>
 
