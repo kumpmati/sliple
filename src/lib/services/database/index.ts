@@ -66,7 +66,9 @@ export const getPuzzleCompletions = async (): Promise<PuzzleCompletion[]> => {
 export const createPuzzleCompletion = async (
 	completion: Omit<PuzzleCompletion, 'createdAt' | 'updatedAt'>
 ) => {
-	const a = await PuzzleCompletionModel.create(completion);
+	return await PuzzleCompletionModel.create(completion);
+};
 
-	console.log(a);
+export const getCompletionsByPuzzleId = async (puzzleId: string): Promise<PuzzleCompletion[]> => {
+	return await PuzzleCompletionModel.find({ puzzleId }).exec();
 };
