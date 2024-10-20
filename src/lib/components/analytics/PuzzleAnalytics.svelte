@@ -6,7 +6,8 @@
 	import CompletedPuzzleIconSilver from '../graphics/CompletedPuzzleIconSilver.svelte';
 	import CompletedPuzzleIconBronze from '../graphics/CompletedPuzzleIconBronze.svelte';
 	import type { PuzzleStats } from '../../../routes/api/stats/[id]/+server';
-	import { getPuzzleStats } from '$lib/utils/completions';
+	import type { StatsEndpoint } from '../../../routes/api/stats/+server';
+	import { superActions } from 'sveltekit-superactions';
 
 	export let puzzle: Puzzle;
 	export let analysis: PuzzleAnalysisData;
@@ -14,6 +15,8 @@
 	let ref: HTMLDialogElement;
 	let show = false;
 	let puzzleStats: PuzzleStats | null = null;
+
+	const statsApi = superActions<StatsEndpoint>('/api/stats');
 
 	const toggleModal = () => {
 		if (show) {
@@ -24,7 +27,7 @@
 			show = true;
 
 			if (!puzzleStats) {
-				getPuzzleStats(puzzle.id).then((d) => (puzzleStats = d));
+				statsApi.getStats(puzzle.id).then((d) => (puzzleStats = d));
 			}
 		}
 	};

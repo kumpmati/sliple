@@ -12,10 +12,14 @@
 	import localized from 'dayjs/plugin/localizedFormat';
 	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
 	import { page } from '$app/stores';
-	import { markCompletion } from '$lib/utils/completions';
+	import { superActions } from 'sveltekit-superactions';
+	import type { StatsEndpoint } from '../../api/stats/+server';
+
 	dayjs.extend(localized);
 
 	export let data: PageData;
+
+	const statsApi = superActions<StatsEndpoint>('/api/stats');
 
 	$: grid = createGridStore(data.puzzle.data);
 
@@ -27,7 +31,11 @@
 		type = e.detail.type;
 		moves = e.detail.moves;
 
-		markCompletion(data.puzzle.id, type === 'loss' ? 'l' : 'w', moves);
+		statsApi.markCompletion({
+			puzzleId: data.puzzle.id,
+			type: type === 'loss' ? 'l' : 'w',
+			numMoves: moves
+		});
 
 		setTimeout(() => (showEndMenu = true), 500);
 	};
