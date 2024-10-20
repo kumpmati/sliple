@@ -11,14 +11,13 @@
 	import { showTutorial } from '$lib/stores/tutorial';
 	import { browser } from '$app/environment';
 	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
-	import { toShareCode } from '$lib/services/generator/serialize';
-	import { markCompletion } from '$lib/utils/completions';
+	import { superActions } from 'sveltekit-superactions';
+	import type { StatsEndpoint } from '../../../api/stats/+server';
 
 	export let data: PageData;
 
+	const statsApi = superActions<StatsEndpoint>('/api/stats');
 	const grid = createGridStore(data.puzzle.data);
-
-	$: console.log(toShareCode(data.puzzle));
 
 	let showEndMenu = false;
 	let type: 'win' | 'loss' = 'win';
@@ -34,7 +33,11 @@
 
 		userStore.markPuzzleComplete(data.puzzle.id, 'completed', getRank($grid, $grid.numMovesTaken));
 
-		markCompletion(data.puzzle.id, type === 'loss' ? 'l' : 'w', moves);
+		statsApi.markCompletion({
+			puzzleId: data.puzzle.id,
+			type: type === 'loss' ? 'l' : 'w',
+			numMoves: moves
+		});
 
 		setTimeout(() => (showEndMenu = true), 500);
 	};
