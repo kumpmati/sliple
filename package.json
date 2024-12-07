@@ -11,7 +11,10 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-netlify": "^4.2.1",
@@ -24,6 +27,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"@vite-pwa/sveltekit": "^0.5.0",
+		"drizzle-kit": "^0.22.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.38.0",
@@ -47,8 +51,10 @@
 	"type": "module",
 	"dependencies": {
 		"@macfja/svelte-undoable": "^1.1.0",
+		"@neondatabase/serverless": "^0.9.4",
 		"caccu": "^0.3.0",
 		"dayjs": "^1.11.8",
+		"drizzle-orm": "^0.33.0",
 		"howler": "^2.2.3",
 		"immer": "^10.0.2",
 		"nanoid": "^4.0.0",
