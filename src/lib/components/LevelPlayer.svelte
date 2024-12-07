@@ -9,8 +9,8 @@
 	import type { FinishEvent } from '$lib/types/puzzle';
 	import { goto } from '$app/navigation';
 	import { spring } from 'svelte/motion';
-	import { GameAudio } from '$lib/services/sound';
 	import { sleep } from '$lib/utils/sleep';
+	import { getSfxContext } from '$lib/stores/sound';
 
 	export let title: string;
 	export let grid: GridStore;
@@ -24,7 +24,7 @@
 	const dispatch = createEventDispatcher<{ finish: FinishEvent; reset: null }>();
 	const word = currentWord(grid);
 
-	const sfx = new GameAudio();
+	let sfx = getSfxContext();
 
 	$: movesExhausted = $grid.numMovesTaken >= $grid.maxMoves.bronze;
 	$: isAnswer = grid.isAnswer($word);
@@ -32,12 +32,12 @@
 
 	$: if (isAnswer) {
 		dispatch('finish', { type: 'win', moves: $grid.numMovesTaken });
-		sfx.play('win', 500);
+		sfx.current?.play('win', 500);
 	}
 
 	$: if (movesExhausted && !isAnswer) {
 		dispatch('finish', { type: 'loss', moves: $grid.numMovesTaken });
-		sfx.play('lose', 500);
+		sfx.current?.play('lose', 500);
 	}
 
 	const handleSwipe = async (e: CustomEvent) => {
@@ -47,7 +47,7 @@
 		const id = e.detail.target.dataset?.['tileId'];
 		if (!id) return;
 
-		sfx.play('swipe');
+		sfx.current?.play('swipe');
 
 		await sleep(10);
 
@@ -55,12 +55,12 @@
 		if (moved) {
 			sleep(90).then(() => {
 				// if ('vibrate' in navigator) navigator.vibrate(5);
-				sfx.play('click');
+				sfx.current?.play('click');
 			});
 		}
 	};
 
-	onMount(() => sfx.init());
+	onMount(() => sfx.current?.init());
 </script>
 
 <nav>
@@ -78,7 +78,7 @@
 				on:click={() => {
 					grid.undo();
 					undoAnimation.set(-4).then(() => undoAnimation.set(0));
-					sfx.play('undo');
+					sfx.current?.play('undo');
 				}}
 				style:transform="translateX({$undoAnimation}px)"
 			>
@@ -92,7 +92,7 @@
 			on:click={() => {
 				dispatch('reset');
 				$resetAnimation++;
-				sfx.play('reset');
+				sfx.current?.play('reset');
 			}}
 			style:transform="rotate({-$resetAnimation * 180}deg)"
 		>

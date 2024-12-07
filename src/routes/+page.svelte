@@ -2,8 +2,7 @@
 	import LargeLink from '$lib/components/LargeLink.svelte';
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
-	import { GameAudio } from '$lib/services/sound';
-	import { soundsEnabled } from '$lib/stores/sound';
+	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
 	import {
 		CalendarIcon,
 		HelpCircleIcon,
@@ -12,9 +11,11 @@
 		EditIcon
 	} from 'svelte-feather-icons';
 
+	let sfx = getSfxContext();
+
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;
-		new GameAudio().play('click');
+		sfx.current?.play('click');
 	};
 </script>
 
