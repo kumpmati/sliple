@@ -1,10 +1,11 @@
-import { createPuzzleCompletion, getCompletionsByPuzzleId } from '$lib/services/database';
+import { db } from '$lib/server/db';
+import { puzzleCompletionTable } from '$lib/server/db/schema';
 import { sum } from '$lib/utils/math';
 import { error } from '@sveltejs/kit';
 import { Caccu } from 'caccu';
-import { nanoid } from 'nanoid';
+import { eq } from 'drizzle-orm';
 import { RateLimiter } from 'sveltekit-rate-limiter/server';
-import { endpoint, zod, type InferClient } from 'sveltekit-superactions';
+import { endpoint, zod } from 'sveltekit-superactions';
 import { z } from 'zod';
 
 export type PuzzleStats = {
@@ -33,29 +34,24 @@ export const POST = endpoint({
 
 		const completions = await cache.getOrUpdate(
 			id,
-			async () => getCompletionsByPuzzleId(id),
+			async () =>
+				db.select().from(puzzleCompletionTable).where(eq(puzzleCompletionTable.puzzleId, id)),
 			5 // cache for 5 seconds
 		);
 
 		return {
 			numCompletions: completions.length,
 			numWins: completions.filter((c) => c.type === 'w').length,
-			minMoves: Math.min(...completions.map((c) => c.numMoves)),
-			averageMoves: sum(completions.map((c) => c.numMoves)) / completions.length
+			minMoves: completions.length > 0 ? Math.min(...completions.map((c) => c.numMoves)) : null,
+			averageMoves:
+				completions.length > 0 ? sum(completions.map((c) => c.numMoves)) / completions.length : null
 		} satisfies PuzzleStats;
 	}),
 
 	markCompletion: zod(completionSchema, async (e, body) => {
 		if (await ratelimiter.isLimited(e)) error(429);
 
-		const item = {
-			id: nanoid(21),
-			type: body.type,
-			numMoves: body.numMoves,
-			puzzleId: body.puzzleId
-		};
-
-		await createPuzzleCompletion(item);
+		const [item] = await db.insert(puzzleCompletionTable).values(body).returning();
 
 		return item;
 	})
