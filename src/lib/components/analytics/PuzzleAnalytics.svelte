@@ -5,8 +5,7 @@
 	import CompletedPuzzleIconGold from '../graphics/CompletedPuzzleIconGold.svelte';
 	import CompletedPuzzleIconSilver from '../graphics/CompletedPuzzleIconSilver.svelte';
 	import CompletedPuzzleIconBronze from '../graphics/CompletedPuzzleIconBronze.svelte';
-	import type { PuzzleStats } from '../../../routes/api/stats/[id]/+server';
-	import type { StatsEndpoint } from '../../../routes/api/stats/+server';
+	import type { PuzzleStats, StatsEndpoint } from '../../../routes/api/stats/+server';
 	import { superActions } from 'sveltekit-superactions';
 
 	export let puzzle: Puzzle;
@@ -27,7 +26,10 @@
 			show = true;
 
 			if (!puzzleStats) {
-				statsApi.getStats(puzzle.id).then((d) => (puzzleStats = d));
+				statsApi
+					.getStats(puzzle.id)
+					.then((d) => (puzzleStats = d))
+					.catch(() => null);
 			}
 		}
 	};

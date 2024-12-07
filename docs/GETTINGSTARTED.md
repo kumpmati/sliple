@@ -2,15 +2,7 @@
 
 ## Developing
 
-first create a `.env` file, and fill in the following details:
-
-```bash
-# MongoDB connection string
-DB_URI=
-
-# Password when saving levels in the editor
-EDITOR_PASSWORD=
-```
+first create a `.env` file based on the `.env.example` file.
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
