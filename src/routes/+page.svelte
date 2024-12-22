@@ -1,22 +1,42 @@
 <script>
-	import LargeLink from '$lib/components/LargeLink.svelte';
-	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
+	import Button from '$lib/components/v2/Button.svelte';
 	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
-	import {
-		CalendarIcon,
-		HelpCircleIcon,
-		Volume2Icon,
-		VolumeXIcon,
-		EditIcon
-	} from 'svelte-feather-icons';
+	import { Volume2Icon, VolumeXIcon } from 'svelte-feather-icons';
+	import TablerPlay from '~icons/tabler/play';
+	import TablerChartHistogram from '~icons/tabler/chart-histogram';
+	import TablerDice3 from '~icons/tabler/dice-3';
+	import TablerHelp from '~icons/tabler/help';
+	import SolutionTile from '$lib/components/v2/SolutionTile.svelte';
+	import CompleteBadge from '$lib/components/v2/CompleteBadge.svelte';
+	import dayjs from 'dayjs';
+	import { onMount } from 'svelte';
+	import { formatSeconds } from '$lib/utils/time';
 
-	let sfx = getSfxContext();
+	let { data } = $props();
+
+	const sfx = getSfxContext();
 
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;
 		sfx.current?.play('click');
 	};
+
+	const RESET_TIME = dayjs().add(1, 'day').startOf('day');
+
+	let secondsUntilReset = $state(dayjs(RESET_TIME).diff(new Date(), 'second'));
+
+	onMount(() => {
+		const id = setInterval(() => {
+			secondsUntilReset = dayjs(RESET_TIME).diff(new Date(), 'second');
+
+			if (secondsUntilReset < 0) {
+				window.location.reload(); // do full refresh
+			}
+		}, 1000);
+
+		return () => clearInterval(id);
+	});
 </script>
 
 <svelte:head>
@@ -24,105 +44,57 @@
 	<meta name="description" content="Slippery, free puzzle game" />
 </svelte:head>
 
-<nav>
-	<a href="/about" class="about" aria-label="About the website">
-		<HelpCircleIcon />
-	</a>
+<main
+	class="flex h-full flex-col items-center sm:h-fit sm:rounded-xl sm:border-2 sm:border-card sm:bg-card sm:p-8"
+>
+	<button class="ml-auto text-subtle hover:text-white" onclick={toggleSound}>
+		{#if $soundsEnabled}
+			<Volume2Icon />
+		{:else}
+			<VolumeXIcon />
+		{/if}
+	</button>
 
-	<div>
-		<button class="audio" on:click={toggleSound}>
-			{#if $soundsEnabled}
-				<Volume2Icon />
-			{:else}
-				<VolumeXIcon />
-			{/if}
-		</button>
-	</div>
-</nav>
-
-<div class="logo">
 	<Logo />
-</div>
 
-<div class="links">
-	<LargeLink
-		title="Daily Puzzle"
-		description="Every day a new random puzzle!"
-		href="/play/daily"
-		highlightColor="var(--blue-light)"
+	<div
+		class="xs:mt-16 relative mt-8 flex w-full flex-col rounded-lg bg-blue-dark p-4 pt-6 text-center"
 	>
-		<span slot="icon" class="icon" style="color:var(--blue)">
-			<CalendarIcon size="48" strokeWidth={1} />
-		</span>
-	</LargeLink>
+		<!-- <CompleteBadge class="shadow-badge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
+			Completed in 16 moves
+		</CompleteBadge> -->
 
-	<LargeLink title="Random" description="Unlimited amounts of unique puzzles!" href="/play/random">
-		<span slot="icon" style="color:var(--red)">
-			<FeaturedPuzzle />
-		</span>
-	</LargeLink>
-</div>
+		<p class="font-medium text-subtle">Today's puzzle word is</p>
 
-<h3>Other</h3>
-<div class="links">
-	<LargeLink
-		href="/editor"
-		title="Level Editor (Beta)"
-		description="Create and share your own levels!"
-		highlightColor="var(--orange-light)"
-	>
-		<span slot="icon" class="icon" style="color:var(--orange)">
-			<EditIcon size="48" strokeWidth={1} />
-		</span>
-	</LargeLink>
+		<div class="mx-auto mt-2 w-fit">
+			<SolutionTile>{data.puzzle.data.solution.toUpperCase()}</SolutionTile>
+		</div>
 
-	<LargeLink title="Tutorial" href="/tutorial">
-		<HelpCircleIcon slot="icon" />
-	</LargeLink>
-</div>
+		<p class="mt-6 font-medium text-subtle">
+			<span class="text-white">{formatSeconds(secondsUntilReset)}</span> until next puzzle
+		</p>
 
-<style lang="scss">
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		<Button color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
+			Play
+			<TablerPlay class="size-6" />
+		</Button>
 
-		.about,
-		.audio {
-			width: fit-content;
-			color: var(--text);
-			padding: 0;
-			background-color: transparent;
-			border: none;
-			cursor: pointer;
-		}
-	}
+		<!-- <Button variant="flat" color="gray" class="mt-4 w-full">
+			Statistics
+			<TablerChartHistogram class="size-5" />
+		</Button> -->
+	</div>
 
-	.logo {
-		display: flex;
-		justify-content: center;
-		margin-top: 32px;
-		margin-bottom: 50px;
-	}
+	<Button color="orange" class="mt-6 w-full" href="/play/random">
+		Random puzzle
+		<TablerDice3 class="size-5" />
+	</Button>
 
-	h3 {
-		font-family: var(--font-body);
-		font-weight: 400;
-		font-size: 14px;
-		color: var(--text-subtle);
-		text-align: center;
-	}
-
-	.icon {
-		display: flex;
-		margin-block: 0.5rem;
-	}
-
-	.links {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-		margin-bottom: 16px;
-	}
-</style>
+	<div class="mt-auto flex w-full gap-4 sm:mt-24">
+		<Button href="/about" color="gray" class="xs:w-fit w-full">About</Button>
+		<Button href="/tutorial" color="gray" class="xs:w-full">
+			<span class="xs:contents hidden">How to play</span>
+			<TablerHelp class="size-5" />
+		</Button>
+	</div>
+</main>

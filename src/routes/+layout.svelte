@@ -41,18 +41,6 @@
 	});
 </script>
 
-<main>
+<div class="mx-auto h-full w-full max-w-lg p-4 sm:mt-8 sm:h-fit">
 	{@render children()}
-</main>
-
-<style lang="scss">
-	main {
-		position: relative;
-		margin: 0 auto;
-		max-width: 35rem;
-		padding: 16px;
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 1rem;
-	}
-</style>
+</div>
