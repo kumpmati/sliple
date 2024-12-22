@@ -3,13 +3,7 @@
 	import FeaturedPuzzle from '$lib/components/graphics/FeaturedPuzzle.svelte';
 	import Logo from '$lib/components/graphics/Logo.svelte';
 	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
-	import {
-		CalendarIcon,
-		HelpCircleIcon,
-		Volume2Icon,
-		VolumeXIcon,
-		EditIcon
-	} from 'svelte-feather-icons';
+	import { CalendarIcon, HelpCircleIcon, Volume2Icon, VolumeXIcon } from 'svelte-feather-icons';
 
 	let sfx = getSfxContext();
 
@@ -56,23 +50,14 @@
 		</span>
 	</LargeLink>
 
-	<LargeLink title="Random" description="Unlimited amounts of unique puzzles!" href="/play/random">
+	<LargeLink
+		title="Random"
+		highlightColor="var(--orange-light)"
+		description="Unlimited amounts of unique puzzles!"
+		href="/play/random"
+	>
 		<span slot="icon" style="color:var(--red)">
 			<FeaturedPuzzle />
-		</span>
-	</LargeLink>
-</div>
-
-<h3>Other</h3>
-<div class="links">
-	<LargeLink
-		href="/editor"
-		title="Level Editor (Beta)"
-		description="Create and share your own levels!"
-		highlightColor="var(--orange-light)"
-	>
-		<span slot="icon" class="icon" style="color:var(--orange)">
-			<EditIcon size="48" strokeWidth={1} />
 		</span>
 	</LargeLink>
 
@@ -103,14 +88,6 @@
 		justify-content: center;
 		margin-top: 32px;
 		margin-bottom: 50px;
-	}
-
-	h3 {
-		font-family: var(--font-body);
-		font-weight: 400;
-		font-size: 14px;
-		color: var(--text-subtle);
-		text-align: center;
 	}
 
 	.icon {
