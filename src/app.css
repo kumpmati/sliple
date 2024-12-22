@@ -1,7 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito:wght@500;600;700;900&display=swap');
 
 * {
 	box-sizing: border-box;
@@ -10,7 +10,7 @@
 
 :root {
 	--font-heading: 'Nunito', sans-serif;
-	--font-body: 'Atkinson Hyperlegible', sans-serif;
+	--font-body: 'Inter', sans-serif;
 
 	--border-radius: 7px;
 	--border-radius-small: 3px;
@@ -83,6 +83,10 @@ html {
 
 	background-color: var(--white);
 	color: var(--text);
+}
+
+body {
+	display: flex;
 }
 
 /* NProgress customization */
