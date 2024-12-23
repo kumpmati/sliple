@@ -57,9 +57,7 @@
 
 	<Logo />
 
-	<div
-		class="xs:mt-16 relative mt-8 flex w-full flex-col rounded-lg bg-blue-dark p-4 pt-6 text-center"
-	>
+	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-blue-dark p-4 pt-6 text-center">
 		<!-- <CompleteBadge class="shadow-badge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
 			Completed in 16 moves
 		</CompleteBadge> -->
@@ -85,16 +83,15 @@
 		</Button> -->
 	</div>
 
-	<Button color="orange" class="mt-6 w-full" href="/play/random">
+	<Button color="orange" class="mt-6 w-[calc(100%-2rem)]" href="/play/random">
 		Random puzzle
-		<TablerDice3 class="size-5" />
+		<TablerDice3 class="size-4" />
 	</Button>
 
 	<div class="mt-auto flex w-full gap-4 sm:mt-24">
-		<Button href="/about" color="gray" class="xs:w-fit w-full">About</Button>
-		<Button href="/tutorial" color="gray" class="xs:w-full">
-			<span class="xs:contents hidden">How to play</span>
-			<TablerHelp class="size-5" />
+		<Button href="/about" color="gray" variant="flat" class="w-fit" size="icon">
+			<TablerHelp class="size-4" />
 		</Button>
+		<Button href="/tutorial" color="gray" variant="flat" class="w-full">Tutorial</Button>
 	</div>
 </main>
