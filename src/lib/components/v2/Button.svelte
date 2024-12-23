@@ -4,7 +4,7 @@
 
 	type Props = {
 		variant?: 'raised' | 'flat';
-		size?: 'lg' | 'md';
+		size?: 'lg' | 'md' | 'icon';
 		color: 'blue' | 'orange' | 'gray' | 'lightgray';
 	} & HTMLButtonAttributes &
 		HTMLAnchorAttributes;
@@ -22,7 +22,7 @@
 	let containerClasses = $derived(
 		cn(
 			variant,
-			'flex items-center justify-center gap-2 rounded-md font-heading text-xl font-semibold',
+			'flex items-center justify-center gap-2 rounded-md font-heading text-base font-semibold',
 			size === 'lg' && 'text-2xl',
 			color === 'blue' && 'bg-blue-shadow',
 			color === 'orange' && 'bg-orange-shadow',
@@ -34,7 +34,9 @@
 
 	let innerClasses = $derived(
 		cn(
-			'flex h-full w-full items-center justify-center gap-2 rounded-md px-8 py-3',
+			'flex h-full w-full items-center justify-center gap-2 rounded-md px-8 py-2',
+			size === 'lg' && 'py-3',
+			size === 'icon' && 'px-4',
 			color === 'blue' && 'text-blue-content bg-blue',
 			color === 'orange' && 'text-orange-content bg-orange',
 			color === 'gray' && 'text-gray-content bg-gray',
