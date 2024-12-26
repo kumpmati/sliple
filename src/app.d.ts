@@ -11,7 +11,7 @@ declare namespace App {
 	// interface Platform {}
 }
 
-namespace svelteHTML {
+declare namespace svelteHTML {
 	interface HTMLAttributes<T> {
 		'on:swipe'?: (event: CustomEvent) => void;
 	}

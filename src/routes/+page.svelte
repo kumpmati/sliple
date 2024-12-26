@@ -12,6 +12,9 @@
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
+	import LetterTile from '$lib/components/v2/LetterTile.svelte';
+	import GoalTile from '$lib/components/v2/GoalTile.svelte';
+	import WallTile from '$lib/components/v2/WallTile.svelte';
 
 	let { data } = $props();
 
