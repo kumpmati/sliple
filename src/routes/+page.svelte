@@ -78,10 +78,10 @@
 			<TablerPlay class="size-6" />
 		</Button>
 
-		<Button color="gray" variant="flat" class="mt-4 w-full">
+		<!-- <Button color="gray" variant="flat" class="mt-4 w-full">
 			Statistics
 			<TablerChartHistogram class="size-5" />
-		</Button>
+		</Button> -->
 	</div>
 
 	<Button color="orange" class="mt-6 w-[calc(100%-2rem)]" href="/play/random">
