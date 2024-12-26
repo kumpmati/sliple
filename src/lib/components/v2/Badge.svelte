@@ -6,7 +6,10 @@
 </script>
 
 <p
-	class={cn('bg-green-vibrant w-max rounded-lg px-4 py-[6px] leading-tight text-white', className)}
+	class={cn(
+		'flex w-max items-center gap-2 rounded-lg bg-green-700 px-4 py-[6px] leading-tight text-white',
+		className
+	)}
 >
 	{@render children?.()}
 </p>

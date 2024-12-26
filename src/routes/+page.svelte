@@ -6,9 +6,9 @@
 	import TablerPlay from '~icons/tabler/play';
 	import TablerChartHistogram from '~icons/tabler/chart-histogram';
 	import TablerDice3 from '~icons/tabler/dice-3';
-	import TablerHelp from '~icons/tabler/help';
+	import TablerCheck from '~icons/tabler/check';
 	import SolutionTile from '$lib/components/v2/SolutionTile.svelte';
-	import CompleteBadge from '$lib/components/v2/CompleteBadge.svelte';
+	import Badge from '$lib/components/v2/Badge.svelte';
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
@@ -45,7 +45,7 @@
 </svelte:head>
 
 <main
-	class="flex h-full flex-col items-center sm:h-fit sm:rounded-xl sm:border-2 sm:border-card sm:bg-card sm:p-8"
+	class="mx-auto flex h-full w-full max-w-md flex-col items-center sm:h-fit sm:rounded-xl sm:border-2 sm:border-slate-900 sm:bg-slate-950 sm:p-8"
 >
 	<button class="ml-auto text-subtle hover:text-white" onclick={toggleSound}>
 		{#if $soundsEnabled}
@@ -57,30 +57,31 @@
 
 	<Logo />
 
-	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-blue-dark p-4 pt-6 text-center">
-		<!-- <CompleteBadge class="shadow-badge absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
-			Completed in 16 moves
-		</CompleteBadge> -->
+	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-slate-900 p-4 pt-6 text-center">
+		<Badge class="shadow-sharp-sm absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
+			<TablerCheck class="size-5" />
+			16 moves
+		</Badge>
 
-		<p class="font-medium text-subtle">Today's puzzle word is</p>
+		<p class="font-medium text-slate-400">Today's puzzle word is</p>
 
 		<div class="mx-auto mt-2 w-fit">
-			<SolutionTile>{data.puzzle.data.solution.toUpperCase()}</SolutionTile>
+			<SolutionTile>{data.puzzle.data.solution.toLowerCase()}</SolutionTile>
 		</div>
 
-		<p class="mt-6 font-medium text-subtle">
+		<p class="mt-6 font-medium text-slate-400">
 			<span class="text-white">{formatSeconds(secondsUntilReset)}</span> until next puzzle
 		</p>
 
-		<Button color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
+		<Button edgeGlow color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
 			Play
 			<TablerPlay class="size-6" />
 		</Button>
 
-		<!-- <Button variant="flat" color="gray" class="mt-4 w-full">
+		<Button color="gray" variant="flat" class="mt-4 w-full">
 			Statistics
 			<TablerChartHistogram class="size-5" />
-		</Button> -->
+		</Button>
 	</div>
 
 	<Button color="orange" class="mt-6 w-[calc(100%-2rem)]" href="/play/random">
@@ -88,10 +89,8 @@
 		<TablerDice3 class="size-4" />
 	</Button>
 
-	<div class="mt-auto flex w-full gap-4 sm:mt-24">
-		<Button href="/about" color="gray" variant="flat" class="w-fit" size="icon">
-			<TablerHelp class="size-4" />
-		</Button>
-		<Button href="/tutorial" color="gray" variant="flat" class="w-full">Tutorial</Button>
+	<div class="mt-auto grid w-full grid-cols-2 gap-4 sm:mt-24">
+		<Button href="/about" color="gray">About</Button>
+		<Button href="/tutorial" color="lightgray">Tutorial</Button>
 	</div>
 </main>
