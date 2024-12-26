@@ -37,7 +37,7 @@ export type NextPositionResult = Coordinates & {
  * @returns
  */
 export const calculateNextPosition = (
-	grid: Grid,
+	grid: Pick<Grid, 'tiles' | 'width' | 'height'>,
 	tileId: string,
 	direction: Direction
 ): NextPositionResult => {

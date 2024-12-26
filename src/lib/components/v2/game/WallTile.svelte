@@ -1,3 +1,9 @@
+<script lang="ts">
+	import type { SVGAttributes } from 'svelte/elements';
+
+	let props: SVGAttributes<SVGElement> = $props();
+</script>
+
 <svg
 	width="64"
 	height="64"
@@ -5,6 +11,7 @@
 	fill="none"
 	class="overflow-visible"
 	xmlns="http://www.w3.org/2000/svg"
+	{...props}
 >
 	<rect width="64" height="64" rx="16" fill="#64748B" />
 

@@ -1,10 +1,21 @@
 <script lang="ts">
-	type Props = { letter: string };
+	import type { SVGAttributes } from 'svelte/elements';
 
-	let { letter }: Props = $props();
+	type Props = {
+		letter: string;
+	} & SVGAttributes<SVGElement>;
+
+	let { letter, ...rest }: Props = $props();
 </script>
 
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg
+	width="64"
+	height="64"
+	viewBox="0 0 64 64"
+	fill="none"
+	xmlns="http://www.w3.org/2000/svg"
+	{...rest}
+>
 	<rect
 		x="1"
 		y="1"
@@ -13,6 +24,7 @@
 		rx="16"
 		stroke-width="2"
 		stroke-dasharray="10 10"
+		stroke-linecap="round"
 		class="stroke-slate-600"
 	/>
 

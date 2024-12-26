@@ -12,9 +12,6 @@
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
-	import LetterTile from '$lib/components/v2/LetterTile.svelte';
-	import GoalTile from '$lib/components/v2/GoalTile.svelte';
-	import WallTile from '$lib/components/v2/WallTile.svelte';
 
 	let { data } = $props();
 
@@ -61,10 +58,10 @@
 	<Logo />
 
 	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-slate-900 p-4 pt-6 text-center">
-		<Badge class="shadow-sharp-sm absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
+		<!-- <Badge class="shadow-sharp-sm absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
 			<TablerCheck class="size-5" />
 			16 moves
-		</Badge>
+		</Badge> -->
 
 		<p class="font-medium text-slate-400">Today's puzzle word is</p>
 
