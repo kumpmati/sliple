@@ -1,11 +1,11 @@
 <script>
-	import GameBoard from '$lib/components/v2/game/GameBoard.svelte';
-	import GameControls from '$lib/components/v2/game/GameControls.svelte';
-	import SolutionPreview from '$lib/components/v2/game/SolutionPreview.svelte';
-	import { GameState } from '$lib/components/v2/game/state.svelte';
-	import BottomSheet from '$lib/components/v2/BottomSheet.svelte';
-	import PuzzleStatistics from '$lib/components/v2/PuzzleStatistics.svelte';
-	import Underline from '$lib/components/v2/Underline.svelte';
+	import GameBoard from '$lib/v2/game/GameBoard.svelte';
+	import GameControls from '$lib/v2/game/GameControls.svelte';
+	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
+	import { GameState } from '$lib/v2/game/state.svelte';
+	import BottomSheet from '$lib/v2/BottomSheet.svelte';
+	import PuzzleStatistics from '$lib/v2/PuzzleStatistics.svelte';
+	import Underline from '$lib/v2/Underline.svelte';
 
 	let { data } = $props();
 

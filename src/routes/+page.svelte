@@ -1,14 +1,11 @@
 <script>
 	import Logo from '$lib/components/graphics/Logo.svelte';
-	import Button from '$lib/components/v2/Button.svelte';
+	import Button from '$lib/v2/Button.svelte';
 	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
 	import { Volume2Icon, VolumeXIcon } from 'svelte-feather-icons';
 	import TablerPlay from '~icons/tabler/play';
-	import TablerChartHistogram from '~icons/tabler/chart-histogram';
 	import TablerDice3 from '~icons/tabler/dice-3';
-	import TablerCheck from '~icons/tabler/check';
-	import SolutionTile from '$lib/components/v2/SolutionTile.svelte';
-	import Badge from '$lib/components/v2/Badge.svelte';
+	import SolutionTile from '$lib/v2/SolutionTile.svelte';
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
