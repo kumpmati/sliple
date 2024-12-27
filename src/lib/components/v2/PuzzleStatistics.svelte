@@ -52,7 +52,7 @@
 		Completed in <span class="font-bold text-white">{moves} moves</span>
 	</p>
 
-	<div class="mt-8 grid grid-cols-3 gap-4">
+	<div class="mt-8 grid w-full grid-cols-3 gap-4">
 		<div class="flex flex-col items-center">
 			<span class="font-heading text-3xl font-bold text-white">{ownPlayed}</span>
 			<span class="text-sm text-slate-400">Played</span>

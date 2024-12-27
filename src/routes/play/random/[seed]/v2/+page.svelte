@@ -13,12 +13,10 @@
 
 	game.on('move', () => console.log('moved'));
 	game.on('win', () => {
-		setTimeout(() => {
-			modalOpen = true;
-		}, 250);
+		setTimeout(() => (modalOpen = true), 250);
 	});
 
-	let modalOpen = $state(true);
+	let modalOpen = $state(false);
 </script>
 
 <svelte:head>
