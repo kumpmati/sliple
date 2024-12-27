@@ -52,7 +52,7 @@
 			y="50%"
 			text-anchor="middle"
 			dominant-baseline="middle"
-			class="fill-white font-heading text-3xl"
+			class="fill-white font-heading text-[32px]"
 		>
 			{letter.toLowerCase()}
 		</text>
@@ -68,7 +68,7 @@
 				transform-origin="14 16"
 				class={cn(
 					'fill-slate-500 font-heading text-xl transition-colors',
-					status === 'invalid' && 'fill-red-300'
+					status === 'invalid' && 'fill-red-200'
 				)}
 			>
 				{secondaryLetter.toLowerCase()}

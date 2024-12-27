@@ -18,6 +18,7 @@
 </script>
 
 <div
+	class="flex w-full px-4 py-10"
 	use:swipe
 	onswipe={(e) => {
 		const { tileId, direction } = handleSwipeEvent(e);
@@ -28,10 +29,11 @@
 >
 	<svg
 		class="mx-auto overflow-visible"
-		style="max-width: {CELL_SIZE * state.puzzle.data.width * 1.25}px"
+		style="max-width: {CELL_SIZE * state.puzzle.data.width * 1.2}px"
 		viewBox="-1 -1 {CELL_SIZE * state.puzzle.data.width + 2} {CELL_SIZE * state.puzzle.data.height +
 			2}"
 	>
+		<!-- Background -->
 		<rect
 			x={-1}
 			y={-1}
@@ -42,6 +44,7 @@
 			stroke-width="2"
 		/>
 
+		<!-- Draw tiles in sorted order because svg doesn't have z-index -->
 		{#each state.sortedTiles as tile (tile.id)}
 			{@const x = tile.x * CELL_SIZE}
 			{@const y = tile.y * CELL_SIZE}
