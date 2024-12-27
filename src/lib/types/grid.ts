@@ -63,3 +63,5 @@ export type Coordinates = {
 };
 
 export type CollisionType = 'none' | 'sticky' | 'solid' | 'direction';
+
+export type TileTypes = LetterTile | WallTile | GoalTile | StickyTile | DirectionTile;

@@ -16,11 +16,7 @@ export default {
 			},
 
 			boxShadow: {
-				badge: '0 4px 0 0 rgba(0,0,0,0.25)',
-				'button-blue': '0 6px 0 0 #92ABCB',
-				'button-orange': '0 6px 0 0 #D1AE80',
-				'button-gray': '0 6px 0 0 #202020',
-				'button-lightgray': '0 6px 0 0 #B2B2B2'
+				'sharp-sm': '0 4px 0 0 rgba(0,0,0,0.25)'
 			},
 
 			boxShadowColor: {

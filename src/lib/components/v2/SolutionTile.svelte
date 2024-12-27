@@ -12,7 +12,7 @@
 
 <div
 	class={cn(
-		'bg-tile border-tile-border flex h-10 items-center justify-center rounded-sm border-2 px-2 font-heading text-3xl font-semibold tracking-widest',
+		'flex h-10 items-center justify-center rounded-sm border-2  border-slate-800 bg-slate-950 px-4 font-heading text-2xl font-semibold',
 		state === 'success' && 'border-green-border bg-green-vibrant'
 	)}
 >
