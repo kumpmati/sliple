@@ -75,7 +75,9 @@
 			ownPlayed={150}
 			ownStreak={5}
 			ownMaxStreak={15}
-			ownPercentile={stats?.percentile ?? 100}
+			globalsLoading={false}
+			globalsError={undefined}
+			globalPercentile={stats?.percentile ?? 100}
 			globalDistribution={stats?.distribution ?? []}
 			globalAverageMoves={stats?.totals.averageMoves ?? 0}
 			globalCompletions={stats?.totals.totalAttempts ?? 0}

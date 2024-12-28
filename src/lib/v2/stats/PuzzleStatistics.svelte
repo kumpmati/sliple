@@ -10,7 +10,9 @@
 		ownPlayed: number;
 		ownStreak: number;
 		ownMaxStreak: number;
-		ownPercentile: number;
+		globalsLoading: boolean;
+		globalsError: string | undefined;
+		globalPercentile: number;
 		globalDistribution: { value: number; count: number }[];
 		globalCompletions: number;
 		globalAverageMoves: number;
@@ -22,7 +24,9 @@
 		ownPlayed,
 		ownStreak,
 		ownMaxStreak,
-		ownPercentile,
+		globalsLoading,
+		globalsError,
+		globalPercentile,
 		globalDistribution,
 		globalCompletions,
 		globalAverageMoves
@@ -67,34 +71,42 @@
 		</div>
 	</div>
 
-	<p class="mt-8 text-sm font-normal text-slate-400">Global distribution</p>
-	<DistributionChart
-		data={globalDistribution}
-		numMoves={moves}
-		averageMoves={globalAverageMoves}
-		class="mt-4"
-	/>
+	{#if globalsLoading}
+		<p class="text-center text-slate-400">Loading global stats...</p>
+	{:else if globalsError}
+		<p class="my-4 text-red-400">Error: {globalsError}</p>
+	{:else}
+		<p class="mt-8 text-sm font-normal text-slate-400">Global distribution</p>
+		<DistributionChart
+			data={globalDistribution}
+			numMoves={moves}
+			averageMoves={globalAverageMoves}
+			class="mt-4"
+		/>
 
-	<table class="mt-16 w-full text-slate-400">
-		<tbody>
-			<tr>
-				<td class="py-1 font-normal text-green-400">Your percentile</td>
-				<td class="min-w-16 text-right font-bold text-green-400">
-					{#if ownPercentile < 1}
-						{'<1 %'}
-					{:else}
-						{Math.round(ownPercentile)} %
-					{/if}
-				</td>
-			</tr>
-			<tr>
-				<td class="py-1 font-normal">Average moves <span class="text-slate-600">(global)</span></td>
-				<td class="min-w-16 text-right font-bold text-white">{globalAverageMoves}</td>
-			</tr>
-			<tr>
-				<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>
-				<td class="min-w-16 text-right font-bold text-white">{globalCompletions}</td>
-			</tr>
-		</tbody>
-	</table>
+		<table class="mt-16 w-full text-slate-400">
+			<tbody>
+				<tr>
+					<td class="py-1 font-normal text-green-400">Your percentile</td>
+					<td class="min-w-16 text-right font-bold text-green-400">
+						{#if globalPercentile < 1}
+							{'<1 %'}
+						{:else}
+							{Math.round(globalPercentile)} %
+						{/if}
+					</td>
+				</tr>
+				<tr>
+					<td class="py-1 font-normal"
+						>Average moves <span class="text-slate-600">(global)</span></td
+					>
+					<td class="min-w-16 text-right font-bold text-white">{globalAverageMoves}</td>
+				</tr>
+				<tr>
+					<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>
+					<td class="min-w-16 text-right font-bold text-white">{globalCompletions}</td>
+				</tr>
+			</tbody>
+		</table>
+	{/if}
 </div>

@@ -64,7 +64,6 @@ export const POST = endpoint({
 		}),
 		async (e, body) => {
 			if (await ratelimiter.isLimited(e)) error(429);
-
 			return getPuzzleStatistics(body.puzzleId, body.numMoves);
 		}
 	)

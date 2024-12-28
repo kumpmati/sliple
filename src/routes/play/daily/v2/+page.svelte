@@ -16,15 +16,20 @@
 	const actions = superActions<StatsEndpoint>('/api/stats');
 	const game = new GameState(data.puzzle);
 
-	let stats = $state<V2Statistics | null>(null);
+	let stats = $state<{ current: V2Statistics | null; loading: boolean; error?: string }>({
+		current: null,
+		loading: false
+	});
 
 	game.on('move', () => console.log('moved'));
 	game.on('win', () => {
-		actions.markCompletion({
-			type: 'w',
-			puzzleId: game.puzzle.id,
-			numMoves: game.moves
-		});
+		actions
+			.markCompletion({
+				type: 'w',
+				puzzleId: game.puzzle.id,
+				numMoves: game.moves
+			})
+			.catch(() => alert('failed to mark completion'));
 
 		setTimeout(() => (modalOpen = true), 400);
 	});
@@ -34,12 +39,18 @@
 	$effect(() => {
 		if (modalOpen) {
 			untrack(() => {
+				stats.loading = true;
+
 				actions
 					.getv2Stats({
 						puzzleId: data.puzzle.id,
 						numMoves: game.moves
 					})
-					.then((d) => (stats = d));
+					.then((d) => (stats.current = d))
+					.catch((err) => {
+						stats.error = err;
+					})
+					.finally(() => (stats.loading = false));
 			});
 		}
 	});
@@ -75,10 +86,12 @@
 			ownPlayed={150}
 			ownStreak={5}
 			ownMaxStreak={15}
-			ownPercentile={stats?.percentile ?? 100}
-			globalDistribution={stats?.distribution ?? []}
-			globalAverageMoves={stats?.totals.averageMoves ?? 0}
-			globalCompletions={stats?.totals.totalAttempts ?? 0}
+			globalsLoading={stats.loading}
+			globalsError={stats.error}
+			globalPercentile={stats.current?.percentile ?? 100}
+			globalDistribution={stats.current?.distribution ?? []}
+			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
+			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
 		/>
 	</BottomSheet>
 </main>
