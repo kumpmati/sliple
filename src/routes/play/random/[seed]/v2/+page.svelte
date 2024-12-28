@@ -16,15 +16,30 @@
 	const actions = superActions<StatsEndpoint>('/api/stats');
 	const game = new GameState(data.puzzle);
 
-	let stats = $state<V2Statistics | null>(null);
+	let stats = $state<{ current: V2Statistics | null; loading: boolean; error?: string }>({
+		current: null,
+		loading: false
+	});
+
+	const loadStats = async () => {
+		stats.loading = true;
+		await actions
+			.getv2Stats({ puzzleId: data.puzzle.id })
+			.then((d) => (stats.current = d))
+			.catch((err) => (stats.error = err));
+		stats.loading = false;
+	};
 
 	game.on('move', () => console.log('moved'));
 	game.on('win', () => {
-		actions.markCompletion({
-			type: 'w',
-			puzzleId: game.puzzle.id,
-			numMoves: game.moves
-		});
+		actions
+			.markCompletion({
+				type: 'w',
+				puzzleId: game.puzzle.id,
+				numMoves: game.moves
+			})
+			.catch(() => alert('failed to mark completion'))
+			.then(() => loadStats());
 
 		setTimeout(() => (modalOpen = true), 400);
 	});
@@ -32,12 +47,9 @@
 	let modalOpen = $state(false);
 
 	$effect(() => {
-		if (modalOpen) {
+		if (modalOpen && !stats.current) {
 			untrack(() => {
-				actions
-					.getv2Stats({ puzzleId: data.puzzle.id })
-					.then((d) => (stats = d))
-					.catch((err) => alert('error: ' + err));
+				loadStats(); // only load stats once
 			});
 		}
 	});
@@ -75,15 +87,15 @@
 	<BottomSheet bind:open={modalOpen}>
 		<PuzzleStatistics
 			moves={game.moves}
-			maxMoves={{ bronze: 30, silver: 25, gold: 20 }}
+			maxMoves={game.puzzle.data.maxMoves}
 			ownPlayed={150}
 			ownStreak={5}
 			ownMaxStreak={15}
-			globalsLoading={false}
-			globalsError={undefined}
-			globalDistribution={stats?.distribution ?? []}
-			globalAverageMoves={stats?.totals.averageMoves ?? 0}
-			globalCompletions={stats?.totals.totalAttempts ?? 0}
+			globalsLoading={stats.loading}
+			globalsError={stats.error}
+			globalDistribution={stats.current?.distribution ?? []}
+			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
+			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
 		/>
 	</BottomSheet>
 </main>

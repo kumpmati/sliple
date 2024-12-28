@@ -21,6 +21,15 @@
 		loading: false
 	});
 
+	const loadStats = async () => {
+		stats.loading = true;
+		await actions
+			.getv2Stats({ puzzleId: data.puzzle.id })
+			.then((d) => (stats.current = d))
+			.catch((err) => (stats.error = err));
+		stats.loading = false;
+	};
+
 	game.on('move', () => console.log('moved'));
 	game.on('win', () => {
 		actions
@@ -29,7 +38,8 @@
 				puzzleId: game.puzzle.id,
 				numMoves: game.moves
 			})
-			.catch(() => alert('failed to mark completion'));
+			.catch(() => alert('failed to mark completion'))
+			.then(() => loadStats());
 
 		setTimeout(() => (modalOpen = true), 400);
 	});
@@ -37,17 +47,9 @@
 	let modalOpen = $state(false);
 
 	$effect(() => {
-		if (modalOpen) {
+		if (modalOpen && !stats.current) {
 			untrack(() => {
-				stats.loading = true;
-
-				actions
-					.getv2Stats({ puzzleId: data.puzzle.id })
-					.then((d) => (stats.current = d))
-					.catch((err) => {
-						stats.error = err;
-					})
-					.finally(() => (stats.loading = false));
+				loadStats(); // only load stats once
 			});
 		}
 	});
@@ -79,7 +81,7 @@
 	<BottomSheet bind:open={modalOpen}>
 		<PuzzleStatistics
 			moves={game.moves}
-			maxMoves={{ bronze: 30, silver: 25, gold: 20 }}
+			maxMoves={game.puzzle.data.maxMoves}
 			ownPlayed={150}
 			ownStreak={5}
 			ownMaxStreak={15}
