@@ -22,8 +22,6 @@
 
 	let completion = $derived(stats.current.completions[data.puzzle.id]?.best);
 
-	$inspect(stats.current.completions);
-
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;
 		sfx.current?.play('click');
@@ -93,7 +91,7 @@
 					<TablerRotate class="size-5" />
 				</Button>
 
-				<Button color="gray" variant="flat" class="w-full" href="/play/daily#stats">
+				<Button raised={false} color="darkgray" class="w-full" href="/play/daily#stats">
 					Statistics
 					<TablerChartBar class="size-5" />
 				</Button>
@@ -108,6 +106,6 @@
 
 	<div class="mt-auto grid w-full grid-cols-2 gap-4 sm:mt-24">
 		<Button href="/about" color="gray">About</Button>
-		<Button href="/tutorial" color="lightgray">Tutorial</Button>
+		<Button href="/tutorial" color="white">Tutorial</Button>
 	</div>
 </main>

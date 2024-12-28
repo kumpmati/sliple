@@ -1,4 +1,6 @@
 <script lang="ts">
+	import TablerShare from '~icons/tabler/share';
+	import TablerChevronsRight from '~icons/tabler/chevrons-right';
 	import GameBoard from '$lib/v2/game/GameBoard.svelte';
 	import GameControls from '$lib/v2/game/GameControls.svelte';
 	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
@@ -12,6 +14,8 @@
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte.js';
 	import { sleep } from '$lib/utils/sleep.js';
+	import Button from '$lib/v2/Button.svelte';
+	import { shareRandomPuzzle } from '$lib/v2/share.js';
 
 	let { data } = $props();
 
@@ -19,7 +23,13 @@
 	const game = new GameState(data.puzzle);
 	const localStats = getLocalStatsContext();
 
-	let stats = $state<{ current: V2Statistics | null; loading: boolean; error?: string }>({
+	let stats = $state<{
+		id: string | null;
+		current: V2Statistics | null;
+		loading: boolean;
+		error?: string;
+	}>({
+		id: null,
 		current: null,
 		loading: false
 	});
@@ -28,7 +38,10 @@
 		stats.loading = true;
 		await actions
 			.getv2Stats({ puzzleId: data.puzzle.id })
-			.then((d) => (stats.current = d))
+			.then((d) => {
+				stats.id = data.puzzle.id;
+				stats.current = d;
+			})
 			.catch((err) => (stats.error = err));
 		stats.loading = false;
 	};
@@ -58,20 +71,19 @@
 	let modalOpen = $state(false);
 
 	$effect(() => {
-		if (modalOpen && !stats.current) {
+		if (modalOpen && (!stats.current || stats.id !== data.puzzle.id)) {
 			untrack(() => {
-				loadStats(); // only load stats once
+				console.log('loading stats');
+				loadStats(); // only load stats once when puzzle changes
 			});
 		}
 	});
 
 	$effect(() => {
-		data.puzzle; // reactivity dependency
+		data.puzzle.id; // reactivity dependency
 
 		untrack(() => game.setPuzzle(data.puzzle));
 	});
-
-	$inspect(stats);
 </script>
 
 <svelte:head>
@@ -108,6 +120,15 @@
 			globalDistribution={stats.current?.distribution ?? []}
 			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
 			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
-		/>
+		>
+			<div class="mt-8 grid w-full grid-cols-2 gap-4">
+				<Button color="lightgray" onclick={() => shareRandomPuzzle(game.puzzle)}>
+					Share <TablerShare class="size-5" />
+				</Button>
+				<Button color="orange" href="/play/random" onclick={() => (modalOpen = false)}>
+					Next <TablerChevronsRight class="size-5" />
+				</Button>
+			</div>
+		</PuzzleStatistics>
 	</BottomSheet>
 </main>

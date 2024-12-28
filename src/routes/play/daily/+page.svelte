@@ -4,6 +4,7 @@
 	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
 	import { GameState } from '$lib/v2/game/state.svelte';
 	import BottomSheet from '$lib/v2/BottomSheet.svelte';
+	import TablerShare from '~icons/tabler/share';
 	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
 	import Underline from '$lib/v2/Underline.svelte';
 	import { superActions } from 'sveltekit-superactions';
@@ -11,8 +12,9 @@
 	import { untrack } from 'svelte';
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte';
-	import dayjs from 'dayjs';
 	import { sleep } from '$lib/utils/sleep.js';
+	import Button from '$lib/v2/Button.svelte';
+	import { shareDailyPuzzle } from '$lib/v2/share.js';
 
 	let { data } = $props();
 
@@ -65,8 +67,6 @@
 			});
 		}
 	});
-
-	$inspect(stats);
 </script>
 
 <svelte:head>
@@ -100,6 +100,11 @@
 			globalDistribution={stats.current?.distribution ?? []}
 			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
 			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
-		/>
+		>
+			<Button color="lightgray" raised class="mt-8" onclick={() => shareDailyPuzzle(game.puzzle)}>
+				Share
+				<TablerShare class="size-5" />
+			</Button>
+		</PuzzleStatistics>
 	</BottomSheet>
 </main>

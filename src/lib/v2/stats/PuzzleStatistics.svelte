@@ -9,6 +9,7 @@
 	import TablerWorld from '~icons/tabler/world';
 	import TablerUser from '~icons/tabler/user';
 	import { getLocalStatsContext } from './local.svelte';
+	import type { Snippet } from 'svelte';
 
 	type Props = {
 		puzzleId: string;
@@ -18,6 +19,7 @@
 		globalDistribution: { value: number; count: number }[];
 		globalCompletions: number;
 		globalAverageMoves: number;
+		children?: Snippet;
 	};
 
 	let {
@@ -27,7 +29,8 @@
 		globalsError,
 		globalDistribution,
 		globalCompletions,
-		globalAverageMoves
+		globalAverageMoves,
+		children
 	}: Props = $props();
 
 	const localStats = getLocalStatsContext();
@@ -165,4 +168,6 @@
 			</table>
 		</div>
 	</div>
+
+	{@render children?.()}
 </div>

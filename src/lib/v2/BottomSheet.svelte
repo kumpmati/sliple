@@ -41,7 +41,7 @@
 		className
 	)}
 >
-	<div class="mx-auto mb-6 flex max-w-96 flex-col">
+	<div class="mx-auto flex max-w-96 flex-col">
 		<form method="dialog" class="contents">
 			<button
 				class="ml-auto flex w-fit rounded-sm p-2 text-slate-400 outline-white transition-colors hover:bg-slate-700 hover:text-white focus-visible:outline active:bg-slate-900"

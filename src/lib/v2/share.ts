@@ -1,15 +1,17 @@
-export const shareDailyPuzzle = (solution: string, maxMoves: number) => {
+import type { Puzzle } from '$lib/types/puzzle';
+
+export const shareDailyPuzzle = (p: Puzzle) => {
 	return navigator.share({
 		title: `Daily puzzle - ${new Date().toLocaleDateString()}`,
 		url: 'https://sliple.app/play/daily',
-		text: `Can you solve today's puzzle '${solution}' in ${maxMoves} moves?`
+		text: `Can you solve today's puzzle '${p.data.solution}' in ${p.data.maxMoves.bronze} moves?`
 	});
 };
 
-export const shareRandomPuzzle = (id: string, solution: string, maxMoves: number) => {
+export const shareRandomPuzzle = (p: Puzzle) => {
 	return navigator.share({
-		title: `Random puzzle - '${solution}'`,
-		url: `https://sliple.app/play/random/${id}`,
-		text: `Can you solve this random puzzle '${solution}' in ${maxMoves} moves?`
+		title: `Random puzzle - '${p.data.solution}'`,
+		url: `https://sliple.app/play/random/${p.id}`,
+		text: `Can you solve this random puzzle '${p.data.solution}' in ${p.data.maxMoves.bronze} moves?`
 	});
 };

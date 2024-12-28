@@ -1,18 +1,13 @@
 <script lang="ts">
+	import { tv, type VariantProps } from 'tailwind-variants';
 	import type { HTMLButtonAttributes, HTMLAnchorAttributes } from 'svelte/elements';
 	import { cn } from '$lib/utils';
 
-	type Props = {
-		variant?: 'raised' | 'flat';
-		edgeGlow?: boolean;
-		size?: 'lg' | 'default' | 'icon';
-		color: 'blue' | 'orange' | 'gray' | 'lightgray';
-	} & HTMLButtonAttributes &
-		HTMLAnchorAttributes;
+	type Props = VariantProps<typeof button> & HTMLButtonAttributes & HTMLAnchorAttributes;
 
 	let {
-		variant = 'raised',
-		size = 'default',
+		raised,
+		size,
 		href,
 		edgeGlow,
 		color,
@@ -21,76 +16,93 @@
 		...rest
 	}: Props = $props();
 
-	let containerClasses = $derived(
-		cn(
-			variant,
-			'flex items-center justify-center gap-2 rounded-md font-heading text-lg font-medium leading-none',
-			size === 'lg' && 'text-2xl',
-			color === 'blue' && 'bg-blue-400',
-			color === 'orange' && 'bg-orange-400',
-			color === 'gray' && 'bg-slate-800',
-			color === 'lightgray' && 'bg-lightgray-shadow',
-			className
-		)
-	);
+	const button = tv({
+		slots: {
+			base: 'flex items-center justify-center gap-2 rounded-md font-heading text-lg font-medium leading-none',
+			foreground:
+				'flex h-full w-full items-center justify-center gap-2 rounded-md px-6 py-3 border-2 border-transparent',
+			edge: ''
+		},
+		variants: {
+			raised: {
+				true: {
+					base: '[&>span]:hover:translate-y-[-7px] [&>span]:active:translate-y-[-3px]',
+					foreground: 'translate-y-[-6px] transition-transform'
+				},
+				false: {
+					base: 'transition-[filter] hover:brightness-105 active:brightness-95',
+					foreground: ''
+				}
+			},
 
-	let innerClasses = $derived(
-		cn(
-			'flex h-full w-full items-center justify-center gap-2 rounded-md px-8 py-3 border-2 border-transparent',
-			size === 'icon' && 'px-3',
-			color === 'blue' && 'text-blue-900 bg-blue-300',
-			edgeGlow && color === 'blue' && 'border-blue-200',
-			color === 'orange' && 'text-orange-900 bg-orange-300',
-			edgeGlow && color === 'orange' && 'border-orange-200',
-			color === 'gray' && 'text-slate-300 bg-slate-700',
-			edgeGlow && color === 'gray' && 'border-slate-600',
-			color === 'lightgray' && 'text-lightgray-content bg-lightgray'
-		)
-	);
+			size: {
+				default: {},
+				lg: {
+					base: 'text-2xl'
+				},
+				icon: {
+					foreground: 'px-3'
+				}
+			},
+
+			edgeGlow: {
+				false: {
+					edge: 'border-0'
+				}
+			},
+
+			color: {
+				blue: {
+					base: 'bg-blue-400',
+					foreground: 'text-blue-900 bg-blue-300',
+					edge: 'border-blue-200'
+				},
+				orange: {
+					base: 'bg-orange-400',
+					foreground: 'text-orange-900 bg-orange-300',
+					edge: 'border-orange-200'
+				},
+				gray: {
+					base: 'bg-slate-800',
+					foreground: 'text-slate-300 bg-slate-700',
+					edge: 'border-slate-600'
+				},
+				lightgray: {
+					base: 'bg-slate-700',
+					foreground: 'text-slate-300 bg-slate-600',
+					edge: 'border-slate-500'
+				},
+				darkgray: {
+					base: 'bg-slate-900',
+					foreground: 'text-slate-400 bg-slate-800',
+					edge: 'border-slate-700'
+				},
+				white: {
+					base: 'bg-lightgray-shadow',
+					foreground: 'text-lightgray-content bg-lightgray'
+				}
+			}
+		},
+		defaultVariants: {
+			raised: true,
+			edgeGlow: false,
+			size: 'default'
+		}
+	});
+
+	let classes = button({ size, raised, edgeGlow, color });
 </script>
 
 {#if href}
-	<a {href} {...rest} class={containerClasses}>
-		<span class={innerClasses}>
+	<a {href} {...rest} class={cn(classes.base(), className)}>
+		<span class={cn(classes.foreground(), classes.edge())}>
 			{@render children?.()}
 		</span>
 	</a>
 {:else}
-	<button {...rest} class={containerClasses}>
-		<span class={innerClasses}>
+	<button {...rest} class={cn(classes.base(), className)}>
+		<span class={cn(classes.foreground(), classes.edge())}>
 			{@render children?.()}
 		</span>
 	</button>
 {/if}
-
-<style lang="scss">
-	a,
-	button {
-		&.flat {
-			transition: filter 100ms;
-
-			&:hover {
-				filter: brightness(1.05);
-			}
-
-			&:active {
-				filter: brightness(0.95);
-			}
-		}
-
-		&.raised {
-			span {
-				transition: transform 100ms;
-				transform: translateY(-6px);
-			}
-
-			&:hover span {
-				transform: translateY(-7px);
-			}
-
-			&:active span {
-				transform: translateY(-3px);
-			}
-		}
-	}
-</style>
