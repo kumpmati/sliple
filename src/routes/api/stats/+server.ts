@@ -17,7 +17,8 @@ export type PuzzleStats = {
 };
 
 const ratelimiter = new RateLimiter({
-	IPUA: [2, 's'] // 2 per second per IP address + user agent
+	IP: [15, 's'], // IP Address
+	IPUA: [5, 's'] // IP Address + User Agent
 });
 
 const completionSchema = z.object({
