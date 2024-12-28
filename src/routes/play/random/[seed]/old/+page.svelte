@@ -104,8 +104,6 @@
 					<Share2Icon size="22" />
 				</button>
 			{/if}
-
-			<PuzzleAnalytics puzzle={data.puzzle} analysis={data.analysis} />
 		</svelte:fragment>
 
 		<p slot="description">

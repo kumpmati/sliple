@@ -74,7 +74,11 @@
 </script>
 
 <svelte:head>
-	<title>Random puzzle</title>
+	<title>Random puzzle - {data.puzzle.data.solution}</title>
+	<meta
+		name="description"
+		content="Solve a randomly generated puzzle: '{data.puzzle.data.solution}'"
+	/>
 </svelte:head>
 
 <main class="flex flex-col items-center">
@@ -94,7 +98,7 @@
 
 	<SolutionPreview state={game} />
 
-	<BottomSheet bind:open={modalOpen} urlStateKey="stats">
+	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
 		<PuzzleStatistics
 			puzzleId={game.puzzle.id}
 			maxMoves={game.puzzle.data.maxMoves}

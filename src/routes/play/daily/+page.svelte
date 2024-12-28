@@ -11,6 +11,7 @@
 	import { untrack } from 'svelte';
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte';
+	import dayjs from 'dayjs';
 
 	let { data } = $props();
 
@@ -68,7 +69,8 @@
 </script>
 
 <svelte:head>
-	<title>Random puzzle</title>
+	<title>Daily puzzle - {data.puzzle.publishedAt.toLocaleDateString()}</title>
+	<meta name="description" content="Solve the daily puzzle - '{data.puzzle.data.solution}'" />
 </svelte:head>
 
 <main class="flex flex-col items-center">
@@ -88,7 +90,7 @@
 
 	<SolutionPreview state={game} />
 
-	<BottomSheet bind:open={modalOpen} urlStateKey="stats">
+	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
 		<PuzzleStatistics
 			puzzleId={game.puzzle.id}
 			maxMoves={game.puzzle.data.maxMoves}

@@ -1,50 +1,36 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { cn } from '$lib/utils';
-	import type { Snippet } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import TablerX from '~icons/tabler/x';
 
 	type Props = {
-		urlStateKey?: string;
+		urlStateHash?: string;
 		open: boolean;
 		children: Snippet;
-		onOpenChange?: (open: boolean) => void;
 		class?: string;
 	};
 
-	let {
-		urlStateKey,
-		open = $bindable(),
-		children,
-		onOpenChange,
-		class: className
-	}: Props = $props();
+	let { urlStateHash, open = $bindable(), children, class: className }: Props = $props();
 
 	let ref: HTMLDialogElement;
 
 	$effect(() => {
-		if (ref) {
-			if (open) ref.showModal();
-			else ref.close();
-		}
+		if (open) ref?.showModal();
+		else ref?.close();
 	});
 
 	$effect(() => {
-		const update = () => (open = false);
-
-		ref.addEventListener('close', update);
-		return () => ref.removeEventListener('close', update);
-	});
-
-	$effect(() => {
-		onOpenChange?.(open);
-	});
-
-	$effect(() => {
-		if (urlStateKey && page.url.hash === '#' + urlStateKey) {
+		if (urlStateHash && page.url.hash === `#${urlStateHash}`) {
 			open = true;
-			console.log('should open');
 		}
+	});
+
+	onMount(() => {
+		const handleClose = () => (open = false);
+
+		ref.addEventListener('close', handleClose);
+		return () => ref.removeEventListener('close', handleClose);
 	});
 </script>
 
@@ -56,12 +42,13 @@
 	)}
 >
 	<div class="mx-auto mb-6 flex max-w-96 flex-col">
-		<button
-			onclick={() => (open = false)}
-			class="ml-auto flex w-fit rounded-sm p-2 text-slate-400 outline-white transition-colors hover:bg-slate-700 hover:text-white focus-visible:outline active:bg-slate-900"
-		>
-			<TablerX />
-		</button>
+		<form method="dialog" class="contents">
+			<button
+				class="ml-auto flex w-fit rounded-sm p-2 text-slate-400 outline-white transition-colors hover:bg-slate-700 hover:text-white focus-visible:outline active:bg-slate-900"
+			>
+				<TablerX />
+			</button>
+		</form>
 		{@render children()}
 	</div>
 </dialog>
