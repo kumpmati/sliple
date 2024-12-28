@@ -4,15 +4,25 @@
 	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
 	import { Volume2Icon, VolumeXIcon } from 'svelte-feather-icons';
 	import TablerPlay from '~icons/tabler/play';
+	import TablerCheck from '~icons/tabler/check';
 	import TablerDice3 from '~icons/tabler/dice-3';
+	import TablerChartBar from '~icons/tabler/chart-bar';
+	import TablerRotate from '~icons/tabler/rotate';
 	import SolutionTile from '$lib/v2/SolutionTile.svelte';
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
+	import { getLocalStatsContext } from '$lib/v2/stats/local.svelte';
+	import Badge from '$lib/v2/Badge.svelte';
 
 	let { data } = $props();
 
+	const stats = getLocalStatsContext();
 	const sfx = getSfxContext();
+
+	let completion = $derived(stats.current.completions[data.puzzle.id]?.best);
+
+	$inspect(stats.current.completions);
 
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;
@@ -55,10 +65,12 @@
 	<Logo />
 
 	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-slate-900 p-4 pt-6 text-center">
-		<!-- <Badge class="shadow-sharp-sm absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
-			<TablerCheck class="size-5" />
-			16 moves
-		</Badge> -->
+		{#if completion}
+			<Badge class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 shadow-sharp-sm">
+				<TablerCheck class="size-5" />
+				{completion.moves} moves
+			</Badge>
+		{/if}
 
 		<p class="font-medium text-slate-400">Today's puzzle word is</p>
 
@@ -70,15 +82,23 @@
 			<span class="text-white">{formatSeconds(secondsUntilReset)}</span> until next puzzle
 		</p>
 
-		<Button edgeGlow color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
-			Play
-			<TablerPlay class="size-6" />
-		</Button>
+		{#if !completion}
+			<Button edgeGlow color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
+				Play
+				<TablerPlay class="size-6" />
+			</Button>
+		{:else}
+			<div class="mt-6 flex items-end gap-4">
+				<Button edgeGlow color="blue" size="icon" href="/play/daily">
+					<TablerRotate class="size-5" />
+				</Button>
 
-		<!-- <Button color="gray" variant="flat" class="mt-4 w-full">
-			Statistics
-			<TablerChartHistogram class="size-5" />
-		</Button> -->
+				<Button color="gray" variant="flat" class="w-full" href="/play/daily#stats">
+					Statistics
+					<TablerChartBar class="size-5" />
+				</Button>
+			</div>
+		{/if}
 	</div>
 
 	<Button color="orange" class="mt-6 w-[calc(100%-2rem)]" href="/play/random">

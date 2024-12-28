@@ -10,11 +10,13 @@
 	import type { StatsEndpoint } from '../../../api/stats/+server.js';
 	import { untrack } from 'svelte';
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
+	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte.js';
 
 	let { data } = $props();
 
 	const actions = superActions<StatsEndpoint>('/api/stats');
 	const game = new GameState(data.puzzle);
+	const localStats = getLocalStatsContext();
 
 	let stats = $state<{ current: V2Statistics | null; loading: boolean; error?: string }>({
 		current: null,
@@ -40,6 +42,14 @@
 			})
 			.catch(() => alert('failed to mark completion'))
 			.then(() => loadStats());
+
+		markCompleted(localStats, {
+			puzzleId: game.puzzle.id,
+			type: 'random',
+			win: true,
+			moves: game.moves,
+			timestamp: new Date().toISOString()
+		});
 
 		setTimeout(() => (modalOpen = true), 400);
 	});
@@ -84,13 +94,10 @@
 
 	<SolutionPreview state={game} />
 
-	<BottomSheet bind:open={modalOpen}>
+	<BottomSheet bind:open={modalOpen} urlStateKey="stats">
 		<PuzzleStatistics
-			moves={game.moves}
+			puzzleId={game.puzzle.id}
 			maxMoves={game.puzzle.data.maxMoves}
-			ownPlayed={150}
-			ownStreak={5}
-			ownMaxStreak={15}
 			globalsLoading={stats.loading}
 			globalsError={stats.error}
 			globalDistribution={stats.current?.distribution ?? []}

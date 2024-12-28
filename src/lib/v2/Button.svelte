@@ -24,7 +24,7 @@
 	let containerClasses = $derived(
 		cn(
 			variant,
-			'flex items-center justify-center gap-2 rounded-md font-heading text-lg font-medium',
+			'flex items-center justify-center gap-2 rounded-md font-heading text-lg font-medium leading-none',
 			size === 'lg' && 'text-2xl',
 			color === 'blue' && 'bg-blue-400',
 			color === 'orange' && 'bg-orange-400',
@@ -36,13 +36,14 @@
 
 	let innerClasses = $derived(
 		cn(
-			'flex h-full w-full items-center justify-center gap-2 rounded-md px-8 py-2',
-			size === 'lg' && 'py-3',
-			size === 'icon' && 'px-4',
-			edgeGlow && 'border-2',
-			color === 'blue' && 'text-blue-900 bg-blue-300 border-blue-200',
-			color === 'orange' && 'text-orange-900 bg-orange-300 border-orange-200',
-			color === 'gray' && 'text-slate-300 bg-slate-700 border-slate-600',
+			'flex h-full w-full items-center justify-center gap-2 rounded-md px-8 py-3 border-2 border-transparent',
+			size === 'icon' && 'px-3',
+			color === 'blue' && 'text-blue-900 bg-blue-300',
+			edgeGlow && color === 'blue' && 'border-blue-200',
+			color === 'orange' && 'text-orange-900 bg-orange-300',
+			edgeGlow && color === 'orange' && 'border-orange-200',
+			color === 'gray' && 'text-slate-300 bg-slate-700',
+			edgeGlow && color === 'gray' && 'border-slate-600',
 			color === 'lightgray' && 'text-lightgray-content bg-lightgray'
 		)
 	);

@@ -6,13 +6,13 @@
 	import { calculatePercentile } from './percentile';
 	import TablerLoader2 from '~icons/tabler/loader-2';
 	import TablerAlertCircle from '~icons/tabler/alert-circle';
+	import TablerWorld from '~icons/tabler/world';
+	import TablerUser from '~icons/tabler/user';
+	import { getLocalStatsContext } from './local.svelte';
 
 	type Props = {
-		moves: number | null;
+		puzzleId: string;
 		maxMoves: Puzzle['data']['maxMoves'];
-		ownPlayed: number;
-		ownStreak: number;
-		ownMaxStreak: number;
 		globalsLoading: boolean;
 		globalsError: string | undefined;
 		globalDistribution: { value: number; count: number }[];
@@ -21,11 +21,8 @@
 	};
 
 	let {
-		moves,
+		puzzleId,
 		maxMoves,
-		ownPlayed,
-		ownStreak,
-		ownMaxStreak,
 		globalsLoading,
 		globalsError,
 		globalDistribution,
@@ -33,23 +30,28 @@
 		globalAverageMoves
 	}: Props = $props();
 
-	let percentile = $derived(moves ? calculatePercentile(globalDistribution, moves) : null);
+	const localStats = getLocalStatsContext();
+
+	let best = $derived(localStats.current.completions[puzzleId]?.best);
+	let latest = $derived(localStats.current.completions[puzzleId]?.latest);
+
+	let percentile = $derived(best ? calculatePercentile(globalDistribution, best.moves) : null);
 </script>
 
 <div class="flex flex-col items-center">
 	<div class="flex gap-2">
-		{#if moves}
-			{#if moves <= maxMoves.gold}
+		{#if best}
+			{#if best.moves <= maxMoves.gold}
 				<TablerStarFilled class="size-8 text-orange-400" />
 			{:else}
 				<TablerStar class="size-8 text-slate-500" />
 			{/if}
-			{#if moves <= maxMoves.silver}
+			{#if best.moves <= maxMoves.silver}
 				<TablerStarFilled class="size-8 text-orange-400" />
 			{:else}
 				<TablerStar class="size-8 text-slate-500" />
 			{/if}
-			{#if moves <= maxMoves.bronze}
+			{#if best.moves <= maxMoves.bronze}
 				<TablerStarFilled class="size-8 text-orange-400" />
 			{:else}
 				<TablerStar class="size-8 text-slate-500" />
@@ -61,25 +63,28 @@
 		{/if}
 	</div>
 
-	<p class="mt-2 font-heading text-lg font-normal text-slate-400">
-		{#if moves}
-			Completed in <span class="font-bold text-white">{moves} moves</span>
-		{:else}
+	{#if best && latest}
+		<p class="mt-2 font-heading text-2xl font-bold text-white">Completed!</p>
+		<p class="font-heading text-sm font-normal text-slate-400">
+			Best: {best.moves}, Latest: {latest.moves}
+		</p>
+	{:else}
+		<p class="mt-2 font-heading text-lg font-normal text-slate-400">
 			You haven't completed this puzzle yet
-		{/if}
-	</p>
+		</p>
+	{/if}
 
 	<div class="mt-8 grid w-full grid-cols-3 gap-4">
 		<div class="flex flex-col items-center">
-			<span class="font-heading text-3xl font-bold text-white">{ownPlayed}</span>
+			<span class="font-heading text-3xl font-bold text-white">{1}</span>
 			<span class="text-sm text-slate-400">Played</span>
 		</div>
 		<div class="flex flex-col items-center">
-			<span class="font-heading text-3xl font-bold text-white">{ownStreak}</span>
+			<span class="font-heading text-3xl font-bold text-white">{1}</span>
 			<span class="text-sm text-slate-400">Streak</span>
 		</div>
 		<div class="flex flex-col items-center">
-			<span class="font-heading text-3xl font-bold text-white">{ownMaxStreak}</span>
+			<span class="font-heading text-3xl font-bold text-white">{1}</span>
 			<span class="text-sm text-slate-400">Max streak</span>
 		</div>
 	</div>
@@ -109,10 +114,10 @@
 			</p>
 		{/if}
 		<div class="flex w-full flex-col items-center [grid-area:a]">
-			<p class="mt-8 text-sm font-normal text-slate-400">Global distribution</p>
+			<p class="mt-8 text-sm font-normal text-slate-400">Global statistics</p>
 			<DistributionChart
 				data={globalDistribution}
-				numMoves={moves}
+				numMoves={best?.moves ?? null}
 				averageMoves={globalAverageMoves}
 				class="mt-4"
 			/>
@@ -120,7 +125,12 @@
 			<table class="mt-16 w-full text-slate-400">
 				<tbody>
 					<tr>
-						<td class="py-1 font-normal text-green-400">Your percentile</td>
+						<td class="py-1 font-normal text-green-400">
+							<span class="inline-flex items-center gap-1">
+								<TablerUser class="size-4" />
+								Your ranking
+							</span>
+						</td>
 						<td class="min-w-16 text-right font-bold text-green-400">
 							{#if percentile === null}
 								-
@@ -133,13 +143,22 @@
 					</tr>
 					<tr>
 						<td class="py-1 font-normal">
-							Average moves <span class="text-slate-600">(global)</span>
+							<span class="inline-flex items-center gap-1">
+								<TablerWorld class="size-4 text-slate-600" />
+								Average moves
+							</span>
 						</td>
-						<td class="min-w-16 text-right font-bold text-white">{globalAverageMoves.toFixed(1)}</td
-						>
+						<td class="min-w-16 text-right font-bold text-white">
+							{globalAverageMoves.toFixed(1)}
+						</td>
 					</tr>
 					<tr>
-						<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>
+						<td class="py-1 font-normal">
+							<span class="inline-flex items-center gap-1">
+								<TablerWorld class="size-4 text-slate-600" />
+								Solves
+							</span>
+						</td>
 						<td class="min-w-16 text-right font-bold text-white">{globalCompletions}</td>
 					</tr>
 				</tbody>

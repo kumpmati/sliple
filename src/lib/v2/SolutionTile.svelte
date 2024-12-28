@@ -12,7 +12,7 @@
 
 <div
 	class={cn(
-		'flex h-10 items-center justify-center rounded-sm border-2  border-slate-800 bg-slate-950 px-4 font-heading text-2xl font-semibold',
+		'flex h-10 items-center justify-center rounded-sm border-2  border-slate-800 bg-slate-950 px-4 font-heading text-2xl font-semibold tracking-wide',
 		state === 'success' && 'border-green-border bg-green-vibrant'
 	)}
 >

@@ -1,16 +1,24 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import TablerX from '~icons/tabler/x';
 
 	type Props = {
+		urlStateKey?: string;
 		open: boolean;
 		children: Snippet;
 		onOpenChange?: (open: boolean) => void;
 		class?: string;
 	};
 
-	let { open = $bindable(), children, onOpenChange, class: className }: Props = $props();
+	let {
+		urlStateKey,
+		open = $bindable(),
+		children,
+		onOpenChange,
+		class: className
+	}: Props = $props();
 
 	let ref: HTMLDialogElement;
 
@@ -30,6 +38,13 @@
 
 	$effect(() => {
 		onOpenChange?.(open);
+	});
+
+	$effect(() => {
+		if (urlStateKey && page.url.hash === '#' + urlStateKey) {
+			open = true;
+			console.log('should open');
+		}
 	});
 </script>
 

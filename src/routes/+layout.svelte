@@ -5,6 +5,8 @@
 	import 'nprogress/nprogress.css';
 	import { onMount } from 'svelte';
 	import { setSfxContext, type SfxContext } from '$lib/stores/sound';
+	import { initLocalStatsContext } from '$lib/v2/stats/local.svelte';
+	import { PersistedState } from 'runed';
 
 	let { children } = $props();
 
@@ -19,8 +21,9 @@
 	});
 
 	let sfx = $state<SfxContext>({ current: null });
-
 	setSfxContext(sfx);
+
+	initLocalStatsContext();
 
 	onMount(async () => {
 		// import GameAudio inside onMount because Howler is not supported on server side
