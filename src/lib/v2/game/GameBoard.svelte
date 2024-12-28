@@ -33,7 +33,7 @@
 
 	<svg
 		class="mx-auto mt-2 overflow-visible"
-		style="max-width: {CELL_SIZE * game.puzzle.data.width * 1.2}px"
+		style="max-width: {CELL_SIZE * game.puzzle.data.width * 1.1}px"
 		viewBox="-1 -1 {CELL_SIZE * game.puzzle.data.width + 2} {CELL_SIZE * game.puzzle.data.height +
 			2}"
 	>

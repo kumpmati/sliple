@@ -2,7 +2,6 @@
 	import type { Puzzle } from '$lib/types/puzzle';
 	import TablerStar from '~icons/tabler/star';
 	import TablerStarFilled from '~icons/tabler/star-filled';
-	import DistributionBarGraph from './DistributionBarGraph.svelte';
 	import DistributionChart from './DistributionChart.svelte';
 
 	type Props = {
@@ -79,8 +78,8 @@
 	<table class="mt-16 w-full text-slate-400">
 		<tbody>
 			<tr>
-				<td class="py-1 font-normal">Percentile</td>
-				<td class="text-right font-heading font-bold text-white">
+				<td class="py-1 font-normal text-green-400">Your percentile</td>
+				<td class="text-right font-bold text-green-400">
 					{#if ownPercentile < 1}
 						{'<1 %'}
 					{:else}
@@ -90,11 +89,11 @@
 			</tr>
 			<tr>
 				<td class="py-1 font-normal">Average moves <span class="text-slate-600">(global)</span></td>
-				<td class="text-right font-heading font-bold text-white">{globalAverageMoves}</td>
+				<td class="text-right font-bold text-white">{globalAverageMoves}</td>
 			</tr>
 			<tr>
 				<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>
-				<td class="text-right font-heading font-bold text-white">{globalCompletions}</td>
+				<td class="text-right font-bold text-white">{globalCompletions}</td>
 			</tr>
 		</tbody>
 	</table>
