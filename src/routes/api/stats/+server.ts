@@ -16,9 +16,12 @@ export type PuzzleStats = {
 	averageMoves: number | null;
 };
 
-const ratelimiter = new RateLimiter({
-	IP: [15, 's'], // IP Address
-	IPUA: [5, 's'] // IP Address + User Agent
+const submitRateLimiter = new RateLimiter({
+	IPUA: [30, 'm'] // IP Address + User Agent
+});
+
+const statsRateLimiter = new RateLimiter({
+	IPUA: [60, 'm'] // IP Address + User Agent
 });
 
 const completionSchema = z.object({
@@ -31,7 +34,7 @@ const cache = new Caccu();
 
 export const POST = endpoint({
 	getStats: zod(z.string().min(1).max(64), async (e, id) => {
-		if (await ratelimiter.isLimited(e)) error(429);
+		if (await statsRateLimiter.isLimited(e)) error(429);
 
 		const completions = await cache.getOrUpdate(
 			id,
@@ -50,7 +53,9 @@ export const POST = endpoint({
 	}),
 
 	markCompletion: zod(completionSchema, async (e, body) => {
-		if (await ratelimiter.isLimited(e)) error(429);
+		if (await submitRateLimiter.isLimited(e)) {
+			error(429, { message: 'you are being rate limited, try again later' });
+		}
 
 		const [item] = await db.insert(puzzleCompletionTable).values(body).returning();
 
@@ -58,7 +63,10 @@ export const POST = endpoint({
 	}),
 
 	getv2Stats: zod(z.object({ puzzleId: z.string().min(1).max(64) }), async (e, body) => {
-		if (await ratelimiter.isLimited(e)) error(429);
+		if (await statsRateLimiter.isLimited(e)) {
+			error(429, { message: 'you are being rate limited, try again later' });
+		}
+
 		return getPuzzleStatistics(body.puzzleId);
 	})
 });
