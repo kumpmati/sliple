@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class="flex w-full flex-col items-center px-4 py-10"
+	class="flex w-full flex-col items-center px-0 py-10 xs:px-4"
 	use:swipe
 	onswipe={(e) => {
 		const { tileId, direction } = handleSwipeEvent(e);

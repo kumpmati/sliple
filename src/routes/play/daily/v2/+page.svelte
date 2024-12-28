@@ -4,7 +4,7 @@
 	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
 	import { GameState } from '$lib/v2/game/state.svelte';
 	import BottomSheet from '$lib/v2/BottomSheet.svelte';
-	import PuzzleStatistics from '$lib/v2/PuzzleStatistics.svelte';
+	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
 	import Underline from '$lib/v2/Underline.svelte';
 	import { superActions } from 'sveltekit-superactions';
 	import type { StatsEndpoint } from '../../../api/stats/+server.js';

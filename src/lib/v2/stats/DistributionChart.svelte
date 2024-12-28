@@ -13,7 +13,7 @@
 		Rect
 	} from 'layerchart';
 	import { curveMonotoneX } from 'd3-shape';
-	import { normalise } from './stats/normalise';
+	import { normalise } from './normalise';
 
 	type Props = {
 		data: { value: number; count: number }[];
