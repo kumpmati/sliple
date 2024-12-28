@@ -22,6 +22,13 @@
 	});
 
 	$effect(() => {
+		const update = () => (open = false);
+
+		ref.addEventListener('close', update);
+		return () => ref.removeEventListener('close', update);
+	});
+
+	$effect(() => {
 		onOpenChange?.(open);
 	});
 </script>
