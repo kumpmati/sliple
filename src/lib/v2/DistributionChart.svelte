@@ -12,7 +12,7 @@
 		Text,
 		Rect
 	} from 'layerchart';
-	import { curveCardinal } from 'd3-shape';
+	import { curveMonotoneX } from 'd3-shape';
 	import { normalise } from './stats/normalise';
 
 	type Props = {
@@ -41,14 +41,10 @@
 	>
 		<Svg>
 			<LinearGradient class="from-slate-700 to-slate-700/0" vertical let:url>
-				<Area
-					curve={curveCardinal.tension(0.2)}
-					line={{ class: 'stroke-2 stroke-primary' }}
-					fill={url}
-				/>
+				<Area curve={curveMonotoneX} line={{ class: 'stroke-2 stroke-primary' }} fill={url} />
 			</LinearGradient>
 
-			<Spline class="stroke-slate-400 stroke-2" curve={curveCardinal.tension(0.2)} />
+			<Spline class="stroke-slate-400 stroke-2" curve={curveMonotoneX} />
 
 			<Text
 				x={width * normalise(min, min, max)}
