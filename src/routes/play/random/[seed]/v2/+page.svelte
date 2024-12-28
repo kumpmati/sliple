@@ -59,12 +59,12 @@
 		<Underline class="bg-orange-700" />
 	</h1>
 
-	<p class="mt-4 text-slate-400">
+	<p class="mt-4 text-sm text-slate-400">
 		Spell "<span class="font-bold text-white">{game.puzzle.data.solution}</span>" within
 		{game.puzzle.data.maxMoves.bronze} moves
 	</p>
 
-	<GameBoard state={game} />
+	<GameBoard {game} />
 
 	<SolutionPreview state={game} />
 
