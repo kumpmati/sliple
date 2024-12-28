@@ -20,8 +20,8 @@ export class GameState {
 	sortedTiles = $derived(sortTiles(this.tiles));
 
 	moves = $derived(this.#history.length);
-	canUndo = $derived(this.moves > 0);
 	isWin = $derived(isWinStatus(this.tiles));
+	canUndo = $derived(this.moves > 0 && !this.isWin);
 
 	constructor(puzzle: Puzzle) {
 		this.puzzle = puzzle; // prevent ts from complaining
@@ -29,6 +29,10 @@ export class GameState {
 	}
 
 	move(tileId: string, dir: Direction | null) {
+		if (this.isWin) {
+			return; // can't move when game is over
+		}
+
 		const tile = this.tiles.find((t) => t.id === tileId);
 
 		if (!dir || !tile || !canMove(tile)) {
