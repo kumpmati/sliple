@@ -12,6 +12,7 @@
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte';
 	import dayjs from 'dayjs';
+	import { sleep } from '$lib/utils/sleep.js';
 
 	let { data } = $props();
 
@@ -52,7 +53,7 @@
 			timestamp: new Date().toISOString()
 		});
 
-		setTimeout(() => (modalOpen = true), 400);
+		sleep(400).then(() => (modalOpen = true));
 	});
 
 	let modalOpen = $state(false);

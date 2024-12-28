@@ -2,6 +2,7 @@ import { getContext, setContext } from 'svelte';
 import { LocalStore } from '../persisted.svelte';
 
 type LocalStats = {
+	hideTutorial?: boolean;
 	completions: Record<string, { best: Completion | null; latest: Completion | null } | null>;
 };
 

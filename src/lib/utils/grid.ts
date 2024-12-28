@@ -1,8 +1,9 @@
 import type { Direction } from '$lib/stores/grid';
 import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
-import type { CompletionRank } from '$lib/types/user';
 import { clamp } from './math';
 import { isLetterTile } from './typeguards';
+
+type CompletionRank = 'gold' | 'silver' | 'bronze';
 
 export const getRank = (grid: Grid, moves: number): CompletionRank | null => {
 	if (moves <= grid.maxMoves.gold) return 'gold';
