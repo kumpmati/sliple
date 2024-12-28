@@ -16,7 +16,7 @@
 	width="64"
 	height="64"
 	viewBox="0 0 64 64"
-	class="overflow-visible"
+	class="overflow-visible [&_#tile-group]:active:translate-y-[-5px]"
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"
 	{...rest}
@@ -32,7 +32,7 @@
 		rx="16"
 	/>
 
-	<g transform="translate(0,-6)">
+	<g id="tile-group" transform="translate(0,-6)" class="transition-transform">
 		<rect
 			x="1"
 			y="1"
