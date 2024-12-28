@@ -41,7 +41,7 @@
 		<rect
 			x={-1}
 			y={-1}
-			class="fill-slate-950 stroke-slate-900"
+			class="fill-slate-950 stroke-slate-800"
 			rx="18"
 			width={CELL_SIZE * game.puzzle.data.width + 2}
 			height={CELL_SIZE * game.puzzle.data.height + 2}
