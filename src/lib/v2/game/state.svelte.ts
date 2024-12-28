@@ -15,7 +15,8 @@ export class GameState {
 	#listeners: Record<string, Callback[]> = {};
 	#history = $state<HistoryItem[]>([]);
 
-	puzzle: Puzzle;
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	puzzle = $state<Puzzle>()!;
 	tiles = $state<Tile[]>([]);
 	sortedTiles = $derived(sortTiles(this.tiles));
 
@@ -24,12 +25,17 @@ export class GameState {
 	canUndo = $derived(this.moves > 0 && !this.isWin);
 
 	constructor(puzzle: Puzzle) {
-		this.puzzle = puzzle; // prevent ts from complaining
+		this.puzzle = puzzle;
+		this.reset();
+	}
+
+	setPuzzle(p: Puzzle) {
+		this.puzzle = p;
 		this.reset();
 	}
 
 	move(tileId: string, dir: Direction | null) {
-		if (this.isWin) {
+		if (this.isWin || !this.puzzle) {
 			return; // can't move when game is over
 		}
 
@@ -71,6 +77,10 @@ export class GameState {
 	}
 
 	reset() {
+		if (!this.puzzle) {
+			return;
+		}
+
 		this.tiles = copy(this.puzzle.data.tiles);
 		this.#history = [];
 	}

@@ -34,9 +34,18 @@
 	$effect(() => {
 		if (modalOpen) {
 			untrack(() => {
-				actions.getv2Stats({ puzzleId: data.puzzle.id }).then((d) => (stats = d));
+				actions
+					.getv2Stats({ puzzleId: data.puzzle.id })
+					.then((d) => (stats = d))
+					.catch((err) => alert('error: ' + err));
 			});
 		}
+	});
+
+	$effect(() => {
+		data.puzzle; // reactivity dependency
+
+		untrack(() => game.setPuzzle(data.puzzle));
 	});
 
 	$inspect(stats);
