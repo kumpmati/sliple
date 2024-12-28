@@ -79,8 +79,8 @@
 	<table class="mt-16 w-full text-slate-400">
 		<tbody>
 			<tr>
-				<td class="py-1 text-sm font-normal">Percentile</td>
-				<td class="text-right font-heading text-base font-bold text-white">
+				<td class="py-1 font-normal">Percentile</td>
+				<td class="text-right font-heading font-bold text-white">
 					{#if ownPercentile < 1}
 						{'<1 %'}
 					{:else}
@@ -89,12 +89,12 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="py-1 text-sm font-normal">Average moves (global)</td>
-				<td class="text-right font-heading text-base font-bold text-white">{globalAverageMoves}</td>
+				<td class="py-1 font-normal">Average moves <span class="text-slate-600">(global)</span></td>
+				<td class="text-right font-heading font-bold text-white">{globalAverageMoves}</td>
 			</tr>
 			<tr>
-				<td class="py-1 text-sm font-normal">Solves (global)</td>
-				<td class="text-right font-heading text-base font-bold text-white">{globalCompletions}</td>
+				<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>
+				<td class="text-right font-heading font-bold text-white">{globalCompletions}</td>
 			</tr>
 		</tbody>
 	</table>
