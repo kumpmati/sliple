@@ -79,7 +79,7 @@
 		<tbody>
 			<tr>
 				<td class="py-1 font-normal text-green-400">Your percentile</td>
-				<td class="text-right font-bold text-green-400">
+				<td class="min-w-16 text-right font-bold text-green-400">
 					{#if ownPercentile < 1}
 						{'<1 %'}
 					{:else}
@@ -89,11 +89,11 @@
 			</tr>
 			<tr>
 				<td class="py-1 font-normal">Average moves <span class="text-slate-600">(global)</span></td>
-				<td class="text-right font-bold text-white">{globalAverageMoves}</td>
+				<td class="min-w-16 text-right font-bold text-white">{globalAverageMoves}</td>
 			</tr>
 			<tr>
 				<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>
-				<td class="text-right font-bold text-white">{globalCompletions}</td>
+				<td class="min-w-16 text-right font-bold text-white">{globalCompletions}</td>
 			</tr>
 		</tbody>
 	</table>
