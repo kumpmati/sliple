@@ -64,8 +64,6 @@
 
 		transition:
 			translate var(--duration),
-			scale var(--duration),
-			filter var(--duration),
 			opacity var(--duration),
 			display var(--duration) allow-discrete;
 		transition-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1); // expo-out;

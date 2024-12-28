@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import GameBoard from '$lib/v2/game/GameBoard.svelte';
 	import GameControls from '$lib/v2/game/GameControls.svelte';
 	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
@@ -6,17 +6,45 @@
 	import BottomSheet from '$lib/v2/BottomSheet.svelte';
 	import PuzzleStatistics from '$lib/v2/PuzzleStatistics.svelte';
 	import Underline from '$lib/v2/Underline.svelte';
+	import { superActions } from 'sveltekit-superactions';
+	import type { StatsEndpoint } from '../../../../api/stats/+server.js';
+	import { untrack } from 'svelte';
+	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 
 	let { data } = $props();
 
+	const actions = superActions<StatsEndpoint>('/api/stats');
 	const game = new GameState(data.puzzle);
+
+	let stats = $state<V2Statistics | null>(null);
 
 	game.on('move', () => console.log('moved'));
 	game.on('win', () => {
-		setTimeout(() => (modalOpen = true), 250);
+		actions.markCompletion({
+			type: 'w',
+			puzzleId: game.puzzle.id,
+			numMoves: game.moves
+		});
+
+		setTimeout(() => (modalOpen = true), 400);
 	});
 
 	let modalOpen = $state(false);
+
+	$effect(() => {
+		if (modalOpen) {
+			untrack(() => {
+				actions
+					.getv2Stats({
+						puzzleId: data.puzzle.id,
+						numMoves: game.moves
+					})
+					.then((d) => (stats = d));
+			});
+		}
+	});
+
+	$inspect(stats);
 </script>
 
 <svelte:head>
@@ -47,23 +75,10 @@
 			ownPlayed={150}
 			ownStreak={5}
 			ownMaxStreak={15}
-			ownPercentile={30}
-			globalDistribution={[
-				{ value: 10, count: 2 },
-				{ value: 11, count: 5 },
-				{ value: 12, count: 8 },
-				{ value: 13, count: 9 },
-				{ value: 14, count: 0 },
-				{ value: 15, count: 4 },
-				{ value: 16, count: 10 },
-				{ value: 17, count: 20 },
-				{ value: 18, count: 18 },
-				{ value: 19, count: 14 },
-				{ value: 20, count: 10 },
-				{ value: 21, count: 5 }
-			]}
-			globalAverageMoves={18}
-			globalCompletions={457}
+			ownPercentile={stats?.percentile ?? 100}
+			globalDistribution={stats?.distribution ?? []}
+			globalAverageMoves={stats?.totals.averageMoves ?? 0}
+			globalCompletions={stats?.totals.totalAttempts ?? 0}
 		/>
 	</BottomSheet>
 </main>

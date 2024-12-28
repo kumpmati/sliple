@@ -2,7 +2,8 @@
 	import type { Puzzle } from '$lib/types/puzzle';
 	import TablerStar from '~icons/tabler/star';
 	import TablerStarFilled from '~icons/tabler/star-filled';
-	import DistributionGraph from './DistributionGraph.svelte';
+	import DistributionBarGraph from './DistributionBarGraph.svelte';
+	import DistributionChart from './DistributionChart.svelte';
 
 	type Props = {
 		moves: number;
@@ -67,21 +68,32 @@
 		</div>
 	</div>
 
-	<p class="mt-8 text-sm font-normal text-slate-400">Global statistics</p>
-	<DistributionGraph data={globalDistribution} highlightedValue={moves} class="mt-4" />
+	<p class="mt-8 text-sm font-normal text-slate-400">Global distribution</p>
+	<DistributionChart
+		data={globalDistribution}
+		numMoves={moves}
+		averageMoves={globalAverageMoves}
+		class="mt-4"
+	/>
 
-	<table class="mt-4 w-full text-slate-400">
+	<table class="mt-16 w-full text-slate-400">
 		<tbody>
 			<tr>
-				<td class="py-1 text-sm font-normal">Percentile (you)</td>
-				<td class="text-right font-heading text-base font-bold text-white">{ownPercentile} %</td>
+				<td class="py-1 text-sm font-normal">Percentile</td>
+				<td class="text-right font-heading text-base font-bold text-white">
+					{#if ownPercentile < 1}
+						{'<1 %'}
+					{:else}
+						{Math.round(ownPercentile)} %
+					{/if}
+				</td>
 			</tr>
 			<tr>
 				<td class="py-1 text-sm font-normal">Average moves (global)</td>
 				<td class="text-right font-heading text-base font-bold text-white">{globalAverageMoves}</td>
 			</tr>
 			<tr>
-				<td class="py-1 text-sm font-normal">Total completions (global)</td>
+				<td class="py-1 text-sm font-normal">Solves (global)</td>
 				<td class="text-right font-heading text-base font-bold text-white">{globalCompletions}</td>
 			</tr>
 		</tbody>
