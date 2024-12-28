@@ -19,5 +19,9 @@ export const calculatePercentile = (
 	);
 	const total = sum(distribution.map((d) => d.count));
 
+	if (total === 0) {
+		return 0;
+	}
+
 	return (totalUnder / total) * 100;
 };

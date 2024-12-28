@@ -4,7 +4,7 @@ import { puzzleCompletionTable } from '$lib/server/db/schema';
 import { sum } from '$lib/utils/math';
 import { error } from '@sveltejs/kit';
 import { Caccu } from 'caccu';
-import { asc, count, and, eq, avg, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { RateLimiter } from 'sveltekit-rate-limiter/server';
 import { endpoint, zod } from 'sveltekit-superactions';
 import { z } from 'zod';
@@ -57,16 +57,10 @@ export const POST = endpoint({
 		return item;
 	}),
 
-	getv2Stats: zod(
-		z.object({
-			puzzleId: z.string().min(1).max(64),
-			numMoves: z.number().int().min(0).max(30)
-		}),
-		async (e, body) => {
-			if (await ratelimiter.isLimited(e)) error(429);
-			return getPuzzleStatistics(body.puzzleId, body.numMoves);
-		}
-	)
+	getv2Stats: zod(z.object({ puzzleId: z.string().min(1).max(64) }), async (e, body) => {
+		if (await ratelimiter.isLimited(e)) error(429);
+		return getPuzzleStatistics(body.puzzleId);
+	})
 });
 
 export type StatsEndpoint = typeof POST;

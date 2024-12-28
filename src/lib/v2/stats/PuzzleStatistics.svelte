@@ -3,16 +3,16 @@
 	import TablerStar from '~icons/tabler/star';
 	import TablerStarFilled from '~icons/tabler/star-filled';
 	import DistributionChart from './DistributionChart.svelte';
+	import { calculatePercentile } from './percentile';
 
 	type Props = {
-		moves: number;
+		moves: number | null;
 		maxMoves: Puzzle['data']['maxMoves'];
 		ownPlayed: number;
 		ownStreak: number;
 		ownMaxStreak: number;
 		globalsLoading: boolean;
 		globalsError: string | undefined;
-		globalPercentile: number;
 		globalDistribution: { value: number; count: number }[];
 		globalCompletions: number;
 		globalAverageMoves: number;
@@ -26,34 +26,45 @@
 		ownMaxStreak,
 		globalsLoading,
 		globalsError,
-		globalPercentile,
 		globalDistribution,
 		globalCompletions,
 		globalAverageMoves
 	}: Props = $props();
+
+	let percentile = $derived(moves ? calculatePercentile(globalDistribution, moves) : null);
 </script>
 
 <div class="flex flex-col items-center">
 	<div class="flex gap-2">
-		{#if moves <= maxMoves.gold}
-			<TablerStarFilled class="size-8 text-orange-400" />
+		{#if moves}
+			{#if moves <= maxMoves.gold}
+				<TablerStarFilled class="size-8 text-orange-400" />
+			{:else}
+				<TablerStar class="size-8 text-slate-500" />
+			{/if}
+			{#if moves <= maxMoves.silver}
+				<TablerStarFilled class="size-8 text-orange-400" />
+			{:else}
+				<TablerStar class="size-8 text-slate-500" />
+			{/if}
+			{#if moves <= maxMoves.bronze}
+				<TablerStarFilled class="size-8 text-orange-400" />
+			{:else}
+				<TablerStar class="size-8 text-slate-500" />
+			{/if}
 		{:else}
 			<TablerStar class="size-8 text-slate-500" />
-		{/if}
-		{#if moves <= maxMoves.silver}
-			<TablerStarFilled class="size-8 text-orange-400" />
-		{:else}
 			<TablerStar class="size-8 text-slate-500" />
-		{/if}
-		{#if moves <= maxMoves.bronze}
-			<TablerStarFilled class="size-8 text-orange-400" />
-		{:else}
 			<TablerStar class="size-8 text-slate-500" />
 		{/if}
 	</div>
 
 	<p class="mt-2 font-heading text-lg font-normal text-slate-400">
-		Completed in <span class="font-bold text-white">{moves} moves</span>
+		{#if moves}
+			Completed in <span class="font-bold text-white">{moves} moves</span>
+		{:else}
+			You haven't completed this puzzle yet
+		{/if}
 	</p>
 
 	<div class="mt-8 grid w-full grid-cols-3 gap-4">
@@ -89,18 +100,20 @@
 				<tr>
 					<td class="py-1 font-normal text-green-400">Your percentile</td>
 					<td class="min-w-16 text-right font-bold text-green-400">
-						{#if globalPercentile < 1}
+						{#if percentile === null}
+							-
+						{:else if percentile < 1}
 							{'<1 %'}
 						{:else}
-							{Math.round(globalPercentile)} %
+							{Math.round(percentile)} %
 						{/if}
 					</td>
 				</tr>
 				<tr>
-					<td class="py-1 font-normal"
-						>Average moves <span class="text-slate-600">(global)</span></td
-					>
-					<td class="min-w-16 text-right font-bold text-white">{globalAverageMoves}</td>
+					<td class="py-1 font-normal">
+						Average moves <span class="text-slate-600">(global)</span>
+					</td>
+					<td class="min-w-16 text-right font-bold text-white">{globalAverageMoves.toFixed(1)}</td>
 				</tr>
 				<tr>
 					<td class="py-1 font-normal">Solves <span class="text-slate-600">(global)</span></td>

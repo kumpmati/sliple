@@ -34,12 +34,7 @@
 	$effect(() => {
 		if (modalOpen) {
 			untrack(() => {
-				actions
-					.getv2Stats({
-						puzzleId: data.puzzle.id,
-						numMoves: game.moves
-					})
-					.then((d) => (stats = d));
+				actions.getv2Stats({ puzzleId: data.puzzle.id }).then((d) => (stats = d));
 			});
 		}
 	});
@@ -52,7 +47,7 @@
 </svelte:head>
 
 <main class="flex flex-col items-center">
-	<GameControls {game} />
+	<GameControls {game} bind:statsOpen={modalOpen} />
 
 	<h1 class="relative z-0 w-fit font-heading text-2xl font-bold">
 		Random puzzle
@@ -77,7 +72,6 @@
 			ownMaxStreak={15}
 			globalsLoading={false}
 			globalsError={undefined}
-			globalPercentile={stats?.percentile ?? 100}
 			globalDistribution={stats?.distribution ?? []}
 			globalAverageMoves={stats?.totals.averageMoves ?? 0}
 			globalCompletions={stats?.totals.totalAttempts ?? 0}

@@ -10,14 +10,16 @@
 		Highlight,
 		Rule,
 		Text,
-		Rect
+		Rect,
+		Points
 	} from 'layerchart';
 	import { curveMonotoneX } from 'd3-shape';
 	import { normalise } from './normalise';
+	import { calculatePercentile } from './percentile';
 
 	type Props = {
 		data: { value: number; count: number }[];
-		numMoves: number;
+		numMoves: number | null;
 		averageMoves: number;
 		class?: string;
 	};
@@ -41,10 +43,11 @@
 	>
 		<Svg>
 			<LinearGradient class="from-slate-700 to-slate-700/0" vertical let:url>
-				<Area curve={curveMonotoneX} line={{ class: 'stroke-2 stroke-primary' }} fill={url} />
+				<Area curve={curveMonotoneX} fill={url} />
 			</LinearGradient>
 
 			<Spline class="stroke-slate-400 stroke-2" curve={curveMonotoneX} />
+			<Points r={3} class="fill-slate-800 stroke-slate-400 stroke-2" />
 
 			<Text
 				x={width * normalise(min, min, max)}
@@ -72,29 +75,43 @@
 				y={height + 8}
 				verticalAnchor="start"
 				textAnchor="middle"
-				class="fill-slate-500 stroke-slate-800 stroke-[8] font-bold [stroke-linejoin:round]"
+				class="fill-slate-500 stroke-slate-800 stroke-[8] [stroke-linejoin:round]"
 				value="avg"
 			/>
 
-			<Rule x={numMoves} class="stroke-green-400 stroke-2 [stroke-linecap:round]" />
-			{#if numMoves >= min && numMoves <= max}
-				<Text
-					x={width * normalise(numMoves, min, max)}
-					y={height + 8}
-					verticalAnchor="start"
-					textAnchor="middle"
-					class="fill-green-400 stroke-slate-800 stroke-[8] font-bold [stroke-linejoin:round]"
-					value={numMoves}
-				/>
+			{#if numMoves}
+				<Rule x={numMoves} class="stroke-green-400 stroke-2 [stroke-linecap:round]" />
+				{#if numMoves >= min && numMoves <= max}
+					<Text
+						x={width * normalise(numMoves, min, max)}
+						y={height + 8}
+						verticalAnchor="start"
+						textAnchor="middle"
+						class="fill-green-400 stroke-slate-800 stroke-[8] font-bold [stroke-linejoin:round]"
+						value={numMoves}
+					/>
+				{/if}
 			{/if}
 
 			<Highlight points />
 		</Svg>
 
-		<Tooltip.Root let:data>
+		<Tooltip.Root let:data={item}>
 			<Tooltip.List>
-				<Tooltip.Item label="Moves:" value={data.value} valueAlign="right" />
-				<Tooltip.Item label="Solves:" value={data.count} valueAlign="right" />
+				<Tooltip.Item label="Moves:" value={item.value} valueAlign="right" />
+				<Tooltip.Separator class="bg-slate-600" />
+				<Tooltip.Item
+					label="Solves:"
+					value={item.count}
+					valueAlign="right"
+					classes={{ root: 'text-slate-400' }}
+				/>
+				<Tooltip.Item
+					label="Percentile:"
+					value="{Math.round(calculatePercentile(data, item.value))} %"
+					valueAlign="right"
+					classes={{ root: 'text-slate-400' }}
+				/>
 			</Tooltip.List>
 		</Tooltip.Root>
 	</Chart>

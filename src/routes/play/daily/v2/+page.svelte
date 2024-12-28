@@ -42,10 +42,7 @@
 				stats.loading = true;
 
 				actions
-					.getv2Stats({
-						puzzleId: data.puzzle.id,
-						numMoves: game.moves
-					})
+					.getv2Stats({ puzzleId: data.puzzle.id })
 					.then((d) => (stats.current = d))
 					.catch((err) => {
 						stats.error = err;
@@ -63,7 +60,7 @@
 </svelte:head>
 
 <main class="flex flex-col items-center">
-	<GameControls {game} />
+	<GameControls {game} bind:statsOpen={modalOpen} />
 
 	<h1 class="relative z-0 w-fit font-heading text-2xl font-bold">
 		Daily puzzle
@@ -88,7 +85,6 @@
 			ownMaxStreak={15}
 			globalsLoading={stats.loading}
 			globalsError={stats.error}
-			globalPercentile={stats.current?.percentile ?? 100}
 			globalDistribution={stats.current?.distribution ?? []}
 			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
 			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
