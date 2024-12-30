@@ -16,7 +16,6 @@
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareRandomPuzzle } from '$lib/v2/share.js';
-	import CompletePopup from '$lib/v2/game/CompletePopup.svelte';
 
 	let { data } = $props();
 

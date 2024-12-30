@@ -48,13 +48,13 @@
 		animation-fill-mode: both;
 
 		&:nth-child(1) {
-			animation-delay: 0ms;
+			animation-delay: 100ms;
 		}
 		&:nth-child(2) {
-			animation-delay: 50ms;
+			animation-delay: 150ms;
 		}
 		&:nth-child(3) {
-			animation-delay: 100ms;
+			animation-delay: 200ms;
 		}
 	}
 </style>

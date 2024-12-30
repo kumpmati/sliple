@@ -8,7 +8,6 @@
 	import Underline from '$lib/v2/Underline.svelte';
 	import { sleep } from '@antfu/utils';
 	import { onMount } from 'svelte';
-	import CompletePopup from '$lib/v2/game/CompletePopup.svelte';
 
 	let { data } = $props();
 
