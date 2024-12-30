@@ -3,10 +3,8 @@ import { LocalStore } from '../persisted.svelte';
 
 type LocalStats = {
 	hideTutorial?: boolean;
-	completions: Record<
-		string,
-		{ best: LocalCompletion | null; latest: LocalCompletion | null } | null
-	>;
+	daily: Record<string, { best: LocalCompletion | null; latest: LocalCompletion | null } | null>;
+	random: Record<string, { best: LocalCompletion | null; latest: LocalCompletion | null } | null>;
 };
 
 export type LocalCompletion = {
@@ -20,15 +18,15 @@ export type LocalCompletion = {
 const key = Symbol('user-stats');
 
 export const initLocalStatsContext = () =>
-	setContext(key, new LocalStore<LocalStats>('sliple-stats', { completions: {} }));
+	setContext(key, new LocalStore<LocalStats>('sliple-stats', { daily: {}, random: {} }));
 
 export const getLocalStatsContext = () => getContext<LocalStore<LocalStats>>(key);
 
 export const markCompleted = (s: LocalStore<LocalStats>, c: LocalCompletion) => {
-	const existing = s.current.completions[c.puzzleId];
+	const existing = s.current[c.type][c.puzzleId];
 
 	if (!existing) {
-		s.current.completions[c.puzzleId] = { best: c.win ? c : null, latest: c };
+		s.current[c.type][c.puzzleId] = { best: c.win ? c : null, latest: c };
 		return;
 	}
 

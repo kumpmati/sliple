@@ -9,7 +9,7 @@
 	import Underline from '$lib/v2/Underline.svelte';
 	import { superActions } from 'sveltekit-superactions';
 	import type { StatsEndpoint } from '../../api/stats/+server.js';
-	import { untrack } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte';
 	import { sleep } from '$lib/utils/sleep.js';
@@ -36,15 +36,15 @@
 		stats.loading = false;
 	};
 
-	game.on('end', ({ type, moves }) => {
+	const unsub = game.on('end', ({ type, moves }) => {
 		actions
 			.markCompletion({ puzzleId: game.puzzle.id, moves })
-			.catch((err) => alert('failed to mark completion: ' + (err?.message ?? err)))
+			.catch((err) => alert('failed to verify completion: ' + (err?.message ?? err)))
 			.then(() => loadStats());
 
 		markCompleted(localStats, {
 			puzzleId: game.puzzle.id,
-			moves: game.moves,
+			moves: moves.length,
 			type: 'daily',
 			win: type === 'w',
 			timestamp: new Date().toISOString()
@@ -62,6 +62,8 @@
 			});
 		}
 	});
+
+	onDestroy(unsub);
 </script>
 
 <svelte:head>
@@ -91,6 +93,7 @@
 		<PuzzleStatistics
 			showStreak={false}
 			puzzleId={game.puzzle.id}
+			puzzleType="daily"
 			maxMoves={game.puzzle.data.maxMoves}
 			globals={{
 				loading: stats.loading,

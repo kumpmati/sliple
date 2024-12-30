@@ -20,7 +20,7 @@ const statsRateLimiter = new RateLimiter({
 const completionSchema = z.object({
 	puzzleId: z.string().min(1).max(64),
 	moves: z
-		.array(z.object({ tileId: z.string().min(1).max(30), dir: z.nativeEnum(Dir) }))
+		.array(z.object({ tid: z.string().min(1).max(30), dir: z.nativeEnum(Dir) }))
 		.min(1)
 		.max(30)
 });

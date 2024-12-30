@@ -6,17 +6,17 @@ import { isWinStatus } from './game/utils';
 
 export const verifyPuzzleWin = (
 	p: Puzzle,
-	moves: Pick<HistoryItem, 'tileId' | 'dir'>[]
+	moves: Pick<HistoryItem, 'tid' | 'dir'>[]
 ): { moves: number; error: string | null } => {
 	let tiles = copy(p.data.tiles);
 	let n = 0;
 
 	moves.forEach((move) => {
-		const result = moveTile(p.data, tiles, move.tileId, move.dir);
-		if (result) {
-			tiles = result;
-			n++;
-		}
+		const result = moveTile(p.data, tiles, move.tid, move.dir);
+		if (!result) return;
+
+		tiles = result;
+		n++;
 	});
 
 	// some moves were not valid

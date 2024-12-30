@@ -13,6 +13,7 @@
 
 	type Props = {
 		puzzleId: string;
+		puzzleType: 'daily' | 'random';
 		maxMoves: Puzzle['data']['maxMoves'];
 		showStreak?: boolean;
 		globals?: {
@@ -25,12 +26,12 @@
 		children?: Snippet;
 	};
 
-	let { puzzleId, maxMoves, showStreak, globals, children }: Props = $props();
+	let { puzzleId, puzzleType, maxMoves, showStreak, globals, children }: Props = $props();
 
 	const localStats = getLocalStatsContext();
 
-	let best = $derived(localStats.current.completions[puzzleId]?.best);
-	let latest = $derived(localStats.current.completions[puzzleId]?.latest);
+	let best = $derived(localStats.current[puzzleType][puzzleId]?.best);
+	let latest = $derived(localStats.current[puzzleType][puzzleId]?.latest);
 
 	let percentile = $derived(
 		best && globals ? calculatePercentile(globals.distribution, best.moves) : null

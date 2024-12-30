@@ -8,10 +8,7 @@
 	import BottomSheet from '$lib/v2/BottomSheet.svelte';
 	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
 	import Underline from '$lib/v2/Underline.svelte';
-	import { superActions } from 'sveltekit-superactions';
-	import type { StatsEndpoint } from '../../../api/stats/+server.js';
 	import { untrack } from 'svelte';
-	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte.js';
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
@@ -69,7 +66,11 @@
 	<SolutionPreview state={game} />
 
 	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
-		<PuzzleStatistics puzzleId={game.puzzle.id} maxMoves={game.puzzle.data.maxMoves}>
+		<PuzzleStatistics
+			puzzleId={game.puzzle.id}
+			puzzleType="random"
+			maxMoves={game.puzzle.data.maxMoves}
+		>
 			<div class="mt-8 grid w-full grid-cols-2 gap-4">
 				<Button color="lightgray" onclick={() => shareRandomPuzzle(game.puzzle)}>
 					Share <TablerShare class="size-5" />

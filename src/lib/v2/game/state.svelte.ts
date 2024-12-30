@@ -9,8 +9,8 @@ import { isWinStatus, sortTiles } from './utils';
 export type HistoryItem = {
 	tiles: Tile[];
 
-	// TODO: use these for score verification
-	tileId: string;
+	// Used when verifying solutions for leaderboards
+	tid: string;
 	dir: Dir;
 };
 
@@ -18,7 +18,7 @@ type Callback<T extends EventType> = (d: EventParams<T>) => void;
 
 interface GameStateEventMap {
 	move: { tileId: string; dir: Dir };
-	end: { type: 'w' | 'l'; moves: Pick<HistoryItem, 'tileId' | 'dir'>[] };
+	end: { type: 'w' | 'l'; moves: Pick<HistoryItem, 'tid' | 'dir'>[] };
 	undo: void;
 	reset: void;
 	status: 'win' | 'loss' | 'ongoing';
@@ -136,7 +136,7 @@ export class GameState {
 	}
 
 	#getMoveHistory() {
-		return this.#history.map((h) => ({ tileId: h.tileId, dir: h.dir }));
+		return this.#history.map((h) => ({ tid: h.tid, dir: h.dir }));
 	}
 
 	#emit<T extends EventType>(event: T, data: EventParams<T>) {
@@ -148,6 +148,6 @@ export class GameState {
 	}
 
 	#snapshot(tileId: string, dir: Dir) {
-		this.#history.push({ tiles: copy(this.tiles), tileId, dir });
+		this.#history.push({ tiles: copy(this.tiles), tid: tileId, dir });
 	}
 }
