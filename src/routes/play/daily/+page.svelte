@@ -36,7 +36,6 @@
 		stats.loading = false;
 	};
 
-	game.on('move', () => console.log('moved'));
 	game.on('end', ({ type, moves }) => {
 		actions
 			.markCompletion({

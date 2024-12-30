@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isGoalTile, isLetterTile, isWallTile } from '$lib/utils/typeguards';
+	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
 	import { swipe } from 'svelte-gestures';
 	import LetterTile from './LetterTile.svelte';
 	import { GameState } from './state.svelte';
@@ -11,6 +11,7 @@
 	import TweenedTile from './TweenedTile.svelte';
 	import { GameSounds } from './sounds';
 	import { getSfxContext } from '$lib/stores/sound';
+	import StickyTile from './StickyTile.svelte';
 
 	type Props = {
 		game: GameState;
@@ -70,6 +71,8 @@
 					<WallTile />
 				{:else if isGoalTile(tile)}
 					<GoalTile letter={tile.letter} />
+				{:else if isStickyTile(tile)}
+					<StickyTile />
 				{/if}
 			</TweenedTile>
 		{/each}

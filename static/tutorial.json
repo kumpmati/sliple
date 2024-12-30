@@ -8,7 +8,7 @@
 		{
 			"id": "t1",
 			"difficulty": "beginner",
-			"message": "You play by sliding all the letter tiles onto their goal tiles. Move the white letter tile to the red goal tile.",
+			"message": "You move tiles by swiping them to a direction. Swipe right on the tile to move it to its goal.",
 			"data": {
 				"width": 3,
 				"height": 1,
@@ -31,7 +31,7 @@
 		{
 			"id": "t2",
 			"difficulty": "beginner",
-			"message": "All the letters have to be at the right goals at the same time. Move both tiles down to their goals.",
+			"message": "To complete a puzzle, all letters have to be at their goals at the same time.",
 			"data": {
 				"width": 3,
 				"height": 3,
@@ -63,7 +63,7 @@
 		{
 			"id": "t3",
 			"difficulty": "beginner",
-			"message": "Wall tiles will stop a letter tile, and so will other letter tiles. Move the letter to its goal.",
+			"message": "Wall tiles cannot be moved, but letters will collide with them.",
 			"data": {
 				"width": 3,
 				"height": 3,
@@ -86,30 +86,6 @@
 		},
 		{
 			"id": "t4",
-			"difficulty": "beginner",
-			"message": "Letter tiles will stop sliding at sticky tiles. Try moving the letter to its goal.",
-			"data": {
-				"width": 4,
-				"height": 4,
-				"maxMoves": { "gold": 2, "silver": 2, "bronze": 2 },
-				"numMovesTaken": 0,
-				"solution": "a",
-				"tiles": [
-					{ "id": "fZOvZiLVSFk7GX1WwGLxC", "type": "sticky", "x": 0, "y": 2 },
-					{
-						"id": "J0rmIMcTqzWw-OylmX2lQ",
-						"type": "goal",
-						"letter": "a",
-						"index": 0,
-						"x": 3,
-						"y": 2
-					},
-					{ "id": "HJwpgvrOpWm-6j09GCcd6", "type": "letter", "letter": "a", "x": 0, "y": 0 }
-				]
-			}
-		},
-		{
-			"id": "t5",
 			"difficulty": "beginner",
 			"message": "You can use a letter tile to stop another letter. Use the letter B to get the letter A to its goal.",
 			"data": {

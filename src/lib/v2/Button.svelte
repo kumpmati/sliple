@@ -86,7 +86,8 @@
 		defaultVariants: {
 			raised: true,
 			edgeGlow: false,
-			size: 'default'
+			size: 'default',
+			color: 'blue'
 		}
 	});
 
