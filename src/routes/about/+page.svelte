@@ -14,7 +14,7 @@
 </a>
 
 <span class="heading">
-	<UnderlinedHeading color="var(--purple-light)">About</UnderlinedHeading>
+	<UnderlinedHeading color="#fee0ff">About</UnderlinedHeading>
 </span>
 
 <div class="section">
@@ -76,7 +76,7 @@
 	}
 
 	a {
-		color: var(--text);
+		color: #fff;
 		width: fit-content;
 	}
 

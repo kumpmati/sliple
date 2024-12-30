@@ -1,17 +1,19 @@
 <script lang="ts">
 	import '../app.css';
 	import NProgress from 'nprogress';
-	import { navigating, updated } from '$app/stores';
+	import { updated } from '$app/stores';
 	import 'nprogress/nprogress.css';
 	import { onMount } from 'svelte';
 	import { setSfxContext, type SfxContext } from '$lib/stores/sound';
+	import { initLocalStatsContext } from '$lib/v2/stats/local.svelte';
+	import { navigating } from '$app/state';
 
 	let { children } = $props();
 
 	NProgress.configure({ minimum: 0.16, showSpinner: false });
 
 	$effect(() => {
-		if ($navigating) {
+		if (navigating.to) {
 			NProgress.start();
 		} else {
 			NProgress.done();
@@ -19,13 +21,15 @@
 	});
 
 	let sfx = $state<SfxContext>({ current: null });
-
 	setSfxContext(sfx);
 
-	onMount(async () => {
+	initLocalStatsContext();
+
+	onMount(() => {
 		// import GameAudio inside onMount because Howler is not supported on server side
-		const { GameAudio } = await import('$lib/services/sound');
-		sfx.current = new GameAudio();
+		import('$lib/services/sound').then((module) => {
+			sfx.current = new module.GameAudio();
+		});
 	});
 
 	onMount(() => {

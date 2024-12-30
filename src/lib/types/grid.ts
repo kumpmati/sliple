@@ -1,4 +1,4 @@
-import type { Direction } from '$lib/stores/grid';
+import { Dir } from '$lib/stores/grid';
 import { z } from 'zod';
 
 export const tileSchema = z.object({
@@ -8,7 +8,7 @@ export const tileSchema = z.object({
 	y: z.number().min(0).max(10),
 	letter: z.string().optional(),
 	index: z.number().min(0).optional(),
-	direction: z.enum(['top', 'bottom', 'left', 'right']).optional()
+	direction: z.nativeEnum(Dir).optional()
 });
 
 export const gridSchema = z.object({
@@ -54,7 +54,7 @@ export interface StickyTile extends Tile {
 
 export interface DirectionTile extends Tile {
 	type: 'direction' | 'd';
-	direction: Direction;
+	direction: Dir;
 }
 
 export type Coordinates = {
@@ -63,3 +63,5 @@ export type Coordinates = {
 };
 
 export type CollisionType = 'none' | 'sticky' | 'solid' | 'direction';
+
+export type TileTypes = LetterTile | WallTile | GoalTile | StickyTile | DirectionTile;

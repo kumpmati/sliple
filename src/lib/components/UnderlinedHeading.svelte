@@ -8,9 +8,8 @@
 <h1 {style}>
 	<slot />
 
-	<!-- TODO: set delay back to 200 when this issue is fixed: https://github.com/sveltejs/svelte/issues/10876  -->
 	<div
-		in:fly={{ y: -5, duration: 300, delay: 0 }}
+		in:fly={{ y: -5, duration: 300, delay: 200 }}
 		class="underline"
 		style:background-color={color}
 	></div>
@@ -23,7 +22,7 @@
 		position: relative;
 		font-weight: 900;
 		font-size: 24px;
-		color: var(--text);
+		color: #fff;
 		font-family: var(--font-heading);
 		z-index: 1;
 
@@ -36,10 +35,7 @@
 			height: 16px;
 			border-radius: 16px;
 			z-index: -1;
-
-			@media screen and (prefers-color-scheme: dark) {
-				filter: brightness(0.5);
-			}
+			filter: brightness(0.5);
 		}
 	}
 </style>

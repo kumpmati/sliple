@@ -1,111 +1,77 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
-	import Button from '$lib/components/Button.svelte';
-	import EndMenu from '$lib/components/EndMenu.svelte';
-	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
-	import { createGridStore } from '$lib/stores/grid';
-	import { showTutorial } from '$lib/stores/tutorial';
-	import { userStore } from '$lib/stores/user';
-	import type { Campaign } from '$lib/types/campaign';
-	import type { FinishEvent } from '$lib/types/puzzle';
-	import { getFirstInProgressLevel } from '$lib/utils/campaign';
+	import TablerPlay from '~icons/tabler/play';
+	import TablerDice3 from '~icons/tabler/dice-3';
+	import Button from '$lib/v2/Button.svelte';
+	import GameBoard from '$lib/v2/game/GameBoard.svelte';
+	import GameControls from '$lib/v2/game/GameControls.svelte';
+	import { GameState } from '$lib/v2/game/state.svelte';
+	import Underline from '$lib/v2/Underline.svelte';
+	import { sleep } from '@antfu/utils';
 	import { onMount } from 'svelte';
-	import {
-		CheckIcon,
-		ChevronRightIcon,
-		ChevronsRightIcon,
-		HomeIcon,
-		RotateCcwIcon
-	} from 'svelte-feather-icons';
 
-	export let data: Campaign;
+	let { data } = $props();
 
-	let currentLevel = browser ? getFirstInProgressLevel(data.levels, $userStore) : 0;
+	const game = new GameState(data.tutorial.levels[0]);
 
-	let showMenu = false;
-	let endType: 'win' | 'loss' = 'win';
-	let moves = 0;
+	let currentLevel = $state(0);
+	let isDone = $state(false);
 
-	$: isLastOne = currentLevel >= data.levels.length - 1;
-	$: grid = data.levels.length > 0 ? createGridStore(data.levels[currentLevel].data) : null;
+	onMount(() => {
+		const unsub = game.on('end', ({ type }) => {
+			sleep(1500).then(() => {
+				if (type === 'w') {
+					currentLevel++;
+					if (currentLevel < data.tutorial.levels.length) {
+						game.setPuzzle(data.tutorial.levels[currentLevel]);
+					} else {
+						isDone = true;
+						game.reset(false);
+					}
+				} else {
+					game.reset();
+				}
+			});
+		});
 
-	// when the puzzle changes, mark it as in progress
-	$: {
-		userStore.deletePuzzleProgress(data.levels[currentLevel].id);
-		userStore.markPuzzleInProgress(data.levels[currentLevel].id);
-	}
-
-	const handleFinish = (e: CustomEvent<FinishEvent>) => {
-		endType = e.detail.type;
-		moves = e.detail.moves;
-		userStore.markPuzzleComplete(data.levels[currentLevel].id, 'completed', null);
-
-		setTimeout(() => (showMenu = true), 500);
-	};
-
-	const handleNextLevel = () => {
-		if (isLastOne) {
-			data.levels.forEach((l) => userStore.deletePuzzleProgress(l.id));
-			goto('/');
-			return;
-		}
-
-		grid?.reset();
-		currentLevel = (currentLevel + 1) % data.levels.length;
-		showMenu = false;
-	};
-
-	const handleResetLevel = () => {
-		grid?.reset();
-		showMenu = false;
-	};
-
-	onMount(() => ($showTutorial = false));
+		return unsub;
+	});
 </script>
 
 <svelte:head>
-	<title>Tutorial - level {currentLevel + 1}</title>
+	<title>Tutorial</title>
 	<meta name="description" content="Learn how to play the game" />
 </svelte:head>
 
-{#if showMenu}
-	<EndMenu
-		type={endType}
-		{moves}
-		puzzle={{ ...data.levels[currentLevel], publishedAt: data.publishedAt, version: '2' }}
-		buttons={[
-			{
-				text: isLastOne ? 'Finish' : 'Next tutorial',
-				onClick: handleNextLevel,
-				icon: isLastOne ? CheckIcon : ChevronsRightIcon,
-				hightlight: 'win',
-				enabled: 'win'
-			},
-			{ text: 'Try again', onClick: handleResetLevel, icon: RotateCcwIcon, hightlight: 'loss' }
-		]}
-	/>
-{/if}
+<main class="flex flex-col items-center">
+	<GameControls {game} statsOpen={false} showStatsButton={false} />
 
-{#if data.levels.length > 0 && grid}
-	{#key currentLevel}
-		<LevelPlayer
-			backLink="/"
-			title="Tutorial ({currentLevel + 1} / {data.levels.length})"
-			{grid}
-			on:finish={handleFinish}
-			on:reset={handleResetLevel}
-		>
-			<p slot="description">
-				{data.levels[currentLevel].message ?? 'Complete the puzzle'}
-			</p>
-		</LevelPlayer>
-	{/key}
-{/if}
+	{#if !isDone}
+		<h1 class="relative z-0 w-fit font-heading text-2xl font-bold">
+			Tutorial ({currentLevel + 1} / {data.tutorial.levels.length})
+			<Underline class="bg-orange-700" />
+		</h1>
 
-<style lang="scss">
-	p {
-		color: var(--gray);
-		max-width: 30ch;
-	}
-</style>
+		<p class="mt-4 max-w-sm text-center text-sm text-slate-400">
+			{data.tutorial.levels[currentLevel].message}
+		</p>
+
+		<GameBoard {game} />
+	{:else}
+		<h1 class="relative z-0 w-fit font-heading text-2xl font-bold">
+			Tutorial complete!
+			<Underline class="bg-orange-700" />
+		</h1>
+
+		<p class="mt-8 text-slate-400">Continue playing:</p>
+
+		<div class="mt-4 flex flex-col gap-4">
+			<Button color="blue" href="/play/daily">
+				Daily puzzle <TablerPlay class="size-5" />
+			</Button>
+			<Button color="orange" href="/play/random">
+				Random puzzle
+				<TablerDice3 class="size-5" />
+			</Button>
+		</div>
+	{/if}
+</main>

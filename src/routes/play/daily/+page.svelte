@@ -1,131 +1,112 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
-	import EndMenu from '$lib/components/EndMenu.svelte';
-	import { HomeIcon, RotateCcwIcon, Share2Icon } from 'svelte-feather-icons';
-	import { goto } from '$app/navigation';
-	import { createGridStore } from '$lib/stores/grid';
-	import type { FinishEvent } from '$lib/types/puzzle';
-	import { showTutorial } from '$lib/stores/tutorial';
-	import { browser } from '$app/environment';
-	import dayjs from 'dayjs';
-	import localized from 'dayjs/plugin/localizedFormat';
-	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
-	import { page } from '$app/stores';
+	import GameBoard from '$lib/v2/game/GameBoard.svelte';
+	import GameControls from '$lib/v2/game/GameControls.svelte';
+	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
+	import { GameState } from '$lib/v2/game/state.svelte';
+	import BottomSheet from '$lib/v2/BottomSheet.svelte';
+	import TablerShare from '~icons/tabler/share';
+	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
+	import Underline from '$lib/v2/Underline.svelte';
 	import { superActions } from 'sveltekit-superactions';
-	import type { StatsEndpoint } from '../../api/stats/+server';
+	import type { StatsEndpoint } from '../../api/stats/+server.js';
+	import { onDestroy, untrack } from 'svelte';
+	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
+	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte';
+	import { sleep } from '$lib/utils/sleep.js';
+	import Button from '$lib/v2/Button.svelte';
+	import { shareDailyPuzzle } from '$lib/v2/share.js';
 
-	dayjs.extend(localized);
+	let { data } = $props();
 
-	export let data: PageData;
+	const actions = superActions<StatsEndpoint>('/api/stats');
+	const game = new GameState(data.puzzle);
+	const localStats = getLocalStatsContext();
 
-	const statsApi = superActions<StatsEndpoint>('/api/stats');
+	let stats = $state<{ current: V2Statistics | null; loading: boolean; error?: string }>({
+		current: null,
+		loading: false
+	});
 
-	$: grid = createGridStore(data.puzzle.data);
+	const loadStats = async () => {
+		stats.loading = true;
+		await actions
+			.getv2Stats({ puzzleId: data.puzzle.id })
+			.then((d) => (stats.current = d))
+			.catch((err) => (stats.error = err));
+		stats.loading = false;
+	};
 
-	let showEndMenu = false;
-	let type: 'win' | 'loss' = 'win';
-	let moves = 0;
+	const unsub = game.on('end', ({ type, moves }) => {
+		actions
+			.markCompletion({ puzzleId: game.puzzle.id, moves })
+			.catch((err) => alert('failed to verify completion: ' + (err?.message ?? err)))
+			.then(() => loadStats());
 
-	const handleFinish = (e: CustomEvent<FinishEvent>) => {
-		type = e.detail.type;
-		moves = e.detail.moves;
-
-		statsApi.markCompletion({
-			puzzleId: data.puzzle.id,
-			type: type === 'loss' ? 'l' : 'w',
-			numMoves: moves
+		markCompleted(localStats, {
+			puzzleId: game.puzzle.id,
+			moves: moves.length,
+			type: 'daily',
+			win: type === 'w',
+			timestamp: new Date().toISOString()
 		});
 
-		setTimeout(() => (showEndMenu = true), 500);
-	};
+		sleep(600).then(() => (modalOpen = true));
+	});
 
-	const handleReset = () => {
-		grid.reset();
-		showEndMenu = false;
-	};
+	let modalOpen = $state(false);
 
-	$: if (browser && $showTutorial) {
-		const yes = confirm('Do you want to do a tutorial first?');
-		if (yes) goto('/tutorial');
+	$effect(() => {
+		if (modalOpen && !stats.current) {
+			untrack(() => {
+				loadStats(); // only load stats once
+			});
+		}
+	});
 
-		$showTutorial = false;
-	}
+	onDestroy(unsub);
 </script>
 
 <svelte:head>
-	<title>Sliple - Daily puzzle</title>
+	<title>Daily puzzle - {data.puzzle.publishedAt.toLocaleDateString()}</title>
 	<meta name="description" content="Solve the daily puzzle - '{data.puzzle.data.solution}'" />
 </svelte:head>
 
-{#if showEndMenu}
-	<EndMenu
-		{type}
-		{moves}
-		puzzle={data.puzzle}
-		shareText="I solved today's puzzle '{data.puzzle.data
-			.solution}' in {moves} moves! Can you do better? 😉"
-		buttons={[
-			{
-				text: type === 'win' ? 'Improve' : 'Try again',
-				onClick: handleReset,
-				icon: RotateCcwIcon,
-				hightlight: 'both'
-			},
-			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
-		]}
-	/>
-{/if}
+<main class="flex flex-col items-center">
+	<GameControls {game} bind:statsOpen={modalOpen} />
 
-{#key data.puzzle.id}
-	<LevelPlayer
-		backLink="/"
-		{grid}
-		title="Daily puzzle"
-		titleColor="var(--blue-light)"
-		canUndo
-		on:finish={handleFinish}
-		on:reset={handleReset}
-	>
-		<svelte:fragment slot="buttons">
-			{#if browser && navigator?.canShare?.({ text: 'Lorem ipsum' })}
-				<button
-					on:click={() =>
-						navigator.share({
-							title: 'Sliple - Daily puzzle',
-							url: $page.url.toString(),
-							text: `Can you solve today's puzzle '${data.puzzle.data.solution}' in ${data.puzzle.data.maxMoves.bronze} moves?`
-						})}
-				>
-					<Share2Icon size="22" />
-				</button>
-			{/if}
+	<h1 class="relative z-0 w-fit font-heading text-2xl font-bold">
+		Daily puzzle
+		<Underline class="bg-blue-700" />
+	</h1>
 
-			<PuzzleAnalytics puzzle={data.puzzle} analysis={data.analysis} />
-		</svelte:fragment>
+	<p class="mt-4 text-sm text-slate-400">
+		Spell "<span class="font-bold text-white">{game.puzzle.data.solution}</span>" within
+		{game.puzzle.data.maxMoves.bronze} moves
+	</p>
 
-		<p slot="description">
-			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
-			<span class="highlight">{$grid.maxMoves.bronze}</span> moves
-		</p>
-	</LevelPlayer>
-{/key}
+	<GameBoard {game} />
 
-<style lang="scss">
-	p {
-		color: var(--text-subtle);
-	}
+	<SolutionPreview state={game} />
 
-	.highlight {
-		font-weight: bold;
-		color: var(--text);
-	}
-
-	button {
-		display: flex;
-		background-color: transparent;
-		border: none;
-		color: var(--button-text);
-		cursor: pointer;
-	}
-</style>
+	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
+		<!-- TODO: show streak statistics -->
+		<PuzzleStatistics
+			showStreak={false}
+			puzzleId={game.puzzle.id}
+			puzzleType="daily"
+			maxMoves={game.puzzle.data.maxMoves}
+			globals={{
+				loading: stats.loading,
+				error: stats.error,
+				distribution: stats.current?.distribution ?? [],
+				averageMoves: stats.current?.totals.averageMoves ?? 0,
+				completions: stats.current?.totals.totalAttempts ?? 0
+			}}
+		>
+			<Button color="lightgray" raised class="mt-8" onclick={() => shareDailyPuzzle(game.puzzle)}>
+				Share
+				<TablerShare class="size-5" />
+			</Button>
+		</PuzzleStatistics>
+	</BottomSheet>
+</main>

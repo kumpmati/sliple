@@ -47,7 +47,7 @@ class ShufflingGenerator implements PuzzleGenerator {
 			(pos, i) =>
 				({
 					...pos,
-					id: nanoid(),
+					id: `l:${i}`,
 					type: 'letter',
 					letter: word[i],
 					index: i
@@ -57,7 +57,7 @@ class ShufflingGenerator implements PuzzleGenerator {
 		const numWalls = rnd.double() < 0.1 ? 1 : 0;
 		const wallPositions = generateUniqueTilePositions(rnd, numWalls, size, startPositions);
 		const walls = wallPositions.map(
-			(pos) => ({ id: nanoid(), type: 'wall', ...pos }) satisfies WallTile
+			(pos, i) => ({ id: `w:${i}`, type: 'wall', ...pos }) satisfies WallTile
 		);
 
 		const initialGrid: Grid = {

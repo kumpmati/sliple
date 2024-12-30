@@ -1,135 +1,84 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import LevelPlayer from '$lib/components/LevelPlayer.svelte';
-	import EndMenu from '$lib/components/EndMenu.svelte';
-	import { ChevronsRightIcon, HomeIcon, RotateCcwIcon, Share2Icon } from 'svelte-feather-icons';
-	import { goto } from '$app/navigation';
-	import { createGridStore } from '$lib/stores/grid';
-	import type { FinishEvent } from '$lib/types/puzzle';
-	import { showTutorial } from '$lib/stores/tutorial';
-	import { browser } from '$app/environment';
-	import PuzzleAnalytics from '$lib/components/analytics/PuzzleAnalytics.svelte';
-	import { page } from '$app/stores';
-	import { superActions } from 'sveltekit-superactions';
-	import type { StatsEndpoint } from '../../../api/stats/+server';
+	import TablerShare from '~icons/tabler/share';
+	import TablerChevronsRight from '~icons/tabler/chevrons-right';
+	import GameBoard from '$lib/v2/game/GameBoard.svelte';
+	import GameControls from '$lib/v2/game/GameControls.svelte';
+	import SolutionPreview from '$lib/v2/game/SolutionPreview.svelte';
+	import { GameState } from '$lib/v2/game/state.svelte';
+	import BottomSheet from '$lib/v2/BottomSheet.svelte';
+	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
+	import Underline from '$lib/v2/Underline.svelte';
+	import { untrack } from 'svelte';
+	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte.js';
+	import { sleep } from '$lib/utils/sleep.js';
+	import Button from '$lib/v2/Button.svelte';
+	import { shareRandomPuzzle } from '$lib/v2/share.js';
 
-	export let data: PageData;
+	let { data } = $props();
 
-	const statsApi = superActions<StatsEndpoint>('/api/stats');
-	$: grid = createGridStore(data.puzzle.data);
+	const game = new GameState(data.puzzle);
+	const localStats = getLocalStatsContext();
 
-	let showEndMenu = false;
-	let type: 'win' | 'loss' = 'win';
-	let moves = 0;
-
-	const handleFinish = (e: CustomEvent<FinishEvent>) => {
-		type = e.detail.type;
-		moves = e.detail.moves;
-
-		statsApi.markCompletion({
-			puzzleId: data.puzzle.id,
-			type: type === 'loss' ? 'l' : 'w',
-			numMoves: moves
+	game.on('end', ({ type }) => {
+		markCompleted(localStats, {
+			puzzleId: game.puzzle.id,
+			type: 'random',
+			win: type === 'w',
+			moves: game.moves,
+			timestamp: new Date().toISOString()
 		});
 
-		setTimeout(() => (showEndMenu = true), 500);
-	};
+		sleep(600).then(() => (modalOpen = true));
+	});
 
-	const handleReset = () => {
-		grid.reset();
-		showEndMenu = false;
-	};
+	let modalOpen = $state(false);
 
-	$: if (browser && $showTutorial) {
-		const yes = confirm('Do you want to do a tutorial first?');
-		if (yes) goto('/tutorial');
+	$effect(() => {
+		data.puzzle.id; // reactivity dependency
 
-		$showTutorial = false;
-	}
+		untrack(() => game.setPuzzle(data.puzzle));
+	});
 </script>
 
 <svelte:head>
-	<title>Sliple - Random puzzle</title>
+	<title>Random puzzle - {data.puzzle.data.solution}</title>
 	<meta
 		name="description"
-		content="Solve a randomly generated puzzle - '{data.puzzle.data.solution}'"
+		content="Solve a randomly generated puzzle: '{data.puzzle.data.solution}'"
 	/>
 </svelte:head>
 
-{#if showEndMenu}
-	<EndMenu
-		{type}
-		{moves}
-		puzzle={data.puzzle}
-		shareText="I solved this randomly generated puzzle '{data.puzzle.data
-			.solution}' in {moves} moves! Can you do better? 😉"
-		buttons={[
-			{
-				text: type === 'win' ? 'Improve' : 'Try again',
-				onClick: handleReset,
-				icon: RotateCcwIcon,
-				hightlight: 'loss'
-			},
-			{
-				text: 'Next puzzle',
-				onClick: () => goto('/play/random').then(() => (showEndMenu = false)),
-				icon: ChevronsRightIcon,
-				hightlight: 'win'
-			},
-			{ text: 'Main menu', onClick: () => goto('/'), icon: HomeIcon }
-		]}
-	/>
-{/if}
+<main class="flex flex-col items-center">
+	<GameControls {game} bind:statsOpen={modalOpen} />
 
-{#key data.puzzle.id}
-	<LevelPlayer
-		backLink="/"
-		{grid}
-		title="Random puzzle"
-		titleColor="var(--purple-light)"
-		canUndo
-		on:finish={handleFinish}
-		on:reset={handleReset}
-	>
-		<svelte:fragment slot="buttons">
-			{#if browser && navigator?.canShare?.({ text: 'Lorem ipsum' })}
-				<button
-					on:click={() =>
-						navigator.share({
-							title: 'Sliple - Random puzzle',
-							url: $page.url.toString(),
-							text: `Can you solve this puzzle '${data.puzzle.data.solution}' in ${data.puzzle.data.maxMoves.bronze} moves?`
-						})}
-				>
-					<Share2Icon size="22" />
-				</button>
-			{/if}
+	<h1 class="relative z-0 w-fit font-heading text-2xl font-bold">
+		Random puzzle
+		<Underline class="bg-orange-700" />
+	</h1>
 
-			<PuzzleAnalytics puzzle={data.puzzle} analysis={data.analysis} />
-		</svelte:fragment>
+	<p class="mt-4 text-sm text-slate-400">
+		Spell "<span class="font-bold text-white">{game.puzzle.data.solution}</span>" within
+		{game.puzzle.data.maxMoves.bronze} moves
+	</p>
 
-		<p slot="description">
-			Spell “<span class="highlight">{$grid.solution.toLowerCase()}</span>” within
-			<span class="highlight">{$grid.maxMoves.bronze}</span> moves
-		</p>
-	</LevelPlayer>
-{/key}
+	<GameBoard {game} />
 
-<style lang="scss">
-	p {
-		color: var(--text-subtle);
-	}
+	<SolutionPreview state={game} />
 
-	.highlight {
-		font-weight: bold;
-		color: var(--text);
-	}
-
-	button {
-		display: flex;
-		background-color: transparent;
-		border: none;
-		color: var(--button-text);
-		cursor: pointer;
-	}
-</style>
+	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
+		<PuzzleStatistics
+			puzzleId={game.puzzle.id}
+			puzzleType="random"
+			maxMoves={game.puzzle.data.maxMoves}
+		>
+			<div class="mt-8 grid w-full grid-cols-2 gap-4">
+				<Button color="lightgray" onclick={() => shareRandomPuzzle(game.puzzle)}>
+					Share <TablerShare class="size-5" />
+				</Button>
+				<Button color="orange" href="/play/random" onclick={() => (modalOpen = false)}>
+					Next <TablerChevronsRight class="size-5" />
+				</Button>
+			</div>
+		</PuzzleStatistics>
+	</BottomSheet>
+</main>
