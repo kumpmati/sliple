@@ -32,7 +32,7 @@
 		rx="16"
 	/>
 
-	<g id="tile-group" transform="translate(0,-6)" class="transition-transform">
+	<g id="tile-group" class="translate-y-[-6px] transition-transform">
 		<rect
 			x="1"
 			y="1"
