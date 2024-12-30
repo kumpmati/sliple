@@ -60,7 +60,7 @@
 		markCompleted(localStats, {
 			puzzleId: game.puzzle.id,
 			type: 'random',
-			win: true,
+			win: type === 'w',
 			moves: game.moves,
 			timestamp: new Date().toISOString()
 		});

@@ -25,7 +25,7 @@ export const markCompleted = (s: LocalStore<LocalStats>, c: Completion) => {
 	const existing = s.current.completions[c.puzzleId];
 
 	if (!existing) {
-		s.current.completions[c.puzzleId] = { best: c, latest: c };
+		s.current.completions[c.puzzleId] = { best: c.win ? c : null, latest: c };
 		return;
 	}
 

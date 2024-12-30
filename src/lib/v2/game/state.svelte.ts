@@ -16,6 +16,7 @@ interface GameStateEventMap {
 	end: { type: 'w' | 'l'; moves: number };
 	undo: void;
 	reset: void;
+	status: 'win' | 'loss' | 'ongoing';
 }
 
 type EventType = keyof GameStateEventMap;
@@ -25,18 +26,31 @@ export class GameState {
 	#listeners: Record<string, Callback<any>[]> = {};
 	#history = $state<HistoryItem[]>([]);
 
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	puzzle = $state<Puzzle>()!;
+	puzzle = $state() as Puzzle;
 	tiles = $state<Tile[]>([]);
 	sortedTiles = $derived(sortTiles(this.tiles));
 
+	status = $derived.by<'win' | 'loss' | 'ongoing'>(() => {
+		if (isWinStatus(this.tiles)) return 'win';
+
+		if (this.moves >= this.puzzle.data.maxMoves.bronze) {
+			return isWinStatus(this.tiles) ? 'win' : 'loss';
+		}
+
+		return 'ongoing';
+	});
+
 	moves = $derived(this.#history.length);
-	isWin = $derived(isWinStatus(this.tiles));
-	canUndo = $derived(this.moves > 0 && !this.isWin);
+	canUndo = $derived(this.moves > 0 && this.status === 'ongoing');
 
 	constructor(puzzle: Puzzle) {
 		this.puzzle = puzzle;
-		this.reset(false);
+		this.reset(false); // skip emitting 'reset' event so sounds don't play
+
+		// emit 'status' event whenever status changes
+		$effect(() => {
+			this.#emit('status', this.status);
+		});
 	}
 
 	setPuzzle(p: Puzzle) {
@@ -45,7 +59,7 @@ export class GameState {
 	}
 
 	move(tileId: string, dir: Direction | null) {
-		if (this.isWin || !this.puzzle) {
+		if (this.status !== 'ongoing' || !this.puzzle) {
 			return; // can't move when game is over
 		}
 
@@ -71,6 +85,10 @@ export class GameState {
 
 		if (isWinStatus(this.tiles)) {
 			this.#emit('end', { type: 'w', moves: this.moves });
+		} else {
+			if (this.moves >= this.puzzle.data.maxMoves.bronze) {
+				this.#emit('end', { type: 'l', moves: this.moves });
+			}
 		}
 	}
 

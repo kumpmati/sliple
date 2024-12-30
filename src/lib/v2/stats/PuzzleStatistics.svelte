@@ -45,18 +45,18 @@
 
 <div class="flex flex-col items-center">
 	<div class="flex gap-2">
-		{#if best}
-			{#if best.moves <= maxMoves.gold}
+		{#if latest}
+			{#if latest.moves <= maxMoves.gold && latest.win}
 				<TablerStarFilled class="size-8 text-orange-400" />
 			{:else}
 				<TablerStar class="size-8 text-slate-500" />
 			{/if}
-			{#if best.moves <= maxMoves.silver}
+			{#if latest.moves <= maxMoves.silver && latest.win}
 				<TablerStarFilled class="size-8 text-orange-400" />
 			{:else}
 				<TablerStar class="size-8 text-slate-500" />
 			{/if}
-			{#if best.moves <= maxMoves.bronze}
+			{#if latest.moves <= maxMoves.bronze && latest.win}
 				<TablerStarFilled class="size-8 text-orange-400" />
 			{:else}
 				<TablerStar class="size-8 text-slate-500" />
@@ -68,11 +68,20 @@
 		{/if}
 	</div>
 
-	{#if best && latest}
-		<p class="mt-2 font-heading text-2xl font-bold text-white">Completed!</p>
-		<p class="text-sm font-normal text-slate-400">
-			Best: {best.moves}, Latest: {latest.moves}
+	{#if latest}
+		<p class="mt-2 font-heading text-2xl font-bold text-white">
+			{#if latest.win}
+				Completed!
+			{:else}
+				Out of moves!
+			{/if}
 		</p>
+
+		{#if latest.win || best?.win}
+			<p class="text-sm font-normal text-slate-400">
+				Best: {best?.moves ?? '--'}, Latest: {latest.win ? latest.moves : '--'}
+			</p>
+		{/if}
 	{:else}
 		<p class="mt-2 font-heading text-lg font-normal text-slate-400">
 			You haven't completed this puzzle yet
@@ -140,7 +149,7 @@
 						</td>
 						<td class="min-w-16 text-right font-bold text-green-400">
 							{#if percentile === null}
-								-
+								--
 							{:else if percentile < 1}
 								{'<1 %'}
 							{:else}

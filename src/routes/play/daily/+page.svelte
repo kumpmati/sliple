@@ -51,7 +51,7 @@
 			puzzleId: game.puzzle.id,
 			moves: game.moves,
 			type: 'daily',
-			win: true,
+			win: type === 'w',
 			timestamp: new Date().toISOString()
 		});
 
