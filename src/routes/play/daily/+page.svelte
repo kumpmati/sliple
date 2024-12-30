@@ -15,6 +15,7 @@
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareDailyPuzzle } from '$lib/v2/share.js';
+	import dayjs from 'dayjs';
 
 	let { data } = $props();
 
@@ -38,8 +39,9 @@
 
 	const unsub = game.on('end', ({ type, moves }) => {
 		actions
-			.markCompletion({ puzzleId: game.puzzle.id, moves })
-			.catch((err) => alert('failed to verify completion: ' + (err?.message ?? err)))
+			// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
+			.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
+			.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
 			.then(() => loadStats());
 
 		markCompleted(localStats, {

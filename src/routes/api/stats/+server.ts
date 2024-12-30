@@ -5,6 +5,7 @@ import { Dir } from '$lib/stores/grid';
 import { generateDailyPuzzle } from '$lib/v2/generate';
 import { verifyPuzzleWin } from '$lib/v2/verify';
 import { error } from '@sveltejs/kit';
+import dayjs from 'dayjs';
 import { RateLimiter } from 'sveltekit-rate-limiter/server';
 import { endpoint, zod } from 'sveltekit-superactions';
 import { z } from 'zod';
@@ -18,7 +19,7 @@ const statsRateLimiter = new RateLimiter({
 });
 
 const completionSchema = z.object({
-	puzzleId: z.string().min(1).max(64),
+	date: z.string().date(),
 	moves: z
 		.array(z.object({ tid: z.string().min(1).max(30), dir: z.nativeEnum(Dir) }))
 		.min(1)
@@ -31,10 +32,13 @@ export const POST = endpoint({
 			error(429, { message: 'you are being rate limited, try again later' });
 		}
 
-		const puzzle = generateDailyPuzzle();
-		if (body.puzzleId !== puzzle.id) {
-			error(400, "puzzle doesn't match current daily puzzle");
+		const date = new Date(body.date);
+
+		if (Math.abs(dayjs().diff(date, 'days', true)) > 1) {
+			error(400, 'puzzle is not accepting solutions');
 		}
+
+		const puzzle = generateDailyPuzzle(date);
 
 		const verified = verifyPuzzleWin(puzzle, body.moves);
 		if (verified.error) {
@@ -44,7 +48,7 @@ export const POST = endpoint({
 		const [item] = await db
 			.insert(puzzleCompletionTable)
 			.values({
-				puzzleId: body.puzzleId,
+				puzzleId: puzzle.id,
 				type: 'w', // only keep track of wins
 				numMoves: verified.moves
 			})
