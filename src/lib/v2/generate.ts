@@ -7,7 +7,7 @@ export const generateDailyPuzzle = (dateOverride?: Date) => {
 	const date = dayjs(dateOverride).format('YYYY-MM-DD');
 	const seed = date + PUBLIC_DAILY_LEVEL_SALT;
 
-	const puzzle = shufflingGenerator.generate(seed, { words, maxLength: 3, minLength: 3 });
+	const puzzle = shufflingGenerator.generate(seed, { words, minLength: 6, maxLength: 7 });
 	puzzle.id = `daily-${date}`;
 
 	return puzzle;
