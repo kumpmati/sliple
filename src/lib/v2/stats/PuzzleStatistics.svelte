@@ -70,7 +70,7 @@
 
 	{#if best && latest}
 		<p class="mt-2 font-heading text-2xl font-bold text-white">Completed!</p>
-		<p class="font-heading text-sm font-normal text-slate-400">
+		<p class="text-sm font-normal text-slate-400">
 			Best: {best.moves}, Latest: {latest.moves}
 		</p>
 	{:else}
