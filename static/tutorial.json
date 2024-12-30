@@ -12,7 +12,7 @@
 			"data": {
 				"width": 3,
 				"height": 1,
-				"maxMoves": { "gold": 2, "silver": 2, "bronze": 2 },
+				"maxMoves": { "gold": 1, "silver": 1, "bronze": 1 },
 				"numMovesTaken": 0,
 				"solution": "a",
 				"tiles": [

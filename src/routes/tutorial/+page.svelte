@@ -8,6 +8,7 @@
 	import Underline from '$lib/v2/Underline.svelte';
 	import { sleep } from '@antfu/utils';
 	import { onMount } from 'svelte';
+	import CompletePopup from '$lib/v2/game/CompletePopup.svelte';
 
 	let { data } = $props();
 
@@ -17,20 +18,23 @@
 	let isDone = $state(false);
 
 	onMount(() => {
-		game.on('end', ({ type }) => {
-			sleep(1000).then(() => {
+		const unsub = game.on('end', ({ type }) => {
+			sleep(1500).then(() => {
 				if (type === 'w') {
 					currentLevel++;
 					if (currentLevel < data.tutorial.levels.length) {
 						game.setPuzzle(data.tutorial.levels[currentLevel]);
 					} else {
 						isDone = true;
+						game.reset(false);
 					}
 				} else {
 					game.reset();
 				}
 			});
 		});
+
+		return unsub;
 	});
 </script>
 

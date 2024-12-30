@@ -3,10 +3,13 @@ import { LocalStore } from '../persisted.svelte';
 
 type LocalStats = {
 	hideTutorial?: boolean;
-	completions: Record<string, { best: Completion | null; latest: Completion | null } | null>;
+	completions: Record<
+		string,
+		{ best: LocalCompletion | null; latest: LocalCompletion | null } | null
+	>;
 };
 
-type Completion = {
+export type LocalCompletion = {
 	puzzleId: string;
 	type: 'daily' | 'random';
 	moves: number;
@@ -21,7 +24,7 @@ export const initLocalStatsContext = () =>
 
 export const getLocalStatsContext = () => getContext<LocalStore<LocalStats>>(key);
 
-export const markCompleted = (s: LocalStore<LocalStats>, c: Completion) => {
+export const markCompleted = (s: LocalStore<LocalStats>, c: LocalCompletion) => {
 	const existing = s.current.completions[c.puzzleId];
 
 	if (!existing) {

@@ -91,7 +91,7 @@
 					<TablerRotate class="size-5" />
 				</Button>
 
-				<Button raised={false} color="darkgray" class="w-full" href="/play/daily#stats">
+				<Button color="gray" class="w-full" href="/play/daily#stats">
 					Statistics
 					<TablerChartBar class="size-5" />
 				</Button>

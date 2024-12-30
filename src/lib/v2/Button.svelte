@@ -47,7 +47,7 @@
 
 			edgeGlow: {
 				false: {
-					edge: 'border-0'
+					edge: '!border-transparent'
 				}
 			},
 

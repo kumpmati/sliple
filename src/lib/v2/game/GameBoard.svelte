@@ -12,6 +12,7 @@
 	import { GameSounds } from './sounds';
 	import { getSfxContext } from '$lib/stores/sound';
 	import StickyTile from './StickyTile.svelte';
+	import CompletePopup from './CompletePopup.svelte';
 
 	type Props = {
 		game: GameState;
@@ -28,7 +29,7 @@
 </script>
 
 <div
-	class="flex w-full flex-col items-center px-0 py-10 xs:px-4"
+	class="relative flex w-full flex-col items-center px-0 py-10 xs:px-4"
 	use:swipe
 	onswipe={(e) => {
 		const { tileId, direction } = handleSwipeEvent(e);
@@ -40,6 +41,8 @@
 	<p class="text-center text-sm text-slate-400">
 		{game.moves} / {game.puzzle.data.maxMoves.bronze} moves
 	</p>
+
+	<CompletePopup {game} />
 
 	<svg
 		class="mx-auto mt-2 overflow-visible"

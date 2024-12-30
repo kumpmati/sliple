@@ -16,6 +16,7 @@
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareRandomPuzzle } from '$lib/v2/share.js';
+	import CompletePopup from '$lib/v2/game/CompletePopup.svelte';
 
 	let { data } = $props();
 
@@ -64,7 +65,7 @@
 			timestamp: new Date().toISOString()
 		});
 
-		sleep(400).then(() => (modalOpen = true));
+		sleep(600).then(() => (modalOpen = true));
 	});
 
 	let modalOpen = $state(false);

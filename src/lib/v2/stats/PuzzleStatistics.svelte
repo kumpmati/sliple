@@ -2,8 +2,6 @@
 	import TablerLineDashed from '~icons/tabler/line-dashed';
 	import TablerHash from '~icons/tabler/hash';
 	import type { Puzzle } from '$lib/types/puzzle';
-	import TablerStar from '~icons/tabler/star';
-	import TablerStarFilled from '~icons/tabler/star-filled';
 	import DistributionChart from './DistributionChart.svelte';
 	import { calculatePercentile } from './percentile';
 	import TablerLoader2 from '~icons/tabler/loader-2';
@@ -11,6 +9,7 @@
 	import TablerUser from '~icons/tabler/user';
 	import { getLocalStatsContext } from './local.svelte';
 	import type { Snippet } from 'svelte';
+	import CompletionStars from '../CompletionStars.svelte';
 
 	type Props = {
 		puzzleId: string;
@@ -45,29 +44,7 @@
 </script>
 
 <div class="flex flex-col items-center">
-	<div class="flex gap-2">
-		{#if latest}
-			{#if latest.moves <= maxMoves.gold && latest.win}
-				<TablerStarFilled class="size-8 text-orange-400" />
-			{:else}
-				<TablerStar class="size-8 text-slate-500" />
-			{/if}
-			{#if latest.moves <= maxMoves.silver && latest.win}
-				<TablerStarFilled class="size-8 text-orange-400" />
-			{:else}
-				<TablerStar class="size-8 text-slate-500" />
-			{/if}
-			{#if latest.moves <= maxMoves.bronze && latest.win}
-				<TablerStarFilled class="size-8 text-orange-400" />
-			{:else}
-				<TablerStar class="size-8 text-slate-500" />
-			{/if}
-		{:else}
-			<TablerStar class="size-8 text-slate-500" />
-			<TablerStar class="size-8 text-slate-500" />
-			<TablerStar class="size-8 text-slate-500" />
-		{/if}
-	</div>
+	<CompletionStars completion={latest} {maxMoves} />
 
 	{#if latest}
 		<p class="mt-2 font-heading text-2xl font-bold text-white">
