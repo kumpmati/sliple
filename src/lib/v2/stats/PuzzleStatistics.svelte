@@ -1,4 +1,6 @@
 <script lang="ts">
+	import TablerLineDashed from '~icons/tabler/line-dashed';
+	import TablerHash from '~icons/tabler/hash';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import TablerStar from '~icons/tabler/star';
 	import TablerStarFilled from '~icons/tabler/star-filled';
@@ -6,7 +8,6 @@
 	import { calculatePercentile } from './percentile';
 	import TablerLoader2 from '~icons/tabler/loader-2';
 	import TablerAlertCircle from '~icons/tabler/alert-circle';
-	import TablerWorld from '~icons/tabler/world';
 	import TablerUser from '~icons/tabler/user';
 	import { getLocalStatsContext } from './local.svelte';
 	import type { Snippet } from 'svelte';
@@ -141,9 +142,9 @@
 			<table class="mt-12 w-full text-slate-400">
 				<tbody>
 					<tr>
-						<td class="py-1 font-normal text-green-400">
+						<td class="py-1 text-green-400">
 							<span class="inline-flex items-center gap-1">
-								<TablerUser class="size-4" />
+								<TablerUser class="size-5" />
 								Your ranking
 							</span>
 						</td>
@@ -158,9 +159,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="py-1 font-normal">
+						<td class="py-1">
 							<span class="inline-flex items-center gap-1">
-								<TablerWorld class="size-4 text-slate-600" />
+								<TablerLineDashed class="size-5 rotate-90 text-slate-500" />
 								Average moves
 							</span>
 						</td>
@@ -169,10 +170,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="py-1 font-normal">
+						<td class="py-1">
 							<span class="inline-flex items-center gap-1">
-								<TablerWorld class="size-4 text-slate-600" />
-								Solves
+								<TablerHash class="size-5 text-slate-500" />
+								Total solves
 							</span>
 						</td>
 						<td class="min-w-16 text-right font-bold text-white">{globalCompletions}</td>

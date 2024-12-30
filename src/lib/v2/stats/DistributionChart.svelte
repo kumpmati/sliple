@@ -75,7 +75,7 @@
 				verticalAnchor="start"
 				textAnchor="middle"
 				class="fill-slate-500 stroke-slate-800 stroke-[8] [stroke-linejoin:round]"
-				value="avg"
+				value={averageMoves.toFixed(1)}
 			/>
 
 			{#if numMoves}
