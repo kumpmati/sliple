@@ -6,7 +6,7 @@
 <div>
 	<p><i>404</i></p>
 	<span class="heading">
-		<UnderlinedHeading color="var(--red-light)">Page not found</UnderlinedHeading>
+		<UnderlinedHeading color="#f00">Page not found</UnderlinedHeading>
 	</span>
 
 	<a href="/">
@@ -33,21 +33,21 @@
 	}
 
 	p {
-		color: var(--gray);
+		color: #888;
 	}
 
 	a {
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		color: var(--text);
+		color: #fff;
 		text-decoration: none;
 		font-size: 16px;
 		padding: 8px 16px;
 		border: none;
 		cursor: pointer;
 		background: none;
-		border-radius: var(--border-radius);
+		border-radius: 7px;
 		transition: transform 150ms;
 
 		&:active {

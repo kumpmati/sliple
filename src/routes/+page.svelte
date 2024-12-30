@@ -1,5 +1,5 @@
 <script>
-	import Logo from '$lib/components/graphics/Logo.svelte';
+	import Logo from '$lib/components/Logo.svelte';
 	import Button from '$lib/v2/Button.svelte';
 	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
 	import { Volume2Icon, VolumeXIcon } from 'svelte-feather-icons';

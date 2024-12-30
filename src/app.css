@@ -11,67 +11,6 @@
 :root {
 	--font-heading: 'Nunito', sans-serif;
 	--font-body: 'Inter', sans-serif;
-
-	--border-radius: 7px;
-	--border-radius-small: 3px;
-	--border-radius-big: 14px;
-
-	--black: #000;
-	--white: #fff;
-	--red: #ff6854;
-	--red-light: #ffb6ac;
-	--red-dark: #c34d3d;
-	--orange: #ffa654;
-	--orange-dark: #201308;
-	--orange-light: #ffefe0;
-	--yellow: #ffe854;
-	--yellow-light: #fff5b3;
-	--purple: #bb78bd;
-	--purple-light: #fee0ff;
-	--blue: #7896bd;
-	--blue-light: #bfdbff;
-	--green: #56df34;
-	--green-light: #b9ffa8;
-	--green-dark: #4ab130;
-	--gray: #808080;
-	--gray-light: #dcdcdc;
-
-	--bg: #fff;
-
-	--text: #000;
-	--text-subtle: rgba(0, 0, 0, 0.5);
-
-	--button-text: #000;
-	--button-bg: #fff;
-	--button-border: var(--gray-light);
-
-	--grid-bg: #fff;
-	--grid-border: #bfbfbf;
-
-	--end-menu-underlay: rgba(255, 255, 255, 0.95);
-
-	--tile-text: #000;
-	--tile-bg: #fff;
-	--tile-border: #bfbfbf;
-
-	--wall-tile-bg: #b5b5b5;
-	--wall-tile-border: #808080;
-	--wall-tile-gaps: #aaa;
-
-	--unvisited-link-bg: var(--orange-light);
-
-	--letter-slot-bg: var(--gray-light);
-
-	--large-link-bg: #fff;
-	--large-link-text: #000;
-	--large-link-text-highlight: #000;
-	--large-link-border: var(--gray-light);
-
-	--tile-drawer-bg: var(--orange-light);
-
-	--dialog-bg: #fff;
-	--dialog-border: #fff;
-	--table-border: #eee;
 }
 
 body,
@@ -81,66 +20,10 @@ html {
 	padding: 0;
 	height: 100%;
 
-	background-color: var(--white);
-	color: var(--text);
+	color: #fff;
+	background-color: #000;
 }
 
 body {
 	display: flex;
-}
-
-/* NProgress customization */
-#nprogress .bar {
-	background: var(--red);
-}
-#nprogress .peg {
-	box-shadow:
-		0 0 10px var(--red),
-		0 0 5px var(--red);
-}
-
-@media screen and (prefers-color-scheme: dark) {
-	body,
-	html {
-		background-color: #000;
-	}
-
-	:root {
-		--bg: #000;
-
-		--text-subtle: rgba(255, 255, 255, 0.5);
-		--text: #fff;
-
-		--button-text: #fff;
-		--button-bg: #333;
-		--button-border: #555;
-
-		--tile-text: #fff;
-		--tile-bg: #282828;
-		--tile-border: #555;
-
-		--wall-tile-bg: #b5b5b5;
-		--wall-tile-border: #838383;
-		--wall-tile-gaps: #969696;
-
-		--end-menu-underlay: rgba(0, 0, 0, 0.95);
-
-		--grid-bg: #000;
-		--grid-border: #555;
-
-		--letter-slot-bg: #282828;
-
-		--unvisited-link-bg: var(--orange-dark);
-
-		--large-link-bg: #222;
-		--large-link-text: #fff;
-		--large-link-border: #444;
-		--large-link-text-highlight: #000;
-
-		--tile-drawer-bg: var(--orange-dark);
-
-		--dialog-bg: #1f1f1f;
-		--dialog-border: #333;
-		--table-border: #333;
-	}
 }
