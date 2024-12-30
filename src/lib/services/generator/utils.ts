@@ -3,7 +3,7 @@ import type seedrandom from 'seedrandom';
 import type { TilePos } from './tiles';
 import type { GoalTile, Grid, LetterTile, Tile } from '$lib/types/grid';
 import { nanoid } from 'nanoid';
-import { createGridStore, type Direction, type GridStore } from '$lib/stores/grid';
+import { createGridStore, Dir, type GridStore } from '$lib/stores/grid';
 import { get } from 'svelte/store';
 import { copy } from '$lib/utils/copy';
 import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
@@ -14,16 +14,16 @@ import type { GeneratorConstraints } from './interface';
  * @param d
  * @returns
  */
-export const getOppositeDir = (d: Direction): Direction => {
+export const getOppositeDir = (d: Dir): Dir => {
 	switch (d) {
-		case 'left':
-			return 'right';
-		case 'right':
-			return 'left';
-		case 'top':
-			return 'bottom';
-		case 'bottom':
-			return 'top';
+		case Dir.LEFT:
+			return Dir.RIGHT;
+		case Dir.RIGHT:
+			return Dir.LEFT;
+		case Dir.UP:
+			return Dir.DOWN;
+		case Dir.DOWN:
+			return Dir.UP;
 	}
 };
 
@@ -105,8 +105,8 @@ export const mapPositionsToGoalTiles = (word: string, positions: TilePos[]) => {
  *
  * @param rnd Random number generator
  */
-export const getRandomDirection = (rnd: seedrandom.PRNG): Direction =>
-	(['top', 'bottom', 'left', 'right'] as const)[Math.floor(rnd.double() * 4)];
+export const getRandomDirection = (rnd: seedrandom.PRNG): Dir =>
+	([Dir.UP, Dir.DOWN, Dir.LEFT, Dir.RIGHT] as const)[Math.floor(rnd.double() * 4)];
 
 /**
  * Returns a random letter tile from the given grid.
@@ -151,7 +151,7 @@ export const getOverlappingCoordinates = (a: TilePos[], b: TilePos[]): TilePos[]
  * @param id
  * @param dir
  */
-const isReversibleDirection = (state: Grid, id: string, dir: Direction): boolean => {
+const isReversibleDirection = (state: Grid, id: string, dir: Dir): boolean => {
 	const store = createGridStore(state);
 
 	const stateBefore = get(store).tiles.find((t) => t.id === id);
@@ -187,15 +187,15 @@ export const getRandomReversibleDirection = (
 	store: GridStore,
 	id: string,
 	rnd: seedrandom.PRNG
-): Direction | null => {
+): Dir | null => {
 	const state = copy(get(store));
 
-	const directions = new Set<Direction>();
+	const directions = new Set<Dir>();
 
-	if (isReversibleDirection(state, id, 'left')) directions.add('left');
-	if (isReversibleDirection(state, id, 'right')) directions.add('right');
-	if (isReversibleDirection(state, id, 'top')) directions.add('top');
-	if (isReversibleDirection(state, id, 'bottom')) directions.add('bottom');
+	if (isReversibleDirection(state, id, Dir.LEFT)) directions.add(Dir.LEFT);
+	if (isReversibleDirection(state, id, Dir.RIGHT)) directions.add(Dir.RIGHT);
+	if (isReversibleDirection(state, id, Dir.UP)) directions.add(Dir.UP);
+	if (isReversibleDirection(state, id, Dir.DOWN)) directions.add(Dir.DOWN);
 
 	const arr = [...directions];
 

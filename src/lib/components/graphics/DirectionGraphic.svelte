@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { GRID_CELL_SIZE } from '$lib/constants/grid';
-	import type { Direction } from '$lib/stores/grid';
+	import { Dir } from '$lib/stores/grid';
 
-	export let direction: Direction;
+	export let direction: Dir;
 
-	const transform: Record<Direction, string> = {
-		top: '180',
-		left: '90',
-		right: '270',
-		bottom: '0'
+	const transform: Record<Dir, string> = {
+		[Dir.UP]: '180',
+		[Dir.LEFT]: '90',
+		[Dir.RIGHT]: '270',
+		[Dir.DOWN]: '0'
 	};
 </script>
 

@@ -8,9 +8,8 @@
 <h1 {style}>
 	<slot />
 
-	<!-- TODO: set delay back to 200 when this issue is fixed: https://github.com/sveltejs/svelte/issues/10876  -->
 	<div
-		in:fly={{ y: -5, duration: 300, delay: 0 }}
+		in:fly={{ y: -5, duration: 300, delay: 200 }}
 		class="underline"
 		style:background-color={color}
 	></div>

@@ -1,4 +1,4 @@
-import type { Direction } from '$lib/stores/grid';
+import { Dir } from '$lib/stores/grid';
 import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
 import { clamp } from './math';
 import { isLetterTile } from './typeguards';
@@ -25,7 +25,7 @@ export const isHigherRank = (a: CompletionRank | null, b: CompletionRank | null)
 };
 
 export type NextPositionResult = Coordinates & {
-	nextTick?: Direction;
+	nextTick?: Dir;
 };
 
 /**
@@ -40,7 +40,7 @@ export type NextPositionResult = Coordinates & {
 export const calculateNextPosition = (
 	grid: Pick<Grid, 'tiles' | 'width' | 'height'>,
 	tileId: string,
-	direction: Direction
+	direction: Dir
 ): NextPositionResult => {
 	const tile = grid.tiles.find((b) => b.id === tileId);
 	if (!tile) throw new Error('tile not found');
@@ -120,15 +120,15 @@ export const getCollisionType = (t: Tile): CollisionType => {
  * @param dir
  * @returns
  */
-const getVelocity = (dir: Direction): Coordinates => {
+const getVelocity = (dir: Dir): Coordinates => {
 	switch (dir) {
-		case 'bottom':
+		case Dir.DOWN:
 			return { x: 0, y: 1 };
-		case 'top':
+		case Dir.UP:
 			return { x: 0, y: -1 };
-		case 'left':
+		case Dir.LEFT:
 			return { x: -1, y: 0 };
-		case 'right':
+		case Dir.RIGHT:
 			return { x: 1, y: 0 };
 		default:
 			return { x: 0, y: 0 };

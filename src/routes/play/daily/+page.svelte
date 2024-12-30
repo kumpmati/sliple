@@ -38,12 +38,8 @@
 
 	game.on('end', ({ type, moves }) => {
 		actions
-			.markCompletion({
-				type,
-				numMoves: moves,
-				puzzleId: game.puzzle.id
-			})
-			.catch(() => alert('failed to mark completion'))
+			.markCompletion({ puzzleId: game.puzzle.id, moves })
+			.catch((err) => alert('failed to mark completion: ' + (err?.message ?? err)))
 			.then(() => loadStats());
 
 		markCompleted(localStats, {
@@ -96,11 +92,13 @@
 			showStreak={false}
 			puzzleId={game.puzzle.id}
 			maxMoves={game.puzzle.data.maxMoves}
-			globalsLoading={stats.loading}
-			globalsError={stats.error}
-			globalDistribution={stats.current?.distribution ?? []}
-			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
-			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
+			globals={{
+				loading: stats.loading,
+				error: stats.error,
+				distribution: stats.current?.distribution ?? [],
+				averageMoves: stats.current?.totals.averageMoves ?? 0,
+				completions: stats.current?.totals.totalAttempts ?? 0
+			}}
 		>
 			<Button color="lightgray" raised class="mt-8" onclick={() => shareDailyPuzzle(game.puzzle)}>
 				Share

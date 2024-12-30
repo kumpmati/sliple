@@ -6,16 +6,21 @@ import { undoable } from '@macfja/svelte-undoable';
 import { isGoalTile, isLetterTile } from '$lib/utils/typeguards';
 import { copy } from '$lib/utils/copy';
 
-export type Direction = 'top' | 'right' | 'left' | 'bottom';
+export enum Dir {
+	UP = 'u',
+	DOWN = 'd',
+	LEFT = 'l',
+	RIGHT = 'r'
+}
 
 export type GridState = Grid & {
 	pendingUpdate: any | null;
 };
 
-type MoveHistoryItem = { letter: string; id: string; dir: Direction; transitional?: boolean };
+type MoveHistoryItem = { letter: string; id: string; dir: Dir; transitional?: boolean };
 
 export type GridStore = Readable<GridState> & {
-	moveTile: (id: string, dir: Direction) => { moved: boolean };
+	moveTile: (id: string, dir: Dir) => { moved: boolean };
 	getAt: (x: number, y: number) => Tile[];
 	setState: (grid: GridState) => void;
 	reset: () => void;
@@ -35,7 +40,7 @@ export const createGridStore = (initialState: Grid): GridStore => {
 
 	const moveHistory: MoveHistoryItem[] = [];
 
-	const moveTile = (id: string, dir: Direction, isUpdate = false) => {
+	const moveTile = (id: string, dir: Dir, isUpdate = false) => {
 		let moved = false;
 
 		state.update((prev) => {

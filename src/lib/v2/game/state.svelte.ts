@@ -1,4 +1,4 @@
-import type { Direction } from '$lib/stores/grid';
+import type { Dir } from '$lib/stores/grid';
 import type { CampaignLevel } from '$lib/types/campaign';
 import type { Tile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
@@ -6,15 +6,19 @@ import { copy } from '$lib/utils/copy';
 import { calculateNextPosition, canMove } from '$lib/utils/grid';
 import { isWinStatus, sortTiles } from './utils';
 
-type HistoryItem = {
+export type HistoryItem = {
 	tiles: Tile[];
+
+	// TODO: use these for score verification
+	tileId: string;
+	dir: Dir;
 };
 
 type Callback<T extends EventType> = (d: EventParams<T>) => void;
 
 interface GameStateEventMap {
-	move: { tileId: string; dir: Direction };
-	end: { type: 'w' | 'l'; moves: number };
+	move: { tileId: string; dir: Dir };
+	end: { type: 'w' | 'l'; moves: Pick<HistoryItem, 'tileId' | 'dir'>[] };
 	undo: void;
 	reset: void;
 	status: 'win' | 'loss' | 'ongoing';
@@ -59,7 +63,7 @@ export class GameState {
 		this.reset(false); // skip 'reset' sound
 	}
 
-	move(tileId: string, dir: Direction | null) {
+	move(tileId: string, dir: Dir | null) {
 		if (this.status !== 'ongoing' || !this.puzzle) {
 			return; // can't move when game is over
 		}
@@ -78,17 +82,17 @@ export class GameState {
 		}
 
 		// save state before committing to the move so undoing is easier
-		this.#snapshot();
+		this.#snapshot(tileId, dir);
 
 		tile.x = pos.x;
 		tile.y = pos.y;
 		this.#emit('move', { tileId, dir });
 
 		if (isWinStatus(this.tiles)) {
-			this.#emit('end', { type: 'w', moves: this.moves });
+			this.#emit('end', { type: 'w', moves: this.#getMoveHistory() });
 		} else {
 			if (this.moves >= this.puzzle.data.maxMoves.bronze) {
-				this.#emit('end', { type: 'l', moves: this.moves });
+				this.#emit('end', { type: 'l', moves: this.#getMoveHistory() });
 			}
 		}
 	}
@@ -131,6 +135,10 @@ export class GameState {
 		}
 	}
 
+	#getMoveHistory() {
+		return this.#history.map((h) => ({ tileId: h.tileId, dir: h.dir }));
+	}
+
 	#emit<T extends EventType>(event: T, data: EventParams<T>) {
 		this.#listeners[event]?.forEach((cb) => cb(data));
 	}
@@ -139,7 +147,7 @@ export class GameState {
 		this.tiles = copy(h.tiles);
 	}
 
-	#snapshot() {
-		this.#history.push({ tiles: copy(this.tiles) });
+	#snapshot(tileId: string, dir: Dir) {
+		this.#history.push({ tiles: copy(this.tiles), tileId, dir });
 	}
 }

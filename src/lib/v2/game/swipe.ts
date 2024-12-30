@@ -1,3 +1,4 @@
+import { Dir } from '$lib/stores/grid';
 import type { SwipePointerEventDetail } from 'svelte-gestures';
 
 export const handleSwipeEvent = (e: CustomEvent<SwipePointerEventDetail>) => {
@@ -5,5 +6,20 @@ export const handleSwipeEvent = (e: CustomEvent<SwipePointerEventDetail>) => {
 		?.closest('[data-tile-id]')
 		?.getAttribute('data-tile-id');
 
-	return { tileId, direction: e.detail.direction };
+	return { tileId, direction: getDirFromDirection(e.detail.direction) };
+};
+
+const getDirFromDirection = (d: 'top' | 'bottom' | 'left' | 'right' | null) => {
+	switch (d) {
+		default:
+			return null;
+		case 'top':
+			return Dir.UP;
+		case 'bottom':
+			return Dir.DOWN;
+		case 'left':
+			return Dir.LEFT;
+		case 'right':
+			return Dir.RIGHT;
+	}
 };

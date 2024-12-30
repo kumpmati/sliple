@@ -19,43 +19,10 @@
 
 	let { data } = $props();
 
-	const actions = superActions<StatsEndpoint>('/api/stats');
 	const game = new GameState(data.puzzle);
 	const localStats = getLocalStatsContext();
 
-	let stats = $state<{
-		id: string | null;
-		current: V2Statistics | null;
-		loading: boolean;
-		error?: string;
-	}>({
-		id: null,
-		current: null,
-		loading: false
-	});
-
-	const loadStats = async () => {
-		stats.loading = true;
-		await actions
-			.getv2Stats({ puzzleId: data.puzzle.id })
-			.then((d) => {
-				stats.id = data.puzzle.id;
-				stats.current = d;
-			})
-			.catch((err) => (stats.error = err));
-		stats.loading = false;
-	};
-
-	game.on('end', ({ type, moves }) => {
-		actions
-			.markCompletion({
-				type,
-				numMoves: moves,
-				puzzleId: game.puzzle.id
-			})
-			.catch(() => alert('failed to mark completion'))
-			.then(() => loadStats());
-
+	game.on('end', ({ type }) => {
 		markCompleted(localStats, {
 			puzzleId: game.puzzle.id,
 			type: 'random',
@@ -68,15 +35,6 @@
 	});
 
 	let modalOpen = $state(false);
-
-	$effect(() => {
-		if (modalOpen && (!stats.current || stats.id !== data.puzzle.id)) {
-			untrack(() => {
-				console.log('loading stats');
-				loadStats(); // only load stats once when puzzle changes
-			});
-		}
-	});
 
 	$effect(() => {
 		data.puzzle.id; // reactivity dependency
@@ -111,15 +69,7 @@
 	<SolutionPreview state={game} />
 
 	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
-		<PuzzleStatistics
-			puzzleId={game.puzzle.id}
-			maxMoves={game.puzzle.data.maxMoves}
-			globalsLoading={stats.loading}
-			globalsError={stats.error}
-			globalDistribution={stats.current?.distribution ?? []}
-			globalAverageMoves={stats.current?.totals.averageMoves ?? 0}
-			globalCompletions={stats.current?.totals.totalAttempts ?? 0}
-		>
+		<PuzzleStatistics puzzleId={game.puzzle.id} maxMoves={game.puzzle.data.maxMoves}>
 			<div class="mt-8 grid w-full grid-cols-2 gap-4">
 				<Button color="lightgray" onclick={() => shareRandomPuzzle(game.puzzle)}>
 					Share <TablerShare class="size-5" />

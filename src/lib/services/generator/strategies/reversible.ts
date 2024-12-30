@@ -170,8 +170,6 @@ class ReversibleGenerator implements PuzzleGenerator {
 			immediatelyCorrect = getAllImmediatelyCorrectTiles(get(store));
 		}
 
-		console.log({ n, n2, totalIterations });
-
 		const state = get(store);
 
 		return {
