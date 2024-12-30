@@ -14,17 +14,19 @@
 
 <div class="flex gap-2">
 	{#if completion}
-		{#if completion.moves <= maxMoves.gold && completion.win}
+		{#if completion.moves <= maxMoves.bronze && completion.win}
 			<TablerStarFilled class="size-8 text-orange-400" />
 		{:else}
 			<TablerStar class="size-8 text-slate-500" />
 		{/if}
+
 		{#if completion.moves <= maxMoves.silver && completion.win}
 			<TablerStarFilled class="size-8 text-orange-400" />
 		{:else}
 			<TablerStar class="size-8 text-slate-500" />
 		{/if}
-		{#if completion.moves <= maxMoves.bronze && completion.win}
+
+		{#if completion.moves <= maxMoves.gold && completion.win}
 			<TablerStarFilled class="size-8 text-orange-400" />
 		{:else}
 			<TablerStar class="size-8 text-slate-500" />
