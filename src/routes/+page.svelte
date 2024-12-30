@@ -20,7 +20,7 @@
 	const stats = getLocalStatsContext();
 	const sfx = getSfxContext();
 
-	let completion = $derived(stats.current.daily[data.puzzle.id]?.best);
+	let completion = $derived(stats.current.daily?.[data.puzzle.id]?.best);
 
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;

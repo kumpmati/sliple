@@ -30,8 +30,8 @@
 
 	const localStats = getLocalStatsContext();
 
-	let best = $derived(localStats.current[puzzleType][puzzleId]?.best);
-	let latest = $derived(localStats.current[puzzleType][puzzleId]?.latest);
+	let best = $derived(localStats.current?.[puzzleType]?.[puzzleId]?.best);
+	let latest = $derived(localStats.current?.[puzzleType]?.[puzzleId]?.latest);
 
 	let percentile = $derived(
 		best && globals ? calculatePercentile(globals.distribution, best.moves) : null

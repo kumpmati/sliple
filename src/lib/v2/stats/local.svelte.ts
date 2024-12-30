@@ -23,7 +23,9 @@ export const initLocalStatsContext = () =>
 export const getLocalStatsContext = () => getContext<LocalStore<LocalStats>>(key);
 
 export const markCompleted = (s: LocalStore<LocalStats>, c: LocalCompletion) => {
-	const existing = s.current[c.type][c.puzzleId];
+	s.current[c.type] ??= {};
+
+	const existing = s.current[c.type]?.[c.puzzleId];
 
 	if (!existing) {
 		s.current[c.type][c.puzzleId] = { best: c.win ? c : null, latest: c };
