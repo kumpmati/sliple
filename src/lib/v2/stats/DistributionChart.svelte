@@ -1,0 +1,117 @@
+<script lang="ts">
+	import { cn } from '$lib/utils';
+	import {
+		Area,
+		Chart,
+		LinearGradient,
+		Spline,
+		Svg,
+		Tooltip,
+		Highlight,
+		Rule,
+		Text,
+		Points
+	} from 'layerchart';
+	import { curveMonotoneX } from 'd3-shape';
+	import { normalise } from './normalise';
+	import { calculatePercentile } from './percentile';
+
+	type Props = {
+		data: { value: number; count: number }[];
+		numMoves: number | null;
+		averageMoves: number;
+		class?: string;
+	};
+
+	let { data, numMoves, averageMoves, class: className }: Props = $props();
+
+	let max = $derived(Math.max(...data.map((d) => d.value)));
+	let min = $derived(Math.min(...data.map((d) => d.value)));
+</script>
+
+<div class={cn('h-28 w-full', className)}>
+	<Chart
+		{data}
+		x="value"
+		y="count"
+		yNice
+		tooltip={{ mode: 'bisect-x' }}
+		padding={{ left: 4, right: 4 }}
+		let:width
+		let:height
+	>
+		<Svg>
+			<LinearGradient class="from-slate-700 to-slate-700/0" vertical let:url>
+				<Area curve={curveMonotoneX} fill={url} />
+			</LinearGradient>
+
+			<Spline class="stroke-slate-400 stroke-2" curve={curveMonotoneX} />
+			<Points r={3} class="fill-slate-800 stroke-slate-400 stroke-2" />
+
+			<Text
+				x={width * normalise(min, min, max)}
+				y={height + 8}
+				verticalAnchor="start"
+				textAnchor="middle"
+				class="fill-slate-500"
+				value={min}
+			/>
+			<Text
+				x={width * normalise(max, min, max)}
+				y={height + 8}
+				verticalAnchor="start"
+				textAnchor="middle"
+				class="fill-slate-500"
+				value={max}
+			/>
+
+			<Rule
+				x={averageMoves}
+				class="stroke-slate-500  stroke-2 [stroke-dasharray:4] [stroke-linecap:round]"
+			/>
+			<Text
+				x={width * normalise(averageMoves, min, max)}
+				y={height + 8}
+				verticalAnchor="start"
+				textAnchor="middle"
+				class="fill-slate-500 stroke-slate-800 stroke-[8] [stroke-linejoin:round]"
+				value={averageMoves.toFixed(1)}
+			/>
+
+			{#if numMoves}
+				<Rule x={numMoves} class="stroke-green-400 stroke-2 [stroke-linecap:round]" />
+				{#if numMoves >= min && numMoves <= max}
+					<Text
+						x={width * normalise(numMoves, min, max)}
+						y={height + 8}
+						verticalAnchor="start"
+						textAnchor="middle"
+						class="fill-green-400 stroke-slate-800 stroke-[8] font-bold [stroke-linejoin:round]"
+						value={numMoves}
+					/>
+				{/if}
+			{/if}
+
+			<Highlight points />
+		</Svg>
+
+		<Tooltip.Root let:data={item}>
+			<Tooltip.List>
+				<Tooltip.Item label="Moves:" value={item.value} valueAlign="right" />
+				<Tooltip.Separator class="bg-slate-600" />
+				<Tooltip.Item
+					label="Solves:"
+					value={item.count}
+					valueAlign="right"
+					classes={{ root: 'text-slate-400' }}
+				/>
+				<Tooltip.Item
+					label="Percentile:"
+					value="{Math.round(calculatePercentile(data, item.value))} %"
+					valueAlign="right"
+					classes={{ root: 'text-slate-400' }}
+				/>
+			</Tooltip.List>
+		</Tooltip.Root>
+	</Chart>
+</div>

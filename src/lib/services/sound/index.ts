@@ -4,6 +4,7 @@ import { get } from 'svelte/store';
 
 export class GameAudio {
 	private sounds;
+	#initialised = false;
 
 	constructor() {
 		this.sounds = {
@@ -18,7 +19,10 @@ export class GameAudio {
 	}
 
 	public init() {
-		Object.values(this.sounds).forEach((snd) => snd.load());
+		if (!this.#initialised) {
+			Object.values(this.sounds).forEach((snd) => snd.load());
+			this.#initialised = true;
+		}
 	}
 
 	public play(sound: keyof typeof this.sounds, delay = 0) {
