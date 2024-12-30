@@ -9,12 +9,21 @@
 	import { handleSwipeEvent } from './swipe';
 	import { getLetterStatus } from './utils';
 	import TweenedTile from './TweenedTile.svelte';
+	import { GameSounds } from './sounds';
+	import { getSfxContext } from '$lib/stores/sound';
 
 	type Props = {
 		game: GameState;
 	};
 
 	let { game }: Props = $props();
+
+	const sfx = getSfxContext();
+
+	$effect(() => {
+		const sounds = new GameSounds(game, sfx);
+		return () => sounds.disconnect();
+	});
 </script>
 
 <div

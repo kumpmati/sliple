@@ -47,12 +47,12 @@
 	};
 
 	game.on('move', () => console.log('moved'));
-	game.on('win', () => {
+	game.on('end', ({ type, moves }) => {
 		actions
 			.markCompletion({
-				type: 'w',
-				puzzleId: game.puzzle.id,
-				numMoves: game.moves
+				type,
+				numMoves: moves,
+				puzzleId: game.puzzle.id
 			})
 			.catch(() => alert('failed to mark completion'))
 			.then(() => loadStats());

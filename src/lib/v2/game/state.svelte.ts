@@ -9,10 +9,20 @@ type HistoryItem = {
 	tiles: Tile[];
 };
 
-type Callback = () => void;
+type Callback<T extends EventType> = (d: EventParams<T>) => void;
+
+interface GameStateEventMap {
+	move: { tileId: string; dir: Direction };
+	end: { type: 'w' | 'l'; moves: number };
+	undo: void;
+	reset: void;
+}
+
+type EventType = keyof GameStateEventMap;
+type EventParams<T extends EventType> = GameStateEventMap[T];
 
 export class GameState {
-	#listeners: Record<string, Callback[]> = {};
+	#listeners: Record<string, Callback<any>[]> = {};
 	#history = $state<HistoryItem[]>([]);
 
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -26,7 +36,7 @@ export class GameState {
 
 	constructor(puzzle: Puzzle) {
 		this.puzzle = puzzle;
-		this.reset();
+		this.reset(false);
 	}
 
 	setPuzzle(p: Puzzle) {
@@ -57,10 +67,10 @@ export class GameState {
 
 		tile.x = pos.x;
 		tile.y = pos.y;
-		this.#emit('move');
+		this.#emit('move', { tileId, dir });
 
 		if (isWinStatus(this.tiles)) {
-			this.#emit('win');
+			this.#emit('end', { type: 'w', moves: this.moves });
 		}
 	}
 
@@ -73,31 +83,37 @@ export class GameState {
 		}
 
 		this.#restoreSnapshot(last);
-		this.#emit('undo');
+		this.#emit('undo', void 0);
 	}
 
-	reset() {
+	reset(emit = true) {
 		if (!this.puzzle) {
 			return;
 		}
 
 		this.tiles = copy(this.puzzle.data.tiles);
 		this.#history = [];
+
+		if (emit) {
+			this.#emit('reset', void 0);
+		}
 	}
 
-	on(event: string, callback: Callback) {
+	on<T extends EventType>(event: T, callback: Callback<T>) {
 		this.#listeners[event] ??= [];
 		this.#listeners[event].push(callback);
+
+		return () => this.off(event, callback);
 	}
 
-	off(event: string, cb: Callback) {
+	off<T extends EventType>(event: string, cb: Callback<T>) {
 		if (this.#listeners[event]) {
 			this.#listeners[event].splice(this.#listeners[event].indexOf(cb), 1);
 		}
 	}
 
-	#emit(event: string) {
-		this.#listeners[event]?.forEach((cb) => cb());
+	#emit<T extends EventType>(event: T, data: EventParams<T>) {
+		this.#listeners[event]?.forEach((cb) => cb(data));
 	}
 
 	#restoreSnapshot(h: HistoryItem) {
