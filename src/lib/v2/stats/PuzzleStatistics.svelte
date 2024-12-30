@@ -14,6 +14,7 @@
 	type Props = {
 		puzzleId: string;
 		maxMoves: Puzzle['data']['maxMoves'];
+		showStreak?: boolean;
 		globalsLoading: boolean;
 		globalsError: string | undefined;
 		globalDistribution: { value: number; count: number }[];
@@ -25,6 +26,7 @@
 	let {
 		puzzleId,
 		maxMoves,
+		showStreak,
 		globalsLoading,
 		globalsError,
 		globalDistribution,
@@ -77,20 +79,22 @@
 		</p>
 	{/if}
 
-	<div class="mt-8 grid w-full grid-cols-3 gap-4">
-		<div class="flex flex-col items-center">
-			<span class="font-heading text-3xl font-bold text-white">{1}</span>
-			<span class="text-sm text-slate-400">Played</span>
+	{#if showStreak}
+		<div class="mt-8 grid w-full grid-cols-3 gap-4">
+			<div class="flex flex-col items-center">
+				<span class="font-heading text-3xl font-bold text-white">{1}</span>
+				<span class="text-sm text-slate-400">Played</span>
+			</div>
+			<div class="flex flex-col items-center">
+				<span class="font-heading text-3xl font-bold text-white">{1}</span>
+				<span class="text-sm text-slate-400">Streak</span>
+			</div>
+			<div class="flex flex-col items-center">
+				<span class="font-heading text-3xl font-bold text-white">{1}</span>
+				<span class="text-sm text-slate-400">Max streak</span>
+			</div>
 		</div>
-		<div class="flex flex-col items-center">
-			<span class="font-heading text-3xl font-bold text-white">{1}</span>
-			<span class="text-sm text-slate-400">Streak</span>
-		</div>
-		<div class="flex flex-col items-center">
-			<span class="font-heading text-3xl font-bold text-white">{1}</span>
-			<span class="text-sm text-slate-400">Max streak</span>
-		</div>
-	</div>
+	{/if}
 
 	<div class="relative grid w-full" style="grid-template-areas: 'a'">
 		{#if globalsLoading}
@@ -125,7 +129,7 @@
 				class="mt-4"
 			/>
 
-			<table class="mt-16 w-full text-slate-400">
+			<table class="mt-12 w-full text-slate-400">
 				<tbody>
 					<tr>
 						<td class="py-1 font-normal text-green-400">

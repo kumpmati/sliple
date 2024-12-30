@@ -10,7 +10,6 @@
 		Highlight,
 		Rule,
 		Text,
-		Rect,
 		Points
 	} from 'layerchart';
 	import { curveMonotoneX } from 'd3-shape';
@@ -30,7 +29,7 @@
 	let min = $derived(Math.min(...data.map((d) => d.value)));
 </script>
 
-<div class={cn('h-32 w-full', className)}>
+<div class={cn('h-28 w-full', className)}>
 	<Chart
 		{data}
 		x="value"

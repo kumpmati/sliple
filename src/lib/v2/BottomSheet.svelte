@@ -37,7 +37,7 @@
 <dialog
 	bind:this={ref}
 	class={cn(
-		'bottom-0 left-0 right-[unset] top-[unset] mx-0 w-full max-w-full rounded-md rounded-b-none bg-slate-800 p-6 text-slate-300 backdrop:bg-black/75 backdrop:transition-all',
+		'bottom-0 left-0 right-[unset] top-[unset] mx-0 max-h-full w-full max-w-full rounded-md rounded-b-none bg-slate-800 p-6 text-slate-300 backdrop:bg-black/75 backdrop:transition-all',
 		className
 	)}
 >

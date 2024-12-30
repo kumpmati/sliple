@@ -92,7 +92,9 @@
 	<SolutionPreview state={game} />
 
 	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
+		<!-- TODO: show streak statistics -->
 		<PuzzleStatistics
+			showStreak={false}
 			puzzleId={game.puzzle.id}
 			maxMoves={game.puzzle.data.maxMoves}
 			globalsLoading={stats.loading}
