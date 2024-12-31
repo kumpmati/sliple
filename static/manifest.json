@@ -3,9 +3,9 @@
 	"short_name": "Sliple",
 	"start_url": "/",
 	"scope": "/",
-	"description": "A slippery word puzzle",
-	"theme_color": "#ffefe0",
-	"background_color": "#fff",
+	"description": "A puzzle game with slippery tiles",
+	"theme_color": "#020617",
+	"background_color": "#000",
 	"display": "standalone",
 	"icons": [
 		{
