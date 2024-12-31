@@ -11,7 +11,8 @@ export const puzzleCompletionTable = pgTable(
 	},
 	(table) => ({
 		puzzleIdIndex: index('puzzle_completion_puzzle_id_index').on(table.puzzleId),
-		timestampIndex: index('puzzle_completion_timestamp_index').on(table.timestamp)
+		timestampIndex: index('puzzle_completion_timestamp_index').on(table.timestamp),
+		typeIndex: index('puzzle_completion_type_index').on(table.type)
 	})
 );
 
