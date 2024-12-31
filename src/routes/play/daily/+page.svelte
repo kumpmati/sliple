@@ -71,6 +71,11 @@
 <svelte:head>
 	<title>Daily puzzle - {data.puzzle.publishedAt.toLocaleDateString()}</title>
 	<meta name="description" content="Solve the daily puzzle - '{data.puzzle.data.solution}'" />
+
+	<meta property="og:image" content="https://sliple.app/og/daily.jpg" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta property="og:image:width" content="900" />
+	<meta property="og:image:height" content="473" />
 </svelte:head>
 
 <main class="flex flex-col items-center">
