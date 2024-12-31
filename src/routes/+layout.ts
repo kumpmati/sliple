@@ -2,6 +2,8 @@ import { error } from '@sveltejs/kit';
 import { analyzePuzzle } from '$lib/services/generator/analyze';
 import { generateDailyPuzzle } from '$lib/v2/generate';
 
+export const ssr = false;
+
 export const load = async () => {
 	try {
 		const puzzle = generateDailyPuzzle();
