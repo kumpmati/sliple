@@ -46,6 +46,11 @@
 		name="description"
 		content="Solve a randomly generated puzzle: '{data.puzzle.data.solution}'"
 	/>
+
+	<meta property="og:image" content="https://sliple.app/og/random.jpg" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta property="og:image:width" content="900" />
+	<meta property="og:image:height" content="473" />
 </svelte:head>
 
 <main class="flex flex-col items-center">
