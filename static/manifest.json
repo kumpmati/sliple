@@ -3,7 +3,7 @@
 	"short_name": "Sliple",
 	"start_url": "/",
 	"scope": "/",
-	"description": "A puzzle game with slippery tiles",
+	"description": "A slippery puzzle game",
 	"theme_color": "#020617",
 	"background_color": "#000",
 	"display": "standalone",
