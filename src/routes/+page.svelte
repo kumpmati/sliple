@@ -49,9 +49,15 @@
 	<title>Sliple</title>
 	<meta name="description" content="A slippery puzzle game" />
 
+	<meta property="og:url" content="https://sliple.app" />
 	<meta property="og:image" content="https://sliple.app/og/default.jpg" />
 	<meta property="og:image:type" content="image/jpeg" />
 	<meta property="og:image:width" content="900" />
+	<meta property="og:image:height" content="473" />
+
+	<meta property="og:image" content="https://sliple.app/og/default_narrow.jpg" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta property="og:image:width" content="473" />
 	<meta property="og:image:height" content="473" />
 </svelte:head>
 
