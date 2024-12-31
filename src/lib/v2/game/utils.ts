@@ -43,7 +43,7 @@ const TILE_TYPE_DRAW_ORDER: Record<TileTypes['type'], number> = {
 };
 
 export const sortTiles = (t: Tile[]) => {
-	return t.toSorted((a, b) => {
+	return [...t].sort((a, b) => {
 		const typeOrder =
 			TILE_TYPE_DRAW_ORDER[a.type as TileTypes['type']] -
 			TILE_TYPE_DRAW_ORDER[b.type as TileTypes['type']];
