@@ -15,6 +15,20 @@
       "when": 1733532784150,
       "tag": "0001_pale_ego",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735645241376,
+      "tag": "0002_ambiguous_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1735645334441,
+      "tag": "0003_acoustic_tattoo",
+      "breakpoints": true
     }
   ]
 }

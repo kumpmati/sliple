@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "puzzle_completion_type_index" ON "puzzle_completions" USING btree ("type");

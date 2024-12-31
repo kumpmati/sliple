@@ -1,0 +1,2 @@
+CREATE INDEX IF NOT EXISTS "puzzle_completion_puzzle_id_index" ON "puzzle_completions" USING btree ("puzzle_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "puzzle_completion_timestamp_index" ON "puzzle_completions" USING btree ("timestamp");
