@@ -12,7 +12,6 @@ import {
 	getRandomLetterTile
 } from '../utils';
 import type { Grid, LetterTile, WallTile } from '$lib/types/grid';
-import { nanoid } from 'nanoid';
 import { createGridStore } from '$lib/stores/grid';
 import { get } from 'svelte/store';
 import { Caccu } from 'caccu';
