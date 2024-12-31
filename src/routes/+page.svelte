@@ -2,7 +2,8 @@
 	import Logo from '$lib/components/Logo.svelte';
 	import Button from '$lib/v2/Button.svelte';
 	import { getSfxContext, soundsEnabled } from '$lib/stores/sound';
-	import { Volume2Icon, VolumeXIcon } from 'svelte-feather-icons';
+	import TablerVolume from '~icons/tabler/volume';
+	import TablerVolumeOff from '~icons/tabler/volume-off';
 	import TablerPlay from '~icons/tabler/play';
 	import TablerCheck from '~icons/tabler/check';
 	import TablerDice3 from '~icons/tabler/dice-3';
@@ -54,9 +55,9 @@
 >
 	<button class="ml-auto text-subtle hover:text-white" onclick={toggleSound}>
 		{#if $soundsEnabled}
-			<Volume2Icon />
+			<TablerVolume class="size-6" />
 		{:else}
-			<VolumeXIcon />
+			<TablerVolumeOff class="size-6" />
 		{/if}
 	</button>
 

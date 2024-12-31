@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
-	import { ChevronLeftIcon } from 'svelte-feather-icons';
+	import TablerChevronLeft from '~icons/tabler/chevron-left';
 </script>
 
 <div>
@@ -11,7 +11,7 @@
 	</span>
 
 	<a href="/">
-		<ChevronLeftIcon size="20" />
+		<TablerChevronLeft class="size-5" />
 		Home
 	</a>
 </div>

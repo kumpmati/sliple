@@ -1,7 +1,7 @@
 <script>
 	import { version } from '$app/environment';
 	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
-	import { ArrowLeftIcon } from 'svelte-feather-icons';
+	import TablerArrowLeft from '~icons/tabler/arrow-left';
 </script>
 
 <svelte:head>
@@ -10,7 +10,7 @@
 </svelte:head>
 
 <a href="/" aria-label="Back to the front page">
-	<ArrowLeftIcon />
+	<TablerArrowLeft class="size-6" />
 </a>
 
 <span class="heading">
