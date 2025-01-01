@@ -1,19 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	import {
-		Area,
-		Chart,
-		LinearGradient,
-		Spline,
-		Svg,
-		Tooltip,
-		Highlight,
-		Rule,
-		Text,
-		Points
-	} from 'layerchart';
-	import { curveMonotoneX } from 'd3-shape';
-	import { normalise } from './normalise';
+	import { Chart, Svg, Tooltip, Bars, Bar, Axis } from 'layerchart';
+	import { scaleBand } from 'd3-scale';
 	import { calculatePercentile } from './percentile';
 
 	type Props = {
@@ -23,76 +11,32 @@
 		class?: string;
 	};
 
-	let { data, numMoves, averageMoves, class: className }: Props = $props();
-
-	let max = $derived(Math.max(...data.map((d) => d.value)));
-	let min = $derived(Math.min(...data.map((d) => d.value)));
+	let { data, numMoves, class: className }: Props = $props();
 </script>
 
-<div class={cn('h-28 w-full', className)}>
+<div class={cn('h-[200px] w-full', className)}>
 	<Chart
 		{data}
-		x="value"
-		y="count"
-		yNice
-		tooltip={{ mode: 'bisect-x' }}
-		padding={{ left: 4, right: 4 }}
-		let:width
-		let:height
+		x="count"
+		y="value"
+		yScale={scaleBand().padding(0.15)}
+		xDomain={[0, Math.max(...data.map((d) => d.count))]}
+		tooltip={{ mode: 'bisect-y' }}
+		padding={{ left: 18, right: 18 }}
 	>
 		<Svg>
-			<LinearGradient class="from-slate-700 to-slate-700/0" vertical let:url>
-				<Area curve={curveMonotoneX} fill={url} />
-			</LinearGradient>
+			<Axis placement="left" rule classes={{ root: 'fill-slate-600' }} />
+			<Axis placement="left" rule ticks={[numMoves]} classes={{ root: 'fill-green-400' }} />
 
-			<Spline class="stroke-slate-400 stroke-2" curve={curveMonotoneX} />
-			<Points r={3} class="fill-slate-800 stroke-slate-400 stroke-2" />
-
-			<Text
-				x={width * normalise(min, min, max)}
-				y={height + 8}
-				verticalAnchor="start"
-				textAnchor="middle"
-				class="fill-slate-500"
-				value={min}
-			/>
-			<Text
-				x={width * normalise(max, min, max)}
-				y={height + 8}
-				verticalAnchor="start"
-				textAnchor="middle"
-				class="fill-slate-500"
-				value={max}
-			/>
-
-			<Rule
-				x={averageMoves}
-				class="stroke-slate-500  stroke-2 [stroke-dasharray:4] [stroke-linecap:round]"
-			/>
-			<Text
-				x={width * normalise(averageMoves, min, max)}
-				y={height + 8}
-				verticalAnchor="start"
-				textAnchor="middle"
-				class="fill-slate-500 stroke-slate-800 stroke-[8] [stroke-linejoin:round]"
-				value={averageMoves.toFixed(1)}
-			/>
-
-			{#if numMoves}
-				<Rule x={numMoves} class="stroke-green-400 stroke-2 [stroke-linecap:round]" />
-				{#if numMoves >= min && numMoves <= max}
-					<Text
-						x={width * normalise(numMoves, min, max)}
-						y={height + 8}
-						verticalAnchor="start"
-						textAnchor="middle"
-						class="fill-green-400 stroke-slate-800 stroke-[8] font-bold [stroke-linejoin:round]"
-						value={numMoves}
+			<Bars>
+				{#each data as bar}
+					<Bar
+						{bar}
+						radius={2}
+						class={bar.value === numMoves ? 'fill-green-400' : 'fill-slate-700'}
 					/>
-				{/if}
-			{/if}
-
-			<Highlight points />
+				{/each}
+			</Bars>
 		</Svg>
 
 		<Tooltip.Root let:data={item}>
