@@ -12,6 +12,7 @@ export type Campaign = {
 export type CampaignLevel = {
 	id: string;
 	message: string | null;
+	tip?: string;
 	difficulty: Difficulty | null;
 	data: Grid;
 };

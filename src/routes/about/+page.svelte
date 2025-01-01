@@ -1,6 +1,5 @@
 <script>
 	import { version } from '$app/environment';
-	import UnderlinedHeading from '$lib/components/UnderlinedHeading.svelte';
 	import TablerArrowLeft from '~icons/tabler/arrow-left';
 </script>
 
@@ -9,82 +8,53 @@
 	<meta name="description" content="Information about the game" />
 </svelte:head>
 
-<a href="/" aria-label="Back to the front page">
-	<TablerArrowLeft class="size-6" />
-</a>
+<main class="flex flex-col text-slate-400">
+	<a
+		href="/"
+		aria-label="Back to the front page"
+		class="mb-4 w-fit p-2 text-slate-400 hover:text-white"
+	>
+		<TablerArrowLeft class="size-6" />
+	</a>
 
-<span class="heading">
-	<UnderlinedHeading color="#fee0ff">About</UnderlinedHeading>
-</span>
+	<h1 class="mt-4 font-heading text-3xl font-bold text-white">About</h1>
+	<pre class="mt-2 w-fit rounded-sm bg-slate-900 px-2">{version}</pre>
 
-<div class="section">
-	<p>
+	<p class="mt-4">
 		Sliple is a free web game where you try to spell words by sliding letter tiles on a grid. That's
 		pretty much it. Hope you have fun!
 	</p>
-</div>
 
-<div class="section">
-	<h3>Contact</h3>
+	<h2 class="mt-4 font-heading text-xl font-bold text-white">Contact</h2>
 	<p>
-		If you have feedback, you can sent it here: <a
+		If you have feedback, you can sent it here:
+		<a
 			href="https://forms.gle/Ba5yhAYF2uQm3w31A"
 			target="_blank"
 			rel="noreferrer"
+			class="text-white hover:underline"
 		>
 			Feedback Form
 		</a>
 	</p>
 
 	<p>
-		You can also contact me using this email:
-		<a href="mailto:contact@sliple.app">contact@sliple.app</a>
+		You can also contact me using:
+		<a href="mailto:contact@sliple.app" class="text-white hover:underline"> contact@sliple.app </a>
 	</p>
-</div>
 
-<div class="section">
-	<h3>Support</h3>
+	<h2 class="mt-4 font-heading text-xl font-bold text-white">Support</h2>
 
 	<p>
 		I want to keep the game both free and ad-free. You can help me cover the running costs by
-		donating, but no worries if you don't.
+		donating.
 	</p>
-	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer">
+
+	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer" class="mt-8">
 		<img width="150px" src="bmc.svg" alt="Buy me a coffee" />
 	</a>
-</div>
 
-<div class="section">
-	<pre>{version}</pre>
-</div>
-
-<style lang="scss">
-	.heading {
-		display: flex;
-		justify-content: center;
-		margin-bottom: 30px;
-	}
-
-	.section {
-		display: flex;
-		flex-direction: column;
-		margin: 16px 0;
-	}
-
-	* {
-		user-select: text;
-	}
-
-	a {
-		color: #fff;
-		width: fit-content;
-	}
-
-	h3 {
-		margin: 0;
-	}
-
-	p {
-		margin: 4px 0;
-	}
-</style>
+	<footer class="mt-8">
+		<p class="text-xs text-slate-600">© Copyright 2025 - Matias Kumpulainen</p>
+	</footer>
+</main>

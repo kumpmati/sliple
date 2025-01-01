@@ -10,6 +10,7 @@
 	import TablerChartBar from '~icons/tabler/chart-bar';
 	import TablerRotate from '~icons/tabler/rotate';
 	import SolutionTile from '$lib/v2/SolutionTile.svelte';
+	import TablerHelp from '~icons/tabler/help';
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
@@ -64,13 +65,19 @@
 <main
 	class="mx-auto flex h-full w-full max-w-md flex-col items-center sm:h-fit sm:rounded-xl sm:border-2 sm:border-slate-900 sm:bg-slate-950 sm:p-8"
 >
-	<button class="ml-auto text-subtle hover:text-white" onclick={toggleSound}>
-		{#if $soundsEnabled}
-			<TablerVolume class="size-6" />
-		{:else}
-			<TablerVolumeOff class="size-6" />
-		{/if}
-	</button>
+	<div class="flex w-full items-center justify-between">
+		<a href="/about" class="p-2 text-slate-400 hover:text-white">
+			<TablerHelp class="size-6" />
+		</a>
+
+		<button class="ml-auto p-2 text-slate-400 hover:text-white" onclick={toggleSound}>
+			{#if $soundsEnabled}
+				<TablerVolume class="size-6" />
+			{:else}
+				<TablerVolumeOff class="size-6" />
+			{/if}
+		</button>
+	</div>
 
 	<Logo />
 
@@ -115,9 +122,4 @@
 		Random puzzle
 		<TablerDice3 class="size-4" />
 	</Button>
-
-	<div class="mt-auto grid w-full grid-cols-2 gap-4 sm:mt-24">
-		<Button href="/about" color="gray">About</Button>
-		<Button href="/tutorial" color="white">Tutorial</Button>
-	</div>
 </main>

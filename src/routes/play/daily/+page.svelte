@@ -16,6 +16,7 @@
 	import Button from '$lib/v2/Button.svelte';
 	import { shareDailyPuzzle } from '$lib/v2/share.js';
 	import dayjs from 'dayjs';
+	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
 
 	let { data } = $props();
 
@@ -79,6 +80,8 @@
 	<meta property="og:image:height" content="473" />
 </svelte:head>
 
+<TutorialModal />
+
 <main class="flex flex-col items-center">
 	<GameControls {game} bind:statsOpen={modalOpen} />
 
@@ -115,7 +118,7 @@
 				completions: stats.current?.totals.totalAttempts ?? 0
 			}}
 		>
-			<Button color="lightgray" raised class="mt-8" onclick={() => shareDailyPuzzle(game.puzzle)}>
+			<Button color="lightgray" raised class="mt-8" onclick={() => shareDailyPuzzle(data.puzzle)}>
 				Share
 				<TablerShare class="size-5" />
 			</Button>
