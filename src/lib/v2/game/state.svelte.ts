@@ -1,9 +1,9 @@
 import type { Dir } from '$lib/stores/grid';
-import type { CampaignLevel } from '$lib/types/campaign';
 import type { Tile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
 import { copy } from '$lib/utils/copy';
 import { calculateNextPosition, canMove } from '$lib/utils/grid';
+import type { TutorialLevel } from '../tutorial/tutorial';
 import { isWinStatus, sortTiles } from './utils';
 
 export type HistoryItem = {
@@ -31,7 +31,7 @@ export class GameState {
 	#listeners: Record<string, Callback<any>[]> = {};
 	#history = $state<HistoryItem[]>([]);
 
-	puzzle = $state() as Puzzle | CampaignLevel;
+	puzzle = $state() as Puzzle | TutorialLevel;
 	tiles = $state<Tile[]>([]);
 	sortedTiles = $derived(sortTiles(this.tiles));
 
@@ -48,7 +48,7 @@ export class GameState {
 	moves = $derived(this.#history.length);
 	canUndo = $derived(this.moves > 0 && this.status === 'ongoing');
 
-	constructor(puzzle: Puzzle | CampaignLevel) {
+	constructor(puzzle: Puzzle | TutorialLevel) {
 		this.puzzle = puzzle;
 		this.reset(false); // skip emitting 'reset' event so sounds don't play
 
@@ -58,7 +58,7 @@ export class GameState {
 		});
 	}
 
-	setPuzzle(p: Puzzle | CampaignLevel) {
+	setPuzzle(p: Puzzle | TutorialLevel) {
 		this.puzzle = p;
 		this.reset(false); // skip 'reset' sound
 	}

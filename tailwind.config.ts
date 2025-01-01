@@ -26,7 +26,6 @@ export default {
 
 			colors: {
 				white: '#fff',
-				subtle: 'rgba(255,255,255,0.7)',
 				blue: {
 					DEFAULT: '#BFDBFF',
 					shadow: '#92ABCB',

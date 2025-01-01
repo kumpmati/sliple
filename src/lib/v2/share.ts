@@ -1,7 +1,6 @@
-import type { CampaignLevel } from '$lib/types/campaign';
 import type { Puzzle } from '$lib/types/puzzle';
 
-export const shareDailyPuzzle = (p: Puzzle | CampaignLevel) => {
+export const shareDailyPuzzle = (p: Puzzle) => {
 	return navigator.share({
 		title: `Daily puzzle - ${new Date().toLocaleDateString()}`,
 		url: 'https://sliple.app/play/daily',
@@ -9,7 +8,7 @@ export const shareDailyPuzzle = (p: Puzzle | CampaignLevel) => {
 	});
 };
 
-export const shareRandomPuzzle = (p: Puzzle | CampaignLevel) => {
+export const shareRandomPuzzle = (p: Puzzle) => {
 	return navigator.share({
 		title: `Random puzzle - '${p.data.solution}'`,
 		url: `https://sliple.app/play/random/${p.id}`,
