@@ -41,7 +41,7 @@
 	<CompletionStars completion={latest} {maxMoves} />
 
 	{#if latest}
-		<p class="mt-2 font-heading text-2xl font-bold text-white">
+		<p class="mt-2 text-center font-heading text-2xl font-bold text-white">
 			{#if latest.win}
 				Completed!
 			{:else}

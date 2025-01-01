@@ -14,7 +14,7 @@
 		class="pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 select-none flex-col items-center"
 	>
 		<div
-			class="animated shadow-sharp-lg absolute -inset-x-10 -inset-y-4 origin-center rounded-lg bg-slate-900/90 backdrop-blur-sm"
+			class="animated absolute -inset-x-6 -inset-y-4 origin-center rounded-lg bg-slate-900/90 shadow-sharp-lg backdrop-blur-sm"
 		></div>
 
 		<div class="animated origin-center">
@@ -24,9 +24,9 @@
 			/>
 		</div>
 
-		<p class="animated origin-center font-heading text-2xl">
+		<p class="animated origin-center text-center font-heading text-2xl">
 			{#if game.status === 'win'}
-				Completed
+				Completed!
 			{:else}
 				Out of moves!
 			{/if}

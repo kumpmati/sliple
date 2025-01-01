@@ -9,9 +9,10 @@
 		open: boolean;
 		children: Snippet;
 		class?: string;
+		onClose?: () => void;
 	};
 
-	let { urlStateHash, open = $bindable(), children, class: className }: Props = $props();
+	let { urlStateHash, open = $bindable(), children, class: className, onClose }: Props = $props();
 
 	let ref: HTMLDialogElement;
 
@@ -27,7 +28,10 @@
 	});
 
 	onMount(() => {
-		const handleClose = () => (open = false);
+		const handleClose = () => {
+			open = false;
+			onClose?.();
+		};
 
 		ref.addEventListener('close', handleClose);
 		return () => ref.removeEventListener('close', handleClose);
