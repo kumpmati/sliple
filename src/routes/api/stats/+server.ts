@@ -47,11 +47,7 @@ export const POST = endpoint({
 
 		const [item] = await db
 			.insert(puzzleCompletionTable)
-			.values({
-				puzzleId: puzzle.id,
-				type: 'w', // only keep track of wins
-				numMoves: verified.moves
-			})
+			.values({ puzzleId: puzzle.id, numMoves: verified.moves })
 			.returning();
 
 		return item;
