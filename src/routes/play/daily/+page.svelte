@@ -52,7 +52,7 @@
 			timestamp: new Date().toISOString()
 		});
 
-		sleep(600).then(() => (modalOpen = true));
+		sleep(750).then(() => (modalOpen = true));
 	});
 
 	let modalOpen = $state(false);
@@ -96,7 +96,11 @@
 
 	<SolutionPreview state={game} />
 
-	<BottomSheet bind:open={modalOpen} urlStateHash="stats">
+	<BottomSheet
+		bind:open={modalOpen}
+		urlStateHash="stats"
+		onClose={() => game.status !== 'ongoing' && game.reset()}
+	>
 		<!-- TODO: show streak statistics -->
 		<PuzzleStatistics
 			showStreak={false}
