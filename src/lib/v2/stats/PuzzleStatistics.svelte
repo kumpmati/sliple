@@ -7,6 +7,7 @@
 	import TablerLoader2 from '~icons/tabler/loader-2';
 	import TablerAlertCircle from '~icons/tabler/alert-circle';
 	import TablerUser from '~icons/tabler/user';
+	import TablerWorld from '~icons/tabler/world';
 	import { getLocalStatsContext } from './local.svelte';
 	import type { Snippet } from 'svelte';
 	import CompletionStars from '../CompletionStars.svelte';
@@ -104,7 +105,10 @@
 				</p>
 			{/if}
 			<div class="flex w-full flex-col items-center [grid-area:a]">
-				<p class="mt-8 text-sm font-normal text-slate-400">Global statistics</p>
+				<p class="mt-8 inline-flex items-center text-sm font-normal text-slate-400">
+					<TablerWorld class="mr-1 text-slate-600" />
+					Move distribution
+				</p>
 				<DistributionChart
 					data={globals.distribution}
 					numMoves={best?.moves ?? null}
@@ -112,7 +116,7 @@
 					class="mt-4"
 				/>
 
-				<table class="mt-12 w-full text-slate-400">
+				<table class="mt-4 w-full text-slate-400">
 					<tbody>
 						<tr>
 							<td class="py-1 text-green-400">
@@ -134,7 +138,7 @@
 						<tr>
 							<td class="py-1">
 								<span class="inline-flex items-center gap-1">
-									<TablerLineDashed class="size-5 rotate-90 text-slate-500" />
+									<TablerWorld class="size-5 text-slate-600" />
 									Average moves
 								</span>
 							</td>
@@ -145,7 +149,7 @@
 						<tr>
 							<td class="py-1">
 								<span class="inline-flex items-center gap-1">
-									<TablerHash class="size-5 text-slate-500" />
+									<TablerWorld class="size-5 text-slate-600" />
 									Total solves
 								</span>
 							</td>
