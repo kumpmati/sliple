@@ -18,7 +18,7 @@ export const getPuzzleStatistics = async (puzzleId: string): Promise<V2Statistic
 				count: count(puzzleCompletionTable)
 			})
 			.from(puzzleCompletionTable)
-			.where(and(eq(puzzleCompletionTable.puzzleId, puzzleId), eq(puzzleCompletionTable.type, 'w')))
+			.where(eq(puzzleCompletionTable.puzzleId, puzzleId))
 			.groupBy(puzzleCompletionTable.numMoves)
 			.orderBy(asc(puzzleCompletionTable.numMoves))
 	]);
