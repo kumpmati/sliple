@@ -13,6 +13,7 @@
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareRandomPuzzle } from '$lib/v2/share.js';
+	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
 
 	let { data } = $props();
 
@@ -54,6 +55,8 @@
 	<meta property="og:image:height" content="473" />
 </svelte:head>
 
+<TutorialModal />
+
 <main class="flex flex-col items-center">
 	<GameControls {game} bind:statsOpen={modalOpen} />
 
@@ -82,7 +85,7 @@
 			maxMoves={game.puzzle.data.maxMoves}
 		>
 			<div class="mt-8 grid w-full grid-cols-2 gap-4">
-				<Button color="lightgray" onclick={() => shareRandomPuzzle(game.puzzle)}>
+				<Button color="lightgray" onclick={() => shareRandomPuzzle(data.puzzle)}>
 					Share <TablerShare class="size-5" />
 				</Button>
 				<Button color="orange" href="/play/random" onclick={() => (modalOpen = false)}>

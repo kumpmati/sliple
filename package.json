@@ -1,6 +1,6 @@
 {
 	"name": "sliple",
-	"version": "2.0.11",
+	"version": "2.0.12",
 	"private": true,
 	"license": "GPL-3.0-or-later",
 	"scripts": {
@@ -44,7 +44,6 @@
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.9",
-		"runed": "^0.22.0",
 		"sass": "^1.57.0",
 		"svelte": "^5.15.0",
 		"svelte-check": "^4.1.1",

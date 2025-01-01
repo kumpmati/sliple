@@ -14,15 +14,16 @@
 	import StickyTile from './StickyTile.svelte';
 	import CompletePopup from './CompletePopup.svelte';
 	import { getDirFromDeltas, getDragOffset, type TouchCtx } from './touch.svelte';
+	import { cn } from '$lib/utils';
 
 	type Props = {
 		game: GameState;
+		class?: string;
 	};
 
+	let { game, class: className }: Props = $props();
+
 	const DRAG_THRESHOLD = 30;
-
-	let { game }: Props = $props();
-
 	const sfx = getSfxContext();
 
 	let touch = $state<TouchCtx>({
@@ -114,7 +115,7 @@
 
 <div
 	role="none"
-	class="relative flex w-full flex-col items-center px-0 py-10 xs:px-4"
+	class={cn('relative flex w-full flex-col items-center px-0 py-10 xs:px-4', className)}
 	use:swipe={{ timeframe: 500, minSwipeDistance: 30 }}
 	onswipe={(e) => {
 		const { tileId, direction } = handleSwipeEvent(e);
