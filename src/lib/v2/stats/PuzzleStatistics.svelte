@@ -1,6 +1,4 @@
 <script lang="ts">
-	import TablerLineDashed from '~icons/tabler/line-dashed';
-	import TablerHash from '~icons/tabler/hash';
 	import type { Puzzle } from '$lib/types/puzzle';
 	import DistributionChart from './DistributionChart.svelte';
 	import { calculatePercentile } from './percentile';

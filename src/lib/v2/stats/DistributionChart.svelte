@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	import { Chart, Svg, Tooltip, Bars, Bar, Axis, Labels } from 'layerchart';
+	import { Chart, Svg, Tooltip, Bars, Bar, Axis } from 'layerchart';
 	import { scaleBand } from 'd3-scale';
 	import { calculatePercentile } from './percentile';
 
