@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte';
-import { LocalStore } from '../persisted.svelte';
+import { Persisted } from '../persisted.svelte';
 
 type LocalStats = {
 	hideTutorial?: boolean;
@@ -18,11 +18,11 @@ export type LocalCompletion = {
 const key = Symbol('user-stats');
 
 export const initLocalStatsContext = () =>
-	setContext(key, new LocalStore<LocalStats>('sliple-stats', { daily: {}, random: {} }));
+	setContext(key, new Persisted<LocalStats>('sliple-stats', { daily: {}, random: {} }));
 
-export const getLocalStatsContext = () => getContext<LocalStore<LocalStats>>(key);
+export const getLocalStatsContext = () => getContext<Persisted<LocalStats>>(key);
 
-export const markCompleted = (s: LocalStore<LocalStats>, c: LocalCompletion) => {
+export const markCompleted = (s: Persisted<LocalStats>, c: LocalCompletion) => {
 	s.current[c.type] ??= {};
 
 	const existing = s.current[c.type]?.[c.puzzleId];

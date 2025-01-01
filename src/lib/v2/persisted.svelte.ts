@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 
-export class LocalStore<T> {
+export class Persisted<T> {
 	current = $state<T>() as T;
 	key = '';
 
