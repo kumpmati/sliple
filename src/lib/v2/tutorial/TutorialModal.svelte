@@ -53,7 +53,7 @@
 
 			<GameBoard {game} class="mt-8" />
 
-			<p class="my-16 text-center text-sm text-slate-400">{currentLevel.tip}</p>
+			<p class="my-12 text-center text-sm text-slate-400">{currentLevel.tip}</p>
 		</div>
 	{/key}
 
