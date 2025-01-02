@@ -8,7 +8,9 @@
 	import { initLocalStatsContext } from '$lib/v2/stats/local.svelte';
 	import { navigating } from '$app/state';
 
-	let { children } = $props();
+	let { children, data } = $props();
+
+	console.log(data.dates);
 
 	NProgress.configure({ minimum: 0.16, showSpinner: false });
 

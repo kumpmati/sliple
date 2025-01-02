@@ -6,7 +6,7 @@
 	import { CELL_SIZE } from '$lib/constants/grid';
 	import WallTile from './WallTile.svelte';
 	import GoalTile from './GoalTile.svelte';
-	import { getTileId, handleSwipeEvent } from './swipe';
+	import { getPuzzleId, getTileId, handleSwipeEvent } from './swipe';
 	import { getLetterStatus } from './utils';
 	import TweenedTile from './TweenedTile.svelte';
 	import { GameSounds } from './sounds';
@@ -39,6 +39,9 @@
 	});
 
 	const handleDragStart = (e: TouchEvent | MouseEvent) => {
+		const puzzleId = getPuzzleId(e.target as Element);
+		if (!puzzleId || puzzleId !== game.puzzle.id) return; // ignore events outside the current puzzle
+
 		const id = getTileId(e.target as Element);
 		if (!id) return;
 
@@ -114,6 +117,7 @@
 </script>
 
 <div
+	data-puzzle-id={game.puzzle.id}
 	role="none"
 	class={cn('relative flex w-full flex-col items-center px-0 py-10 xs:px-4', className)}
 	use:swipe={{ timeframe: 500, minSwipeDistance: 30 }}
