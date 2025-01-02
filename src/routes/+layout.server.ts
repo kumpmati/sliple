@@ -12,14 +12,14 @@ dayjs.extend(timezone);
 export const load = async (e) => {
 	try {
 		const tz = getTimeZone(e.request);
-		const localDate = dayjs().tz(tz).toDate();
+		const localDate = dayjs().tz(tz).format('YYYY-MM-DD');
 
-		const puzzle = generateDailyPuzzle(localDate);
+		const puzzle = generateDailyPuzzle(new Date(localDate));
 
 		return {
 			puzzle,
 			analysis: analyzePuzzle(puzzle),
-			dates: [localDate, dayjs().toDate()]
+			dates: [localDate, new Date(localDate), dayjs().toDate()]
 		};
 	} catch (err: any) {
 		error(500, err?.message ?? 'unknown error');
