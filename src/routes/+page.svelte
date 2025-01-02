@@ -66,11 +66,15 @@
 	class="mx-auto flex h-full w-full max-w-md flex-col items-center sm:h-fit sm:rounded-xl sm:border-2 sm:border-slate-900 sm:bg-slate-950 sm:p-8"
 >
 	<div class="flex w-full items-center justify-between">
-		<a href="/about" class="p-2 text-slate-400 hover:text-white">
+		<a href="/about" class="p-2 text-slate-400 hover:text-white" aria-label="about">
 			<TablerHelp class="size-6" />
 		</a>
 
-		<button class="ml-auto p-2 text-slate-400 hover:text-white" onclick={toggleSound}>
+		<button
+			class="ml-auto p-2 text-slate-400 hover:text-white"
+			onclick={toggleSound}
+			aria-label="toggle audio"
+		>
 			{#if $soundsEnabled}
 				<TablerVolume class="size-6" />
 			{:else}
