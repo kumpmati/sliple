@@ -1,6 +1,9 @@
 import { Dir } from '$lib/stores/grid';
 import type { SwipePointerEventDetail } from 'svelte-gestures';
 
+export const getPuzzleId = (el?: Element) =>
+	el?.closest?.('[data-puzzle-id]')?.getAttribute('data-puzzle-id') ?? null;
+
 export const getTileId = (el?: Element) =>
 	el?.closest?.('[data-tile-id]')?.getAttribute('data-tile-id') ?? null;
 
