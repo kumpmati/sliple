@@ -10,7 +10,7 @@
 
 	let { children, data } = $props();
 
-	console.log(data.timezone);
+	console.log(data.dates);
 
 	NProgress.configure({ minimum: 0.16, showSpinner: false });
 
