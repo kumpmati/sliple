@@ -7,6 +7,8 @@
 	import { setSfxContext, type SfxContext } from '$lib/stores/sound';
 	import { initLocalStatsContext } from '$lib/v2/stats/local.svelte';
 	import { navigating } from '$app/state';
+	import { pwaInfo } from 'virtual:pwa-info';
+	import Pwa from '$lib/v2/Pwa.svelte';
 
 	let { children, data } = $props();
 
@@ -46,6 +48,8 @@
 		updated.check();
 	});
 </script>
+
+<Pwa />
 
 <div class="mx-auto h-full w-full max-w-lg p-4 sm:mt-8 sm:h-fit">
 	{@render children()}

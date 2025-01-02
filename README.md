@@ -1,6 +1,8 @@
-![Sliple logo banner](/static/banner.jpg)
+# Sliple
 
-# Getting started
+A slippery puzzle game.
+
+## Getting started
 
 [Getting started guide](./docs/GETTINGSTARTED.md)
 
