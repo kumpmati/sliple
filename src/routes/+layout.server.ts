@@ -12,7 +12,7 @@ dayjs.extend(timezone);
 export const load = async (e) => {
 	try {
 		const tz = getTimeZone(e.request);
-		const localDate = dayjs.tz(tz).toDate();
+		const localDate = dayjs().tz(tz).toDate();
 
 		const puzzle = generateDailyPuzzle(localDate);
 
