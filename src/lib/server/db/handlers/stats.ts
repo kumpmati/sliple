@@ -1,4 +1,4 @@
-import { sql, count, and, eq, asc } from 'drizzle-orm';
+import { sql, count, eq, asc } from 'drizzle-orm';
 import { puzzleCompletionTable } from '../schema';
 import { db } from '..';
 
@@ -10,7 +10,7 @@ export const getPuzzleStatistics = async (puzzleId: string): Promise<V2Statistic
 				totalAttempts: count(puzzleCompletionTable)
 			})
 			.from(puzzleCompletionTable)
-			.where(and(eq(puzzleCompletionTable.puzzleId, puzzleId)))
+			.where(eq(puzzleCompletionTable.puzzleId, puzzleId))
 			.groupBy(puzzleCompletionTable.puzzleId),
 		db
 			.select({

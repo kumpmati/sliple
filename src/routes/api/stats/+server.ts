@@ -2,10 +2,12 @@ import { db } from '$lib/server/db';
 import { getPuzzleStatistics } from '$lib/server/db/handlers/stats';
 import { puzzleCompletionTable } from '$lib/server/db/schema';
 import { Dir } from '$lib/stores/grid';
+import { getUidCookie } from '$lib/v2/cookies';
 import { generateDailyPuzzle } from '$lib/v2/generate';
 import { verifyPuzzleWin } from '$lib/v2/verify';
 import { error } from '@sveltejs/kit';
 import dayjs from 'dayjs';
+import { and, eq } from 'drizzle-orm';
 import { RateLimiter } from 'sveltekit-rate-limiter/server';
 import { endpoint, zod } from 'sveltekit-superactions';
 import { z } from 'zod';
@@ -32,6 +34,9 @@ export const POST = endpoint({
 			error(429, { message: 'you are being rate limited, try again later' });
 		}
 
+		const uid = getUidCookie(e.cookies);
+		if (!uid) error(400, 'missing anonymous identifier, try refreshing the page');
+
 		const date = new Date(body.date);
 
 		if (Math.abs(dayjs().diff(date, 'days', true)) > 1) {
@@ -45,12 +50,40 @@ export const POST = endpoint({
 			error(400, verified.error);
 		}
 
-		const [item] = await db
-			.insert(puzzleCompletionTable)
-			.values({ puzzleId: puzzle.id, numMoves: verified.moves })
-			.returning();
+		const puzzleIdAndUserId = and(
+			eq(puzzleCompletionTable.puzzleId, puzzle.id),
+			eq(puzzleCompletionTable.userId, uid)
+		);
 
-		return item;
+		// TODO: maybe use transaction?
+		const [existing] = await db.select().from(puzzleCompletionTable).where(puzzleIdAndUserId);
+		if (!existing) {
+			await db.insert(puzzleCompletionTable).values({
+				puzzleId: puzzle.id,
+				numMoves: verified.moves,
+				userId: uid
+			});
+
+			return;
+		}
+
+		if (verified.moves < existing.numMoves) {
+			await db
+				.update(puzzleCompletionTable)
+				.set({
+					numMoves: verified.moves,
+					timestamp: new Date(),
+					attempts: existing.attempts + 1 // increase attempts
+				})
+				.where(puzzleIdAndUserId);
+
+			return;
+		}
+
+		await db
+			.update(puzzleCompletionTable)
+			.set({ attempts: existing.attempts + 1 }) // increase attempts always
+			.where(puzzleIdAndUserId);
 	}),
 
 	getv2Stats: zod(z.object({ puzzleId: z.string().min(1).max(64) }), async (e, body) => {
