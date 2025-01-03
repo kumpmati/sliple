@@ -1,3 +1,5 @@
+import type { Puzzle } from '$lib/types/puzzle';
+
 export enum EndType {
 	LOSS = 0,
 	WIN = 1
@@ -17,6 +19,7 @@ export type CompletionDetails = {
 export type CompletionEntry = {
 	puzzleType: PuzzleType;
 	puzzleId: string;
+	puzzle: Puzzle;
 	timestamp: Date;
 	best: CompletionDetails | null;
 	latest: CompletionDetails | null;

@@ -16,7 +16,7 @@
 	import { shareDailyPuzzle } from '$lib/v2/share.js';
 	import dayjs from 'dayjs';
 	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
-	import { getLocalDbContext } from '$lib/v2/persisted/context.svelte.js';
+	import { getLocalDbContext } from '$lib/v2/persisted/context';
 	import { EndType, PuzzleType } from '$lib/v2/persisted/types.js';
 
 	let { data } = $props();
@@ -40,18 +40,13 @@
 	};
 
 	const unsub = game.on('end', ({ type, moves }) => {
+		db.markPuzzleComplete(data.puzzle, moves.length, type);
+
 		actions
 			// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
 			.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
 			.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
 			.then(() => loadStats());
-
-		db.markPuzzleComplete(
-			PuzzleType.DAILY,
-			game.puzzle.id,
-			moves.length,
-			type === 'w' ? EndType.WIN : EndType.LOSS
-		);
 
 		sleep(750).then(() => (modalOpen = true));
 	});
@@ -106,7 +101,6 @@
 	>
 		<!-- TODO: show streak statistics -->
 		<PuzzleStatistics
-			showStreak={false}
 			puzzleId={game.puzzle.id}
 			maxMoves={game.puzzle.data.maxMoves}
 			globals={{

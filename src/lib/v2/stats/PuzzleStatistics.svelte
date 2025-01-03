@@ -8,8 +8,9 @@
 	import TablerWorld from '~icons/tabler/world';
 	import type { Snippet } from 'svelte';
 	import CompletionStars from '../CompletionStars.svelte';
-	import { getLocalDbContext, PuzzleStats } from '../persisted/context.svelte';
+	import { getLocalDbContext } from '../persisted/context';
 	import { EndType } from '../persisted/types';
+	import { PuzzleStats } from '../persisted/reactive.svelte';
 
 	type Props = {
 		puzzleId: string;
@@ -27,9 +28,13 @@
 
 	let { puzzleId, maxMoves, showStreak, globals, children }: Props = $props();
 
-	const statsCtx = getLocalDbContext();
+	const db = getLocalDbContext();
+	const stats = new PuzzleStats(db, puzzleId);
 
-	const stats = new PuzzleStats(statsCtx, puzzleId);
+	$effect(() => {
+		console.log('updating puzzle id', puzzleId);
+		stats.setId(puzzleId);
+	});
 
 	let best = $derived(stats.current?.best);
 	let latest = $derived(stats.current?.latest);
@@ -37,6 +42,8 @@
 	let percentile = $derived(
 		best && globals ? calculatePercentile(globals.distribution, best.moves) : null
 	);
+
+	$inspect('stats', stats);
 </script>
 
 <div class="flex flex-col items-center">

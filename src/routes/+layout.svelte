@@ -7,7 +7,7 @@
 	import { setSfxContext, type SfxContext } from '$lib/stores/sound';
 	import { navigating } from '$app/state';
 	import PwaMeta from '$lib/v2/PwaMeta.svelte';
-	import { initLocalDbContext } from '$lib/v2/persisted/context.svelte';
+	import { initLocalDbContext } from '$lib/v2/persisted/context';
 
 	let { children } = $props();
 

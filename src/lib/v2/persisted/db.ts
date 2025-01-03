@@ -1,5 +1,6 @@
 import { openDB, type IDBPDatabase } from 'idb';
 import { EndType, PuzzleType, type CompletionDetails, type CompletionEntry } from './types';
+import type { Puzzle } from '$lib/types/puzzle';
 
 // increment this and update the 'upgrade' function
 // when making changes to the database structure.
@@ -38,26 +39,22 @@ export class LocalStatsDatabase {
 		});
 	}
 
-	async markPuzzleComplete(
-		puzzleType: PuzzleType,
-		puzzleId: string,
-		moves: number,
-		endType: EndType
-	) {
+	async markPuzzleComplete(puzzle: Puzzle, moves: number, endType: EndType, dateOverride?: Date) {
 		if (!this.#db) await this.init();
 
 		const details: CompletionDetails = {
 			endType,
 			moves,
-			timestamp: new Date()
+			timestamp: dateOverride ?? new Date()
 		};
 
-		let existing = await this.getEntry(puzzleId);
+		let existing = await this.getEntry(puzzle.id);
 
 		if (!existing) {
 			existing = {
-				puzzleType,
-				puzzleId,
+				puzzleId: puzzle.id,
+				puzzleType: puzzle.id.startsWith('daily') ? PuzzleType.DAILY : PuzzleType.RANDOM,
+				puzzle,
 				timestamp: details.timestamp,
 				best: null,
 				latest: details
@@ -80,16 +77,14 @@ export class LocalStatsDatabase {
 		return (await this.#db?.getFromIndex('puzzle', 'puzzleId', puzzleId)) ?? null;
 	}
 
-	async getAllDaily() {
+	async getAllDaily(): Promise<CompletionEntry[]> {
 		if (!this.#db) await this.init();
-
-		return this.#db?.getAllFromIndex('puzzle', 'puzzleType', PuzzleType.DAILY);
+		return (await this.#db?.getAllFromIndex('puzzle', 'puzzleType', PuzzleType.DAILY)) ?? [];
 	}
 
-	async getAllRandom() {
+	async getAllRandom(): Promise<CompletionEntry[]> {
 		if (!this.#db) await this.init();
-
-		return this.#db?.getAllFromIndex('puzzle', 'timestamp', PuzzleType.RANDOM);
+		return (await this.#db?.getAllFromIndex('puzzle', 'puzzleType', PuzzleType.RANDOM)) ?? [];
 	}
 
 	onUpdate(cb: () => void) {
@@ -99,6 +94,11 @@ export class LocalStatsDatabase {
 
 	offUpdate(cb: () => void) {
 		this.#subscribers.splice(this.#subscribers.indexOf(cb, 1));
+	}
+
+	async clear() {
+		if (!this.#db) await this.init();
+		return this.#db?.clear('puzzle');
 	}
 
 	#emitUpdate() {
