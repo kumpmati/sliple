@@ -14,15 +14,15 @@
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
-	import { getLocalStatsContext } from '$lib/v2/stats/local.svelte';
 	import Badge from '$lib/v2/Badge.svelte';
+	import { getLocalDbContext, PuzzleStats } from '$lib/v2/persisted/context.svelte';
 
 	let { data } = $props();
 
-	const stats = getLocalStatsContext();
+	const db = getLocalDbContext();
 	const sfx = getSfxContext();
 
-	let completion = $derived(stats.current.daily?.[data.puzzle.id]?.best);
+	const stats = new PuzzleStats(db, data.puzzle.id);
 
 	const toggleSound = () => {
 		$soundsEnabled = !$soundsEnabled;
@@ -86,10 +86,10 @@
 	<Logo />
 
 	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-slate-900 p-4 pt-6 text-center">
-		{#if completion}
+		{#if stats.current?.best}
 			<Badge class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 shadow-sharp-sm">
 				<TablerCheck class="size-5" />
-				{completion.moves} moves
+				{stats.current.best.moves} moves
 			</Badge>
 		{/if}
 
@@ -103,7 +103,7 @@
 			<span class="text-white">{formatSeconds(secondsUntilReset)}</span> until next puzzle
 		</p>
 
-		{#if !completion}
+		{#if !stats.current?.best}
 			<Button edgeGlow color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
 				Play
 				<TablerPlay class="size-6" />

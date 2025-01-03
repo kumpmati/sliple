@@ -1,25 +1,15 @@
 import { error } from '@sveltejs/kit';
 import { analyzePuzzle } from '$lib/services/generator/analyze';
 import { generateDailyPuzzle } from '$lib/v2/generate';
-import { getTimeZone } from '$lib/v2/timezone.js';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import { getLocalDate } from '$lib/v2/timezone.js';
 
 export const load = async (e) => {
 	try {
-		const tz = getTimeZone(e.request);
-		const localDate = dayjs().tz(tz).format('YYYY-MM-DD');
-
-		const puzzle = generateDailyPuzzle(new Date(localDate));
+		const puzzle = generateDailyPuzzle(getLocalDate(e.request));
 
 		return {
 			puzzle,
-			analysis: analyzePuzzle(puzzle),
-			dates: [localDate, new Date(localDate), dayjs().toDate()]
+			analysis: analyzePuzzle(puzzle)
 		};
 	} catch (err: any) {
 		error(500, err?.message ?? 'unknown error');
