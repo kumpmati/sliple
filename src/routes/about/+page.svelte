@@ -1,5 +1,6 @@
 <script>
 	import { version } from '$app/environment';
+	import { getBackLink } from '$lib/v2/backlink';
 	import TablerArrowLeft from '~icons/tabler/arrow-left';
 </script>
 
@@ -10,7 +11,7 @@
 
 <main class="flex flex-col text-slate-400">
 	<a
-		href="/"
+		href={getBackLink('/')}
 		aria-label="Back to the front page"
 		class="mb-4 w-fit p-2 text-slate-400 hover:text-white"
 	>

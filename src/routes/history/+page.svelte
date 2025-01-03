@@ -13,6 +13,8 @@
 	import CalendarControls from './CalendarControls.svelte';
 	import TablerTrash from '~icons/tabler/trash';
 	import { fade } from 'svelte/transition';
+	import { page } from '$app/state';
+	import { getBackLink } from '$lib/v2/backlink';
 
 	const db = getLocalDbContext();
 
@@ -60,7 +62,7 @@
 
 <main class="mx-auto flex max-w-sm flex-col">
 	<div class="flex items-center justify-between">
-		<a href="/" aria-label="home" class="w-fit p-1 text-slate-400 hover:text-white">
+		<a href={getBackLink('/')} aria-label="home" class="w-fit p-1 text-slate-400 hover:text-white">
 			<TablerArrowLeft class="size-6" />
 		</a>
 
@@ -117,7 +119,7 @@
 			{#each data.random as entry (entry.puzzleId)}
 				<li>
 					<a
-						href="/play/random/{entry.puzzleId}"
+						href="/play/random/{entry.puzzleId}?back={page.url.pathname}"
 						class="relative z-0 flex items-center py-3 leading-none text-slate-400 outline-none transition-colors hover:text-white [&>.bg]:hover:opacity-100 [&>.bg]:focus-visible:opacity-100"
 					>
 						<div

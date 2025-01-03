@@ -22,10 +22,6 @@
 
 		current = dayjs(current).add(1, 'month').startOf('month').toDate();
 	};
-
-	const gotoCurrentMonth = () => {
-		current = dayjs().startOf('month').toDate();
-	};
 </script>
 
 <div class="flex items-center gap-3">
@@ -37,9 +33,9 @@
 		<TablerChevronLeft class="size-4" />
 	</button>
 
-	<button class="w-[80px] text-center" aria-label="current month" onclick={gotoCurrentMonth}>
+	<p class="w-[80px] text-center">
 		{dayjs(current).format('MMM YYYY')}
-	</button>
+	</p>
 
 	<button
 		aria-label="next month"
