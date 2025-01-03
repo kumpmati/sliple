@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CompletionStars from '../CompletionStars.svelte';
+	import { EndType } from '../persisted/types';
 	import type { GameState } from './state.svelte';
 
 	type Props = {
@@ -19,7 +20,10 @@
 
 		<div class="animated origin-center">
 			<CompletionStars
-				completion={{ win: game.status === 'win', moves: game.moves }}
+				completion={{
+					endType: game.status === 'win' ? EndType.WIN : EndType.LOSS,
+					moves: game.moves
+				}}
 				maxMoves={game.puzzle.data.maxMoves}
 			/>
 		</div>

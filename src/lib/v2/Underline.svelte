@@ -7,6 +7,5 @@
 	let { class: className }: Props = $props();
 </script>
 
-<span
-	class={cn('absolute -left-2 bottom-0.5 z-[-1] h-2 w-[calc(100%+1rem)] rounded-3xl', className)}
+<span class={cn('absolute -left-2 bottom-0 z-[-1] h-3 w-[calc(100%+1rem)] rounded-3xl', className)}
 ></span>
