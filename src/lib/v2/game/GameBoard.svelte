@@ -155,7 +155,7 @@
 		{#each game.sortedTiles as tile (tile.id)}
 			{@const x = tile.x * CELL_SIZE}
 			{@const y = tile.y * CELL_SIZE}
-			{@const offset = touch.id === tile.id ? touch.drag : { x: 0, y: 0 }}
+			{@const offset = touch.id === tile.id && isLetterTile(tile) ? touch.drag : { x: 0, y: 0 }}
 
 			<TweenedTile tileId={tile.id} x={x + offset.x * 5} y={y + offset.y * 5}>
 				{#if isLetterTile(tile)}

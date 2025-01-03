@@ -32,7 +32,6 @@
 	const stats = new PuzzleStats(db, puzzleId);
 
 	$effect(() => {
-		console.log('updating puzzle id', puzzleId);
 		stats.setId(puzzleId);
 	});
 
@@ -42,8 +41,6 @@
 	let percentile = $derived(
 		best && globals ? calculatePercentile(globals.distribution, best.moves) : null
 	);
-
-	$inspect('stats', stats);
 </script>
 
 <div class="flex flex-col items-center">
