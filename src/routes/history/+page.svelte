@@ -94,7 +94,10 @@
 		<div class="flex items-center justify-between">
 			<h2 class="inline-flex items-center gap-1 text-xl font-semibold text-blue-400">
 				<TablerCalendarMonth class="size-6" />
-				Daily
+
+				<span>
+					Daily <span class="text-sm font-normal text-slate-400">({data.daily.length})</span>
+				</span>
 			</h2>
 
 			<CalendarControls bind:current={calendar.currentMonth} />
@@ -104,7 +107,10 @@
 
 		<h2 class="mt-8 inline-flex items-center gap-1 text-xl font-semibold text-orange-400">
 			<TablerDice3 class="size-6" />
-			Random
+
+			<span>
+				Random <span class="text-sm font-normal text-slate-400">({data.random.length})</span>
+			</span>
 		</h2>
 
 		<ul class="mt-1 flex flex-col">
