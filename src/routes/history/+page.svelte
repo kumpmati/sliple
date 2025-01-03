@@ -62,11 +62,7 @@
 
 <main class="mx-auto flex max-w-sm flex-col">
 	<div class="flex items-center justify-between">
-		<a
-			href={getBackLink(page.url, '/')}
-			aria-label="home"
-			class="w-fit p-1 text-slate-400 hover:text-white"
-		>
+		<a href={getBackLink('/')} aria-label="home" class="w-fit p-1 text-slate-400 hover:text-white">
 			<TablerArrowLeft class="size-6" />
 		</a>
 

@@ -5,7 +5,6 @@
 	import TablerChartBar from '~icons/tabler/chart-bar';
 	import type { GameState } from './state.svelte';
 	import { getBackLink } from '../backlink';
-	import { page } from '$app/state';
 
 	type Props = {
 		game: GameState;
@@ -18,7 +17,7 @@
 
 <div class="mb-6 flex w-full items-center justify-between">
 	<a
-		href={getBackLink(page.url, '/')}
+		href={getBackLink('/')}
 		class="flex items-center justify-center rounded-sm p-2 text-slate-400 hover:text-white"
 	>
 		<TablerArrowLeft class="size-6" />

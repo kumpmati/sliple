@@ -17,7 +17,6 @@
 	import dayjs from 'dayjs';
 	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
 	import { getLocalDbContext } from '$lib/v2/persisted/context';
-	import { EndType, PuzzleType } from '$lib/v2/persisted/types.js';
 
 	let { data } = $props();
 
