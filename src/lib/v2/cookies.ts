@@ -1,13 +1,12 @@
 import type { Cookies } from '@sveltejs/kit';
 import dayjs from 'dayjs';
-import { nanoid } from 'nanoid';
 
 export const getUidCookie = (c: Cookies) => {
 	return c.get('uid');
 };
 
-export const createUidCookie = (c: Cookies) => {
-	c.set('uid', nanoid(), {
+export const setUidCookie = (c: Cookies, val: string) => {
+	c.set('uid', val, {
 		path: '/',
 		httpOnly: true,
 		secure: true,
