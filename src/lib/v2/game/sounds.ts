@@ -1,4 +1,5 @@
 import type { SfxContext } from '$lib/stores/sound';
+import { EndType } from '../persisted/types';
 import type { GameState } from './state.svelte';
 
 export class GameSounds {
@@ -25,7 +26,7 @@ export class GameSounds {
 				this.#ctx.current?.play('click', 150);
 			}),
 			this.#game.on('end', ({ type }) => {
-				this.#ctx.current?.play(type === 'w' ? 'win' : 'lose', 300);
+				this.#ctx.current?.play(type === EndType.WIN ? 'win' : 'lose', 300);
 			}),
 			this.#game.on('undo', () => this.#ctx.current?.play('undo')),
 			this.#game.on('reset', () => this.#ctx.current?.play('reset'))

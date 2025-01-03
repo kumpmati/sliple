@@ -3,6 +3,7 @@ import type { Tile } from '$lib/types/grid';
 import type { Puzzle } from '$lib/types/puzzle';
 import { copy } from '$lib/utils/copy';
 import { calculateNextPosition, canMove } from '$lib/utils/grid';
+import { EndType } from '../persisted/types';
 import type { TutorialLevel } from '../tutorial/tutorial';
 import { isWinStatus, sortTiles } from './utils';
 
@@ -18,7 +19,7 @@ type Callback<T extends EventType> = (d: EventParams<T>) => void;
 
 interface GameStateEventMap {
 	move: { tileId: string; dir: Dir };
-	end: { type: 'w' | 'l'; moves: Pick<HistoryItem, 'tid' | 'dir'>[] };
+	end: { type: EndType; moves: Pick<HistoryItem, 'tid' | 'dir'>[] };
 	undo: void;
 	reset: void;
 	status: 'win' | 'loss' | 'ongoing';
@@ -89,10 +90,10 @@ export class GameState {
 		this.#emit('move', { tileId, dir });
 
 		if (isWinStatus(this.tiles)) {
-			this.#emit('end', { type: 'w', moves: this.#getMoveHistory() });
+			this.#emit('end', { type: EndType.WIN, moves: this.#getMoveHistory() });
 		} else {
 			if (this.moves >= this.puzzle.data.maxMoves.bronze) {
-				this.#emit('end', { type: 'l', moves: this.#getMoveHistory() });
+				this.#emit('end', { type: EndType.LOSS, moves: this.#getMoveHistory() });
 			}
 		}
 	}
