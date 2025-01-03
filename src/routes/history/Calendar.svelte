@@ -40,7 +40,7 @@
 
 				{#if isToday}
 					<a
-						href="/play/daily"
+						href="/play/daily?back=/history"
 						class={cn(
 							'flex aspect-square w-full items-center justify-center overflow-hidden rounded-sm border-2 border-transparent text-center transition-colors',
 							entry?.best
