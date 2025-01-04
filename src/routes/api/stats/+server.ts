@@ -35,7 +35,7 @@ export const POST = endpoint({
 		}
 
 		const uid = getUidCookie(e.cookies);
-		if (!uid) error(400, 'missing anonymous identifier, try refreshing the page');
+		if (!uid) error(401, "you haven't opted into global statistics");
 
 		const date = new Date(body.date);
 
