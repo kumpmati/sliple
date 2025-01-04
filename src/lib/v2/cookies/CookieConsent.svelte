@@ -45,11 +45,11 @@
 {#if show || consent === null}
 	<div
 		in:fly={{ y: 15, duration: 150 }}
-		class="fixed bottom-2 left-1/2 flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 items-center justify-between gap-4 rounded-sm bg-slate-800 px-4 py-2 shadow-sharp-sm"
+		class="fixed bottom-2 left-1/2 flex w-[calc(100%-1rem)] max-w-md -translate-x-1/2 flex-col items-center justify-between gap-2 rounded-sm bg-slate-800 px-4 py-2 text-center shadow-sharp-sm xs:flex-row xs:text-left"
 	>
-		<div class="flex flex-col">
+		<div class="flex flex-col items-center xs:items-start">
 			<p class="flex items-center gap-1 font-heading font-bold">
-				<TablerWorld class="size-5 shrink-0" />
+				<TablerWorld class="hidden size-5 shrink-0 xs:flex" />
 				Opt into global statistics
 			</p>
 			<small class="text-slate-400">
@@ -62,7 +62,7 @@
 			</small>
 		</div>
 
-		<div class="flex gap-1">
+		<div class="flex gap-2">
 			<button onclick={denyCookies} class="p-1 text-slate-400 hover:text-white">Deny</button>
 			<button onclick={acceptCookies} class="p-1 text-white">Accept</button>
 		</div>
