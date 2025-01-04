@@ -17,6 +17,8 @@
 	import dayjs from 'dayjs';
 	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
 	import { getLocalDbContext } from '$lib/v2/persisted/context';
+	import CookieConsent from '$lib/v2/cookies/CookieConsent.svelte';
+	import { getConsentCookie } from '$lib/v2/cookies/cookie.js';
 
 	let { data } = $props();
 
@@ -41,11 +43,14 @@
 	const unsub = game.on('end', ({ type, moves }) => {
 		db.markPuzzleComplete(data.puzzle, moves.length, type);
 
-		actions
-			// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
-			.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
-			.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
-			.then(() => loadStats());
+		// send completion only if opted in
+		if (getConsentCookie()) {
+			actions
+				// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
+				.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
+				.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
+				.then(() => loadStats());
+		}
 
 		sleep(750).then(() => (modalOpen = true));
 	});
@@ -74,6 +79,7 @@
 	<meta property="og:image:height" content="473" />
 </svelte:head>
 
+<CookieConsent />
 <TutorialModal />
 
 <main class="flex flex-col items-center">

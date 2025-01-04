@@ -1,7 +1,10 @@
 <script>
 	import { version } from '$app/environment';
 	import { getBackLink } from '$lib/v2/backlink';
+	import CookieConsent from '$lib/v2/cookies/CookieConsent.svelte';
 	import TablerArrowLeft from '~icons/tabler/arrow-left';
+
+	let show = $state(false);
 </script>
 
 <svelte:head>
@@ -51,11 +54,18 @@
 		donating.
 	</p>
 
-	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer" class="mt-8">
+	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer" class="mt-8 w-fit">
 		<img width="150px" src="bmc.svg" alt="Buy me a coffee" />
 	</a>
 
 	<footer class="mt-8">
-		<p class="text-xs text-slate-600">© Copyright 2025 - Matias Kumpulainen</p>
+		<div class="flex items-center gap-4">
+			<a href="/privacy?back=/about" class="w-fit hover:text-white">Privacy</a>
+			<button onclick={() => (show = true)} class="hover:text-white">Cookie consent</button>
+		</div>
+
+		<p class="mt-4 text-xs text-slate-600">© Copyright 2025 - Matias Kumpulainen</p>
 	</footer>
 </main>
+
+<CookieConsent bind:show />
