@@ -35,10 +35,7 @@
 
 	onMount(() => {
 		updated.subscribe((u) => {
-			if (u) {
-				postMessage('CLEAR_CACHE');
-				window.location.reload();
-			}
+			if (u) window.location.reload();
 		});
 
 		// check update status when first started
