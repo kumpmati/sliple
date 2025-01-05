@@ -1,4 +1,5 @@
 import { dev } from '$app/environment';
+import { error } from '@sveltejs/kit';
 import type { Miniflare } from 'miniflare';
 
 let mf: Miniflare;
@@ -9,8 +10,11 @@ let mf: Miniflare;
  */
 export const getPlatform = async (
 	platform: Readonly<App.Platform> | undefined
-): Promise<App.Platform | undefined> => {
-	if (!dev) return platform;
+): Promise<App.Platform> => {
+	if (!dev) {
+		if (!platform) error(500, 'platform not configured');
+		return platform;
+	}
 
 	if (!mf) {
 		const { Miniflare, Log, LogLevel } = await import('miniflare');
