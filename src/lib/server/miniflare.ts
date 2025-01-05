@@ -9,11 +9,8 @@ let mf: Miniflare;
  */
 export const getPlatform = async (
 	platform: Readonly<App.Platform> | undefined
-): Promise<App.Platform> => {
-	if (!dev) {
-		if (!platform) throw new Error('platform not defined');
-		return platform;
-	}
+): Promise<App.Platform | undefined> => {
+	if (!dev) return platform;
 
 	if (!mf) {
 		const { Miniflare, Log, LogLevel } = await import('miniflare');
