@@ -5,6 +5,8 @@ import { shufflingGenerator } from '$lib/services/generator/strategies/shuffling
 import { Caccu } from 'caccu';
 import type { Puzzle } from '$lib/types/puzzle';
 
+export const dailyLevelId = (date: Date | string) => 'daily-' + dayjs(date).format('YYYY-MM-DD');
+
 // puzzle generation is expensive (15-30ms cpu time) but should
 // be deterministic based on the seed so we can cache the result.
 const levelCache = new Caccu();
@@ -13,7 +15,7 @@ export const generateDailyPuzzle = (dateOverride?: Date) => {
 	const date = dayjs(dateOverride).format('YYYY-MM-DD');
 	const seed = date + PUBLIC_DAILY_LEVEL_SALT;
 
-	const id = `daily-${date}`;
+	const id = dailyLevelId(date);
 
 	const cached = levelCache.get<Puzzle>(id);
 	if (cached) return cached;
