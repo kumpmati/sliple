@@ -3,6 +3,9 @@ import { error } from '@sveltejs/kit';
 import { shufflingGenerator } from '$lib/services/generator/strategies/shuffling';
 import { analyzePuzzle } from '$lib/services/generator/analyze';
 
+// disable server-side rendering because puzzle generation can be CPU-intensive
+export const ssr = false;
+
 export const load = async ({ params }) => {
 	try {
 		const puzzle = shufflingGenerator.generate(params.seed, {
