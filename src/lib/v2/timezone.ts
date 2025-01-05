@@ -20,9 +20,9 @@ const getTimeZone = (req: Request): string | undefined => {
 };
 
 /**
- * Returns a date object that represents the user's current date,
+ * Returns a date string (YYYY-MM-DD) that represents the user's current date,
  * factoring in their current timezone.
  */
 export const getLocalDate = (req: Request) => {
-	return new Date(dayjs().tz(getTimeZone(req)).format('YYYY-MM-DD'));
+	return dayjs().tz(getTimeZone(req)).format('YYYY-MM-DD');
 };

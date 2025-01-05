@@ -1,9 +1,11 @@
 import { db } from '$lib/server/db';
 import { getPuzzleStatistics } from '$lib/server/db/handlers/stats';
 import { puzzleCompletionTable } from '$lib/server/db/schema';
+import { cached } from '$lib/server/kv';
+import { getPlatform } from '$lib/server/miniflare';
 import { Dir } from '$lib/stores/grid';
 import { getUidCookie } from '$lib/v2/cookies';
-import { generateDailyPuzzle } from '$lib/v2/generate';
+import { dailyLevelId, generateDailyPuzzle } from '$lib/v2/generate';
 import { verifyPuzzleWin } from '$lib/v2/verify';
 import { error } from '@sveltejs/kit';
 import dayjs from 'dayjs';
@@ -43,7 +45,14 @@ export const POST = endpoint({
 			error(400, 'puzzle is not accepting solutions');
 		}
 
-		const puzzle = generateDailyPuzzle(date);
+		const platform = await getPlatform(e.platform);
+
+		const puzzle = await cached(
+			platform,
+			dailyLevelId(body.date),
+			() => generateDailyPuzzle(date),
+			60 * 60 * 1 // 1 hour
+		);
 
 		const verified = verifyPuzzleWin(puzzle, body.moves);
 		if (verified.error) {
