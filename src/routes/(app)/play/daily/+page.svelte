@@ -11,18 +11,20 @@
 	import type { StatsEndpoint } from '../../api/stats/+server.js';
 	import { onDestroy, untrack } from 'svelte';
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
-	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte';
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareDailyPuzzle } from '$lib/v2/share.js';
 	import dayjs from 'dayjs';
 	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
+	import { getLocalDbContext } from '$lib/v2/persisted/context';
+	import CookieConsent from '$lib/v2/cookies/CookieConsent.svelte';
+	import { getConsentCookie } from '$lib/v2/cookies/cookie.js';
 
 	let { data } = $props();
 
 	const actions = superActions<StatsEndpoint>('/api/stats');
 	const game = new GameState(data.puzzle);
-	const localStats = getLocalStatsContext();
+	const db = getLocalDbContext();
 
 	let stats = $state<{ current: V2Statistics | null; loading: boolean; error?: string }>({
 		current: null,
@@ -39,19 +41,16 @@
 	};
 
 	const unsub = game.on('end', ({ type, moves }) => {
-		actions
-			// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
-			.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
-			.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
-			.then(() => loadStats());
+		db.markPuzzleComplete(data.puzzle, moves.length, type);
 
-		markCompleted(localStats, {
-			puzzleId: game.puzzle.id,
-			moves: moves.length,
-			type: 'daily',
-			win: type === 'w',
-			timestamp: new Date().toISOString()
-		});
+		// send completion only if opted in
+		if (getConsentCookie()) {
+			actions
+				// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
+				.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
+				.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
+				.then(() => loadStats());
+		}
 
 		sleep(750).then(() => (modalOpen = true));
 	});
@@ -80,6 +79,7 @@
 	<meta property="og:image:height" content="473" />
 </svelte:head>
 
+<CookieConsent />
 <TutorialModal />
 
 <main class="flex flex-col items-center">
@@ -106,9 +106,7 @@
 	>
 		<!-- TODO: show streak statistics -->
 		<PuzzleStatistics
-			showStreak={false}
 			puzzleId={game.puzzle.id}
-			puzzleType="daily"
 			maxMoves={game.puzzle.data.maxMoves}
 			globals={{
 				loading: stats.loading,

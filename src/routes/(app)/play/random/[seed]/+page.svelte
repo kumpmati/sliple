@@ -8,26 +8,20 @@
 	import BottomSheet from '$lib/v2/BottomSheet.svelte';
 	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
 	import Underline from '$lib/v2/Underline.svelte';
-	import { untrack } from 'svelte';
-	import { getLocalStatsContext, markCompleted } from '$lib/v2/stats/local.svelte.js';
+	import { onDestroy, untrack } from 'svelte';
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareRandomPuzzle } from '$lib/v2/share.js';
 	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
+	import { getLocalDbContext } from '$lib/v2/persisted/context';
 
 	let { data } = $props();
 
 	const game = new GameState(data.puzzle);
-	const localStats = getLocalStatsContext();
+	const db = getLocalDbContext();
 
-	game.on('end', ({ type }) => {
-		markCompleted(localStats, {
-			puzzleId: game.puzzle.id,
-			type: 'random',
-			win: type === 'w',
-			moves: game.moves,
-			timestamp: new Date().toISOString()
-		});
+	const unsub = game.on('end', ({ type, moves }) => {
+		db.markPuzzleComplete(data.puzzle, moves.length, type);
 
 		sleep(750).then(() => (modalOpen = true));
 	});
@@ -39,6 +33,8 @@
 
 		untrack(() => game.setPuzzle(data.puzzle));
 	});
+
+	onDestroy(unsub);
 </script>
 
 <svelte:head>
@@ -79,11 +75,7 @@
 		urlStateHash="stats"
 		onClose={() => game.status !== 'ongoing' && game.reset()}
 	>
-		<PuzzleStatistics
-			puzzleId={game.puzzle.id}
-			puzzleType="random"
-			maxMoves={game.puzzle.data.maxMoves}
-		>
+		<PuzzleStatistics puzzleId={data.puzzle.id} maxMoves={data.puzzle.data.maxMoves}>
 			<div class="mt-8 grid w-full grid-cols-2 gap-4">
 				<Button color="lightgray" onclick={() => shareRandomPuzzle(data.puzzle)}>
 					Share <TablerShare class="size-5" />

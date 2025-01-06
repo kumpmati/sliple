@@ -135,12 +135,12 @@ class ShufflingGenerator implements PuzzleGenerator {
 		// retrieve positions of all letters after shuffling
 		const shuffledLetters = get(store).tiles.filter(isLetterTile);
 
-		const goals = shuffledLetters.map((m) => {
+		const goals = shuffledLetters.map((m, i) => {
 			const lt = startingLetters.find((l) => l.id === m.id);
 			if (!lt) throw new Error('letter disappeared while shuffling');
 
 			return {
-				id: nanoid(),
+				id: `g:${i}`,
 				type: 'goal',
 				x: m.x,
 				y: m.y,

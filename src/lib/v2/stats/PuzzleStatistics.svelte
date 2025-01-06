@@ -6,13 +6,14 @@
 	import TablerAlertCircle from '~icons/tabler/alert-circle';
 	import TablerUser from '~icons/tabler/user';
 	import TablerWorld from '~icons/tabler/world';
-	import { getLocalStatsContext } from './local.svelte';
 	import type { Snippet } from 'svelte';
 	import CompletionStars from '../CompletionStars.svelte';
+	import { getLocalDbContext } from '../persisted/context';
+	import { EndType } from '../persisted/types';
+	import { PuzzleStats } from '../persisted/reactive.svelte';
 
 	type Props = {
 		puzzleId: string;
-		puzzleType: 'daily' | 'random';
 		maxMoves: Puzzle['data']['maxMoves'];
 		showStreak?: boolean;
 		globals?: {
@@ -25,12 +26,17 @@
 		children?: Snippet;
 	};
 
-	let { puzzleId, puzzleType, maxMoves, showStreak, globals, children }: Props = $props();
+	let { puzzleId, maxMoves, showStreak, globals, children }: Props = $props();
 
-	const localStats = getLocalStatsContext();
+	const db = getLocalDbContext();
+	const stats = new PuzzleStats(db, puzzleId);
 
-	let best = $derived(localStats.current?.[puzzleType]?.[puzzleId]?.best);
-	let latest = $derived(localStats.current?.[puzzleType]?.[puzzleId]?.latest);
+	$effect(() => {
+		stats.setId(puzzleId);
+	});
+
+	let best = $derived(stats.current?.best);
+	let latest = $derived(stats.current?.latest);
 
 	let percentile = $derived(
 		best && globals ? calculatePercentile(globals.distribution, best.moves) : null
@@ -42,16 +48,16 @@
 
 	{#if latest}
 		<p class="mt-2 text-center font-heading text-2xl font-bold text-white">
-			{#if latest.win}
+			{#if latest.endType === EndType.WIN}
 				Completed!
 			{:else}
 				Out of moves!
 			{/if}
 		</p>
 
-		{#if latest.win || best?.win}
+		{#if latest.endType === EndType.WIN || best?.endType === EndType.WIN}
 			<p class="text-sm font-normal text-slate-400">
-				Best: {best?.moves ?? '--'}, Latest: {latest.win ? latest.moves : '--'}
+				Best: {best?.moves ?? '--'}, Latest: {latest.endType === EndType.WIN ? latest.moves : '--'}
 			</p>
 		{/if}
 	{:else}

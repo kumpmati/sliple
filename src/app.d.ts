@@ -3,12 +3,19 @@
 // and what to do when importing types
 
 /// <reference types="svelte-gestures" />
-
-import 'unplugin-icons/types/svelte';
+/// <reference types="vite-plugin-pwa/info" />
+/// <reference types="vite-plugin-pwa/client" />
+/// <reference types="vite-plugin-pwa/pwa-assets" />
+/// <reference types="@cloudflare/workers-types/experimental" />
+/// <reference types="unplugin-icons/types/svelte" />
 
 declare namespace App {
 	// interface Error {}
 	// interface Locals {}
 	// interface PageData {}
-	// interface Platform {}
+	interface Platform {
+		env: {
+			KV: KVNamespace;
+		};
+	}
 }

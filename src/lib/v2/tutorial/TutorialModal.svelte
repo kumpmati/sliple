@@ -10,6 +10,7 @@
 	import { fly } from 'svelte/transition';
 	import TablerArrowRight from '~icons/tabler/arrow-right';
 	import TablerCheck from '~icons/tabler/check';
+	import { EndType } from '../persisted/types';
 
 	let step = $state(0);
 	let currentLevel = $derived(tutorial.levels[step]);
@@ -33,7 +34,7 @@
 
 	onMount(() => {
 		game.on('end', (d) => {
-			if (d.type === 'l') {
+			if (d.type === EndType.LOSS) {
 				sleep(1500).then(() => game.reset());
 			} else if (step < tutorial.levels.length) {
 				sleep(1500).then(() => nextLevel());
