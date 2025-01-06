@@ -4,6 +4,19 @@ import { PUBLIC_DAILY_LEVEL_SALT } from '$env/static/public';
 import { shufflingGenerator } from '$lib/services/generator/strategies/shuffling';
 import { Caccu } from 'caccu';
 import type { Puzzle } from '$lib/types/puzzle';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
+export const isDailyLevelId = (id: string): boolean => {
+	return dayjs(id, '[daily-]YYYY-MM-DD', true).isValid();
+};
+
+export const parseDailyLevelId = (id: string): Date => {
+	if (!isDailyLevelId(id)) throw new Error('invalid daily level id');
+
+	return dayjs(id.replace('daily-', '')).toDate();
+};
 
 export const dailyLevelId = (date: Date | string) => 'daily-' + dayjs(date).format('YYYY-MM-DD');
 

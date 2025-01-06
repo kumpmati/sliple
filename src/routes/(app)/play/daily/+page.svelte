@@ -8,13 +8,12 @@
 	import PuzzleStatistics from '$lib/v2/stats/PuzzleStatistics.svelte';
 	import Underline from '$lib/v2/Underline.svelte';
 	import { superActions } from 'sveltekit-superactions';
-	import type { StatsEndpoint } from '../../api/stats/+server.js';
+	import type { StatsEndpoint } from '../../../api/stats/+server.js';
 	import { onDestroy, untrack } from 'svelte';
 	import type { V2Statistics } from '$lib/server/db/handlers/stats.js';
 	import { sleep } from '$lib/utils/sleep.js';
 	import Button from '$lib/v2/Button.svelte';
 	import { shareDailyPuzzle } from '$lib/v2/share.js';
-	import dayjs from 'dayjs';
 	import TutorialModal from '$lib/v2/tutorial/TutorialModal.svelte';
 	import { getLocalDbContext } from '$lib/v2/persisted/context';
 	import CookieConsent from '$lib/v2/cookies/CookieConsent.svelte';
@@ -47,7 +46,7 @@
 		if (getConsentCookie()) {
 			actions
 				// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
-				.markCompletion({ date: dayjs(data.puzzle.publishedAt).format('YYYY-MM-DD'), moves })
+				.markCompletion({ id: data.puzzle.id, moves })
 				.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
 				.then(() => loadStats());
 		}
