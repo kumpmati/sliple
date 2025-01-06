@@ -23,7 +23,7 @@ export const load = async ({ request, cookies, platform: _platform }) => {
 			platform,
 			dailyLevelId(localDate),
 			() => generateDailyPuzzle(new Date(localDate)),
-			60 * 60 * 1 // 1 hour
+			60 * 60 * 48 // 48 hours
 		);
 
 		return {

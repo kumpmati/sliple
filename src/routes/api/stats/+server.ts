@@ -51,7 +51,7 @@ export const POST = endpoint({
 			platform,
 			dailyLevelId(body.date),
 			() => generateDailyPuzzle(date),
-			60 * 60 * 1 // 1 hour
+			60 * 60 * 48 // 48 hours
 		);
 
 		const verified = verifyPuzzleWin(puzzle, body.moves);
