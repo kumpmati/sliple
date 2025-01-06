@@ -2,7 +2,6 @@
 	import '../app.css';
 	import 'nprogress/nprogress.css';
 	import NProgress from 'nprogress';
-	import { updated } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { setSfxContext, type SfxContext } from '$lib/stores/sound';
 	import { navigating } from '$app/state';
@@ -31,15 +30,6 @@
 		import('$lib/services/sound').then(({ GameAudio }) => {
 			sfx.current = new GameAudio();
 		});
-	});
-
-	onMount(() => {
-		updated.subscribe((u) => {
-			if (u) window.location.reload();
-		});
-
-		// check update status when first started
-		updated.check();
 	});
 </script>
 
