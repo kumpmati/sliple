@@ -5,7 +5,7 @@ import { cached } from '$lib/server/kv';
 import { getPlatform } from '$lib/server/miniflare';
 import { Dir } from '$lib/stores/grid';
 import { getUidCookie } from '$lib/v2/cookies';
-import { dailyLevelId, generateDailyPuzzle } from '$lib/v2/generate';
+import { generateDailyPuzzle, isDailyLevelId, parseDailyLevelId } from '$lib/v2/generate';
 import { verifyPuzzleWin } from '$lib/v2/verify';
 import { error } from '@sveltejs/kit';
 import dayjs from 'dayjs';
@@ -23,7 +23,7 @@ const statsRateLimiter = new RateLimiter({
 });
 
 const completionSchema = z.object({
-	date: z.string().date(),
+	id: z.string().refine((val) => isDailyLevelId(val)),
 	moves: z
 		.array(z.object({ tid: z.string().min(1).max(30), dir: z.nativeEnum(Dir) }))
 		.min(1)
@@ -39,7 +39,7 @@ export const POST = endpoint({
 		const uid = getUidCookie(e.cookies);
 		if (!uid) error(401, "you haven't opted into global statistics");
 
-		const date = new Date(body.date);
+		const date = parseDailyLevelId(body.id);
 
 		if (Math.abs(dayjs().diff(date, 'days', true)) > 1) {
 			error(400, 'puzzle is not accepting solutions');
@@ -49,7 +49,7 @@ export const POST = endpoint({
 
 		const puzzle = await cached(
 			platform,
-			dailyLevelId(body.date),
+			body.id,
 			() => generateDailyPuzzle(date),
 			60 * 60 * 48 // 48 hours
 		);
