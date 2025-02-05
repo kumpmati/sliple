@@ -41,7 +41,7 @@ export const POST = endpoint({
 
 		const date = parseDailyLevelId(body.id);
 
-		if (Math.abs(dayjs().diff(date, 'days', true)) > 1) {
+		if (Math.abs(dayjs().diff(date, 'days', true)) > 2) {
 			error(400, 'puzzle is not accepting solutions');
 		}
 
@@ -64,10 +64,21 @@ export const POST = endpoint({
 			eq(puzzleCompletionTable.userId, uid)
 		);
 
+		console.log(verified);
+
 		// TODO: maybe use transaction?
 		const [existing] = await db.select().from(puzzleCompletionTable).where(puzzleIdAndUserId);
+
+		console.log({ existing });
+
 		if (!existing) {
 			await db.insert(puzzleCompletionTable).values({
+				puzzleId: puzzle.id,
+				numMoves: verified.moves,
+				userId: uid
+			});
+
+			console.log('inserted new', {
 				puzzleId: puzzle.id,
 				numMoves: verified.moves,
 				userId: uid
@@ -86,6 +97,12 @@ export const POST = endpoint({
 				})
 				.where(puzzleIdAndUserId);
 
+			console.log('inserted better', {
+				numMoves: verified.moves,
+				timestamp: new Date(),
+				attempts: existing.attempts + 1 // increase attempts
+			});
+
 			return;
 		}
 
@@ -93,6 +110,8 @@ export const POST = endpoint({
 			.update(puzzleCompletionTable)
 			.set({ attempts: existing.attempts + 1 }) // increase attempts always
 			.where(puzzleIdAndUserId);
+
+		console.log('increased attempts');
 	}),
 
 	getv2Stats: zod(z.object({ puzzleId: z.string().min(1).max(64) }), async (e, body) => {
