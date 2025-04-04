@@ -33,6 +33,7 @@
 				{@const day = dayjs(current).startOf('month').add(index, 'days').startOf('day')}
 				{@const diff = day.startOf('day').diff(dayjs().startOf('day'), 'days')}
 				{@const isToday = diff === 0}
+				{@const isYesterday = diff === -1}
 				{@const isFuture = diff > 0}
 				{@const entry = items.findLast(
 					(item) => dayjs(item.timestamp).format('YYYY-MM-DD') === day.format('YYYY-MM-DD')
@@ -41,6 +42,18 @@
 				{#if isToday}
 					<a
 						href="/play/daily?back=/history"
+						class={cn(
+							'flex aspect-square w-full items-center justify-center overflow-hidden rounded-sm border-2 border-transparent text-center transition-colors',
+							entry?.best
+								? 'border-green-400 bg-green-500 hover:bg-green-400'
+								: 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+						)}
+					>
+						<TablerPlay class="size-5" />
+					</a>
+				{:else if isYesterday}
+					<a
+						href="/play/daily/{day.format('YYYY-MM-DD')}?back=/history"
 						class={cn(
 							'flex aspect-square w-full items-center justify-center overflow-hidden rounded-sm border-2 border-transparent text-center transition-colors',
 							entry?.best
