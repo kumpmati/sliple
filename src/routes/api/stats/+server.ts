@@ -15,11 +15,11 @@ import { endpoint, zod } from 'sveltekit-superactions';
 import { z } from 'zod';
 
 const submitRateLimiter = new RateLimiter({
-	IPUA: [30, 'm'] // IP Address + User Agent
+	IPUA: [60, 'm'] // IP Address + User Agent
 });
 
 const statsRateLimiter = new RateLimiter({
-	IPUA: [60, 'm'] // IP Address + User Agent
+	IPUA: [120, 'm'] // IP Address + User Agent
 });
 
 const completionSchema = z.object({
@@ -35,9 +35,6 @@ export const POST = endpoint({
 		if (await submitRateLimiter.isLimited(e)) {
 			error(429, { message: 'you are being rate limited, try again later' });
 		}
-
-		const uid = getUidCookie(e.cookies);
-		if (!uid) error(401, "you haven't opted into global statistics");
 
 		const date = parseDailyLevelId(body.id);
 
@@ -59,59 +56,70 @@ export const POST = endpoint({
 			error(400, verified.error);
 		}
 
-		const puzzleIdAndUserId = and(
-			eq(puzzleCompletionTable.puzzleId, puzzle.id),
-			eq(puzzleCompletionTable.userId, uid)
-		);
+		const uid = getUidCookie(e.cookies);
+		if (uid) {
+			const puzzleIdAndUserId = and(
+				eq(puzzleCompletionTable.puzzleId, puzzle.id),
+				eq(puzzleCompletionTable.userId, uid)
+			);
 
-		console.log(verified);
+			console.log(verified);
 
-		// TODO: maybe use transaction?
-		const [existing] = await db.select().from(puzzleCompletionTable).where(puzzleIdAndUserId);
+			// TODO: maybe use transaction?
+			const [existing] = await db.select().from(puzzleCompletionTable).where(puzzleIdAndUserId);
 
-		console.log({ existing });
+			console.log({ existing });
 
-		if (!existing) {
-			await db.insert(puzzleCompletionTable).values({
-				puzzleId: puzzle.id,
-				numMoves: verified.moves,
-				userId: uid
-			});
+			if (!existing) {
+				await db.insert(puzzleCompletionTable).values({
+					puzzleId: puzzle.id,
+					numMoves: verified.moves,
+					userId: uid
+				});
 
-			console.log('inserted new', {
-				puzzleId: puzzle.id,
-				numMoves: verified.moves,
-				userId: uid
-			});
+				console.log('inserted new', {
+					puzzleId: puzzle.id,
+					numMoves: verified.moves,
+					userId: uid
+				});
 
-			return;
-		}
+				return;
+			}
 
-		if (verified.moves < existing.numMoves) {
-			await db
-				.update(puzzleCompletionTable)
-				.set({
+			if (verified.moves < existing.numMoves) {
+				await db
+					.update(puzzleCompletionTable)
+					.set({
+						numMoves: verified.moves,
+						timestamp: new Date(),
+						attempts: existing.attempts + 1 // increase attempts
+					})
+					.where(puzzleIdAndUserId);
+
+				console.log('inserted better', {
 					numMoves: verified.moves,
 					timestamp: new Date(),
 					attempts: existing.attempts + 1 // increase attempts
-				})
+				});
+
+				return;
+			}
+
+			await db
+				.update(puzzleCompletionTable)
+				.set({ attempts: existing.attempts + 1 }) // increase attempts always
 				.where(puzzleIdAndUserId);
 
-			console.log('inserted better', {
+			console.log('increased attempts');
+		} else {
+			console.log('inserting anonymous completion');
+
+			await db.insert(puzzleCompletionTable).values({
+				puzzleId: puzzle.id,
 				numMoves: verified.moves,
-				timestamp: new Date(),
-				attempts: existing.attempts + 1 // increase attempts
+				userId: null
 			});
-
-			return;
 		}
-
-		await db
-			.update(puzzleCompletionTable)
-			.set({ attempts: existing.attempts + 1 }) // increase attempts always
-			.where(puzzleIdAndUserId);
-
-		console.log('increased attempts');
 	}),
 
 	getv2Stats: zod(z.object({ puzzleId: z.string().min(1).max(64) }), async (e, body) => {

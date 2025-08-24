@@ -42,14 +42,11 @@
 	const unsub = game.on('end', ({ type, moves }) => {
 		db.markPuzzleComplete(data.puzzle, moves.length, type);
 
-		// send completion only if opted in
-		if (getConsentCookie()) {
-			actions
-				// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
-				.markCompletion({ id: data.puzzle.id, moves })
-				.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
-				.then(() => loadStats());
-		}
+		actions
+			// use the puzzle timestamp when submitting to make sure timezones don't affect the submission
+			.markCompletion({ id: data.puzzle.id, moves })
+			.catch((err) => alert('verification failed: ' + (err?.body?.message ?? err)))
+			.then(() => loadStats());
 
 		sleep(750).then(() => (modalOpen = true));
 	});
