@@ -18,13 +18,6 @@
 	});
 
 	const denyCookies = () => {
-		if (
-			!confirm(
-				'Are you sure? The cookie is completely anonymous and only used for the global statistics'
-			)
-		)
-			return;
-
 		clearAllCookies(); // clear before setting consent cookie
 		setConsentCookie(false);
 		consent = getConsentCookie();
@@ -50,7 +43,7 @@
 		<div class="flex flex-col items-center xs:items-start">
 			<p class="flex items-center gap-1 font-heading font-bold">
 				<TablerWorld class="hidden size-5 shrink-0 xs:flex" />
-				Opt into global statistics
+				Accept cookies?
 			</p>
 			<small class="text-slate-400">
 				Completely anonymous, promise! <a
