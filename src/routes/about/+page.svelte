@@ -49,10 +49,7 @@
 
 	<h2 class="mt-4 font-heading text-xl font-bold text-white">Support</h2>
 
-	<p>
-		I want to keep the game both free and ad-free. You can help me cover the running costs by
-		donating.
-	</p>
+	<p>I will keep the game both free and ad-free anyways, but you can donate if you want.</p>
 
 	<a href="https://buymeacoffee.com/kumpmati" target="_blank" rel="noreferrer" class="mt-8 w-fit">
 		<img width="150px" src="bmc.svg" alt="Buy me a coffee" />
