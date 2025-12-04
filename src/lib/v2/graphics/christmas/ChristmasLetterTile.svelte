@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	import type { SVGAttributes } from 'svelte/elements';
 	import { fade } from 'svelte/transition';
+	import type { LetterTileProps } from '..';
 
-	type Props = {
-		letter: string;
-		secondaryLetter?: string | null;
-		status?: 'none' | 'invalid' | 'valid';
-	} & SVGAttributes<SVGElement>;
+	let { letter, status, secondaryLetter, ...rest }: LetterTileProps = $props();
 
-	let { letter, status, secondaryLetter, ...rest }: Props = $props();
+	const urls: Record<'none' | 'invalid' | 'valid', string> = {
+		none: '/graphics/letter-ice-desaturated.svg',
+		invalid: '/graphics/letter-ice-invalid.svg',
+		valid: '/graphics/letter-ice-valid.svg'
+	};
 </script>
 
 <svg
@@ -21,31 +21,8 @@
 	xmlns="http://www.w3.org/2000/svg"
 	{...rest}
 >
-	<rect
-		class={cn(
-			'fill-slate-800 transition-colors',
-			status === 'invalid' && 'fill-red-700',
-			status === 'valid' && 'fill-green-700'
-		)}
-		width="64"
-		height="64"
-		rx="16"
-	/>
-
 	<g id="tile-group" class="translate-y-[-6px] transition-transform">
-		<rect
-			x="1"
-			y="1"
-			class={cn(
-				'fill-slate-700 stroke-slate-600 transition-colors',
-				status === 'invalid' && 'fill-red-500 stroke-red-400',
-				status === 'valid' && 'fill-green-500 stroke-green-400'
-			)}
-			width="62"
-			height="62"
-			stroke-width="2"
-			rx="16"
-		/>
+		<image href={urls[status ?? 'none']} width="64" height="70" />
 
 		<text
 			x="50%"
