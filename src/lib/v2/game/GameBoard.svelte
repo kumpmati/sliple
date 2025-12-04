@@ -1,11 +1,8 @@
 <script lang="ts">
 	import { isGoalTile, isLetterTile, isStickyTile, isWallTile } from '$lib/utils/typeguards';
 	import { swipe } from 'svelte-gestures';
-	import LetterTile from './LetterTile.svelte';
 	import { GameState } from './state.svelte';
 	import { CELL_SIZE } from '$lib/constants/grid';
-	import WallTile from './WallTile.svelte';
-	import GoalTile from './GoalTile.svelte';
 	import { getPuzzleId, getTileId, handleSwipeEvent } from './swipe';
 	import { getLetterStatus } from './utils';
 	import TweenedTile from './TweenedTile.svelte';
@@ -15,6 +12,9 @@
 	import CompletePopup from './CompletePopup.svelte';
 	import { getDirFromDeltas, getDragOffset, type TouchCtx } from './touch.svelte';
 	import { cn } from '$lib/utils';
+	import { getTileComponents } from '../graphics';
+
+	const { LetterTile, GoalTile, WallTile, Background } = getTileComponents();
 
 	type Props = {
 		game: GameState;
@@ -141,14 +141,9 @@
 			2}"
 	>
 		<!-- Background -->
-		<rect
-			x={-1}
-			y={-1}
-			class="fill-slate-950 stroke-slate-800"
-			rx="18"
-			width={CELL_SIZE * game.puzzle.data.width + 2}
-			height={CELL_SIZE * game.puzzle.data.height + 2}
-			stroke-width="2"
+		<Background
+			width={CELL_SIZE * game.puzzle.data.width}
+			height={CELL_SIZE * game.puzzle.data.height}
 		/>
 
 		<!-- Draw tiles in sorted order because svg doesn't have z-index -->
