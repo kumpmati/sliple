@@ -9,5 +9,5 @@
 </svelte:head>
 
 {#if browser}
-	<snow-effect color="white" flakes="40" speed="1"> </snow-effect>
+	<snow-effect color="white" flakes="25" speed="1"> </snow-effect>
 {/if}
