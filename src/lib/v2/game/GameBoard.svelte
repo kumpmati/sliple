@@ -13,8 +13,11 @@
 	import { getDirFromDeltas, getDragOffset, type TouchCtx } from './touch.svelte';
 	import { cn } from '$lib/utils';
 	import { getTileComponents } from '../graphics';
+	import { getSeasonContext } from '$lib/season.svelte';
 
-	const { LetterTile, GoalTile, WallTile, Background } = getTileComponents();
+	const season = getSeasonContext();
+
+	const { LetterTile, GoalTile, WallTile, Background } = getTileComponents(season.current);
 
 	type Props = {
 		game: GameState;

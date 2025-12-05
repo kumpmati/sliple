@@ -7,7 +7,7 @@ import ChristmasWallTile from './christmas/ChristmasWallTile.svelte';
 import ChristmasLetterTile from './christmas/ChristmasLetterTile.svelte';
 import ChristmasBackground from './christmas/ChristmasBackground.svelte';
 import DefaultBackground from './default/DefaultBackground.svelte';
-import { getSeason, Season } from '$lib/season.svelte';
+import { Season } from '$lib/season.svelte';
 
 export type BackgroundProps = {
 	width: number;
@@ -33,8 +33,8 @@ type TileComponents = {
 	LetterTile: Component<LetterTileProps>;
 };
 
-export const getTileComponents = (): TileComponents => {
-	if (getSeason() === Season.CHRISTMAS) {
+export const getTileComponents = (s: Season): TileComponents => {
+	if (s === Season.CHRISTMAS) {
 		return {
 			Background: ChristmasBackground,
 			GoalTile: DefaultGoalTile,

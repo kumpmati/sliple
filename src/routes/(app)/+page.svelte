@@ -11,6 +11,8 @@
 	import TablerRotate from '~icons/tabler/rotate';
 	import SolutionTile from '$lib/v2/SolutionTile.svelte';
 	import TablerHelp from '~icons/tabler/help';
+	import TablerGift from '~icons/tabler/gift';
+	import TablerGiftOff from '~icons/tabler/gift-off';
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
@@ -18,11 +20,12 @@
 	import { getLocalDbContext } from '$lib/v2/persisted/context';
 	import { PuzzleStats } from '$lib/v2/persisted/reactive.svelte';
 	import TablerHistory from '~icons/tabler/history';
-	import { getSeason, Season } from '$lib/season.svelte';
+	import { getSeasonContext, Season } from '$lib/season.svelte';
 
 	let { data } = $props();
 
-	const season = getSeason();
+	const season = getSeasonContext();
+
 	const db = getLocalDbContext();
 	const sfx = getSfxContext();
 
@@ -74,23 +77,41 @@
 			<TablerHelp class="size-6" />
 		</a>
 
-		<button
-			class="p-1 text-slate-400 hover:text-white"
-			onclick={toggleSound}
-			aria-label="Toggle game sounds"
-		>
-			{#if $soundsEnabled}
-				<TablerVolume class="size-6" />
-			{:else}
-				<TablerVolumeOff class="size-6" />
+		<div class="flex items-center gap-2">
+			{#if season.activeSeason === Season.CHRISTMAS}
+				<button
+					class="ml-auto p-1 text-slate-400 hover:text-white"
+					onclick={() => season.toggleEnabled()}
+					aria-label="Toggle seasonal graphics"
+					title="Toggle seasonal graphics"
+				>
+					{#if season.enabled}
+						<TablerGift class="size-6" />
+					{:else}
+						<TablerGiftOff class="size-6" />
+					{/if}
+				</button>
 			{/if}
-		</button>
+
+			<button
+				class="p-1 text-slate-400 hover:text-white"
+				onclick={toggleSound}
+				aria-label="Toggle game sounds"
+				title="Toggle game sounds"
+			>
+				{#if $soundsEnabled}
+					<TablerVolume class="size-6" />
+				{:else}
+					<TablerVolumeOff class="size-6" />
+				{/if}
+			</button>
+		</div>
 	</div>
 
 	<Logo />
 
 	<div class="relative mt-16 w-full">
-		{#if season === Season.CHRISTMAS}
+		{#if season.current === Season.CHRISTMAS}
 			<img
 				src="/graphics/christmas-menu/snow.svg"
 				alt=""
@@ -146,7 +167,7 @@
 		Random puzzle
 		<TablerDice3 class="size-4" />
 
-		{#if season === Season.CHRISTMAS}
+		{#if season.current === Season.CHRISTMAS}
 			<img
 				src="/graphics/christmas-menu/snow-2.svg"
 				alt=""

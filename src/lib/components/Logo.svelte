@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getSeason, Season } from '$lib/season.svelte';
+	import { getSeasonContext, Season } from '$lib/season.svelte';
 	import type { SVGAttributes } from 'svelte/elements';
 
 	let { class: className }: SVGAttributes<SVGElement> = $props();
 
-	const season = getSeason();
+	const season = getSeasonContext();
 </script>
 
 <div class="relative">
@@ -37,7 +37,7 @@
 		/>
 	</svg>
 
-	{#if season === Season.CHRISTMAS}
+	{#if season.current === Season.CHRISTMAS}
 		<img
 			src="/graphics/christmas-menu/hat.svg"
 			alt=""

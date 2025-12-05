@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { browser, dev } from '$app/environment';
+
+	if (!browser && dev) {
+		throw new Error("SnowEffect component doesn't work on the server");
+	}
 </script>
 
 <svelte:head>
-	{#if browser}
-		<script type="module" src="https://unpkg.com/@le-pepe/snow-effect"></script>
-	{/if}
+	<script type="module" src="https://unpkg.com/@le-pepe/snow-effect"></script>
 </svelte:head>
 
-{#if browser}
-	<snow-effect color="white" flakes="25" speed="1"> </snow-effect>
-{/if}
+<snow-effect color="white" flakes="25" speed="1"> </snow-effect>

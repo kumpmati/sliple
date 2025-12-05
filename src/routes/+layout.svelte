@@ -7,12 +7,14 @@
 	import { navigating } from '$app/state';
 	import PwaMeta from '$lib/v2/PwaMeta.svelte';
 	import { initLocalDbContext } from '$lib/v2/persisted/context';
-	import { getSeason, Season } from '$lib/season.svelte';
+	import { Season, SeasonManager, setSeasonContext } from '$lib/season.svelte';
 	import SnowEffect from '$lib/v2/SnowEffect.svelte';
+	import { browser } from '$app/environment';
 
 	let { children } = $props();
 
-	const season = getSeason();
+	const season = new SeasonManager();
+	setSeasonContext(season);
 
 	NProgress.configure({ minimum: 0.16, showSpinner: false });
 
@@ -39,7 +41,7 @@
 
 <PwaMeta />
 
-{#if season === Season.CHRISTMAS}
+{#if browser && season.current === Season.CHRISTMAS}
 	<SnowEffect />
 {/if}
 
