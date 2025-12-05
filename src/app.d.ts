@@ -19,3 +19,5 @@ declare namespace App {
 		};
 	}
 }
+
+declare module '@le-pepe/snow-effect' {}

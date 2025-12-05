@@ -7,7 +7,7 @@ import ChristmasWallTile from './christmas/ChristmasWallTile.svelte';
 import ChristmasLetterTile from './christmas/ChristmasLetterTile.svelte';
 import ChristmasBackground from './christmas/ChristmasBackground.svelte';
 import DefaultBackground from './default/DefaultBackground.svelte';
-import { getSeason, Season } from '$lib/season';
+import { getSeason, Season } from '$lib/season.svelte';
 
 export type BackgroundProps = {
 	width: number;
