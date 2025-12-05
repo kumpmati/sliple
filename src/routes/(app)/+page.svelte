@@ -11,6 +11,8 @@
 	import TablerRotate from '~icons/tabler/rotate';
 	import SolutionTile from '$lib/v2/SolutionTile.svelte';
 	import TablerHelp from '~icons/tabler/help';
+	import TablerGift from '~icons/tabler/gift';
+	import TablerGiftOff from '~icons/tabler/gift-off';
 	import dayjs from 'dayjs';
 	import { onMount } from 'svelte';
 	import { formatSeconds } from '$lib/utils/time';
@@ -18,8 +20,11 @@
 	import { getLocalDbContext } from '$lib/v2/persisted/context';
 	import { PuzzleStats } from '$lib/v2/persisted/reactive.svelte';
 	import TablerHistory from '~icons/tabler/history';
+	import { getSeasonContext, Season } from '$lib/season.svelte';
 
 	let { data } = $props();
+
+	const season = getSeasonContext();
 
 	const db = getLocalDbContext();
 	const sfx = getSfxContext();
@@ -72,61 +77,103 @@
 			<TablerHelp class="size-6" />
 		</a>
 
-		<button
-			class="p-1 text-slate-400 hover:text-white"
-			onclick={toggleSound}
-			aria-label="Toggle game sounds"
-		>
-			{#if $soundsEnabled}
-				<TablerVolume class="size-6" />
-			{:else}
-				<TablerVolumeOff class="size-6" />
+		<div class="flex items-center gap-2">
+			{#if season.activeSeason === Season.CHRISTMAS}
+				<button
+					class="ml-auto p-1 text-slate-400 hover:text-white"
+					onclick={() => season.toggleEnabled()}
+					aria-label="Toggle seasonal graphics"
+					title="Toggle seasonal graphics"
+				>
+					{#if season.enabled}
+						<TablerGift class="size-6" />
+					{:else}
+						<TablerGiftOff class="size-6" />
+					{/if}
+				</button>
 			{/if}
-		</button>
+
+			<button
+				class="p-1 text-slate-400 hover:text-white"
+				onclick={toggleSound}
+				aria-label="Toggle game sounds"
+				title="Toggle game sounds"
+			>
+				{#if $soundsEnabled}
+					<TablerVolume class="size-6" />
+				{:else}
+					<TablerVolumeOff class="size-6" />
+				{/if}
+			</button>
+		</div>
 	</div>
 
 	<Logo />
 
-	<div class="relative mt-16 flex w-full flex-col rounded-lg bg-slate-900 p-4 pt-6 text-center">
+	<div class="relative mt-16 w-full">
+		{#if season.current === Season.CHRISTMAS}
+			<img
+				src="/graphics/christmas-menu/snow.svg"
+				alt=""
+				class="absolute left-1 top-0 z-20 w-full translate-y-[-48%] scale-y-[60%]"
+			/>
+
+			<img
+				src="/graphics/christmas-menu/icicles.svg"
+				alt=""
+				class="absolute bottom-0 left-2 z-0 w-3/4 translate-y-[60%] scale-y-[40%]"
+			/>
+		{/if}
+
 		{#if stats.current?.best}
-			<Badge class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 shadow-sharp-sm">
+			<Badge class="absolute left-1/2 top-0 z-30 -translate-x-1/2 -translate-y-1/2 shadow-sharp-sm">
 				<TablerCheck class="size-5" />
 				{stats.current.best.moves} moves
 			</Badge>
 		{/if}
 
-		<p class="font-medium text-slate-400">Today's puzzle word is</p>
+		<div class="relative z-10 flex w-full flex-col rounded-lg bg-slate-900 p-4 pt-6 text-center">
+			<p class="font-medium text-slate-400">Today's puzzle word is</p>
 
-		<div class="mx-auto mt-2 w-fit">
-			<SolutionTile>{data.puzzle.data.solution.toLowerCase()}</SolutionTile>
-		</div>
-
-		<p class="mt-6 font-medium text-slate-400">
-			<span class="text-white">{formatSeconds(secondsUntilReset)}</span> until next puzzle
-		</p>
-
-		{#if !stats.current?.best}
-			<Button edgeGlow color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
-				Play
-				<TablerPlay class="size-6" />
-			</Button>
-		{:else}
-			<div class="mt-6 flex items-end gap-4">
-				<Button edgeGlow color="blue" size="icon" href="/play/daily">
-					<TablerRotate class="size-5" />
-				</Button>
-
-				<Button color="gray" class="w-full" href="/play/daily#stats">
-					Statistics
-					<TablerChartBar class="size-5" />
-				</Button>
+			<div class="mx-auto mt-2 w-fit">
+				<SolutionTile>{data.puzzle.data.solution.toLowerCase()}</SolutionTile>
 			</div>
-		{/if}
+
+			<p class="mt-6 font-medium text-slate-400">
+				<span class="text-white">{formatSeconds(secondsUntilReset)}</span> until next puzzle
+			</p>
+
+			{#if !stats.current?.best}
+				<Button edgeGlow color="blue" size="lg" class="mt-7 w-full" href="/play/daily">
+					Play
+					<TablerPlay class="size-6" />
+				</Button>
+			{:else}
+				<div class="mt-6 flex items-end gap-4">
+					<Button edgeGlow color="blue" size="icon" href="/play/daily">
+						<TablerRotate class="size-5" />
+					</Button>
+
+					<Button color="gray" class="w-full" href="/play/daily#stats">
+						Statistics
+						<TablerChartBar class="size-5" />
+					</Button>
+				</div>
+			{/if}
+		</div>
 	</div>
 
-	<Button color="orange" class="mt-6 w-[calc(100%-2rem)]" href="/play/random">
+	<Button color="orange" class="relative mt-6 w-[calc(100%-2rem)]" href="/play/random">
 		Random puzzle
 		<TablerDice3 class="size-4" />
+
+		{#if season.current === Season.CHRISTMAS}
+			<img
+				src="/graphics/christmas-menu/snow-2.svg"
+				alt=""
+				class="absolute right-0 top-0 w-3/5 translate-x-[-4%] translate-y-[-70%] scale-y-50"
+			/>
+		{/if}
 	</Button>
 
 	<div class="mt-auto flex gap-2 sm:mt-16">

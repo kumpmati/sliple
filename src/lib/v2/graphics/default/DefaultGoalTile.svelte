@@ -1,11 +1,7 @@
 <script lang="ts">
-	import type { SVGAttributes } from 'svelte/elements';
+	import type { GoalTileProps } from '..';
 
-	type Props = {
-		letter: string;
-	} & SVGAttributes<SVGElement>;
-
-	let { letter, ...rest }: Props = $props();
+	let { letter }: GoalTileProps = $props();
 </script>
 
 <svg
@@ -15,7 +11,6 @@
 	fill="none"
 	xmlns="http://www.w3.org/2000/svg"
 	class="overflow-visible"
-	{...rest}
 >
 	<g transform="scale(0.98)" transform-origin="32 32">
 		<rect
