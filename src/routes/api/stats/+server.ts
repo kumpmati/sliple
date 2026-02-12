@@ -1,6 +1,7 @@
 import { db } from '$lib/server/db';
 import { getPuzzleStatistics } from '$lib/server/db/handlers/stats';
 import { puzzleCompletionTable } from '$lib/server/db/schema';
+import { getRequestCountry } from '$lib/server/helpers';
 import { cached } from '$lib/server/kv';
 import { getPlatform } from '$lib/server/miniflare';
 import { Dir } from '$lib/stores/grid';
@@ -63,18 +64,15 @@ export const POST = endpoint({
 				eq(puzzleCompletionTable.userId, uid)
 			);
 
-			console.log(verified);
-
 			// TODO: maybe use transaction?
 			const [existing] = await db.select().from(puzzleCompletionTable).where(puzzleIdAndUserId);
-
-			console.log({ existing });
 
 			if (!existing) {
 				await db.insert(puzzleCompletionTable).values({
 					puzzleId: puzzle.id,
 					numMoves: verified.moves,
-					userId: uid
+					userId: uid,
+					country: getRequestCountry(e)
 				});
 
 				console.log('inserted new', {
@@ -99,7 +97,7 @@ export const POST = endpoint({
 				console.log('inserted better', {
 					numMoves: verified.moves,
 					timestamp: new Date(),
-					attempts: existing.attempts + 1 // increase attempts
+					attempts: existing.attempts + 1
 				});
 
 				return;
@@ -107,7 +105,7 @@ export const POST = endpoint({
 
 			await db
 				.update(puzzleCompletionTable)
-				.set({ attempts: existing.attempts + 1 }) // increase attempts always
+				.set({ attempts: existing.attempts + 1 }) // increase attempts even if result is worse
 				.where(puzzleIdAndUserId);
 
 			console.log('increased attempts');
@@ -117,7 +115,8 @@ export const POST = endpoint({
 			await db.insert(puzzleCompletionTable).values({
 				puzzleId: puzzle.id,
 				numMoves: verified.moves,
-				userId: null
+				userId: null,
+				country: getRequestCountry(e)
 			});
 		}
 	}),

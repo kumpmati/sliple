@@ -7,6 +7,7 @@ export const puzzleCompletionTable = pgTable(
 		userId: text('user_id'),
 		puzzleId: text('puzzle_id').notNull(),
 		numMoves: integer('num_moves').notNull(),
+		country: text('country').notNull().default('XX'),
 		attempts: integer('attempts').notNull().default(1),
 		timestamp: timestamp('timestamp', { withTimezone: true }).notNull().defaultNow()
 	},
