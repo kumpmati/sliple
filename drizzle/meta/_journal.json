@@ -57,6 +57,13 @@
       "when": 1735947892500,
       "tag": "0007_abnormal_magus",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1770888296796,
+      "tag": "0008_sticky_harrier",
+      "breakpoints": true
     }
   ]
 }

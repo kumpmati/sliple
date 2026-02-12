@@ -1,0 +1,1 @@
+ALTER TABLE "puzzle_completions" ADD COLUMN "country" text DEFAULT 'XX' NOT NULL;
