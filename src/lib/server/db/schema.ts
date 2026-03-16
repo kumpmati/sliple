@@ -22,3 +22,13 @@ export const puzzleCompletionTable = pgTable(
 
 export type PostgresPuzzleCompletionInsert = typeof puzzleCompletionTable.$inferInsert;
 export type PostgresPuzzleCompletion = typeof puzzleCompletionTable.$inferSelect;
+
+export const puzzleSolutionTable = pgTable('puzzle_solutions', {
+	puzzleId: text('puzzle_id').primaryKey(),
+	optimalSolution: integer('optimal_solution').notNull(),
+	calculationTimeMs: integer('calculation_time_ms').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+});
+
+export type PuzzleSolutionInsert = typeof puzzleSolutionTable.$inferInsert;
+export type PuzzleSolution = typeof puzzleSolutionTable.$inferSelect;
