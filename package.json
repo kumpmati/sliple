@@ -43,6 +43,8 @@
 		"eslint-plugin-svelte": "^2.46.1",
 		"layerchart": "^0.60.3",
 		"miniflare": "^3.20241218.0",
+		"ngraph.graph": "^20.1.2",
+		"ngraph.path": "^1.6.1",
 		"nprogress": "^0.2.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.2",

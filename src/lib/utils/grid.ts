@@ -1,7 +1,10 @@
-import { Dir } from '$lib/stores/grid';
+import { createGridStore, Dir, type GridState } from '$lib/stores/grid';
 import type { Tile, Grid, Coordinates, CollisionType } from '$lib/types/grid';
+import type { Puzzle } from '$lib/types/puzzle';
+import { get } from 'svelte/store';
+import { copy } from './copy';
 import { clamp } from './math';
-import { isLetterTile } from './typeguards';
+import { isGoalTile, isLetterTile } from './typeguards';
 
 type CompletionRank = 'gold' | 'silver' | 'bronze';
 
@@ -133,4 +136,85 @@ const getVelocity = (dir: Dir): Coordinates => {
 		default:
 			return { x: 0, y: 0 };
 	}
+};
+
+/**
+ * Given a puzzle state, returns all moves that result in a different state.
+ *
+ * @param from state from which to calculate possible moves
+ */
+export const getAllPossibleMoves = (from: Grid): { id: string; dir: Dir; state: Grid }[] => {
+	const moves: Record<string, { id: string; dir: Dir; state: Grid }> = {};
+
+	for (const tile of from.tiles) {
+		if (!isLetterTile(tile)) continue;
+
+		for (const dir of Object.values(Dir)) {
+			const key = `${tile.id} ${dir}`;
+
+			const nextPos = calculateNextPosition(from, tile.id, dir);
+			if (nextPos.x === tile.x && nextPos.y === tile.y) continue; // did not move
+
+			// make copy so we can include the changed state in the move itself
+			const copied = copy(from);
+
+			const cTile = copied.tiles.find((t) => t.id === tile.id);
+			if (cTile) {
+				cTile.x = nextPos.x;
+				cTile.y = nextPos.y;
+			}
+
+			moves[key] = { id: tile.id, dir, state: copied };
+		}
+	}
+
+	return Object.values(moves);
+};
+
+/**
+ * Returns a number that uniquely represents one possible state of the puzzle.
+ * Two states produce equal hashes if both have all their letter tiles in the same positions.
+ */
+export const hashState = (grid: Grid): number => {
+	const sortedTiles = grid.tiles.filter(isLetterTile).toSorted((a, b) => a.id.localeCompare(b.id));
+	return cyrb53(sortedTiles.map((s) => `${s.letter} ${s.x} ${s.y}`).join(';'));
+};
+
+const cyrb53 = (str: string, seed = 0) => {
+	let h1 = 0xdeadbeef ^ seed,
+		h2 = 0x41c6ce57 ^ seed;
+	for (let i = 0, ch; i < str.length; i++) {
+		ch = str.charCodeAt(i);
+		h1 = Math.imul(h1 ^ ch, 2654435761);
+		h2 = Math.imul(h2 ^ ch, 1597334677);
+	}
+	h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507);
+	h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+	h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507);
+	h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+
+	return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+};
+
+export const drawPuzzleAsString = (p: Pick<Puzzle, 'data'>): string => {
+	const str: string[] = [];
+
+	for (let y = 0; y < p.data.height; y++) {
+		str.push('');
+
+		for (let x = 0; x < p.data.width; x++) {
+			const letter = p.data.tiles.find((t) => t.x === x && t.y === y && isLetterTile(t));
+			const goal = p.data.tiles.find((t) => t.x === x && t.y === y && isGoalTile(t));
+
+			if (letter) {
+				str[y] += letter.letter?.toUpperCase();
+			} else if (goal) {
+				str[y] += goal.letter?.toLowerCase();
+			} else {
+				str[y] += '-';
+			}
+		}
+	}
+
+	return str.join('\n');
 };
