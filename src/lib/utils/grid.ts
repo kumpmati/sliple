@@ -4,7 +4,7 @@ import type { Puzzle } from '$lib/types/puzzle';
 import { get } from 'svelte/store';
 import { copy } from './copy';
 import { clamp } from './math';
-import { isGoalTile, isLetterTile } from './typeguards';
+import { isGoalTile, isLetterTile, isWallTile } from './typeguards';
 
 type CompletionRank = 'gold' | 'silver' | 'bronze';
 
@@ -143,8 +143,13 @@ const getVelocity = (dir: Dir): Coordinates => {
  *
  * @param from state from which to calculate possible moves
  */
-export const getAllPossibleMoves = (from: Grid): { id: string; dir: Dir; state: Grid }[] => {
-	const moves: Record<string, { id: string; dir: Dir; state: Grid }> = {};
+export const getAllPossibleMoves = (
+	from: Pick<Grid, 'tiles' | 'width' | 'height'>
+): { id: string; dir: Dir; state: Pick<Grid, 'tiles' | 'width' | 'height'> }[] => {
+	const moves: Record<
+		string,
+		{ id: string; dir: Dir; state: Pick<Grid, 'tiles' | 'width' | 'height'> }
+	> = {};
 
 	for (const tile of from.tiles) {
 		if (!isLetterTile(tile)) continue;
@@ -155,16 +160,16 @@ export const getAllPossibleMoves = (from: Grid): { id: string; dir: Dir; state: 
 			const nextPos = calculateNextPosition(from, tile.id, dir);
 			if (nextPos.x === tile.x && nextPos.y === tile.y) continue; // did not move
 
-			// make copy so we can include the changed state in the move itself
-			const copied = copy(from);
+			// we have to copy the data since other moves will also use the same data
+			const state = copy({ tiles: from.tiles, width: from.width, height: from.height });
 
-			const cTile = copied.tiles.find((t) => t.id === tile.id);
+			const cTile = state.tiles.find((t) => t.id === tile.id);
 			if (cTile) {
 				cTile.x = nextPos.x;
 				cTile.y = nextPos.y;
 			}
 
-			moves[key] = { id: tile.id, dir, state: copied };
+			moves[key] = { id: tile.id, dir, state };
 		}
 	}
 
@@ -175,7 +180,7 @@ export const getAllPossibleMoves = (from: Grid): { id: string; dir: Dir; state: 
  * Returns a number that uniquely represents one possible state of the puzzle.
  * Two states produce equal hashes if both have all their letter tiles in the same positions.
  */
-export const hashState = (grid: Grid): number => {
+export const hashState = (grid: Pick<Grid, 'tiles'>): number => {
 	const sortedTiles = grid.tiles.filter(isLetterTile).toSorted((a, b) => a.id.localeCompare(b.id));
 	return cyrb53(sortedTiles.map((s) => `${s.letter} ${s.x} ${s.y}`).join(';'));
 };
@@ -205,11 +210,14 @@ export const drawPuzzleAsString = (p: Pick<Puzzle, 'data'>): string => {
 		for (let x = 0; x < p.data.width; x++) {
 			const letter = p.data.tiles.find((t) => t.x === x && t.y === y && isLetterTile(t));
 			const goal = p.data.tiles.find((t) => t.x === x && t.y === y && isGoalTile(t));
+			const wall = p.data.tiles.find((t) => t.x === x && t.y === y && isWallTile(t));
 
 			if (letter) {
 				str[y] += letter.letter?.toUpperCase();
 			} else if (goal) {
 				str[y] += goal.letter?.toLowerCase();
+			} else if (wall) {
+				str[y] += '#';
 			} else {
 				str[y] += '-';
 			}

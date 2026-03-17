@@ -13,5 +13,6 @@ export const getPuzzleSolution = async (puzzleId: string): Promise<PuzzleSolutio
 };
 
 export const insertPuzzleSolution = async (body: PuzzleSolutionInsert) => {
-	await db.insert(puzzleSolutionTable).values(body);
+	const [row] = await db.insert(puzzleSolutionTable).values(body).returning();
+	return row;
 };

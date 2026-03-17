@@ -9,7 +9,6 @@ import * as path from 'ngraph.path';
 
 type PuzzleNodeData = {
 	isWin?: boolean;
-	isStart?: boolean;
 };
 
 type PuzzleLinkData = {
@@ -22,7 +21,7 @@ type FromState = {
 };
 
 type QueueItem = {
-	state: Grid;
+	state: Pick<Grid, 'width' | 'height' | 'tiles'>;
 	from?: FromState;
 };
 
@@ -53,7 +52,13 @@ export class PuzzleSolver {
 		this.#queue.clear();
 
 		const hash = hashState(this.#puzzle.data);
-		this.#queue.insert(hash, { state: this.#puzzle.data });
+		this.#queue.insert(hash, {
+			state: {
+				tiles: this.#puzzle.data.tiles,
+				width: this.#puzzle.data.width,
+				height: this.#puzzle.data.height
+			}
+		});
 
 		await this.#queue.process(this.processQueueItem.bind(this));
 
@@ -140,7 +145,7 @@ export class PuzzleSolver {
 		}
 
 		const isStart = index === 0;
-		const node = this.#graph.addNode(hash, { isWin, isStart });
+		const node = this.#graph.addNode(hash, isWin ? { isWin } : undefined);
 
 		if (isWin) this.#winNodes.push(node);
 		if (isStart) this.#startNode = node;
